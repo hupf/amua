@@ -22,8 +22,6 @@
 
 #import "LastfmWebService.h"
 
-#define USER_AGENT @"Mozilla/4.5 (compatible; Amua/0.1; Mac_PowerPC)"
-
 @implementation LastfmWebService
 
 - (id)initWithWebServiceServer:(NSString *)webServiceServer
