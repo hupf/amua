@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>username</key>
+	<string></string>
+	
+	<key>password</key>
+	<string></string>
+	
+	<key>webServiceServer</key>
+	<string>wsdev.audioscrobbler.com</string>
+	
+	<key>streamingServer</key>
+	<string>moses.last.fm</string>
+</dict>
+</plist>

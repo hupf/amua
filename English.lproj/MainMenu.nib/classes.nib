@@ -1,0 +1,21 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {
+                banSong = id; 
+                loveSong = id; 
+                openLastfmHomepage = id; 
+                openPersonalPage = id; 
+                openPreferences = id; 
+                playStop = id; 
+                skipSong = id; 
+            }; 
+            CLASS = AmuaController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {menu = NSMenu; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}
