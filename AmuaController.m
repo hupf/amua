@@ -216,15 +216,15 @@
     [[preferencesController window] makeKeyAndOrderFront:nil];
 }
 
+- (void)openAlbumPage:(id)sender
+{
+	[[NSWorkspace sharedWorkspace] openURL:[webService nowPlayingAlbumPage]];
+}
+
 - (IBAction)openAboutPanel:(id)sender
 {
 	[application orderFrontStandardAboutPanel:self];
 	[application arrangeInFront:self];
-}
-
-- (void)openAlbumPage:(id)sender
-{
-	[[NSWorkspace sharedWorkspace] openURL:[webService nowPlayingAlbumPage]];
 }
 
 - (void)showTooltip:(id)sender
@@ -276,7 +276,6 @@
 												orientation:TooltipBelow];
 	}
 	mouseIsOverIcon = YES;
-
 
 }
 
