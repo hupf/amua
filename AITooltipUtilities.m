@@ -131,6 +131,22 @@ static	AITooltipOrientation	tooltipOrientation;
     }
 }
 
++ (void)setPosition:(NSPoint) point
+{
+	tooltipPoint = point;
+	[tooltipWindow setFrameOrigin:tooltipPoint];
+}
+
++ (NSPoint)location
+{
+	if ([tooltipWindow isVisible]) {
+		tooltipPoint = [tooltipWindow frame].origin;
+	}
+	return tooltipPoint;
+}
+
+
+
 //Create the tooltip
 + (void)_createTooltip
 {
@@ -144,10 +160,11 @@ static	AITooltipOrientation	tooltipOrientation;
 												 backing:NSBackingStoreBuffered
 												   defer:NO];
     [tooltipWindow setHidesOnDeactivate:NO];
-    [tooltipWindow setIgnoresMouseEvents:YES];
+    [tooltipWindow setIgnoresMouseEvents:NO];
 	[tooltipWindow setBackgroundColor:[NSColor colorWithCalibratedRed:1.000 green:1.000 blue:1.000 alpha:1.0]];
     [tooltipWindow setAlphaValue:0.9];
     [tooltipWindow setHasShadow:YES];
+	[tooltipWindow setMovableByWindowBackground:YES];
 	
 	//Just using the floating panel level is insufficient because the contact list can float, too
     [tooltipWindow setLevel:NSStatusWindowLevel];
@@ -195,6 +212,7 @@ static	AITooltipOrientation	tooltipOrientation;
 
 + (void)_closeTooltip
 {
+	tooltipPoint = [tooltipWindow frame].origin;
     [tooltipWindow orderOut:nil];
     [textView_tooltipBody release]; textView_tooltipBody = nil;
     [textView_tooltipTitle release]; textView_tooltipTitle = nil;
@@ -203,7 +221,7 @@ static	AITooltipOrientation	tooltipOrientation;
     [tooltipBody release]; tooltipBody = nil;
     [tooltipTitle release]; tooltipTitle = nil;
     [tooltipImage release]; tooltipImage = nil;
-    tooltipPoint = NSMakePoint(0,0);
+    //tooltipPoint = NSMakePoint(0,0);
 }
 
 + (void)_sizeTooltip

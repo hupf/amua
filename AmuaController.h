@@ -40,6 +40,9 @@
 	// The menu that will be displayed by the status item
 	IBOutlet NSMenu *menu;
 	
+	// The menu item for changing the behavior of the tooltip
+	IBOutlet NSMenuItem *tooltipMenuItem;
+	
 	// A reference to the NSApplication, used to put the about window to front
 	IBOutlet NSApplication *application;
 	
@@ -63,6 +66,9 @@
 	// Object to write and read passwort to and from keychain
 	KeyChain *keyChain;
 	
+	// A boolean indicating if the Tooltip is always visible
+	bool alwaysDisplayTooltip;
+	
 }
 - (void)play:(id)sender;
 - (void)stop:(id)sender;
@@ -74,6 +80,7 @@
 - (IBAction)openPreferences:(id)sender;
 - (void)openAlbumPage:(id)sender;
 - (IBAction)openAboutPanel:(id)sender;
+- (void)changeTooltipSettings:(id)sender;
 - (void)showTooltip:(id)sender;
 - (void)hideTooltip:(id)sender;
 - (void)updateMenu;

@@ -87,7 +87,7 @@
 	
 	// Fill the fields with the factory defaults
 	[username setStringValue:[defaultPreferences objectForKey:@"username"]];
-	[password setStringValue:[defaultPreferences objectForKey:@"password"]];
+	[password setStringValue:@""];
 	[radioStation selectItemAtIndex:[[defaultPreferences objectForKey:@"radioStation"] intValue]];
 	[stationUser setStringValue:[defaultPreferences objectForKey:@"stationUser"]];
 	[stationDifferentUser setState:NSOffState];
