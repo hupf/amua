@@ -69,6 +69,7 @@
 - (IBAction)openPersonalPage:(id)sender;
 - (IBAction)openPreferences:(id)sender;
 - (void)openAlbumPage:(id)sender;
+- (IBAction)openAboutPanel:(id)sender
 - (void)showTooltip:(id)sender;
 - (void)hideTooltip:(id)sender;
 - (void)updateMenu;
