@@ -26,6 +26,7 @@
 #import "LastfmWebService.h"
 #import <SSCrypto/SSCrypto.h>
 #import "AITooltipUtilities.h"
+#import "KeyChain.h"
 
 @interface AmuaController : NSObject
 {
@@ -58,6 +59,9 @@
 	
 	// A boolean indicating that the mouse is over the icon
 	bool mouseIsOverIcon;
+	
+	// Object to write and read passwort to and from keychain
+	KeyChain *keyChain;
 	
 }
 - (void)play:(id)sender;

@@ -2,13 +2,21 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
-            ACTIONS = {cancel = id; save = id; setDefaults = id; }; 
+            ACTIONS = {
+                cancel = id; 
+                save = id; 
+                setDefaults = id; 
+                stationChanged = id; 
+                stationUserToggle = id; 
+            }; 
             CLASS = PreferencesController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 password = NSTextField; 
                 radioStation = NSPopUpButton; 
                 recordToProfile = NSButton; 
+                stationDifferentUser = NSButton; 
+                stationUser = NSTextField; 
                 username = NSTextField; 
                 webServiceServer = NSTextField; 
             }; 
