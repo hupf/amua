@@ -44,16 +44,21 @@
 
 - (void)createSessionForUser:(NSString *)username withPasswordHash:(NSString *)passwordMD5
 {
-	getSessionURL = [[NSURL alloc] initWithString:[[[[[[[[NSString stringWithString:@"http://"]
+	// Establish session (e.g. request a sessionID)
+	NSString *getSessionURL = [[[NSString alloc] initWithString:[[[[[[[[NSString stringWithString:@"http://"]
 						stringByAppendingString:server]
 						stringByAppendingString:@"/radio/getsession.php?username="]
 						stringByAppendingString:username]
 						stringByAppendingString:@"&passwordmd5="]
 						stringByAppendingString:passwordMD5]
 						stringByAppendingString:@"&mode="]
-						stringByAppendingString:radioStation]];
+						stringByAppendingString:radioStation]] autorelease];
+						
+	if (![radioStation isEqualToString:@"random"]) {
+		getSessionURL = [[getSessionURL stringByAppendingString:@"&subject="] stringByAppendingString:username];
+	}
 	
-	getSessionCURLHandle = [[CURLHandle alloc] initWithURL:getSessionURL cached:FALSE];
+	getSessionCURLHandle = [[CURLHandle alloc] initWithURL:[NSURL URLWithString:getSessionURL] cached:FALSE];
 	
 	[getSessionCURLHandle setFailsOnError:YES];
     [getSessionCURLHandle setFollowsRedirects:YES];
@@ -61,18 +66,19 @@
     [getSessionCURLHandle setUserAgent:userAgent];
 	
 	[getSessionCURLHandle addClient:self];
-	[getSessionCURLHandle loadInBackground];
+	[getSessionCURLHandle loadInBackground]; // Send and receive webpage
 }
 
 - (void)updateNowPlayingInformation:(id)sender
 {
-	nowPlayingURL = [[NSURL alloc] initWithString:[[[[[NSString stringWithString:@"http://"]
+	// Request song information of the currently playing track
+	NSString *nowPlayingURL = [[[NSString alloc] initWithString:[[[[[NSString stringWithString:@"http://"]
 						stringByAppendingString:server]
 						stringByAppendingString:@"/radio/np.php"]
 						stringByAppendingString:@"?session="]
-						stringByAppendingString:sessionID]];
+						stringByAppendingString:sessionID]] autorelease];
 	
-	nowPlayingCURLHandle = [[CURLHandle alloc] initWithURL:nowPlayingURL cached:FALSE];
+	nowPlayingCURLHandle = [[CURLHandle alloc] initWithURL:[NSURL URLWithString:nowPlayingURL] cached:FALSE];
 	
 	[nowPlayingCURLHandle setFailsOnError:YES];
     [nowPlayingCURLHandle setFollowsRedirects:YES];
@@ -80,16 +86,17 @@
     [nowPlayingCURLHandle setUserAgent:userAgent];
 	
 	[nowPlayingCURLHandle addClient:self];
-	[nowPlayingCURLHandle loadInBackground];
+	[nowPlayingCURLHandle loadInBackground]; // Send and receive webpage
 }
 
 - (void)executeControl:(NSString *)command
 {
-	controlURL = [[NSURL alloc] initWithString:[[[NSString stringWithString:@"http://"]
+	// Execute a command
+	NSString *controlURL = [[[NSString alloc] initWithString:[[[NSString stringWithString:@"http://"]
 						stringByAppendingString:server]
-						stringByAppendingString:@"/radio/control.php"]];
+						stringByAppendingString:@"/radio/control.php"]] autorelease];
 	
-	controlCURLHandle = [[CURLHandle alloc] initWithURL:controlURL cached:FALSE];
+	controlCURLHandle = [[CURLHandle alloc] initWithURL:[NSURL URLWithString:controlURL] cached:FALSE];
 	
 	NSMutableDictionary *postVariables = [[[NSMutableDictionary alloc] init] autorelease];
 	[postVariables setObject:sessionID forKey:@"session"];
@@ -103,7 +110,7 @@
     [controlCURLHandle setUserAgent:userAgent];
 	
 	[controlCURLHandle addClient:self];
-	[controlCURLHandle loadInBackground];
+	[controlCURLHandle loadInBackground]; // Send and receive webpage
 }
 
 - (NSString *)streamingServer;
@@ -183,15 +190,44 @@
 	}
 }
 
+- (NSString *)nowPlayingRadioStation
+{
+	if (nowPlayingInformation != nil) {
+		switch ([[nowPlayingInformation objectForKey:@"radiomode"] intValue]) {
+			case 3:
+				return @"Profile Radio";
+			break;
+			case 4:
+				return @"Personal Radio";
+			break;
+			case 1:
+				return @"Random Radio";
+		}
+	} else {
+		return nil;
+	}
+}
+
+- (NSString *)nowPlayingRadioStationProfile
+{
+	if (nowPlayingInformation != nil) {
+		// This is only for profile radio, it's the feeding profile
+		return [nowPlayingInformation objectForKey:@"stationfeed"];
+	} else {
+		return nil;
+	}
+}
+
 
 /* CURL Handlers */
 
 - (void)URLHandleResourceDidFinishLoading:(NSURLHandle *)sender
 {
+	// Compute response (e.g. loaded webpage)
     NSString *result = [[[NSString alloc] initWithData:[sender resourceData] encoding:NSUTF8StringEncoding] autorelease];
 	NSMutableDictionary *parsedResult = [[NSMutableDictionary alloc] init];
 	
-	// Parse keys and values
+	// Parse keys and values and put them into a NSDictionary
 	NSArray *values = [result componentsSeparatedByString:@"\n"];
 	int i;
 	for (i=0; i< [values count]; i++) {
@@ -202,7 +238,7 @@
 		}
 	}
 	
-	if (sender == getSessionCURLHandle) {
+	if (sender == getSessionCURLHandle) { // Response for session-request
 	
 		if ([[parsedResult objectForKey:@"session"] isEqualToString:@"FAILED"]) {
 			[parsedResult release];
@@ -216,7 +252,7 @@
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"StartPlaying" object:self];
 		}
 		
-	} else if (sender == nowPlayingCURLHandle) {
+	} else if (sender == nowPlayingCURLHandle) { // Response for song information request
 	
 		if (nowPlayingInformation != nil) {
 			[nowPlayingInformation release];
@@ -229,9 +265,11 @@
 		[sender removeClient:self];
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"UpdateNowPlayingInformation" object:self];
 		
-	} else if (sender == controlCURLHandle) {
+	} else if (sender == controlCURLHandle) { // Response for executed command
+	
 		// We don't do anything, whether the sent command was successful or not
 		[sender removeClient:self];
+		
 	}
 }
 
@@ -240,9 +278,9 @@
 - (void)URLHandleResourceDidCancelLoading:(NSURLHandle *)sender
 {
     [getSessionCURLHandle removeClient:self];
-	/*if (sender == getSessionCURLHandle) {
+	if (sender == getSessionCURLHandle) {
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"StartPlayingError" object:self];
-	}*/
+	}
 }
 
 - (void)URLHandle:(NSURLHandle *)sender resourceDataDidBecomeAvailable:(NSData *)newBytes {}
@@ -250,9 +288,9 @@
 - (void)URLHandle:(NSURLHandle *)sender resourceDidFailLoadingWithReason:(NSString *)reason
 {
     [getSessionCURLHandle removeClient:self];
-	/*if (sender == getSessionCURLHandle) {
+	if (sender == getSessionCURLHandle) {
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"StartPlayingError" object:self];
-	}*/
+	}
 }
 
 
@@ -264,9 +302,6 @@
 	[getSessionCURLHandle release];
 	[nowPlayingCURLHandle release];
 	[controlCURLHandle release];
-	[getSessionURL release];
-	[nowPlayingURL release];
-	[controlURL release];
 	[sessionID release];
 	[streamingServer release];
 	[nowPlayingInformation release];

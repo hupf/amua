@@ -247,7 +247,14 @@
 							appendAttributedString:titleLabel]
 							appendAttributedString:titleText];
 								
-		NSAttributedString *tooltipBody = [[[NSAttributedString alloc] initWithString:@"now playing..."] autorelease];
+		NSString *radioStation = [webService nowPlayingRadioStation];
+		NSAttributedString *tooltipBody;
+		if ([radioStation isEqualToString:@"Profile Radio"]) {
+			tooltipBody = [[[NSAttributedString alloc] initWithString:[[radioStation stringByAppendingString:@" feeding from "]
+								stringByAppendingString:[webService nowPlayingRadioStationProfile]]] autorelease];
+		} else {
+			tooltipBody = [[[NSAttributedString alloc] initWithString:radioStation] autorelease];
+		}
 		
 		// get mouse location
 		NSPoint point = [NSEvent mouseLocation];

@@ -37,11 +37,6 @@
 	CURLHandle *nowPlayingCURLHandle;
 	CURLHandle *controlCURLHandle;
 	
-	// URL's
-	NSURL *getSessionURL;
-	NSURL *nowPlayingURL;
-	NSURL *controlURL;
-	
 	// Objects with fetched data
 	NSString *sessionID;
 	NSString *streamingServer;
@@ -63,6 +58,8 @@
 - (NSString *)nowPlayingAlbum;
 - (NSURL *)nowPlayingAlbumPage;
 - (NSImage *)nowPlayingAlbumImage;
+- (NSString *)nowPlayingRadioStation;
+- (NSString *)nowPlayingRadioStationProfile;
 - (int)nowPlayingTrackDuration;
 - (int)nowPlayingTrackProgress;
 - (void)URLHandleResourceDidFinishLoading:(NSURLHandle *)sender;
