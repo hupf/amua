@@ -107,7 +107,6 @@
 		[image setImage:inImage];
 		trackPosition = inTrackPosition;
 		trackDuration = inTrackDuration;
-		[self updateTime:self];
 		if (timer != nil) {
 			[timer invalidate];
 			timer = nil;
