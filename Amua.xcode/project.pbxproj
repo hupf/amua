@@ -76,6 +76,19 @@
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		0C73309107CB340600D4A0AC = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.icns;
+			path = Amua.icns;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0C73309207CB340600D4A0AC = {
+			fileRef = 0C73309107CB340600D4A0AC;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		0C83A56007C4F734001A45EA = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -113,20 +126,6 @@
 		};
 		0C83A58907C4FE47001A45EA = {
 			fileRef = 0C83A58807C4FE47001A45EA;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0C88FC5F07C534B900221576 = {
-			isa = PBXFileReference;
-			lastKnownFileType = image.icns;
-			name = Amua.icns;
-			path = /Users/simon/Programming/Amua/Amua.icns;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-		0C88FC6C07C5353F00221576 = {
-			fileRef = 0C88FC5F07C534B900221576;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -327,8 +326,8 @@
 			children = (
 				0CB7AD0F07C92F1A00E4342A,
 				0C88FCA507C53D6500221576,
-				0C88FC5F07C534B900221576,
 				8D1107310486CEB800E47090,
+				0C73309107CB340600D4A0AC,
 				089C165CFE840E0CC02AAC07,
 				29B97318FDCFA39411CA2CEA,
 				0C83A58807C4FE47001A45EA,
@@ -478,13 +477,13 @@
 				8D11072B0486CEB800E47090,
 				0C83A56307C4F734001A45EA,
 				0C83A58907C4FE47001A45EA,
-				0C88FC6C07C5353F00221576,
 				0C88FCA607C53D6500221576,
 				0C88FD5307C5449800221576,
 				0CB7A6D307C8AA9000E4342A,
 				0CB7AD1007C92F1A00E4342A,
 				F4F3FEBA07CB28C600ECE67F,
 				F4F3FEBC07CB28C600ECE67F,
+				0C73309207CB340600D4A0AC,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
