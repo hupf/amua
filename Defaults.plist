@@ -20,6 +20,12 @@
 	<key>version</key>
 	<string>0.4</string>
 	
+	<key>showPossibleUpdateDialog</key>
+	<integer>1</integer>
+	
+	<key>updateURL</key>
+	<string>http://localhost/amuaversion.txt</string>
+	
 	<key>alwaysDisplayTooltip</key>
 	<integer>0</integer>
 	

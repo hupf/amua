@@ -7,17 +7,12 @@
 	objects = {
 		080E96DDFE201D6D7F000001 = {
 			children = (
+				F43B316807DB2D3300E14140,
 				0C83A56007C4F734001A45EA,
-				0C83A56107C4F734001A45EA,
-				0CB7A6D107C8AA9000E4342A,
 				0CB7A6D207C8AA9000E4342A,
-				0C88FD5107C5449800221576,
 				0C88FD5207C5449800221576,
-				F4F3FEB807CB28C600ECE67F,
 				F4F3FEB907CB28C600ECE67F,
-				F4F3FEB607CB28C600ECE67F,
 				F4F3FEB707CB28C600ECE67F,
-				0C994E0E07D13535005016EE,
 				0C994E0F07D13535005016EE,
 			);
 			isa = PBXGroup;
@@ -296,6 +291,7 @@
 			children = (
 				0C5D882907CCAC1A00067D6B,
 				0C5D882707CCAC0B00067D6B,
+				F45B8A7F07DB7231007383B1,
 				0C287A6707C677F400AF7154,
 			);
 			isa = PBXGroup;
@@ -359,6 +355,7 @@
 		};
 		29B97314FDCFA39411CA2CEA = {
 			children = (
+				F43B313507DA3E4200E14140,
 				080E96DDFE201D6D7F000001,
 				29B97315FDCFA39411CA2CEA,
 				29B97317FDCFA39411CA2CEA,
@@ -553,6 +550,7 @@
 				F4F3FEBC07CB28C600ECE67F,
 				0C73309207CB340600D4A0AC,
 				0C994E1007D13535005016EE,
+				F43B316907DB2D3300E14140,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -574,6 +572,7 @@
 			files = (
 				8D11072D0486CEB800E47090,
 				0C83A56207C4F734001A45EA,
+				F43B316A07DB2D3300E14140,
 				0C88FD5407C5449800221576,
 				0CB7A6D407C8AA9000E4342A,
 				F4F3FEBB07CB28C600ECE67F,
@@ -595,6 +594,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C287A6807C677F400AF7154,
+				F45B8A8007DB7231007383B1,
 				0C5D882807CCAC0B00067D6B,
 				0C5D882A07CCAC1A00067D6B,
 			);
@@ -627,6 +627,63 @@
 //F42
 //F43
 //F44
+		F43B313507DA3E4200E14140 = {
+			children = (
+				F43B316707DB2D3300E14140,
+				0C83A56107C4F734001A45EA,
+				0CB7A6D107C8AA9000E4342A,
+				0C88FD5107C5449800221576,
+				F4F3FEB807CB28C600ECE67F,
+				F4F3FEB607CB28C600ECE67F,
+				0C994E0E07D13535005016EE,
+			);
+			isa = PBXGroup;
+			name = Headers;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		F43B316707DB2D3300E14140 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = AmuaUpdater.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		F43B316807DB2D3300E14140 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = AmuaUpdater.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		F43B316907DB2D3300E14140 = {
+			fileRef = F43B316707DB2D3300E14140;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		F43B316A07DB2D3300E14140 = {
+			fileRef = F43B316807DB2D3300E14140;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		F45B8A7F07DB7231007383B1 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = Carbon.framework;
+			path = /System/Library/Frameworks/Carbon.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		F45B8A8007DB7231007383B1 = {
+			fileRef = F45B8A7F07DB7231007383B1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		F4F3FEB607CB28C600ECE67F = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
