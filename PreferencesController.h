@@ -26,7 +26,6 @@
 @interface PreferencesController : NSWindowController
 {
 	IBOutlet NSPopUpButton *radioStation;
-	IBOutlet NSButton *recordToProfile;
 	IBOutlet NSTextField *username;
     IBOutlet NSTextField *password;
 	IBOutlet NSTextField *stationUser;

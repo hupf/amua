@@ -25,17 +25,20 @@
 #import <CURLHandle/CURLHandle+extras.h>
 
 
-@interface LastfmWebService : NSObject {
+@interface LastfmWebService : NSObject <NSURLHandleClient> {
 
 	// The webservice server's hostname
 	NSString *server;
 	NSString *radioStation;
+	NSString *radioStationSubject;
 	NSString *userAgent;
+	NSString *user;
 	
 	// The CURLHandle objects that will do the data transmission
     CURLHandle *getSessionCURLHandle;
 	CURLHandle *nowPlayingCURLHandle;
 	CURLHandle *controlCURLHandle;
+	CURLHandle *tuningCURLHandle;
 	
 	// Objects with fetched data
 	NSString *sessionID;
@@ -47,9 +50,10 @@
 
 - (id)initWithWebServiceServer:(NSString *)webServiceServer
 		withRadioStation:(NSString *)radioStationType
+		forUser:(NSString *)radioStationSubject
 		asUserAgent:(NSString *)userAgentIdentifier;
 - (void)createSessionForUser:(NSString *)username withPasswordHash:(NSString *)passwordMD5;
-- (void)updateNowPlayingInformation:(id)sender;
+- (void)updateNowPlayingInformation;
 - (void)executeControl:(NSString *)command;
 - (NSString *)streamingServer;
 - (bool)streaming;

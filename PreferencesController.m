@@ -60,7 +60,6 @@
 	[preferences setObject:[username stringValue] forKey:@"username"];
 	[preferences setInteger:[radioStation indexOfSelectedItem] forKey:@"radioStation"];
 	[preferences setObject:[stationUser stringValue] forKey:@"stationUser"];
-	[preferences setInteger:[recordToProfile state] forKey:@"recordToProfile"];
 	[preferences setObject:[webServiceServer stringValue] forKey:@"webServiceServer"];
 	
 	[preferences synchronize];
@@ -91,7 +90,6 @@
 	[password setStringValue:[defaultPreferences objectForKey:@"password"]];
 	[radioStation selectItemAtIndex:[[defaultPreferences objectForKey:@"radioStation"] intValue]];
 	[stationUser setStringValue:[defaultPreferences objectForKey:@"stationUser"]];
-	[recordToProfile setState:[[defaultPreferences objectForKey:@"recordToProfile"] intValue]];
 	[stationDifferentUser setState:NSOffState];
 	[stationUser setStringValue:[defaultPreferences objectForKey:@"stationUser"]];
 	[stationUser setEnabled:NO];
@@ -115,7 +113,6 @@
 		[stationUser setStringValue:[preferences stringForKey:@"stationUser"]];
 		[stationUser setEnabled:YES];
 	}
-	[recordToProfile setState:[preferences integerForKey:@"recordToProfile"]];
 	[webServiceServer setStringValue:[preferences stringForKey:@"webServiceServer"]];
 }
 
@@ -138,7 +135,11 @@
 		[stationUser setStringValue:@""];
 	} else {
 		[stationDifferentUser setEnabled:YES];
-		[stationUser setEnabled:YES];
+		if ([stationDifferentUser state] == NSOnState) {
+			[stationUser setEnabled:YES];
+		} else {
+			[stationUser setEnabled:NO];
+		}
 	}
 }
 

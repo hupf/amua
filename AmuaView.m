@@ -59,7 +59,7 @@
 	mouseEventTag = [self addTrackingRect:[self frame] owner:self userData:nil assumeInside:NO];
 }
 
-- (void)removeMouseListener
+- (void)removeMouseOverListener
 {
 	if (mouseEventTag) {
 		[self removeTrackingRect:mouseEventTag];
@@ -93,7 +93,7 @@
 
 - (void)dealloc
 {
-	[self removeMouseListener];
+	[self removeMouseOverListener];
 	[menu release];
 	[statusItem release];
 	[super dealloc];
