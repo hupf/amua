@@ -59,7 +59,9 @@
 - (bool)streaming;
 - (NSString *)nowPlayingArtist;
 - (NSString *)nowPlayingTrack;
+- (NSString *)nowPlayingAlbum;
 - (NSURL *)nowPlayingAlbumPage;
+- (NSURL *)nowPlayingAlbumImage;
 - (int)nowPlayingTrackDuration;
 - (int)nowPlayingTrackProgress;
 - (void)URLHandleResourceDidFinishLoading:(NSURLHandle *)sender;

@@ -138,10 +138,28 @@
 	}
 }
 
+- (NSString *)nowPlayingAlbum
+{
+	if (nowPlayingInformation != nil) {
+		return [nowPlayingInformation objectForKey:@"album"];
+	} else {
+		return nil;
+	}
+}
+
 - (NSURL *)nowPlayingAlbumPage
 {
 	if (nowPlayingInformation != nil) {
 		return [NSURL URLWithString:[nowPlayingInformation objectForKey:@"album_url"]];
+	} else {
+		return nil;
+	}
+}
+
+- (NSURL *)nowPlayingAlbumImage
+{
+	if (nowPlayingInformation != nil) {
+		return [NSURL URLWithString:[nowPlayingInformation objectForKey:@"albumcover_small"]];
 	} else {
 		return nil;
 	}
