@@ -146,9 +146,9 @@
 	
 	// Tell iTunes it should stop playing.
 	// Change this command if you want to control another player that is apple-scriptable.
-	/*NSString *scriptSource = @"tell application \"iTunes\" \n stop \n end tell";
+	NSString *scriptSource = @"tell application \"iTunes\" \n stop \n end tell";
 	NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
-	[script executeAndReturnError:nil];*/
+	[script executeAndReturnError:nil];
 	
 	if (alwaysDisplayTooltip) {
 		NSPoint location = [songInformationPanel frame].origin;
@@ -516,11 +516,11 @@
 {
 	// Tell iTunes it should start playing.
 	// Change this command if you want to control another player that is apple-scriptable.
-	/*NSString *scriptSource = [[@"tell application \"iTunes\" \n open location \""
+	NSString *scriptSource = [[@"tell application \"iTunes\" \n open location \""
 								stringByAppendingString:[webService streamingServer]]
 								stringByAppendingString:@"\" \n end tell"];
 	NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
-	[script executeAndReturnError:nil];*/
+	[script executeAndReturnError:nil];
 	
 	// Set the timer so that in five seconds the new song information will be fetched
 	timer = [[NSTimer scheduledTimerWithTimeInterval:(5) target:self
