@@ -2,6 +2,7 @@
     IBClasses = (
         {
             ACTIONS = {
+                changeTooltipSettings = id; 
                 openAboutPanel = id; 
                 openLastfmHomepage = id; 
                 openPersonalPage = id; 
@@ -9,7 +10,7 @@
             }; 
             CLASS = AmuaController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {application = NSApplication; menu = NSMenu; }; 
+            OUTLETS = {application = NSApplication; menu = NSMenu; tooltipMenuItem = NSMenuItem; }; 
             SUPERCLASS = NSObject; 
         }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }

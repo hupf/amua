@@ -86,8 +86,12 @@
 	view = [[AmuaView alloc] initWithFrame:[[statusItem view] frame] statusItem:statusItem menu:menu];
 	[statusItem setView:view];
 	
-	// listen to mouse events of AmoaView
-	[view addMouseOverListener];
+	alwaysDisplayTooltip = (BOOL)[[preferences stringForKey:@"alwaysDisplayTooltip"] intValue];
+	[tooltipMenuItem setState:alwaysDisplayTooltip];
+	if (!alwaysDisplayTooltip) {
+		// listen to mouse events of AmuaView
+		[view addMouseOverListener];
+	}
 	
 	[self updateMenu];
 }
@@ -241,6 +245,27 @@
 	[application arrangeInFront:self];
 }
 
+- (void)changeTooltipSettings:(id)sender
+{ 
+	if ([tooltipMenuItem state] == NSOnState) {
+		alwaysDisplayTooltip = NO;
+		[tooltipMenuItem setState:NSOffState];
+		NSPoint location = [AITooltipUtilities location];
+		if (location.x != 0 && location.y != 0) {
+			[preferences setObject:NSStringFromPoint(location) forKey:@"tooltipPosition"];
+			[preferences synchronize];
+		}
+		[self hideTooltip:self];
+		[view addMouseOverListener];
+	} else {
+		alwaysDisplayTooltip = YES;
+		[tooltipMenuItem setState:NSOnState];
+		[self showTooltip:self];
+		[view removeMouseOverListener];
+	}
+	
+}
+
 - (void)showTooltip:(id)sender
 {
 
@@ -278,8 +303,20 @@
 				tooltipBody = [[[NSAttributedString alloc] initWithString:radioStation] autorelease];
 			}
 			
-			// get mouse location
-			NSPoint point = [NSEvent mouseLocation];
+			// get the tooltip location
+			NSPoint point;
+			BOOL needToPosition = NO;
+			if (alwaysDisplayTooltip) {
+				point = NSPointFromString([preferences stringForKey:@"tooltipPosition"]);
+				if (point.x == 0 && point.y == 0) {
+					point = [NSEvent mouseLocation];
+				} else {
+					needToPosition = YES;
+				}
+			} else {
+				// get mouse location
+				point = [NSEvent mouseLocation];
+			}
 			
 			// create the tooltip window
 			[AITooltipUtilities showTooltipWithTitle:tooltipTitle
@@ -289,6 +326,10 @@
 													onWindow:nil
 													atPoint:point
 													orientation:TooltipBelow];
+													
+			if (needToPosition) {
+				[AITooltipUtilities setPosition:point];
+			}
 		}
 	
 	}
@@ -300,7 +341,9 @@
 - (void)hideTooltip:(id)sender
 {
 	// remove the tooltip window
-	[AITooltipUtilities showTooltipWithString:@"" onWindow:nil atPoint:NSMakePoint(0,0) orientation:nil];
+	if (!alwaysDisplayTooltip || !playing) {
+		[AITooltipUtilities showTooltipWithString:@"" onWindow:nil atPoint:NSMakePoint(0,0) orientation:nil];
+	}
 	mouseIsOverIcon = NO;
 }
 
@@ -506,10 +549,14 @@
 	[self updateMenu];
 	
 	// show updated tooltip if necessary 
-	if (![view menuIsVisible]) {
-		if (mouseIsOverIcon) {
-			[self showTooltip:self];
+	if ((![view menuIsVisible] && mouseIsOverIcon) || alwaysDisplayTooltip) {
+		if (alwaysDisplayTooltip) {
+			NSPoint location = [AITooltipUtilities location];
+			if (location.x != 0 && location.y != 0) {
+				[preferences setObject:NSStringFromPoint(location) forKey:@"tooltipPosition"];
+			}
 		}
+		[self showTooltip:self];
 	}
 }
 
@@ -554,6 +601,14 @@
 	if (playing) {
 		[self stop:self];
 	}
+	
+	if (alwaysDisplayTooltip) {
+		NSPoint location = [AITooltipUtilities location];
+		[preferences setObject:NSStringFromPoint(location) forKey:@"tooltipPosition"];
+		[preferences synchronize];
+	}
+	
+	[preferences setInteger:(int)alwaysDisplayTooltip forKey:@"alwaysDisplayTooltip"];
 }
 
 @end

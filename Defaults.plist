@@ -8,9 +8,6 @@
 	<key>radioStation</key>
 	<integer>0</integer>
 	
-	<key>recordToProfile</key>
-	<integer>1</integer>
-	
 	<key>stationUser</key>
 	<string></string>
 	
@@ -19,5 +16,15 @@
 	
 	<key>userAgent</key>
 	<string>Mozilla/4.5 (compatible; Amua/0.4; Mac_PowerPC)</string>
+	
+	<key>version</key>
+	<string>0.4</string>
+	
+	<key>alwaysDisplayTooltip</key>
+	<integer>0</integer>
+	
+	<key>tooltipPosition</key>
+	<string>{0,0}</string>
+
 </dict>
 </plist>
