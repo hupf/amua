@@ -156,10 +156,10 @@
 	}
 }
 
-- (NSURL *)nowPlayingAlbumImage
+- (NSImage *)nowPlayingAlbumImage
 {
-	if (nowPlayingInformation != nil) {
-		return [NSURL URLWithString:[nowPlayingInformation objectForKey:@"albumcover_small"]];
+	if (albumCover != nil) {
+		return albumCover;
 	} else {
 		return nil;
 	}
@@ -222,6 +222,10 @@
 			[nowPlayingInformation release];
 		}
 		nowPlayingInformation = parsedResult;
+		if ([nowPlayingInformation objectForKey:@"albumcover_small"] != nil) {
+			[albumCover release];
+			albumCover = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[nowPlayingInformation objectForKey:@"albumcover_small"]]];
+		}
 		[sender removeClient:self];
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"UpdateNowPlayingInformation" object:self];
 		
@@ -266,6 +270,7 @@
 	[sessionID release];
 	[streamingServer release];
 	[nowPlayingInformation release];
+	[albumCover release];
 	
 	[super dealloc];
 }

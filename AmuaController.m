@@ -129,6 +129,8 @@
 	NSString *scriptSource = @"tell application \"iTunes\" \n playpause \n end tell";
 	NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
 	[script executeAndReturnError:nil];
+	
+	[self hideTooltip:self];
 }
 
 - (void)loveSong:(id)sender
@@ -225,9 +227,9 @@
 	NSString *artist = [webService nowPlayingArtist];
 	NSString *album = [webService nowPlayingAlbum];
 	NSString *title = [webService nowPlayingTrack];
-	NSURL *imageUrl = [webService nowPlayingAlbumImage];
+	NSImage *tooltipImage = [webService nowPlayingAlbumImage];
 	
-	if (artist && album && title && imageUrl) {
+	if (artist && album && title && tooltipImage && playing) {
 		// format the tooltip content
 		NSDictionary *labelAttributes = [[[NSDictionary dictionaryWithObjectsAndKeys:[NSFont boldSystemFontOfSize:10], NSFontAttributeName, nil] retain] autorelease];
 		NSDictionary *textAttributes = [[[NSDictionary dictionaryWithObjectsAndKeys:[NSFont systemFontOfSize:10], NSFontAttributeName, nil] retain] autorelease];
@@ -246,9 +248,6 @@
 							appendAttributedString:titleText];
 								
 		NSAttributedString *tooltipBody = [[[NSAttributedString alloc] initWithString:@"now playing..."] autorelease];
-
-		// get the image
-		NSImage *tooltipImage = [[[NSImage alloc] initWithContentsOfURL:imageUrl] autorelease];
 		
 		// get mouse location
 		NSPoint point = [NSEvent mouseLocation];
@@ -263,6 +262,8 @@
 												atPoint:point
 												orientation:TooltipBelow];
 	}
+	mouseIsOverIcon = YES;
+
 
 }
 
@@ -270,6 +271,7 @@
 {
 	// remove the tooltip window
 	[AITooltipUtilities showTooltipWithString:@"" onWindow:nil atPoint:NSMakePoint(0,0) orientation:nil];
+	mouseIsOverIcon = NO;
 }
 
 - (void)updateMenu
@@ -462,6 +464,13 @@
 {
 	[self updateTimer];
 	[self updateMenu];
+	
+	// show updated tooltip if necessary 
+	if (![view menuIsVisible]) {
+		if (mouseIsOverIcon) {
+			[self showTooltip:self];
+		}
+	}
 }
 
 - (void)handleStartPlayingError:(NSNotification *)aNotification

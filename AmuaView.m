@@ -25,7 +25,8 @@
 
 @implementation AmuaView
 
-- (id)initWithFrame:(NSRect)frame statusItem:(NSStatusItem *)status menu:(NSMenu *)myMenu {
+- (id)initWithFrame:(NSRect)frame statusItem:(NSStatusItem *)status menu:(NSMenu *)myMenu
+{
     self = [super initWithFrame:frame];
 	if (self) {
 		menu = [myMenu retain];
@@ -35,7 +36,8 @@
     return self;
 }
 
-- (void)drawRect:(NSRect)rect {
+- (void)drawRect:(NSRect)rect
+{
 	// invert icon if necessary
 	NSColor *color;
 	if (!menuIsVisible) {
@@ -52,34 +54,45 @@
 													color, NSForegroundColorAttributeName, nil]];
 }
 
-- (void)addMouseOverListener {
+- (void)addMouseOverListener
+{
 	mouseEventTag = [self addTrackingRect:[self frame] owner:self userData:nil assumeInside:NO];
 }
 
-- (void)removeMouseListener {
+- (void)removeMouseListener
+{
 	if (mouseEventTag) {
 		[self removeTrackingRect:mouseEventTag];
 	}
 }
 
-- (void)mouseDown:(NSEvent *) theEvent {
+- (void)mouseDown:(NSEvent *) theEvent
+{
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"mouseDown" object:self];
 	menuIsVisible = YES;
 	[self setNeedsDisplay:YES];
 	[statusItem popUpStatusItemMenu:menu];
 }	
 
-- (void)mouseEntered:(NSEvent *)theEvent {
+- (void)mouseEntered:(NSEvent *)theEvent
+{
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"mouseEntered" object:self];
 }
 
-- (void)mouseExited:(NSEvent *)theEvent {
+- (void)mouseExited:(NSEvent *)theEvent
+{
 	menuIsVisible = NO;
 	[self setNeedsDisplay:YES];
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"mouseExited" object:self];
 }
 
-- (void)dealloc {
+- (bool)menuIsVisible
+{
+	return menuIsVisible;
+}
+
+- (void)dealloc
+{
 	[self removeMouseListener];
 	[menu release];
 	[statusItem release];
