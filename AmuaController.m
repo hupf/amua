@@ -290,12 +290,6 @@
 		
 		if (artist && album && title && image && playing) {
 									
-			NSString *radioStation = [webService nowPlayingRadioStation];
-			
-			[songInformationPanel updateArtist:artist album:album track:title
-				albumImage:image radioStation:radioStation radioStationUser:[webService nowPlayingRadioStationProfile]
-				trackPosition:[webService nowPlayingTrackProgress] trackDuration:[webService nowPlayingTrackDuration]];
-			
 			// set the tooltip location
 			NSPoint point;
 			BOOL needToPosition = NO;
@@ -532,6 +526,18 @@
 	[self updateTimer];
 	[self updateMenu];
 	
+	NSString *artist = [webService nowPlayingArtist];
+	NSString *album = [webService nowPlayingAlbum];
+	NSString *title = [webService nowPlayingTrack];
+	NSImage *image = [webService nowPlayingAlbumImage];
+	
+	NSString *radioStation = [webService nowPlayingRadioStation];
+	if (artist && album && title && image && playing) {
+		[songInformationPanel updateArtist:artist album:album track:title
+			albumImage:image radioStation:radioStation radioStationUser:[webService nowPlayingRadioStationProfile]
+			trackPosition:[webService nowPlayingTrackProgress] trackDuration:[webService nowPlayingTrackDuration]];
+	}
+		
 	// show updated tooltip if necessary 
 	if ((![view menuIsVisible] && mouseIsOverIcon) || alwaysDisplayTooltip) {
 		if (alwaysDisplayTooltip) {
