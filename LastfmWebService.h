@@ -21,8 +21,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "CURLHandle/CURLHandle.h"
-#import "CURLHandle/CURLHandle+extras.h"
+#import <CURLHandle/CURLHandle.h>
+#import <CURLHandle/CURLHandle+extras.h>
 
 
 @interface LastfmWebService : NSObject {
