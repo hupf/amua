@@ -53,6 +53,9 @@
 	// A timer that will get actual song information
 	NSTimer *timer;
 	
+	// A boolean indicating that the mouse is over the icon
+	bool mouseIsOverIcon;
+	
 }
 - (void)play:(id)sender;
 - (void)stop:(id)sender;

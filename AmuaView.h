@@ -24,5 +24,6 @@
 - (void)mouseDown: (NSEvent *) theEvent;
 - (void)mouseEntered:(NSEvent *) theEvent;
 - (void)mouseExited:(NSEvent *) theEvent;
+- (bool)menuIsVisible;
 
 @end

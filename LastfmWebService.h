@@ -46,6 +46,7 @@
 	NSString *sessionID;
 	NSString *streamingServer;
 	NSMutableDictionary *nowPlayingInformation;
+	NSImage *albumCover;
 	
 }
 
@@ -61,7 +62,7 @@
 - (NSString *)nowPlayingTrack;
 - (NSString *)nowPlayingAlbum;
 - (NSURL *)nowPlayingAlbumPage;
-- (NSURL *)nowPlayingAlbumImage;
+- (NSImage *)nowPlayingAlbumImage;
 - (int)nowPlayingTrackDuration;
 - (int)nowPlayingTrackProgress;
 - (void)URLHandleResourceDidFinishLoading:(NSURLHandle *)sender;
