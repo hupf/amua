@@ -35,7 +35,8 @@
 - (id)initWithFrame:(NSRect)frame statusItem:(NSStatusItem *)status menu:(NSMenu *)myMenu;
 - (void)drawRect:(NSRect)rect;
 - (void)addMouseOverListener;
-- (void)mouseDown: (NSEvent *) theEvent;
+- (void)removeMouseOverListener;
+- (void)mouseDown:(NSEvent *) theEvent;
 - (void)mouseEntered:(NSEvent *) theEvent;
 - (void)mouseExited:(NSEvent *) theEvent;
 - (bool)menuIsVisible;

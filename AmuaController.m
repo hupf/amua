@@ -109,11 +109,12 @@
 		case 2:
 			radioStation = @"random";
 	}
-	
+
 	// Create web service object
 	webService = [[LastfmWebService alloc]
 					initWithWebServiceServer:[preferences stringForKey:@"webServiceServer"]
 					withRadioStation:radioStation
+					forUser:[preferences stringForKey:@"stationUser"]
 					asUserAgent:[preferences stringForKey:@"userAgent"]];
 	[webService createSessionForUser:[preferences stringForKey:@"username"]
 		withPasswordHash:[self md5:[keyChain genericPasswordForService:@"Amua"
@@ -125,11 +126,17 @@
 	playing = NO;
 	[self updateMenu];
 
-	[webService release];
+	if (webService != nil) {
+		[timer invalidate];
+		[timer release];
+		timer = nil;
+		[webService release];
+		webService = nil;
+	}
 	
 	// Tell iTunes it should stop playing.
 	// Change this command if you want to control another player that is apple-scriptable.
-	NSString *scriptSource = @"tell application \"iTunes\" \n playpause \n end tell";
+	NSString *scriptSource = @"tell application \"iTunes\" \n stop \n end tell";
 	NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
 	[script executeAndReturnError:nil];
 	
@@ -164,9 +171,11 @@
 	[ban setEnabled:NO];
 	
 	// Set the timer so that in five seconds the new song information will be fetched
-	[timer release];
-	timer = [[NSTimer scheduledTimerWithTimeInterval:(5) target:webService
-				selector:@selector(updateNowPlayingInformation:) userInfo:nil repeats:NO] retain];
+	if (timer != nil) {
+		[timer release];
+	}
+	timer = [[NSTimer scheduledTimerWithTimeInterval:(5) target:self
+				selector:@selector(fireTimer:) userInfo:nil repeats:NO] retain];
 }
 
 - (void)banSong:(id)sender
@@ -192,9 +201,11 @@
 	[ban setEnabled:NO];
 	
 	// Set the timer so that in five seconds the new song information will be fetched
-	[timer release];
-	timer = [[NSTimer scheduledTimerWithTimeInterval:(5) target:webService
-				selector:@selector(updateNowPlayingInformation:) userInfo:nil repeats:NO] retain];
+	if (timer != nil) {
+		[timer release];
+	}
+	timer = [[NSTimer scheduledTimerWithTimeInterval:(5) target:self
+				selector:@selector(fireTimer:) userInfo:nil repeats:NO] retain];
 }
 
 - (IBAction)openLastfmHomepage:(id)sender
@@ -233,50 +244,55 @@
 - (void)showTooltip:(id)sender
 {
 
-	NSString *artist = [webService nowPlayingArtist];
-	NSString *album = [webService nowPlayingAlbum];
-	NSString *title = [webService nowPlayingTrack];
-	NSImage *tooltipImage = [webService nowPlayingAlbumImage];
+	if (webService != nil) {
 	
-	if (artist && album && title && tooltipImage && playing) {
-		// format the tooltip content
-		NSDictionary *labelAttributes = [[[NSDictionary dictionaryWithObjectsAndKeys:[NSFont boldSystemFontOfSize:10], NSFontAttributeName, nil] retain] autorelease];
-		NSDictionary *textAttributes = [[[NSDictionary dictionaryWithObjectsAndKeys:[NSFont systemFontOfSize:10], NSFontAttributeName, nil] retain] autorelease];
-		NSAttributedString *artistLabel = [[[NSAttributedString alloc] initWithString:@"Artist\t" attributes:labelAttributes] autorelease];
-		NSAttributedString *albumLabel = [[[NSAttributedString alloc] initWithString:@"\nAlbum\t" attributes:labelAttributes] autorelease];
-		NSAttributedString *titleLabel = [[[NSAttributedString alloc] initWithString:@"\nTitle\t\t" attributes:labelAttributes] autorelease];
-		NSAttributedString *artistText = [[[NSAttributedString alloc] initWithString:artist attributes:textAttributes] autorelease];
-		NSAttributedString *albumText = [[[NSAttributedString alloc] initWithString:album attributes:textAttributes] autorelease];
-		NSAttributedString *titleText = [[[NSAttributedString alloc] initWithString:title attributes:textAttributes] autorelease];
-		NSMutableAttributedString *tooltipTitle = [[[NSMutableAttributedString alloc] init] autorelease];
-		[[[[[[tooltipTitle appendAttributedString:artistLabel]
-							appendAttributedString:artistText]
-							appendAttributedString:albumLabel]
-							appendAttributedString:albumText]
-							appendAttributedString:titleLabel]
-							appendAttributedString:titleText];
-								
-		NSString *radioStation = [webService nowPlayingRadioStation];
-		NSAttributedString *tooltipBody;
-		if ([radioStation isEqualToString:@"Profile Radio"]) {
-			tooltipBody = [[[NSAttributedString alloc] initWithString:[[radioStation stringByAppendingString:@" feeding from "]
-								stringByAppendingString:[webService nowPlayingRadioStationProfile]]] autorelease];
-		} else {
-			tooltipBody = [[[NSAttributedString alloc] initWithString:radioStation] autorelease];
+		NSString *artist = [webService nowPlayingArtist];
+		NSString *album = [webService nowPlayingAlbum];
+		NSString *title = [webService nowPlayingTrack];
+		NSImage *tooltipImage = [webService nowPlayingAlbumImage];
+		
+		if (artist && album && title && tooltipImage && playing) {
+			// format the tooltip content
+			NSDictionary *labelAttributes = [[[NSDictionary dictionaryWithObjectsAndKeys:[NSFont boldSystemFontOfSize:10], NSFontAttributeName, nil] retain] autorelease];
+			NSDictionary *textAttributes = [[[NSDictionary dictionaryWithObjectsAndKeys:[NSFont systemFontOfSize:10], NSFontAttributeName, nil] retain] autorelease];
+			NSAttributedString *artistLabel = [[[NSAttributedString alloc] initWithString:@"Artist\t" attributes:labelAttributes] autorelease];
+			NSAttributedString *albumLabel = [[[NSAttributedString alloc] initWithString:@"\nAlbum\t" attributes:labelAttributes] autorelease];
+			NSAttributedString *titleLabel = [[[NSAttributedString alloc] initWithString:@"\nTitle\t\t" attributes:labelAttributes] autorelease];
+			NSAttributedString *artistText = [[[NSAttributedString alloc] initWithString:artist attributes:textAttributes] autorelease];
+			NSAttributedString *albumText = [[[NSAttributedString alloc] initWithString:album attributes:textAttributes] autorelease];
+			NSAttributedString *titleText = [[[NSAttributedString alloc] initWithString:title attributes:textAttributes] autorelease];
+			NSMutableAttributedString *tooltipTitle = [[[NSMutableAttributedString alloc] init] autorelease];
+			[[[[[[tooltipTitle appendAttributedString:artistLabel]
+								appendAttributedString:artistText]
+								appendAttributedString:albumLabel]
+								appendAttributedString:albumText]
+								appendAttributedString:titleLabel]
+								appendAttributedString:titleText];
+									
+			NSString *radioStation = [webService nowPlayingRadioStation];
+			NSAttributedString *tooltipBody;
+			if ([webService nowPlayingRadioStationProfile] != nil) {
+				tooltipBody = [[[NSAttributedString alloc] initWithString:[[radioStation stringByAppendingString:@" feeding from "]
+									stringByAppendingString:[webService nowPlayingRadioStationProfile]]] autorelease];
+			} else {
+				tooltipBody = [[[NSAttributedString alloc] initWithString:radioStation] autorelease];
+			}
+			
+			// get mouse location
+			NSPoint point = [NSEvent mouseLocation];
+			
+			// create the tooltip window
+			[AITooltipUtilities showTooltipWithTitle:tooltipTitle
+													body:tooltipBody
+													image:tooltipImage 
+													imageOnRight:NO
+													onWindow:nil
+													atPoint:point
+													orientation:TooltipBelow];
 		}
-		
-		// get mouse location
-		NSPoint point = [NSEvent mouseLocation];
-		
-		// create the tooltip window
-		[AITooltipUtilities showTooltipWithTitle:tooltipTitle
-												body:tooltipBody
-												image:tooltipImage 
-												imageOnRight:NO
-												onWindow:nil
-												atPoint:point
-												orientation:TooltipBelow];
+	
 	}
+	
 	mouseIsOverIcon = YES;
 
 }
@@ -450,9 +466,18 @@
 		remainingTime = 5;
 	}
 	
-	[timer release];
-	timer = [[NSTimer scheduledTimerWithTimeInterval:(remainingTime) target:webService
-				selector:@selector(updateNowPlayingInformation:) userInfo:nil repeats:NO] retain];
+	if (timer != nil) {
+		[timer release];
+	}
+	timer = [[NSTimer scheduledTimerWithTimeInterval:(remainingTime) target:self
+				selector:@selector(fireTimer:) userInfo:nil repeats:NO] retain];
+}
+
+- (void)fireTimer:(id)sender
+{
+	if (webService != nil) {
+		[webService updateNowPlayingInformation];
+	}
 }
 
 - (void)handlePreferencesChanged:(NSNotification *)aNotification
@@ -471,8 +496,8 @@
 	[script executeAndReturnError:nil];
 	
 	// Set the timer so that in five seconds the new song information will be fetched
-	timer = [[NSTimer scheduledTimerWithTimeInterval:(5) target:webService
-				selector:@selector(updateNowPlayingInformation:) userInfo:nil repeats:NO] retain];
+	timer = [[NSTimer scheduledTimerWithTimeInterval:(5) target:self
+				selector:@selector(fireTimer:) userInfo:nil repeats:NO] retain];
 }
 
 - (void)handleUpdateNowPlayingInformation:(NSNotification *)aNotification
@@ -492,6 +517,11 @@
 {
 	playing = NO;
 	[self updateMenu];
+	
+	if (webService != nil) {
+		[webService release];
+		webService = nil;
+	}
 	
 	NSMenuItem *error = [[[NSMenuItem alloc] initWithTitle:@"Connection Error"
 								action:nil keyEquivalent:@""] autorelease];

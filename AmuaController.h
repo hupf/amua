@@ -78,6 +78,7 @@
 - (void)hideTooltip:(id)sender;
 - (void)updateMenu;
 - (void)updateTimer;
+- (void)fireTimer:(id)sender;
 - (void)handlePreferencesChanged:(NSNotification *)aNotification;
 - (void)handleStartPlaying:(NSNotification *)aNotification;
 - (void)handleUpdateNowPlayingInformation:(NSNotification *)aNotification;

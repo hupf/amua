@@ -18,6 +18,6 @@
 	<string>wsdev.audioscrobbler.com</string>
 	
 	<key>userAgent</key>
-	<string>Mozilla/4.5 (compatible; Amua/0.3; Mac_PowerPC)</string>
+	<string>Mozilla/4.5 (compatible; Amua/0.4; Mac_PowerPC)</string>
 </dict>
 </plist>
