@@ -2,8 +2,8 @@
 //  main.m
 //  Amua
 //
-//  Created by Mathis Hofer on 17.02.05.
-//  Copyright __MyCompanyName__ 2005. All rights reserved.
+//  Created by Mathis and Simon Hofer on 17.02.05.
+//  Copyright Mathis & Simon Hofer 2005.
 //
 
 #import <Cocoa/Cocoa.h>

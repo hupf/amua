@@ -1,15 +1,7 @@
 {
     IBClasses = (
         {
-            ACTIONS = {
-                banSong = id; 
-                loveSong = id; 
-                openLastfmHomepage = id; 
-                openPersonalPage = id; 
-                openPreferences = id; 
-                playStop = id; 
-                skipSong = id; 
-            }; 
+            ACTIONS = {openLastfmHomepage = id; openPersonalPage = id; openPreferences = id; }; 
             CLASS = AmuaController; 
             LANGUAGE = ObjC; 
             OUTLETS = {menu = NSMenu; }; 

@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>radioStation</key>
+	<integer>0</integer>
+	
+	<key>recordToProfile</key>
+	<integer>1</integer>
+
 	<key>username</key>
 	<string></string>
 	
@@ -11,7 +17,7 @@
 	<key>webServiceServer</key>
 	<string>wsdev.audioscrobbler.com</string>
 	
-	<key>streamingServer</key>
-	<string>moses.last.fm</string>
+	<key>userAgent</key>
+	<string>Mozilla/4.5 (compatible; Amua/0.1; Mac_PowerPC)</string>
 </dict>
 </plist>
