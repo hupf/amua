@@ -29,7 +29,9 @@
     if(self = [super initWithWindowNibName:@"Preferences"]) {
         [self setWindowFrameAutosaveName:@"PreferencesWindow"];
     }
-
+	
+	keyChain = [[KeyChain alloc] init];
+	
     preferences = [[NSUserDefaults standardUserDefaults] retain];
     
     return self;
@@ -55,13 +57,21 @@
 - (IBAction)save:(id)sender
 {
 	// Save the actual field contents to harddisk
-	[preferences setInteger:[radioStation indexOfSelectedItem] forKey:@"radioStation"];
-	[preferences setInteger:[recordToProfile state] forKey:@"recordToProfile"];
 	[preferences setObject:[username stringValue] forKey:@"username"];
-	[preferences setObject:[password stringValue] forKey:@"password"]; // TODO: security!
+	[preferences setInteger:[radioStation indexOfSelectedItem] forKey:@"radioStation"];
+	[preferences setObject:[stationUser stringValue] forKey:@"stationUser"];
+	[preferences setInteger:[recordToProfile state] forKey:@"recordToProfile"];
 	[preferences setObject:[webServiceServer stringValue] forKey:@"webServiceServer"];
 	
 	[preferences synchronize];
+	
+	// Save password to the keychain
+	if(![[password stringValue] isEqualToString:@""])
+    {
+        [keyChain setGenericPassword:[password stringValue]
+					forService:@"Amua"
+					account:[preferences stringForKey:@"username"]];
+	}
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"PreferencesChanged" object:self];
 		
@@ -77,21 +87,59 @@
     NSDictionary *defaultPreferences = [NSDictionary dictionaryWithContentsOfFile:file];
 	
 	// Fill the fields with the factory defaults
-	[radioStation selectItemAtIndex:[[defaultPreferences objectForKey:@"radioStation"] intValue]];
-	[recordToProfile setState:[[defaultPreferences objectForKey:@"recordToProfile"] intValue]];
 	[username setStringValue:[defaultPreferences objectForKey:@"username"]];
 	[password setStringValue:[defaultPreferences objectForKey:@"password"]];
+	[radioStation selectItemAtIndex:[[defaultPreferences objectForKey:@"radioStation"] intValue]];
+	[stationUser setStringValue:[defaultPreferences objectForKey:@"stationUser"]];
+	[recordToProfile setState:[[defaultPreferences objectForKey:@"recordToProfile"] intValue]];
+	[stationDifferentUser setState:NSOffState];
+	[stationUser setStringValue:[defaultPreferences objectForKey:@"stationUser"]];
+	[stationUser setEnabled:NO];
 	[webServiceServer setStringValue:[defaultPreferences objectForKey:@"webServiceServer"]];
 }
 
 - (void)updateFields
 {
 	// Fill the fields with the saved content from the harddisk
-	[radioStation selectItemAtIndex:[preferences integerForKey:@"radioStation"]];
-	[recordToProfile setState:[preferences integerForKey:@"recordToProfile"]];
 	[username setStringValue:[preferences stringForKey:@"username"]];
-	[password setStringValue:[preferences stringForKey:@"password"]];
+	[password setStringValue:[keyChain genericPasswordForService:@"Amua"
+                                       account:[preferences stringForKey:@"username"]]];
+	[radioStation selectItemAtIndex:[preferences integerForKey:@"radioStation"]];
+	if ([[preferences stringForKey:@"stationUser"] isEqualToString:@""] ||
+			[[preferences stringForKey:@"stationUser"] isEqualToString:[preferences stringForKey:@"username"]]) {
+		[stationDifferentUser setState:NSOffState];
+		[stationUser setStringValue:@""];
+		[stationUser setEnabled:NO];
+	} else {
+		[stationDifferentUser setState:NSOnState];
+		[stationUser setStringValue:[preferences stringForKey:@"stationUser"]];
+		[stationUser setEnabled:YES];
+	}
+	[recordToProfile setState:[preferences integerForKey:@"recordToProfile"]];
 	[webServiceServer setStringValue:[preferences stringForKey:@"webServiceServer"]];
+}
+
+- (IBAction)stationUserToggle:(id)sender
+{
+	if ([stationDifferentUser state] == NSOnState) {
+		[stationUser setEnabled:YES];
+	} else {
+		[stationUser setStringValue:@""];
+		[stationUser setEnabled:NO];
+	}
+}
+
+- (IBAction)stationChanged:(id)sender
+{
+	if ([[radioStation titleOfSelectedItem] isEqualToString:@"Random Radio"]) {
+		[stationDifferentUser setEnabled:NO];
+		[stationDifferentUser setState:NSOffState];
+		[stationUser setEnabled:NO];
+		[stationUser setStringValue:@""];
+	} else {
+		[stationDifferentUser setEnabled:YES];
+		[stationUser setEnabled:YES];
+	}
 }
 
 - (void)dealloc

@@ -32,6 +32,8 @@
 
     NSDictionary *defaultPreferences = [NSDictionary dictionaryWithContentsOfFile:file];
 	
+	keyChain = [[KeyChain alloc] init];
+	
 	preferences = [[NSUserDefaults standardUserDefaults] retain];
     [preferences registerDefaults:defaultPreferences];
 	
@@ -114,7 +116,8 @@
 					withRadioStation:radioStation
 					asUserAgent:[preferences stringForKey:@"userAgent"]];
 	[webService createSessionForUser:[preferences stringForKey:@"username"]
-		withPasswordHash:[self md5:[preferences stringForKey:@"password"]]];
+		withPasswordHash:[self md5:[keyChain genericPasswordForService:@"Amua"
+										account:[preferences stringForKey:@"username"]]]];
 }
 
 - (void)stop:(id)sender
@@ -319,7 +322,8 @@
 		// Deactivate play menu item if no username/password or no web service
 		// server is set, activate it otherwise
 		if ([[preferences stringForKey:@"username"] isEqualToString:@""] ||
-			[[preferences stringForKey:@"password"] isEqualToString:@""] ||
+			[[keyChain genericPasswordForService:@"Amua"
+					account:[preferences stringForKey:@"username"]] isEqualToString:@""] ||
 			[[preferences stringForKey:@"webServiceServer"] isEqualToString:@""]) {
 			
 			[play setAction:nil];

@@ -21,6 +21,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "KeyChain.h"
 
 @interface PreferencesController : NSWindowController
 {
@@ -28,10 +29,12 @@
 	IBOutlet NSButton *recordToProfile;
 	IBOutlet NSTextField *username;
     IBOutlet NSTextField *password;
+	IBOutlet NSTextField *stationUser;
+	IBOutlet NSButton *stationDifferentUser;
 	IBOutlet NSTextField *webServiceServer;
-    IBOutlet NSTextField *streamingServer;
 	IBOutlet NSPanel *window;
 	NSUserDefaults *preferences;
+	KeyChain *keyChain;
 }
 - (void)windowDidLoad;
 - (void)windowWillClose:(NSNotification *)aNotification;
@@ -39,5 +42,7 @@
 - (IBAction)save:(id)sender;
 - (IBAction)setDefaults:(id)sender;
 - (void)updateFields;
+- (IBAction)stationUserToggle:(id)sender;
+- (IBAction)stationChanged:(id)sender;
 - (void)dealloc;
 @end
