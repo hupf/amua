@@ -80,6 +80,12 @@
 
 - (void)awakeFromNib
 {	
+	// check for a new version
+	AmuaUpdater *updater = [[[AmuaUpdater alloc] init] autorelease];
+	if ((BOOL)[[preferences stringForKey:@"showPossibleUpdateDialog"] intValue]) {
+		[updater checkForUpdates];
+	}
+
 	// Add an menu item to the status bar
 	statusItem = [[[NSStatusBar systemStatusBar]
 					statusItemWithLength:NSSquareStatusItemLength] retain];

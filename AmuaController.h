@@ -22,6 +22,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "AmuaView.h"
+#import "AmuaUpdater.h"
 #import "PreferencesController.h"
 #import "LastfmWebService.h"
 #import <SSCrypto/SSCrypto.h>
