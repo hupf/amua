@@ -39,6 +39,9 @@
 	// The menu that will be displayed by the status item
 	IBOutlet NSMenu *menu;
 	
+	// A reference to the NSApplication, used to put the about window to front
+	IBOutlet NSApplication *application;
+	
 	// The preferences window controller
 	PreferencesController *preferencesController;
 	
