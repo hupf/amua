@@ -10,10 +10,29 @@
             }; 
             CLASS = AmuaController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {application = NSApplication; menu = NSMenu; tooltipMenuItem = NSMenuItem; }; 
+            OUTLETS = {
+                application = NSApplication; 
+                menu = NSMenu; 
+                songInformationPanel = SongInformationPanel; 
+                tooltipMenuItem = NSMenuItem; 
+            }; 
             SUPERCLASS = NSObject; 
         }, 
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = SongInformationPanel; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                album = NSBox; 
+                artist = NSTextField; 
+                footer = NSTextField; 
+                image = NSImageView; 
+                line = id; 
+                time = NSTextField; 
+                track = NSTextField; 
+            }; 
+            SUPERCLASS = NSPanel; 
+        }
     ); 
     IBVersion = 1; 
 }

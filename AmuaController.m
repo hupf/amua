@@ -146,12 +146,12 @@
 	
 	// Tell iTunes it should stop playing.
 	// Change this command if you want to control another player that is apple-scriptable.
-	NSString *scriptSource = @"tell application \"iTunes\" \n stop \n end tell";
+	/*NSString *scriptSource = @"tell application \"iTunes\" \n stop \n end tell";
 	NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
-	[script executeAndReturnError:nil];
+	[script executeAndReturnError:nil];*/
 	
 	if (alwaysDisplayTooltip) {
-		NSPoint location = [AITooltipUtilities location];
+		NSPoint location = [songInformationPanel frame].origin;
 		[preferences setObject:NSStringFromPoint(location) forKey:@"tooltipPosition"];
 		[preferences synchronize];
 	}
@@ -262,7 +262,7 @@
 	if ([tooltipMenuItem state] == NSOnState) {
 		alwaysDisplayTooltip = NO;
 		[tooltipMenuItem setState:NSOffState];
-		NSPoint location = [AITooltipUtilities location];
+		NSPoint location = [songInformationPanel frame].origin;
 		if (location.x != 0 && location.y != 0) {
 			[preferences setObject:NSStringFromPoint(location) forKey:@"tooltipPosition"];
 			[preferences synchronize];
@@ -286,62 +286,34 @@
 		NSString *artist = [webService nowPlayingArtist];
 		NSString *album = [webService nowPlayingAlbum];
 		NSString *title = [webService nowPlayingTrack];
-		NSImage *tooltipImage = [webService nowPlayingAlbumImage];
+		NSImage *image = [webService nowPlayingAlbumImage];
 		
-		if (artist && album && title && tooltipImage && playing) {
-			// format the tooltip content
-			NSDictionary *labelAttributes = [[[NSDictionary dictionaryWithObjectsAndKeys:[NSFont boldSystemFontOfSize:10], NSFontAttributeName, nil] retain] autorelease];
-			NSDictionary *textAttributes = [[[NSDictionary dictionaryWithObjectsAndKeys:[NSFont systemFontOfSize:10], NSFontAttributeName, nil] retain] autorelease];
-			NSAttributedString *artistLabel = [[[NSAttributedString alloc] initWithString:@"Artist\t" attributes:labelAttributes] autorelease];
-			NSAttributedString *albumLabel = [[[NSAttributedString alloc] initWithString:@"\nAlbum\t" attributes:labelAttributes] autorelease];
-			NSAttributedString *titleLabel = [[[NSAttributedString alloc] initWithString:@"\nTitle\t\t" attributes:labelAttributes] autorelease];
-			NSAttributedString *artistText = [[[NSAttributedString alloc] initWithString:artist attributes:textAttributes] autorelease];
-			NSAttributedString *albumText = [[[NSAttributedString alloc] initWithString:album attributes:textAttributes] autorelease];
-			NSAttributedString *titleText = [[[NSAttributedString alloc] initWithString:title attributes:textAttributes] autorelease];
-			NSMutableAttributedString *tooltipTitle = [[[NSMutableAttributedString alloc] init] autorelease];
-			[[[[[[tooltipTitle appendAttributedString:artistLabel]
-								appendAttributedString:artistText]
-								appendAttributedString:albumLabel]
-								appendAttributedString:albumText]
-								appendAttributedString:titleLabel]
-								appendAttributedString:titleText];
+		if (artist && album && title && image && playing) {
 									
 			NSString *radioStation = [webService nowPlayingRadioStation];
-			NSAttributedString *tooltipBody;
-			if ([webService nowPlayingRadioStationProfile] != nil) {
-				tooltipBody = [[[NSAttributedString alloc] initWithString:[[radioStation stringByAppendingString:@" feeding from "]
-									stringByAppendingString:[webService nowPlayingRadioStationProfile]]] autorelease];
-			} else {
-				tooltipBody = [[[NSAttributedString alloc] initWithString:radioStation] autorelease];
-			}
 			
-			// get the tooltip location
+			[songInformationPanel updateArtist:artist album:album track:title
+				albumImage:image radioStation:radioStation radioStationUser:[webService nowPlayingRadioStationProfile]
+				trackPosition:[webService nowPlayingTrackProgress] trackDuration:[webService nowPlayingTrackDuration]];
+			
+			// set the tooltip location
 			NSPoint point;
 			BOOL needToPosition = NO;
 			if (alwaysDisplayTooltip) {
 				point = NSPointFromString([preferences stringForKey:@"tooltipPosition"]);
 				if (point.x == 0 && point.y == 0) {
 					point = [NSEvent mouseLocation];
-				} else {
-					needToPosition = YES;
 				}
+				[songInformationPanel setFrameOrigin:point];
 			} else {
 				// get mouse location
 				point = [NSEvent mouseLocation];
+				if (!mouseIsOverIcon || [songInformationPanel visible]) {
+					[songInformationPanel autoPosition];
+				}
 			}
 			
-			// create the tooltip window
-			[AITooltipUtilities showTooltipWithTitle:tooltipTitle
-													body:tooltipBody
-													image:tooltipImage 
-													imageOnRight:NO
-													onWindow:nil
-													atPoint:point
-													orientation:TooltipBelow];
-													
-			if (needToPosition) {
-				[AITooltipUtilities setPosition:point];
-			}
+			[songInformationPanel show];
 		}
 	
 	}
@@ -354,7 +326,7 @@
 {
 	// remove the tooltip window
 	if (!alwaysDisplayTooltip || !playing) {
-		[AITooltipUtilities showTooltipWithString:@"" onWindow:nil atPoint:NSMakePoint(0,0) orientation:nil];
+		[songInformationPanel hide];
 	}
 	mouseIsOverIcon = NO;
 }
@@ -544,11 +516,11 @@
 {
 	// Tell iTunes it should start playing.
 	// Change this command if you want to control another player that is apple-scriptable.
-	NSString *scriptSource = [[@"tell application \"iTunes\" \n open location \""
+	/*NSString *scriptSource = [[@"tell application \"iTunes\" \n open location \""
 								stringByAppendingString:[webService streamingServer]]
 								stringByAppendingString:@"\" \n end tell"];
 	NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
-	[script executeAndReturnError:nil];
+	[script executeAndReturnError:nil];*/
 	
 	// Set the timer so that in five seconds the new song information will be fetched
 	timer = [[NSTimer scheduledTimerWithTimeInterval:(5) target:self
@@ -563,7 +535,7 @@
 	// show updated tooltip if necessary 
 	if ((![view menuIsVisible] && mouseIsOverIcon) || alwaysDisplayTooltip) {
 		if (alwaysDisplayTooltip) {
-			NSPoint location = [AITooltipUtilities location];
+			NSPoint location = [songInformationPanel frame].origin;
 			if (location.x != 0 && location.y != 0) {
 				[preferences setObject:NSStringFromPoint(location) forKey:@"tooltipPosition"];
 			}
