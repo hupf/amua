@@ -56,21 +56,36 @@
 				selector:@selector(handleUpdateNowPlayingInformation:)
 				name:@"UpdateNowPlayingInformation"	object:nil];
 	
+	// Register handle for mousentered event
+	[[NSNotificationCenter defaultCenter] addObserver:self
+				selector:@selector(showTooltip:)
+				name:@"mouseEntered" object:nil];
+				
+	// Register handle for mousexited event
+	[[NSNotificationCenter defaultCenter] addObserver:self
+				selector:@selector(hideTooltip:)
+				name:@"mouseExited" object:nil];
+				
+	// Register handle for mousedown event
+	[[NSNotificationCenter defaultCenter] addObserver:self
+				selector:@selector(hideTooltip:)
+				name:@"mouseDown" object:nil];
+	
 	playing = NO;
 	
 	return self;
 }
 
 - (void)awakeFromNib
-{
+{	
 	// Add an menu item to the status bar
 	statusItem = [[[NSStatusBar systemStatusBar]
 					statusItemWithLength:NSSquareStatusItemLength] retain];
-
-    [statusItem setTitle:[NSString stringWithFormat:@"%C",0x266A]]; // Fancy note as icon
-    [statusItem setHighlightMode:YES];
-    [statusItem setMenu:menu];
-    [statusItem setEnabled:YES];
+	view = [[AmuaView alloc] initWithFrame:[[statusItem view] frame] statusItem:statusItem menu:menu];
+	[statusItem setView:view];
+	
+	// listen to mouse events of AmoaView
+	[view addMouseOverListener];
 	
 	[self updateMenu];
 }
@@ -202,6 +217,59 @@
 - (void)openAlbumPage:(id)sender
 {
 	[[NSWorkspace sharedWorkspace] openURL:[webService nowPlayingAlbumPage]];
+}
+
+- (void)showTooltip:(id)sender
+{
+
+	NSString *artist = [webService nowPlayingArtist];
+	NSString *album = [webService nowPlayingAlbum];
+	NSString *title = [webService nowPlayingTrack];
+	NSURL *imageUrl = [webService nowPlayingAlbumImage];
+	
+	if (artist && album && title && imageUrl) {
+		// format the tooltip content
+		NSDictionary *labelAttributes = [[[NSDictionary dictionaryWithObjectsAndKeys:[NSFont boldSystemFontOfSize:10], NSFontAttributeName, nil] retain] autorelease];
+		NSDictionary *textAttributes = [[[NSDictionary dictionaryWithObjectsAndKeys:[NSFont systemFontOfSize:10], NSFontAttributeName, nil] retain] autorelease];
+		NSAttributedString *artistLabel = [[[NSAttributedString alloc] initWithString:@"Artist\t" attributes:labelAttributes] autorelease];
+		NSAttributedString *albumLabel = [[[NSAttributedString alloc] initWithString:@"\nAlbum\t" attributes:labelAttributes] autorelease];
+		NSAttributedString *titleLabel = [[[NSAttributedString alloc] initWithString:@"\nTitle\t\t" attributes:labelAttributes] autorelease];
+		NSAttributedString *artistText = [[[NSAttributedString alloc] initWithString:artist attributes:textAttributes] autorelease];
+		NSAttributedString *albumText = [[[NSAttributedString alloc] initWithString:album attributes:textAttributes] autorelease];
+		NSAttributedString *titleText = [[[NSAttributedString alloc] initWithString:title attributes:textAttributes] autorelease];
+		NSMutableAttributedString *tooltipTitle = [[[NSMutableAttributedString alloc] init] autorelease];
+		[[[[[[tooltipTitle appendAttributedString:artistLabel]
+							appendAttributedString:artistText]
+							appendAttributedString:albumLabel]
+							appendAttributedString:albumText]
+							appendAttributedString:titleLabel]
+							appendAttributedString:titleText];
+								
+		NSAttributedString *tooltipBody = [[[NSAttributedString alloc] initWithString:@"now playing..."] autorelease];
+
+		// get the image
+		NSImage *tooltipImage = [[[NSImage alloc] initWithContentsOfURL:imageUrl] autorelease];
+		
+		// get mouse location
+		NSPoint point = [NSEvent mouseLocation];
+		point = NSMakePoint(point.x - 20, point.y);
+		
+		// create the tooltip window
+		[AITooltipUtilities showTooltipWithTitle:tooltipTitle
+												body:tooltipBody
+												image:tooltipImage 
+												imageOnRight:NO
+												onWindow:nil
+												atPoint:point
+												orientation:TooltipBelow];
+	}
+
+}
+
+- (void)hideTooltip:(id)sender
+{
+	// remove the tooltip window
+	[AITooltipUtilities showTooltipWithString:@"" onWindow:nil atPoint:NSMakePoint(0,0) orientation:nil];
 }
 
 - (void)updateMenu

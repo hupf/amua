@@ -21,15 +21,20 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "AmuaView.h"
 #import "PreferencesController.h"
 #import "LastfmWebService.h"
 #import "SSCrypto/SSCrypto.h"
+#import "AITooltipUtilities.h"
 
 @interface AmuaController : NSObject
 {
 	
     // The status item that will be added to the system status bar
     NSStatusItem *statusItem;
+	
+	// The custom view of the statusItem
+	AmuaView *view;
 	
 	// The menu that will be displayed by the status item
 	IBOutlet NSMenu *menu;
@@ -58,6 +63,8 @@
 - (IBAction)openPersonalPage:(id)sender;
 - (IBAction)openPreferences:(id)sender;
 - (void)openAlbumPage:(id)sender;
+- (void)showTooltip:(id)sender;
+- (void)hideTooltip:(id)sender;
 - (void)updateMenu;
 - (void)updateTimer;
 - (void)handlePreferencesChanged:(NSNotification *)aNotification;

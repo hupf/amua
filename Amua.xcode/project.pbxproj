@@ -7,6 +7,10 @@
 	objects = {
 		080E96DDFE201D6D7F000001 = {
 			children = (
+				F4F3FEB607CB28C600ECE67F,
+				F4F3FEB707CB28C600ECE67F,
+				F4F3FEB807CB28C600ECE67F,
+				F4F3FEB907CB28C600ECE67F,
 				0CB7A6D107C8AA9000E4342A,
 				0CB7A6D207C8AA9000E4342A,
 				0C83A56007C4F734001A45EA,
@@ -50,9 +54,10 @@
 		0C287A6707C677F400AF7154 = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
-			path = Cocoa.framework;
-			refType = 4;
-			sourceTree = "<group>";
+			name = Cocoa.framework;
+			path = /System/Library/Frameworks/Cocoa.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
 		};
 		0C287A6807C677F400AF7154 = {
 			fileRef = 0C287A6707C677F400AF7154;
@@ -65,30 +70,11 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0C904B3F07C81493007DE65A,
-				0C287A9307C678BF00AF7154,
+				F4F3FE2B07CB272300ECE67F,
+				F4F3FE2C07CB272300ECE67F,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0C287A8307C678B800AF7154 = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.framework;
-			path = CURLHandle.framework;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0C287A8407C678B800AF7154 = {
-			fileRef = 0C287A8307C678B800AF7154;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0C287A9307C678BF00AF7154 = {
-			fileRef = 0C287A8307C678B800AF7154;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		0C83A56007C4F734001A45EA = {
 			fileEncoding = 30;
@@ -135,7 +121,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = image.icns;
 			name = Amua.icns;
-			path = /Users/m/Documents/Development/Amua/Amua.icns;
+			path = /Users/simon/Programming/Amua/Amua.icns;
 			refType = 0;
 			sourceTree = "<absolute>";
 		};
@@ -183,25 +169,6 @@
 		};
 		0C88FD5407C5449800221576 = {
 			fileRef = 0C88FD5207C5449800221576;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0C904B3807C81486007DE65A = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.framework;
-			path = SSCrypto.framework;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0C904B3907C81486007DE65A = {
-			fileRef = 0C904B3807C81486007DE65A;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0C904B3F07C81493007DE65A = {
-			fileRef = 0C904B3807C81486007DE65A;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -260,8 +227,8 @@
 //104
 		1058C7A0FEA54F0111CA2CBB = {
 			children = (
-				0C287A8307C678B800AF7154,
-				0C904B3807C81486007DE65A,
+				F4F3FE2907CB272300ECE67F,
+				F4F3FE2A07CB272300ECE67F,
 				0C287A6707C677F400AF7154,
 			);
 			isa = PBXGroup;
@@ -486,7 +453,7 @@
 			buildRules = (
 			);
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "/Users/m/Documents/Development/Cocita /Users/m/Documents/Development/Amua";
+				FRAMEWORK_SEARCH_PATHS = "/Users/m/Documents/Development/Cocita /Users/m/Documents/Development/Amua /Users/simon/Programming/Amua";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Amua_Prefix.pch;
@@ -516,6 +483,8 @@
 				0C88FD5307C5449800221576,
 				0CB7A6D307C8AA9000E4342A,
 				0CB7AD1007C92F1A00E4342A,
+				F4F3FEBA07CB28C600ECE67F,
+				F4F3FEBC07CB28C600ECE67F,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -539,6 +508,8 @@
 				0C83A56207C4F734001A45EA,
 				0C88FD5407C5449800221576,
 				0CB7A6D407C8AA9000E4342A,
+				F4F3FEBB07CB28C600ECE67F,
+				F4F3FEBD07CB28C600ECE67F,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -555,8 +526,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C287A6807C677F400AF7154,
-				0C287A8407C678B800AF7154,
-				0C904B3907C81486007DE65A,
+				F4F3FE8007CB27A700ECE67F,
+				F4F3FE8107CB27A700ECE67F,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -576,6 +547,110 @@
 			path = Amua.app;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+//8D0
+//8D1
+//8D2
+//8D3
+//8D4
+//F40
+//F41
+//F42
+//F43
+//F44
+		F4F3FE2907CB272300ECE67F = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			path = CURLHandle.framework;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		F4F3FE2A07CB272300ECE67F = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			path = SSCrypto.framework;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		F4F3FE2B07CB272300ECE67F = {
+			fileRef = F4F3FE2907CB272300ECE67F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		F4F3FE2C07CB272300ECE67F = {
+			fileRef = F4F3FE2A07CB272300ECE67F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		F4F3FE8007CB27A700ECE67F = {
+			fileRef = F4F3FE2907CB272300ECE67F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		F4F3FE8107CB27A700ECE67F = {
+			fileRef = F4F3FE2A07CB272300ECE67F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		F4F3FEB607CB28C600ECE67F = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = AITooltipUtilities.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		F4F3FEB707CB28C600ECE67F = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = AITooltipUtilities.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		F4F3FEB807CB28C600ECE67F = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = AmuaView.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		F4F3FEB907CB28C600ECE67F = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = AmuaView.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		F4F3FEBA07CB28C600ECE67F = {
+			fileRef = F4F3FEB607CB28C600ECE67F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		F4F3FEBB07CB28C600ECE67F = {
+			fileRef = F4F3FEB707CB28C600ECE67F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		F4F3FEBC07CB28C600ECE67F = {
+			fileRef = F4F3FEB807CB28C600ECE67F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		F4F3FEBD07CB28C600ECE67F = {
+			fileRef = F4F3FEB907CB28C600ECE67F;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 	};
 	rootObject = 29B97313FDCFA39411CA2CEA;
