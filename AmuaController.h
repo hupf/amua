@@ -26,7 +26,7 @@
 #import "PreferencesController.h"
 #import "LastfmWebService.h"
 #import <SSCrypto/SSCrypto.h>
-#import "AITooltipUtilities.h"
+#import "SongInformationPanel.h"
 #import "KeyChain.h"
 
 @interface AmuaController : NSObject
@@ -46,6 +46,8 @@
 	
 	// A reference to the NSApplication, used to put the about window to front
 	IBOutlet NSApplication *application;
+	
+	IBOutlet SongInformationPanel *songInformationPanel;
 	
 	// The preferences window controller
 	PreferencesController *preferencesController;

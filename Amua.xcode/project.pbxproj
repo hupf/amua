@@ -12,8 +12,8 @@
 				0CB7A6D207C8AA9000E4342A,
 				0C88FD5207C5449800221576,
 				F4F3FEB907CB28C600ECE67F,
-				F4F3FEB707CB28C600ECE67F,
 				0C994E0F07D13535005016EE,
+				F4EF3CE307E1E6DC003BBC9F,
 			);
 			isa = PBXGroup;
 			name = Classes;
@@ -546,11 +546,11 @@
 				0C88FD5307C5449800221576,
 				0CB7A6D307C8AA9000E4342A,
 				0CB7AD1007C92F1A00E4342A,
-				F4F3FEBA07CB28C600ECE67F,
 				F4F3FEBC07CB28C600ECE67F,
 				0C73309207CB340600D4A0AC,
 				0C994E1007D13535005016EE,
 				F43B316907DB2D3300E14140,
+				F4EF3CE407E1E6DC003BBC9F,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -575,9 +575,9 @@
 				F43B316A07DB2D3300E14140,
 				0C88FD5407C5449800221576,
 				0CB7A6D407C8AA9000E4342A,
-				F4F3FEBB07CB28C600ECE67F,
 				F4F3FEBD07CB28C600ECE67F,
 				0C994E1107D13535005016EE,
+				F4EF3CE507E1E6DC003BBC9F,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -634,8 +634,8 @@
 				0CB7A6D107C8AA9000E4342A,
 				0C88FD5107C5449800221576,
 				F4F3FEB807CB28C600ECE67F,
-				F4F3FEB607CB28C600ECE67F,
 				0C994E0E07D13535005016EE,
+				F4EF3CE207E1E6DC003BBC9F,
 			);
 			isa = PBXGroup;
 			name = Headers;
@@ -684,21 +684,33 @@
 			settings = {
 			};
 		};
-		F4F3FEB607CB28C600ECE67F = {
+		F4EF3CE207E1E6DC003BBC9F = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = AITooltipUtilities.h;
+			path = SongInformationPanel.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		F4F3FEB707CB28C600ECE67F = {
+		F4EF3CE307E1E6DC003BBC9F = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = AITooltipUtilities.m;
+			path = SongInformationPanel.m;
 			refType = 4;
 			sourceTree = "<group>";
+		};
+		F4EF3CE407E1E6DC003BBC9F = {
+			fileRef = F4EF3CE207E1E6DC003BBC9F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		F4EF3CE507E1E6DC003BBC9F = {
+			fileRef = F4EF3CE307E1E6DC003BBC9F;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		F4F3FEB807CB28C600ECE67F = {
 			fileEncoding = 30;
@@ -715,18 +727,6 @@
 			path = AmuaView.m;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		F4F3FEBA07CB28C600ECE67F = {
-			fileRef = F4F3FEB607CB28C600ECE67F;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		F4F3FEBB07CB28C600ECE67F = {
-			fileRef = F4F3FEB707CB28C600ECE67F;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		F4F3FEBC07CB28C600ECE67F = {
 			fileRef = F4F3FEB807CB28C600ECE67F;
