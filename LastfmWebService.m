@@ -2,8 +2,22 @@
 //  LastfmWebService.m
 //  Amua
 //
-//  Created by Mathis and Simon Hofer on 20.02.05.
+//  Created by Mathis & Simon Hofer on 20.02.05.
 //  Copyright 2005 Mathis & Simon Hofer.
+//
+//  This program is free software; you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation; either version 2 of the License, or
+//  (at your option) any later version.
+//  
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//  
+//  You should have received a copy of the GNU General Public License
+//  along with this program; if not, write to the Free Software
+//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //
 
 #import "LastfmWebService.h"
@@ -171,31 +185,32 @@
 	}
 	
 	if (sender == getSessionCURLHandle) {
-		sessionID = [[parsedResult objectForKey:@"session"] copy];
-		if ([parsedResult objectForKey:@"stream_url"] != nil) {
+	
+		if ([[parsedResult objectForKey:@"session"] isEqualToString:@"FAILED"]) {
+			[parsedResult release];
+			[sender removeClient:self];
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"StartPlayingError" object:self];
+		} else {
+			sessionID = [[parsedResult objectForKey:@"session"] copy];
 			streamingServer = [[parsedResult objectForKey:@"stream_url"] copy];
+			[parsedResult release];
+			[sender removeClient:self];
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"StartPlaying" object:self];
 		}
-		[parsedResult release];
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"StartPlaying" object:self];
+		
 	} else if (sender == nowPlayingCURLHandle) {
 	
 		if (nowPlayingInformation != nil) {
 			[nowPlayingInformation release];
 		}
 		nowPlayingInformation = parsedResult;
+		[sender removeClient:self];
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"UpdateNowPlayingInformation" object:self];
 		
 	} else if (sender == controlCURLHandle) {
-		
-		if ([[parsedResult objectForKey:@"response"] isEqualToString:@"OK"]) {
-			NSLog(@"control ok");
-		} else {
-			NSLog(@"control failure");
-		}
-		
+		// We don't do anything, whether the sent command was successful or not
+		[sender removeClient:self];
 	}
-
-	[sender removeClient:self];
 }
 
 - (void)URLHandleResourceDidBeginLoading:(NSURLHandle *)sender {}
@@ -203,6 +218,9 @@
 - (void)URLHandleResourceDidCancelLoading:(NSURLHandle *)sender
 {
     [getSessionCURLHandle removeClient:self];
+	/*if (sender == getSessionCURLHandle) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"StartPlayingError" object:self];
+	}*/
 }
 
 - (void)URLHandle:(NSURLHandle *)sender resourceDataDidBecomeAvailable:(NSData *)newBytes {}
@@ -210,6 +228,9 @@
 - (void)URLHandle:(NSURLHandle *)sender resourceDidFailLoadingWithReason:(NSString *)reason
 {
     [getSessionCURLHandle removeClient:self];
+	/*if (sender == getSessionCURLHandle) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"StartPlayingError" object:self];
+	}*/
 }
 
 

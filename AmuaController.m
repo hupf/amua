@@ -2,8 +2,22 @@
 //  AmuaController.m
 //  Amua
 //
-//  Created by Mathis and Simon Hofer on 17.02.05.
+//  Created by Mathis & Simon Hofer on 17.02.05.
 //  Copyright 2005 Mathis & Simon Hofer.
+//
+//  This program is free software; you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation; either version 2 of the License, or
+//  (at your option) any later version.
+//  
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//  
+//  You should have received a copy of the GNU General Public License
+//  along with this program; if not, write to the Free Software
+//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //
 
 #import "AmuaController.h"
@@ -30,13 +44,18 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self
 				selector:@selector(handleStartPlaying:)
 				name:@"StartPlaying" object:nil];
+				
+	// Register handle for connection errors
+	[[NSNotificationCenter defaultCenter] addObserver:self
+				selector:@selector(handleStartPlayingError:)
+				name:@"StartPlayingError" object:nil];
 	
 	// Register handle for requested update of
 	// actual playing song information from LastfmWebService
 	[[NSNotificationCenter defaultCenter] addObserver:self
 				selector:@selector(handleUpdateNowPlayingInformation:)
 				name:@"UpdateNowPlayingInformation"	object:nil];
-				
+	
 	playing = NO;
 	
 	return self;
@@ -44,6 +63,7 @@
 
 - (void)awakeFromNib
 {
+	// Add an menu item to the status bar
 	statusItem = [[[NSStatusBar systemStatusBar]
 					statusItemWithLength:NSSquareStatusItemLength] retain];
 
@@ -89,6 +109,8 @@
 
 	[webService release];
 	
+	// Tell iTunes it should stop playing.
+	// Change this command if you want to control another player that is apple-scriptable.
 	NSString *scriptSource = @"tell application \"iTunes\" \n playpause \n end tell";
 	NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
 	[script executeAndReturnError:nil];
@@ -97,20 +119,31 @@
 - (void)loveSong:(id)sender
 {
 	[webService executeControl:@"love"];
-	
-	[timer release];
-	timer = [[NSTimer scheduledTimerWithTimeInterval:(5) target:webService
-				selector:@selector(updateNowPlayingInformation:) userInfo:nil repeats:NO] retain];
 }
 
 - (void)skipSong:(id)sender
 {
 	[webService executeControl:@"skip"];
 	
+	// Deactivate some menu items that should not be pressed
+	// until new song is streaming
 	NSMenuItem *nowPlayingTrack = [menu itemAtIndex:0];
 	[nowPlayingTrack setAction:nil];
 	[nowPlayingTrack setEnabled:NO];
 	
+	NSMenuItem *love = [menu itemAtIndex:2];
+	[love setAction:nil];
+	[love setEnabled:NO];
+	
+	NSMenuItem *skip = [menu itemAtIndex:3];
+	[skip setAction:nil];
+	[skip setEnabled:NO];
+	
+	NSMenuItem *ban = [menu itemAtIndex:4];
+	[ban setAction:nil];
+	[ban setEnabled:NO];
+	
+	// Set the timer so that in five seconds the new song information will be fetched
 	[timer release];
 	timer = [[NSTimer scheduledTimerWithTimeInterval:(5) target:webService
 				selector:@selector(updateNowPlayingInformation:) userInfo:nil repeats:NO] retain];
@@ -120,10 +153,25 @@
 {
 	[webService executeControl:@"ban"];
 	
+	// Deactivate some menu items that should not be pressed
+	// until new song is streaming
 	NSMenuItem *nowPlayingTrack = [menu itemAtIndex:0];
 	[nowPlayingTrack setAction:nil];
 	[nowPlayingTrack setEnabled:NO];
 	
+	NSMenuItem *love = [menu itemAtIndex:2];
+	[love setAction:nil];
+	[love setEnabled:NO];
+	
+	NSMenuItem *skip = [menu itemAtIndex:3];
+	[skip setAction:nil];
+	[skip setEnabled:NO];
+	
+	NSMenuItem *ban = [menu itemAtIndex:4];
+	[ban setAction:nil];
+	[ban setEnabled:NO];
+	
+	// Set the timer so that in five seconds the new song information will be fetched
 	[timer release];
 	timer = [[NSTimer scheduledTimerWithTimeInterval:(5) target:webService
 				selector:@selector(updateNowPlayingInformation:) userInfo:nil repeats:NO] retain];
@@ -158,7 +206,7 @@
 
 - (void)updateMenu
 {
-	// Disable personal page link if no username is set
+	// Disable personal page menu item if no username is set
 	NSMenuItem *personalPage = [menu itemWithTitle:@"Personal Page"];
 	if ([[preferences stringForKey:@"username"] isEqualToString:@""]) {
 		[personalPage setAction:nil];
@@ -168,11 +216,12 @@
 		[personalPage setEnabled:YES];
 	}
 	
-	if (!playing) {
+	if (!playing) { // Stop state
 		
 		NSMenuItem *play = [menu itemWithTitle:@"Play"];
 		if (play == nil) {
-			// Remove all menu items till stop item if it exists
+		
+			// Remove all menu items until stop item if it exists
 			int stopIndex = [menu indexOfItemWithTitle:@"Stop"];
 			int i;
 			for (i=0; i<=stopIndex; i++) {
@@ -183,19 +232,25 @@
 						action:@selector(play:) keyEquivalent:@""] autorelease];
 			[play setTarget:self];
 			[menu insertItem:play atIndex:0];
+			
 		}
 		
+		// Deactivate play menu item if no username/password or no web service
+		// server is set, activate it otherwise
 		if ([[preferences stringForKey:@"username"] isEqualToString:@""] ||
 			[[preferences stringForKey:@"password"] isEqualToString:@""] ||
 			[[preferences stringForKey:@"webServiceServer"] isEqualToString:@""]) {
+			
 			[play setAction:nil];
 			[play setEnabled:NO];
 			
 			NSMenuItem *hint = [[[NSMenuItem alloc] initWithTitle:@"Hint: Check Preferences"
 									action:nil keyEquivalent:@""] autorelease];
 			[hint setEnabled:NO];
-			[menu insertItem:[NSMenuItem separatorItem] atIndex:0];
 			[menu insertItem:hint atIndex:0];
+			
+			[menu insertItem:[NSMenuItem separatorItem] atIndex:1];
+			
 		} else {
 			[play setAction:@selector(play:)];
 			[play setEnabled:YES];
@@ -209,13 +264,21 @@
 			}
 		}
 		
-	} else {
+	} else { // Playing state
 	
 		NSMenuItem *stop = [menu itemWithTitle:@"Play"];
 		
-		if (stop != nil) {
+		if (stop != nil) { // Were in stop state previously
 			
-			NSMenuItem *nowPlayingTrack = [[[NSMenuItem alloc] initWithTitle:@"Loading..."
+			// Remove all menu items until (without) play item
+			int playIndex = [menu indexOfItemWithTitle:@"Play"];
+			int i;
+			for (i=0; i<playIndex; i++) {
+				[menu removeItemAtIndex:0];
+			}
+			
+			// Create menu items that are needed in play state
+			NSMenuItem *nowPlayingTrack = [[[NSMenuItem alloc] initWithTitle:@"Connecting..."
 												action:nil keyEquivalent:@""] autorelease];
 			[nowPlayingTrack setTarget:self];
 			[nowPlayingTrack setEnabled:NO];
@@ -224,16 +287,21 @@
 			[menu insertItem:[NSMenuItem separatorItem] atIndex:1];
 			
 			NSMenuItem *love = [[[NSMenuItem alloc] initWithTitle:@"Love"
-									action:@selector(loveSong:) keyEquivalent:@""] autorelease];
+									action:nil keyEquivalent:@""] autorelease];
 			[love setTarget:self];
+			[love setEnabled:NO];
 			[menu insertItem:love atIndex:2];
+			
 			NSMenuItem *skip = [[[NSMenuItem alloc] initWithTitle:@"Skip"
-									action:@selector(skipSong:) keyEquivalent:@""] autorelease];
+									action:nil keyEquivalent:@""] autorelease];
 			[skip setTarget:self];
+			[skip setEnabled:NO];
 			[menu insertItem:skip atIndex:3];
+			
 			NSMenuItem *ban = [[[NSMenuItem alloc] initWithTitle:@"Ban"
-									action:@selector(banSong:) keyEquivalent:@""] autorelease];
+									action:nil keyEquivalent:@""] autorelease];
 			[ban setTarget:self];
+			[ban setEnabled:NO];
 			[menu insertItem:ban atIndex:4];
 			
 			[menu insertItem:[NSMenuItem separatorItem] atIndex:5];
@@ -241,31 +309,62 @@
 			[stop setTitle:@"Stop"];
 			[stop setAction:@selector(stop:)];
 			
-		} else {
+		} else { // Already were in play state previously
 			
 			NSMenuItem *nowPlayingTrack = [menu itemAtIndex:0];
+			NSMenuItem *love = [menu itemAtIndex:2];
+			NSMenuItem *skip = [menu itemAtIndex:3];
+			NSMenuItem *ban = [menu itemAtIndex:4];
+			
+			// Enable the menu items for song information, love, skip and ban
+			// if it is streaming, disable them otherwise.
 			if ([webService streaming]) {
+				
 				[nowPlayingTrack setTitle:[[[webService nowPlayingArtist] stringByAppendingString:@" - "]
 											stringByAppendingString:[webService nowPlayingTrack]]];
 				[nowPlayingTrack setAction:@selector(openAlbumPage:)];
 				[nowPlayingTrack setEnabled:YES];
+				
+				[love setAction:@selector(loveSong:)];
+				[love setEnabled:YES];
+				
+				[skip setAction:@selector(skipSong:)];
+				[skip setEnabled:YES];
+				
+				[ban setAction:@selector(banSong:)];
+				[ban setEnabled:YES];
+				
 			} else {
+			
+				[nowPlayingTrack setTitle:@"Connecting..."];
+				[nowPlayingTrack setAction:nil];
 				[nowPlayingTrack setEnabled:NO];
+				
+				[love setAction:nil];
+				[love setEnabled:NO];
+				
+				[skip setAction:nil];
+				[skip setEnabled:NO];
+				
+				[ban setAction:nil];
+				[ban setEnabled:NO];
+				
 			}
 			
 		}
-		
 		
 	}
 }
 
 - (void)updateTimer
 {
+	// Set the timer to fire after the currently playing song will be finished.
+	// If no song is playing or the song is almost finished, fire it in five seconds.
 	int remainingTime = [webService nowPlayingTrackDuration] - [webService nowPlayingTrackProgress];
 	if (remainingTime < 5) {
 		remainingTime = 5;
 	}
-	NSLog(@"%i", remainingTime);
+	
 	[timer release];
 	timer = [[NSTimer scheduledTimerWithTimeInterval:(remainingTime) target:webService
 				selector:@selector(updateNowPlayingInformation:) userInfo:nil repeats:NO] retain];
@@ -278,12 +377,15 @@
 
 - (void)handleStartPlaying:(NSNotification *)aNotification
 {
+	// Tell iTunes it should start playing.
+	// Change this command if you want to control another player that is apple-scriptable.
 	NSString *scriptSource = [[@"tell application \"iTunes\" \n open location \""
 								stringByAppendingString:[webService streamingServer]]
 								stringByAppendingString:@"\" \n end tell"];
 	NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
 	[script executeAndReturnError:nil];
 	
+	// Set the timer so that in five seconds the new song information will be fetched
 	timer = [[NSTimer scheduledTimerWithTimeInterval:(5) target:webService
 				selector:@selector(updateNowPlayingInformation:) userInfo:nil repeats:NO] retain];
 }
@@ -294,6 +396,19 @@
 	[self updateMenu];
 }
 
+- (void)handleStartPlayingError:(NSNotification *)aNotification
+{
+	playing = NO;
+	[self updateMenu];
+	
+	NSMenuItem *error = [[[NSMenuItem alloc] initWithTitle:@"Connection Error"
+								action:nil keyEquivalent:@""] autorelease];
+	[error setEnabled:NO];
+	[menu insertItem:error atIndex:0];
+	
+	[menu insertItem:[NSMenuItem separatorItem] atIndex:1];
+}
+
 - (NSString *)md5:(NSString *)clearTextString
 {
 	// Why the heck can't they provide a simple and stupid md5() method!?
@@ -301,7 +416,7 @@
     SSCrypto *crypto = [[[SSCrypto alloc] initWithSymmetricKey:seedData] autorelease];
 	[crypto setClearTextWithString:clearTextString];
 	
-	// And why does NSData make such a fancy output!? What for? To parse it out again???
+	// And why does NSData make such a f****** fancy output!? What for? To parse it out again???
 	NSString *md5Hash = [[crypto digest:@"MD5"] description];
 	md5Hash = [[[[NSString stringWithString:[md5Hash substringWithRange:NSMakeRange(1, 8)]]
 					stringByAppendingString:[md5Hash substringWithRange:NSMakeRange(10, 8)]]
@@ -311,6 +426,12 @@
 	[seedData release];
 	
 	return md5Hash;
+}
+
+- (void)applicationWillTerminate:(NSNotification *)aNotification {
+	if (playing) {
+		[self stop:self];
+	}
 }
 
 @end
