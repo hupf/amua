@@ -24,7 +24,7 @@
 #import "AmuaView.h"
 #import "PreferencesController.h"
 #import "LastfmWebService.h"
-#import "SSCrypto/SSCrypto.h"
+#import <SSCrypto/SSCrypto.h>
 #import "AITooltipUtilities.h"
 
 @interface AmuaController : NSObject
@@ -69,7 +69,7 @@
 - (IBAction)openPersonalPage:(id)sender;
 - (IBAction)openPreferences:(id)sender;
 - (void)openAlbumPage:(id)sender;
-- (IBAction)openAboutPanel:(id)sender
+- (IBAction)openAboutPanel:(id)sender;
 - (void)showTooltip:(id)sender;
 - (void)hideTooltip:(id)sender;
 - (void)updateMenu;
