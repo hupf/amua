@@ -331,9 +331,9 @@ static	AITooltipOrientation	tooltipOrientation;
         
     }else{
         if(tooltipPoint.x > (screenRect.origin.x + screenRect.size.width - tooltipSize.width)){
-            tooltipOrigin.x = tooltipPoint.x - 2 - tooltipSize.width;
+            tooltipOrigin.x = tooltipPoint.x + 10 - tooltipSize.width;
         }else{
-            tooltipOrigin.x = tooltipPoint.x + 10;
+            tooltipOrigin.x = tooltipPoint.x - 10;
         }
 
         if(tooltipPoint.y < (screenRect.origin.y + tooltipSize.height)){

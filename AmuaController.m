@@ -264,7 +264,6 @@
 		
 		// get mouse location
 		NSPoint point = [NSEvent mouseLocation];
-		point = NSMakePoint(point.x - 20, point.y);
 		
 		// create the tooltip window
 		[AITooltipUtilities showTooltipWithTitle:tooltipTitle
