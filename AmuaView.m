@@ -72,6 +72,8 @@
 	menuIsVisible = YES;
 	[self setNeedsDisplay:YES];
 	[statusItem popUpStatusItemMenu:menu];
+	menuIsVisible = NO;
+	[self setNeedsDisplay:YES];
 }	
 
 - (void)mouseEntered:(NSEvent *)theEvent
@@ -81,8 +83,6 @@
 
 - (void)mouseExited:(NSEvent *)theEvent
 {
-	menuIsVisible = NO;
-	[self setNeedsDisplay:YES];
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"mouseExited" object:self];
 }
 
