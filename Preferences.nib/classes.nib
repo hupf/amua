@@ -2,12 +2,13 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
-            ACTIONS = {cancel = id; save = id; }; 
+            ACTIONS = {cancel = id; save = id; setDefaults = id; }; 
             CLASS = PreferencesController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 password = NSTextField; 
-                streamingServer = NSTextField; 
+                radioStation = NSPopUpButton; 
+                recordToProfile = NSButton; 
                 username = NSTextField; 
                 webServiceServer = NSTextField; 
             }; 
