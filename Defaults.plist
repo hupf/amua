@@ -24,7 +24,7 @@
 	<integer>1</integer>
 	
 	<key>updateURL</key>
-	<string>http://localhost/amuaversion.txt</string>
+	<string>http://amua.sourceforge.net/version</string>
 	
 	<key>alwaysDisplayTooltip</key>
 	<integer>0</integer>
