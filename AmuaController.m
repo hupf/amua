@@ -614,12 +614,6 @@
 		[self stop:self];
 	}
 	
-	if (alwaysDisplayTooltip) {
-		NSPoint location = [AITooltipUtilities location];
-		[preferences setObject:NSStringFromPoint(location) forKey:@"tooltipPosition"];
-		[preferences synchronize];
-	}
-	
 	[preferences setInteger:(int)alwaysDisplayTooltip forKey:@"alwaysDisplayTooltip"];
 }
 
