@@ -150,6 +150,12 @@
 	NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
 	[script executeAndReturnError:nil];
 	
+	if (alwaysDisplayTooltip) {
+		NSPoint location = [AITooltipUtilities location];
+		[preferences setObject:NSStringFromPoint(location) forKey:@"tooltipPosition"];
+		[preferences synchronize];
+	}
+	
 	[self hideTooltip:self];
 }
 
