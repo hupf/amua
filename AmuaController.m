@@ -216,6 +216,12 @@
     [[preferencesController window] makeKeyAndOrderFront:nil];
 }
 
+- (IBAction)openAboutPanel:(id)sender
+{
+	[application orderFrontStandardAboutPanel:self];
+	[application arrangeInFront:self];
+}
+
 - (void)openAlbumPage:(id)sender
 {
 	[[NSWorkspace sharedWorkspace] openURL:[webService nowPlayingAlbumPage]];
