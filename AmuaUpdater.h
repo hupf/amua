@@ -35,6 +35,7 @@
 
 - (id)init;
 - (void)checkForUpdates;
+- (void)upgradeConfigFile;
 - (void)URLHandleResourceDidFinishLoading:(NSURLHandle *)sender;
 - (void)URLHandleResourceDidBeginLoading:(NSURLHandle *)sender;
 - (void)URLHandleResourceDidCancelLoading:(NSURLHandle *)sender;

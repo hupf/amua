@@ -35,16 +35,7 @@
 	preferences = [[NSUserDefaults standardUserDefaults] retain];
     [preferences registerDefaults:defaultPreferences];
 	
-	// remove password from plist file and add it to keychain
-	// (in case of upgrading from an older version)
-	if ([preferences objectForKey:@"password"] != nil) {
-		KeyChain *keyChain = [[[KeyChain alloc] init] autorelease];
-		[keyChain setGenericPassword:[preferences stringForKey:@"password"]
-					forService:@"Amua"
-					account:[preferences stringForKey:@"username"]];
-		[preferences removeObjectForKey:@"password"];
-		[preferences synchronize];
-	}
+	[self upgradeConfigFile];
 	
 	return [super init];
 }
@@ -60,9 +51,50 @@
 	[updaterCURLHandle loadInBackground];
 }
 
+- (void)upgradeConfigFile
+{
+	// Upgrade from version 0.3 (that had no version attribute) to version 0.4
+	if ([preferences objectForKey:@"version"] == nil) {
+		// Remove password from plist file and add it to keychain
+		if ([preferences objectForKey:@"password"] != nil) {
+			KeyChain *keyChain = [[[KeyChain alloc] init] autorelease];
+			[keyChain setGenericPassword:[preferences stringForKey:@"password"]
+						forService:@"Amua"
+						account:[preferences stringForKey:@"username"]];
+			[preferences removeObjectForKey:@"password"];
+		}
+		
+		[preferences setObject:@"0.4" forKey:@"version"];
+		[preferences setInteger:1 forKey:@"showPossibleUpdateDialog"];
+		[preferences synchronize];
+	}
+	/* Structure for future upgrades:
+	// Upgrade from version 0.4 to 0.5
+	if ([[preferences objectForKey:@"version"] isEqualToString:@"0.4"]) {
+		//changes
+		[preferences setObject:@"0.5" forKey:@"version"];
+		[preferences setInteger:1 forKey:@"showPossibleUpdateDialog"];
+		[preferences synchronize];
+	}
+	// Upgrade from version 0.5 to 0.6
+	if ([[preferences objectForKey:@"version"] isEqualToString:@"0.5"]) {
+		//changes
+		[preferences setObject:@"0.6" forKey:@"version"];
+		[preferences setInteger:1 forKey:@"showPossibleUpdateDialog"];
+		[preferences synchronize];
+	}
+	etc... */
+	
+	// Make sure, the version is written into the user's preferences file, also
+	// if it's not an upgrade but a new installation
+	[preferences setObject:[preferences objectForKey:@"version"] forKey:@"version"];
+	[preferences synchronize];
+}
+
 - (void)URLHandleResourceDidFinishLoading:(NSURLHandle *)sender
 {
-	NSString *result = [[[NSString alloc] initWithData:[updaterCURLHandle resourceData] encoding:NSUTF8StringEncoding] autorelease];
+	NSString *result = [[[NSString alloc] initWithData:[updaterCURLHandle resourceData]
+								encoding:NSUTF8StringEncoding] autorelease];
 	[updaterCURLHandle removeClient:self];
 	[updaterCURLHandle release];
 	updaterCURLHandle = nil;
@@ -74,7 +106,8 @@
 	for (i=0; i< [values count]; i++) {
 		NSRange equalPosition = [[values objectAtIndex:i] rangeOfString:@"="];
 		if (equalPosition.length > 0) {
-			[parsedResult setObject:[[values objectAtIndex:i] substringFromIndex:equalPosition.location+equalPosition.length]
+			[parsedResult setObject:[[values objectAtIndex:i]
+					substringFromIndex:equalPosition.location+equalPosition.length]
 					forKey:[[values objectAtIndex:i] substringToIndex:equalPosition.location]];
 		}
 	}
@@ -83,7 +116,8 @@
 	if (![[parsedResult objectForKey:@"version"] isEqualToString:[preferences stringForKey:@"version"]]) {
 		[preferences setInteger:0 forKey:@"showPossibleUpdateDialog"];
 		[preferences synchronize];
-		NSString *body = [[@"Amua version " stringByAppendingString:[parsedResult objectForKey:@"version"]] stringByAppendingString:@" is available"];
+		NSString *body = [[@"Amua version " stringByAppendingString:[parsedResult objectForKey:@"version"]]
+								stringByAppendingString:@" is available"];
 		int alertAction = NSRunAlertPanel(@"Amua", body, @"Get New Version", @"Cancel", nil);
 		if (alertAction == 1) {
 			[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[parsedResult objectForKey:@"URL"]]];
