@@ -22,6 +22,8 @@
 
 #import "SongInformationPanel.h"
 
+#define MAX_SIZE 50
+
 @implementation SongInformationPanel
 
 - (id)initWithContentRect:(NSRect)contentRect
@@ -92,6 +94,12 @@
 		albumImage:(NSImage *)inImage radioStation:(NSString *)inRadioStation radioStationUser:(NSString *)inRadioStationUser
 		trackPosition:(int)inTrackPosition trackDuration:(int)inTrackDuration
 {
+	inArtist = [self shorten:inArtist];
+	inAlbum = [self shorten:inAlbum];
+	inTrack = [self shorten:inTrack];
+	inRadioStation = [self shorten:inRadioStation];
+	inRadioStationUser = [self shorten:inRadioStationUser];
+	
 	if (![[artist stringValue] isEqualToString:inArtist] ||
 		![[album stringValue] isEqualToString:inAlbum] ||
 		![[track stringValue] isEqualToString:inTrack]) {
@@ -173,23 +181,11 @@
 
 - (void)resize
 {
-	NSRect rect;
 	[artist sizeToFit];
-	rect = [artist frame];
-	rect.size.width += 2;
-	[artist setFrame:rect];
 	[album sizeToFit];
-	rect = [album frame];
-	rect.size.width += 2;
-	[album setFrame:rect];
 	[track sizeToFit];
-	rect = [track frame];
-	rect.size.width += 2;
-	[track setFrame:rect];
+	//[time sizeToFit];
 	[footer sizeToFit];
-	rect = [footer frame];
-	rect.size.width += 2;
-	[footer setFrame:rect];
 	
 	float maxSize = [artist frame].size.width + 107;
 	if (maxSize < [album frame].size.width + 107) {
@@ -197,6 +193,9 @@
 	}
 	if (maxSize < [track frame].size.width + 107) {
 		maxSize = [track frame].size.width + 107;
+	}
+	if (maxSize < [time frame].size.width + 107) {
+		maxSize = [time frame].size.width + 107;
 	}
 	if (maxSize < [footer frame].size.width + 4) {
 		maxSize = [footer frame].size.width + 4;
@@ -206,6 +205,7 @@
 	[artist display];
 	[album display];
 	[track display];
+	[time display];
 	[footer display];
 	[self display];
 	
@@ -214,6 +214,15 @@
 - (BOOL)visible
 {
 	return visible;
+}
+
+- (NSString *)shorten:(NSString *)string
+{
+	if ([string length] > MAX_SIZE) {
+		// Shorten the string
+		string = [[string substringToIndex:MAX_SIZE] stringByAppendingString:@"..."];
+	}
+	return string;
 }
 
 @end

@@ -442,8 +442,14 @@
 			// if it is streaming, disable them otherwise.
 			if ([webService streaming]) {
 				
-				[nowPlayingTrack setTitle:[[[webService nowPlayingArtist] stringByAppendingString:@" - "]
-											stringByAppendingString:[webService nowPlayingTrack]]];
+				NSString *songText = [[[webService nowPlayingArtist] stringByAppendingString:@" - "]
+											stringByAppendingString:[webService nowPlayingTrack]];
+				if ([songText length] > MAX_SONGTEXT_LENGTH) {
+					// Shorten the songtext
+					songText = [[songText substringToIndex:MAX_SONGTEXT_LENGTH] stringByAppendingString:@"..."];
+				}
+				
+				[nowPlayingTrack setTitle:songText];
 				[nowPlayingTrack setAction:@selector(openAlbumPage:)];
 				[nowPlayingTrack setEnabled:YES];
 				

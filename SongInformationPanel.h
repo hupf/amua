@@ -56,5 +56,6 @@
 - (void)autoPosition;
 - (void)resize;
 - (BOOL)visible;
+- (NSString *)shorten:(NSString *)string;
 
 @end

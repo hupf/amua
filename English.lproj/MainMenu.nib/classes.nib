@@ -27,7 +27,6 @@
                 artist = NSTextField; 
                 footer = NSTextField; 
                 image = NSImageView; 
-                line = id; 
                 time = NSTextField; 
                 track = NSTextField; 
             }; 

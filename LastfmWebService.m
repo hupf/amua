@@ -311,7 +311,8 @@
 			[tuningCURLHandle removeClient:self];
 			[tuningCURLHandle release];
 			tuningCURLHandle = nil;
-			[[NSNotificationCenter defaultCenter] postNotificationName:@"StartPlayingError" object:self];
+			NSLog(@"Amua: Station tuning error");
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"StartPlaying" object:self];
 		}
 		
 	} else if ([sender isEqual:nowPlayingCURLHandle]) { // Response for song information request
