@@ -29,6 +29,8 @@
 #import "SongInformationPanel.h"
 #import "KeyChain.h"
 
+#define MAX_SONGTEXT_LENGTH 30
+
 @interface AmuaController : NSObject
 {
 	
