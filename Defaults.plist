@@ -15,10 +15,10 @@
 	<string>wsdev.audioscrobbler.com</string>
 	
 	<key>userAgent</key>
-	<string>Mozilla/4.5 (compatible; Amua/0.4; Mac_PowerPC)</string>
+	<string>Mozilla/4.5 (compatible; Amua/0.5; Mac_PowerPC)</string>
 	
 	<key>version</key>
-	<string>0.4</string>
+	<string>0.5</string>
 	
 	<key>showPossibleUpdateDialog</key>
 	<integer>1</integer>
