@@ -234,16 +234,7 @@
 - (NSString *)nowPlayingRadioStation
 {
 	if (nowPlayingInformation != nil) {
-		switch ([[nowPlayingInformation objectForKey:@"radiomode"] intValue]) {
-			case 3:
-				return @"Profile Radio";
-			break;
-			case 4:
-				return @"Personal Radio";
-			break;
-			case 1:
-				return @"Random Radio";
-		}
+		return [nowPlayingInformation objectForKey:@"station"];
 	} else {
 		return nil;
 	}
@@ -251,9 +242,8 @@
 
 - (NSString *)nowPlayingRadioStationProfile
 {
-	if (nowPlayingInformation != nil && ![[nowPlayingInformation objectForKey:@"stationfeed"] isEqualToString:user]
-		&& [[nowPlayingInformation objectForKey:@"radiomode"] intValue] != 1) {
-		// retuen user you stream from (only on private and personal radio)
+	if (nowPlayingInformation != nil && ![[nowPlayingInformation objectForKey:@"stationfeed"] isEqualToString:user]) {
+		// return user you stream from (only on private and personal radio)
 		return [nowPlayingInformation objectForKey:@"stationfeed"];
 	} else {
 		return nil;
