@@ -29,10 +29,9 @@
 
 	// The webservice server's hostname
 	NSString *server;
-	NSString *radioStation;
-	NSString *radioStationSubject;
 	NSString *userAgent;
 	NSString *user;
+	NSString *stationUrl;
 	
 	// The CURLHandle objects that will do the data transmission
     CURLHandle *getSessionCURLHandle;
@@ -49,8 +48,7 @@
 }
 
 - (id)initWithWebServiceServer:(NSString *)webServiceServer
-		withRadioStation:(NSString *)radioStationType
-		forUser:(NSString *)radioStationSubject
+		withStationUrl:(NSString *)url
 		asUserAgent:(NSString *)userAgentIdentifier;
 - (void)createSessionForUser:(NSString *)username withPasswordHash:(NSString *)passwordMD5;
 - (void)updateNowPlayingInformation;

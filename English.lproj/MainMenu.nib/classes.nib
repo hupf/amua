@@ -7,13 +7,22 @@
                 openLastfmHomepage = id; 
                 openPersonalPage = id; 
                 openPreferences = id; 
+                playDialogPlay = id; 
+                playDialogSearch = id; 
+                playDialogSwitchTab = id; 
             }; 
             CLASS = AmuaController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 application = NSApplication; 
                 menu = NSMenu; 
+                playDialogMainSearchResult = NSTextField; 
+                playDialogSearchField = NSTextField; 
+                playDialogSearchResultImage = NSImageView; 
+                playDialogSearchResults = NSTableView; 
+                playDialogSearchType = NSPopUpButton; 
                 songInformationPanel = SongInformationPanel; 
+                stationDialogPanel = NSPanel; 
                 tooltipMenuItem = NSMenuItem; 
             }; 
             SUPERCLASS = NSObject; 
