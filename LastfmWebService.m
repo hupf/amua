@@ -102,17 +102,14 @@
 - (void)executeControl:(NSString *)command
 {
 	// Execute a command
-	NSString *controlURL = [[[NSString alloc] initWithString:[[[NSString stringWithString:@"http://"]
+	NSString *controlURL = [[[NSString alloc] initWithString:[[[[[[NSString stringWithString:@"http://"]
 						stringByAppendingString:server]
-						stringByAppendingString:@"/radio/control.php"]] autorelease];
+						stringByAppendingString:@"/radio/control.php?session="]
+						stringByAppendingString:sessionID]
+						stringByAppendingString:@"&command="]
+						stringByAppendingString:command]] autorelease];
 	
 	controlCURLHandle = [[CURLHandle alloc] initWithURL:[NSURL URLWithString:controlURL] cached:FALSE];
-	
-	NSMutableDictionary *postVariables = [[[NSMutableDictionary alloc] init] autorelease];
-	[postVariables setObject:sessionID forKey:@"session"];
-	[postVariables setObject:command forKey:@"command"];
-	
-	[controlCURLHandle setPostDictionary:postVariables];
 	
 	[controlCURLHandle setFailsOnError:YES];
     [controlCURLHandle setFollowsRedirects:YES];
