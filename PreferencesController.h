@@ -28,8 +28,6 @@
 	IBOutlet NSPopUpButton *radioStation;
 	IBOutlet NSTextField *username;
     IBOutlet NSTextField *password;
-	IBOutlet NSTextField *stationUser;
-	IBOutlet NSButton *stationDifferentUser;
 	IBOutlet NSTextField *webServiceServer;
 	IBOutlet NSPanel *window;
 	NSUserDefaults *preferences;
@@ -41,7 +39,5 @@
 - (IBAction)save:(id)sender;
 - (IBAction)setDefaults:(id)sender;
 - (void)updateFields;
-- (IBAction)stationUserToggle:(id)sender;
-- (IBAction)stationChanged:(id)sender;
 - (void)dealloc;
 @end

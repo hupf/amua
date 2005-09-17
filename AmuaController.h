@@ -25,6 +25,7 @@
 #import "AmuaUpdater.h"
 #import "PreferencesController.h"
 #import "LastfmWebService.h"
+#import "StationSearchService.h"
 #import <SSCrypto/SSCrypto.h>
 #import "SongInformationPanel.h"
 #import "KeyChain.h"
@@ -50,6 +51,13 @@
 	IBOutlet NSApplication *application;
 	
 	IBOutlet SongInformationPanel *songInformationPanel;
+	IBOutlet NSPanel *stationDialogPanel;
+	
+	IBOutlet NSTextField *playDialogSearchField;
+	IBOutlet NSPopUpButton *playDialogSearchType;
+	IBOutlet NSTextField *playDialogMainSearchResult;
+	IBOutlet NSImageView *playDialogSearchResultImage;
+	IBOutlet NSTableView *playDialogSearchResults;
 	
 	// The preferences window controller
 	PreferencesController *preferencesController;
@@ -58,6 +66,8 @@
     NSUserDefaults *preferences;
 	
 	LastfmWebService *webService;
+	
+	StationSearchService *searchService;
 	
 	// A boolean to check playing status
 	bool playing;
@@ -75,7 +85,10 @@
 	bool alwaysDisplayTooltip;
 	
 }
+- (void)showPlayDialog:(id)sender;
+- (void)playDialogSearch:(id)sender;
 - (void)play:(id)sender;
+- (void)playDialogPlay:(id)sender;
 - (void)stop:(id)sender;
 - (void)loveSong:(id)sender;
 - (void)skipSong:(id)sender;
@@ -91,6 +104,7 @@
 - (void)updateMenu;
 - (void)updateTimer;
 - (void)fireTimer:(id)sender;
+- (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem;
 - (void)handlePreferencesChanged:(NSNotification *)aNotification;
 - (void)handleStartPlaying:(NSNotification *)aNotification;
 - (void)handleUpdateNowPlayingInformation:(NSNotification *)aNotification;

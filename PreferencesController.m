@@ -58,8 +58,6 @@
 {
 	// Save the actual field contents to harddisk
 	[preferences setObject:[username stringValue] forKey:@"username"];
-	[preferences setInteger:[radioStation indexOfSelectedItem] forKey:@"radioStation"];
-	[preferences setObject:[stationUser stringValue] forKey:@"stationUser"];
 	[preferences setObject:[webServiceServer stringValue] forKey:@"webServiceServer"];
 	
 	[preferences synchronize];
@@ -88,11 +86,6 @@
 	// Fill the fields with the factory defaults
 	[username setStringValue:[defaultPreferences objectForKey:@"username"]];
 	[password setStringValue:@""];
-	[radioStation selectItemAtIndex:[[defaultPreferences objectForKey:@"radioStation"] intValue]];
-	[stationUser setStringValue:[defaultPreferences objectForKey:@"stationUser"]];
-	[stationDifferentUser setState:NSOffState];
-	[stationUser setStringValue:[defaultPreferences objectForKey:@"stationUser"]];
-	[stationUser setEnabled:NO];
 	[webServiceServer setStringValue:[defaultPreferences objectForKey:@"webServiceServer"]];
 }
 
@@ -102,45 +95,7 @@
 	[username setStringValue:[preferences stringForKey:@"username"]];
 	[password setStringValue:[keyChain genericPasswordForService:@"Amua"
                                        account:[preferences stringForKey:@"username"]]];
-	[radioStation selectItemAtIndex:[preferences integerForKey:@"radioStation"]];
-	if ([[preferences stringForKey:@"stationUser"] isEqualToString:@""] ||
-			[[preferences stringForKey:@"stationUser"] isEqualToString:[preferences stringForKey:@"username"]]) {
-		[stationDifferentUser setState:NSOffState];
-		[stationUser setStringValue:@""];
-		[stationUser setEnabled:NO];
-	} else {
-		[stationDifferentUser setState:NSOnState];
-		[stationUser setStringValue:[preferences stringForKey:@"stationUser"]];
-		[stationUser setEnabled:YES];
-	}
 	[webServiceServer setStringValue:[preferences stringForKey:@"webServiceServer"]];
-}
-
-- (IBAction)stationUserToggle:(id)sender
-{
-	if ([stationDifferentUser state] == NSOnState) {
-		[stationUser setEnabled:YES];
-	} else {
-		[stationUser setStringValue:@""];
-		[stationUser setEnabled:NO];
-	}
-}
-
-- (IBAction)stationChanged:(id)sender
-{
-	if ([[radioStation titleOfSelectedItem] isEqualToString:@"Random Radio"]) {
-		[stationDifferentUser setEnabled:NO];
-		[stationDifferentUser setState:NSOffState];
-		[stationUser setEnabled:NO];
-		[stationUser setStringValue:@""];
-	} else {
-		[stationDifferentUser setEnabled:YES];
-		if ([stationDifferentUser state] == NSOnState) {
-			[stationUser setEnabled:YES];
-		} else {
-			[stationUser setEnabled:NO];
-		}
-	}
 }
 
 - (void)dealloc

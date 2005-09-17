@@ -25,21 +25,14 @@
 @implementation LastfmWebService
 
 - (id)initWithWebServiceServer:(NSString *)webServiceServer
-		withRadioStation:(NSString *)radioStationType
-		forUser:(NSString *)radioStationUser
+		withStationUrl:(NSString *)url
 		asUserAgent:(NSString *)userAgentIdentifier
 {
 	[super init];
 
 	server = [webServiceServer copy];
-	radioStation = [radioStationType copy];
-	if ([radioStation isEqualToString:@"random"]) {
-		radioStationSubject = nil;
-	} else {
-		radioStationSubject = [radioStationUser copy];
-	}
-	
 	userAgent = [userAgentIdentifier copy];
+	stationUrl = [url copy];
 	
 	// Activate CURLHandle
     [CURLHandle curlHelloSignature:@"XxXx" acceptAll:YES];
@@ -52,22 +45,12 @@
 	user = [username copy];
 	
 	// Establish session (e.g. request a sessionID)
-	NSString *getSessionURL = [[[NSString alloc] initWithString:[[[[[[[[NSString stringWithString:@"http://"]
+	NSString *getSessionURL = [[[NSString alloc] initWithString:[[[[[[NSString stringWithString:@"http://"]
 						stringByAppendingString:server]
 						stringByAppendingString:@"/radio/getsession.php?username="]
 						stringByAppendingString:username]
 						stringByAppendingString:@"&passwordmd5="]
-						stringByAppendingString:passwordMD5]
-						stringByAppendingString:@"&mode="]
-						stringByAppendingString:radioStation]] autorelease];
-						
-	if (![radioStation isEqualToString:@"random"]) {
-		getSessionURL = [[getSessionURL stringByAppendingString:@"&subject="] stringByAppendingString:username];
-	}
-	
-	if ([radioStationSubject isEqualToString:@""]) {
-		radioStationSubject = [user retain];
-	}
+						stringByAppendingString:passwordMD5]] autorelease];
 	
 	getSessionCURLHandle = [[CURLHandle alloc] initWithURL:[NSURL URLWithString:getSessionURL] cached:FALSE];
 	
@@ -122,23 +105,17 @@
 
 - (void)tuneStation
 {
-	if (sessionID && radioStation) {
+	if (sessionID && stationUrl) {
 		// tune to the station
-		NSString *tuneURL = [[[NSString alloc] initWithString:[[[NSString stringWithString:@"http://"]
+		NSString *tuneURL = [[[NSString alloc] initWithString:[[[[[[NSString stringWithString:@"http://"]
 							stringByAppendingString:server]
-							stringByAppendingString:@"/radio/tune.php"]] autorelease];
-							
-		NSMutableDictionary *postVariables = [[[NSMutableDictionary alloc] init] autorelease];
-		[postVariables setObject:sessionID forKey:@"session"];
-		[postVariables setObject:radioStation forKey:@"mode"];
-		
-		if (radioStationSubject != nil) {
-			[postVariables setObject:radioStationSubject forKey:@"subject"];
-		}
-		
+							stringByAppendingString:@"/radio/adjust.php?session="]
+							stringByAppendingString:sessionID]
+							stringByAppendingString:@"&url="]
+							stringByAppendingString:stationUrl]] autorelease];
+		NSLog(@"tuning to: %@", stationUrl);
 		tuningCURLHandle = [[CURLHandle alloc] initWithURL:[NSURL URLWithString:tuneURL] cached:FALSE];
 		
-		[tuningCURLHandle setPostDictionary:postVariables];
 		[tuningCURLHandle setFailsOnError:YES];
 		[tuningCURLHandle setFollowsRedirects:YES];
 		
@@ -361,8 +338,7 @@
 - (void)dealloc
 {
 	[server release];
-	[radioStation release];
-	[radioStationSubject release];
+	[stationUrl release];
 	[user release];
 	[userAgent release];
 	[sessionID release];
