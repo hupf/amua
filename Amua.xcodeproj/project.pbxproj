@@ -29,6 +29,8 @@
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		F43B316907DB2D3300E14140 /* AmuaUpdater.h in Resources */ = {isa = PBXBuildFile; fileRef = F43B316707DB2D3300E14140 /* AmuaUpdater.h */; };
 		F43B316A07DB2D3300E14140 /* AmuaUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = F43B316807DB2D3300E14140 /* AmuaUpdater.m */; };
+		F45230E408DDB60000AF7E9A /* RecentStations.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F45230E208DDB60000AF7E9A /* RecentStations.h */; };
+		F45230E508DDB60000AF7E9A /* RecentStations.m in Sources */ = {isa = PBXBuildFile; fileRef = F45230E308DDB60000AF7E9A /* RecentStations.m */; };
 		F45B8A8007DB7231007383B1 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F45B8A7F07DB7231007383B1 /* Carbon.framework */; };
 		F4EE7FE608DC4B2B004E13B7 /* StationSearchService.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F4EE7FE408DC4B2B004E13B7 /* StationSearchService.h */; };
 		F4EE7FE708DC4B2B004E13B7 /* StationSearchService.m in Sources */ = {isa = PBXBuildFile; fileRef = F4EE7FE508DC4B2B004E13B7 /* StationSearchService.m */; };
@@ -72,6 +74,7 @@
 				0C5D883507CCAC2400067D6B /* CURLHandle.framework in CopyFiles */,
 				0C5D882F07CCAC2100067D6B /* SSCrypto.framework in CopyFiles */,
 				F4EE7FE608DC4B2B004E13B7 /* StationSearchService.h in CopyFiles */,
+				F45230E408DDB60000AF7E9A /* RecentStations.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -103,6 +106,8 @@
 		8D1107320486CEB800E47090 /* Amua.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Amua.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F43B316707DB2D3300E14140 /* AmuaUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AmuaUpdater.h; sourceTree = "<group>"; };
 		F43B316807DB2D3300E14140 /* AmuaUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AmuaUpdater.m; sourceTree = "<group>"; };
+		F45230E208DDB60000AF7E9A /* RecentStations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecentStations.h; sourceTree = "<group>"; };
+		F45230E308DDB60000AF7E9A /* RecentStations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecentStations.m; sourceTree = "<group>"; };
 		F45B8A7F07DB7231007383B1 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		F4EE7FE408DC4B2B004E13B7 /* StationSearchService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StationSearchService.h; sourceTree = "<group>"; };
 		F4EE7FE508DC4B2B004E13B7 /* StationSearchService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StationSearchService.m; sourceTree = "<group>"; };
@@ -136,6 +141,7 @@
 				0C88FD5207C5449800221576 /* PreferencesController.m */,
 				F4F3FEB907CB28C600ECE67F /* AmuaView.m */,
 				F4EF3CE307E1E6DC003BBC9F /* SongInformationPanel.m */,
+				F45230E308DDB60000AF7E9A /* RecentStations.m */,
 				F43B316807DB2D3300E14140 /* AmuaUpdater.m */,
 				0C994E0F07D13535005016EE /* KeyChain.m */,
 			);
@@ -224,6 +230,7 @@
 				0C88FD5107C5449800221576 /* PreferencesController.h */,
 				F4F3FEB807CB28C600ECE67F /* AmuaView.h */,
 				F4EF3CE207E1E6DC003BBC9F /* SongInformationPanel.h */,
+				F45230E208DDB60000AF7E9A /* RecentStations.h */,
 				F43B316707DB2D3300E14140 /* AmuaUpdater.h */,
 				0C994E0E07D13535005016EE /* KeyChain.h */,
 			);
@@ -320,6 +327,7 @@
 				0C994E1107D13535005016EE /* KeyChain.m in Sources */,
 				F4EF3CE507E1E6DC003BBC9F /* SongInformationPanel.m in Sources */,
 				F4EE7FE708DC4B2B004E13B7 /* StationSearchService.m in Sources */,
+				F45230E508DDB60000AF7E9A /* RecentStations.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

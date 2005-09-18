@@ -106,7 +106,7 @@
 
 - (void)parserDidStartDocument:(NSXMLParser *)parser
 {
-	NSLog(@"start document");
+	//NSLog(@"start document");
 	if (result != nil) {
 		[result release];
 	}
@@ -118,7 +118,7 @@
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser
 {
-	NSLog(@"end document");
+	//NSLog(@"end document");
 	/*int i;
 	for (i = 0; i < [result count]; i++) {
 		NSLog(@"artist: %@", [[result objectAtIndex:i] objectForKey:@"name"]); 

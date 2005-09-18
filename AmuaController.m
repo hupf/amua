@@ -99,18 +99,25 @@
 		[view addMouseOverListener];
 	}
 	
+	recentStations = [[RecentStations alloc] initWithPreferences:preferences];
+	[playDialogRecentStations setDataSource:recentStations];
+	
 	[self updateMenu];
 }
 
+
+// play dialog methods
 - (void)showPlayDialog:(id)sender
 {
+	[playDialogTabView selectFirstTabViewItem:self];
 	[stationDialogPanel makeKeyAndOrderFront:nil];
+	[self playDialogToggleCheckBox:playDialogUserCheckBox];
+	[self playDialogChangeType:playDialogSearchType];
 }
 
 
 - (void)playDialogSearch:(id)sender
 {
-	NSLog(@"Search string: %@", [playDialogSearchField stringValue]);
 	NSString *searchString = [playDialogSearchField stringValue];
 	searchService = [[StationSearchService alloc]
 						initWithWebServiceServer:[preferences stringForKey:@"webServiceServer"]
@@ -143,28 +150,7 @@
 	[playDialogMainSearchResult setStringValue:mainResultText];
 	[playDialogSearchResults setDataSource:searchService];
 	
-	NSRect rect = [stationDialogPanel frame];
-	rect.origin.y += rect.size.height - 515;
-	rect.size.height = 515;
-	[stationDialogPanel setFrame:rect display:YES animate:YES];
-	
-}
-
-- (void)play:(id)sender
-{
-	playing = YES;
-	[self updateMenu];
-	
-	NSString *stationUrl = @"lastfm://user/saeimn/profile";
-
-	// Create web service object
-	webService = [[LastfmWebService alloc]
-					initWithWebServiceServer:[preferences stringForKey:@"webServiceServer"]
-					withStationUrl:stationUrl
-					asUserAgent:[preferences stringForKey:@"userAgent"]];
-	[webService createSessionForUser:[preferences stringForKey:@"username"]
-		withPasswordHash:[self md5:[keyChain genericPasswordForService:@"Amua"
-										account:[preferences stringForKey:@"username"]]]];
+	[self playDialogChangeType:playDialogSearchType];
 }
 
 - (void)playDialogPlay:(id)sender
@@ -172,17 +158,54 @@
 	playing = YES;
 	[self updateMenu];
 	NSString *stationUrl;
-	if ([[(NSButton *)sender title] isEqualToString:@"Play"]) {
-		NSString *artistString = [[searchService getMainResultText] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-		stationUrl = [[[NSString stringWithString:@"lastfm://artist/"]
+	
+	if ([[[playDialogTabView selectedTabViewItem] label] isEqualToString:@"Select Station"]) {
+		NSString* name;
+		NSString* type;
+		if (![playDialogArtistView isHidden]) {
+			if ([[(NSButton *)sender title] isEqualToString:@"Play"]) {
+				name = [searchService getMainResultText];
+				NSString *artistString = [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+				stationUrl = [[[NSString stringWithString:@"lastfm://artist/"]
 									stringByAppendingString:artistString]
 									stringByAppendingString:@"/similarartists"];
+			} else {
+				name = [searchService getSearchResultWithIndex:[playDialogSearchResults selectedRow]];
+				NSString *artistString = [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+				stationUrl = [[[NSString stringWithString:@"lastfm://artist/"]
+									stringByAppendingString:artistString]
+									stringByAppendingString:@"/similarartists"];
+			}
+			type = @"Similar Artist Radio";
+		} else if (![playDialogUserView isHidden]) {
+			NSString *user;
+			if ([playDialogUserCheckBox state] == 1) {
+				user = [playDialogUsername stringValue];
+			} else {
+				user = [preferences stringForKey:@"username"];
+			}
+			NSString  *radioType;
+			if ([[[playDialogSearchType selectedItem] title] isEqualToString:@"Profile Radio"]) {
+				radioType = @"/profile";
+				type = @"Profile Radio";
+			} else if ([[[playDialogSearchType selectedItem] title] isEqualToString:@"Personal Radio"])  {
+				radioType = @"/personal";
+				type = @"Personal Radio";
+			}
+			stationUrl = [[[NSString stringWithString:@"lastfm://user/"]
+									stringByAppendingString:user]
+									stringByAppendingString:radioType];
+			name = user;
+			
+		}
+		
+		// store the station url in the last stations
+		[recentStations addStation:stationUrl withType:type withName:name];
+		[playDialogRecentStations setDataSource:recentStations];
 	} else {
-		NSString *artistString = [[searchService getSearchResultWithIndex:[playDialogSearchResults selectedRow]]
-										stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-		stationUrl = [[[NSString stringWithString:@"lastfm://artist/"]
-									stringByAppendingString:artistString]
-									stringByAppendingString:@"/similarartists"];
+		stationUrl = [recentStations stationByIndex:[playDialogRecentStations selectedRow]];
+		[recentStations moveToFront:[playDialogRecentStations selectedRow]];
+		[playDialogRecentStations setDataSource:recentStations];
 	}
 
 	// Create web service object
@@ -196,7 +219,74 @@
 	[webService createSessionForUser:[preferences stringForKey:@"username"]
 		withPasswordHash:[self md5:[keyChain genericPasswordForService:@"Amua"
 										account:[preferences stringForKey:@"username"]]]];
+										
 	[stationDialogPanel orderOut:self];
+}
+
+- (void)playDialogToggleCheckBox:(id)sender
+{
+	if ([playDialogUserCheckBox state] == 1) {
+		[playDialogUsername setEnabled:YES];
+		[playDialogUsername setStringValue:@""];
+	} else {
+		[playDialogUsername setEnabled:NO];
+		[playDialogUsername setStringValue:[preferences stringForKey:@"username"]];
+	}
+}
+
+- (void)playDialogChangeType:(id)sender
+{
+	if (playDialogSearchType == sender) {
+		// hide all views
+		[playDialogArtistView setHidden:YES];
+		[playDialogUserView setHidden:YES];
+		
+		// change size and visibility of view
+		NSRect rect = [stationDialogPanel frame];
+		if ([[[playDialogSearchType selectedItem] title] isEqualToString:@"Similar Artist Radio"]) {
+			if (searchService != nil) {
+				rect.origin.y += rect.size.height - 515;
+				rect.size.height = 515;
+			} else {
+				rect.origin.y += rect.size.height - 183;
+				rect.size.height = 183;
+			}
+			[stationDialogPanel setFrame:rect display:YES animate:YES];
+			[playDialogArtistView setHidden:NO];
+		} else {
+			[playDialogArtistView setHidden:YES];
+		}
+		if ([[[playDialogSearchType selectedItem] title] isEqualToString:@"Profile Radio"] ||
+			[[[playDialogSearchType selectedItem] title] isEqualToString:@"Personal Radio"]) {
+			rect.origin.y += rect.size.height - 220;
+			rect.size.height = 220;
+			[stationDialogPanel setFrame:rect display:YES animate:YES];
+			[playDialogUserView setHidden:NO];
+		} else {
+			[playDialogUserView setHidden:YES];
+		}
+	}
+	
+	
+}
+
+
+// menu actions
+- (void)play:(id)sender
+{
+	playing = YES;
+	[self updateMenu];
+	
+	NSString *stationUrl = [recentStations mostRecentStation];
+
+	// Create web service object
+	webService = [[LastfmWebService alloc]
+					initWithWebServiceServer:[preferences stringForKey:@"webServiceServer"]
+					withStationUrl:stationUrl
+					asUserAgent:[preferences stringForKey:@"userAgent"]];
+	[webService createSessionForUser:[preferences stringForKey:@"username"]
+		withPasswordHash:[self md5:[keyChain genericPasswordForService:@"Amua"
+										account:[preferences stringForKey:@"username"]]]];
 }
 
 - (void)stop:(id)sender
@@ -325,6 +415,8 @@
 	[application arrangeInFront:self];
 }
 
+
+// tooltip methods
 - (void)changeTooltipSettings:(id)sender
 { 
 	if ([tooltipMenuItem state] == NSOnState) {
@@ -393,6 +485,8 @@
 	mouseIsOverIcon = NO;
 }
 
+
+
 - (void)updateMenu
 {
 	// Disable personal page menu item if no username is set
@@ -422,12 +516,7 @@
 						action:@selector(play:) keyEquivalent:@""] autorelease];
 			[play setTarget:self];
 			[menu insertItem:play atIndex:0];
-			if (playDialog == nil) {
-				playDialog = [[[NSMenuItem alloc] initWithTitle:@"Play Station..."
-							action:@selector(showPlayDialog:) keyEquivalent:@""] autorelease];
-				[playDialog setTarget:self];
-			}
-			[menu insertItem:playDialog atIndex:1];
+			[playDialog setTarget:self];
 			
 		}
 		
@@ -451,12 +540,16 @@
 			[menu insertItem:[NSMenuItem separatorItem] atIndex:1];
 			
 		} else {
-			[play setAction:@selector(play:)];
-			[play setEnabled:YES];
+			if ([recentStations stationsAvailable]) {
+				[play setAction:nil];
+				[play setEnabled:NO];
+			} else {
+				[play setAction:@selector(play:)];
+				[play setEnabled:YES];
+			}
 			[play setTitle:@"Play Most Recent Station"];
 			[playDialog setAction:@selector(showPlayDialog:)];
 			[playDialog setEnabled:YES];
-			[playDialog setTitle:@"Play Station..."];
 			
 			
 			// Remove hint item if it exists
@@ -474,7 +567,7 @@
 		if (stop != nil) { // Were in stop state previously
 			
 			// Remove all menu items until (without) play item
-			int playIndex = [menu indexOfItemWithTitle:@"Play"];
+			int playIndex = [menu indexOfItemWithTitle:@"Play Most Recent Station"];
 			int i;
 			for (i=0; i<playIndex; i++) {
 				[menu removeItemAtIndex:0];
@@ -593,21 +686,10 @@
 {
 	NSRect rect = [stationDialogPanel frame];
 	float small = 183;
-	float big = 515;
+	float big = 400;
 	
-	if ([[tabViewItem label] isEqualToString:@"Search Station"]) {
-		if (searchService == nil) {
-			rect.origin.y += rect.size.height - small;
-			rect.size.height = small;
-		} else {
-			rect.origin.y += rect.size.height - big;
-			rect.size.height = big;
-		}
-		[stationDialogPanel setFrame:rect display:YES animate:YES];
-	} else if ([[tabViewItem label] isEqualToString:@"Custom Station"]) {
-		rect.origin.y += rect.size.height - small;
-		rect.size.height = small;
-		[stationDialogPanel setFrame:rect display:YES animate:YES];
+	if ([[tabViewItem label] isEqualToString:@"Select Station"]) {
+		[self playDialogChangeType:playDialogSearchType];
 	} else if ([[tabViewItem label] isEqualToString:@"Recent Stations"]) {
 		rect.origin.y += rect.size.height - big;
 		rect.size.height = big;
@@ -710,6 +792,7 @@
 	}
 	
 	[preferences setInteger:(int)alwaysDisplayTooltip forKey:@"alwaysDisplayTooltip"];
+	[recentStations storeInPreferences:preferences];
 }
 
 @end
