@@ -28,6 +28,7 @@
 #import "StationSearchService.h"
 #import <SSCrypto/SSCrypto.h>
 #import "SongInformationPanel.h"
+#import "RecentStations.h"
 #import "KeyChain.h"
 
 #define MAX_SONGTEXT_LENGTH 30
@@ -53,11 +54,23 @@
 	IBOutlet SongInformationPanel *songInformationPanel;
 	IBOutlet NSPanel *stationDialogPanel;
 	
+	IBOutlet NSView *playDialogArtistView;
 	IBOutlet NSTextField *playDialogSearchField;
 	IBOutlet NSPopUpButton *playDialogSearchType;
 	IBOutlet NSTextField *playDialogMainSearchResult;
 	IBOutlet NSImageView *playDialogSearchResultImage;
 	IBOutlet NSTableView *playDialogSearchResults;
+	
+	IBOutlet NSTableView *playDialogRecentStations;
+	
+	IBOutlet NSView *playDialogUserView;
+	IBOutlet NSButton *playDialogUserCheckBox;
+	IBOutlet NSTextField *playDialogUsername;
+	
+	IBOutlet NSTabView *playDialogTabView;
+	
+	// The last stations played
+	RecentStations *recentStations;
 	
 	// The preferences window controller
 	PreferencesController *preferencesController;
@@ -89,6 +102,8 @@
 - (void)playDialogSearch:(id)sender;
 - (void)play:(id)sender;
 - (void)playDialogPlay:(id)sender;
+- (void)playDialogToggleCheckBox:(id)sender;
+- (void)playDialogChangeType:(id)sender;
 - (void)stop:(id)sender;
 - (void)loveSong:(id)sender;
 - (void)skipSong:(id)sender;
