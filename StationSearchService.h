@@ -31,19 +31,21 @@
 	NSString *server;
 	NSString *userAgent;
 	
+	NSString *lastSearch;
+	
 	NSMutableArray* result;
-	NSString* increaserElementName;
-	NSString* mainElementName;
+	NSString *increaserElementName;
+	NSString *mainElementName;
 	NSMutableDictionary *temp;
-	NSDictionary* mainResultEntry;
-	NSString* tempValue;
+	NSDictionary *mainResultEntry;
+	NSString *tempValue;
 	BOOL parsingData;
 	
 }
 
 - (id)initWithWebServiceServer:(NSString *)webServiceServer
 			       asUserAgent:(NSString *)userAgentIdentifier;
-- (id)searchSimilarArtist:(NSString *)artist;
+- (id)searchSimilarArtist:(NSString *)artist withSender:(NSObject *)owner;
 
 - (NSString *)getMainResultText;
 - (NSURL *)getImageUrl;

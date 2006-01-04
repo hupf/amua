@@ -7,30 +7,16 @@
                 openLastfmHomepage = id; 
                 openPersonalPage = id; 
                 openPreferences = id; 
-                playDialogChangeType = id; 
-                playDialogPlay = id; 
-                playDialogSearch = id; 
-                playDialogSwitchTab = id; 
-                playDialogToggleCheckBox = id; 
+                play = id; 
+                playMostRecent = id; 
             }; 
             CLASS = AmuaController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 application = NSApplication; 
                 menu = NSMenu; 
-                playDialogArtistView = NSView; 
-                playDialogMainSearchResult = NSTextField; 
-                playDialogRecentStations = NSTableView; 
-                playDialogSearchField = NSTextField; 
-                playDialogSearchResultImage = NSImageView; 
-                playDialogSearchResults = NSTableView; 
-                playDialogSearchType = NSPopUpButton; 
-                playDialogTabView = NSTabView; 
-                playDialogUserCheckBox = NSButton; 
-                playDialogUserView = NSView; 
-                playDialogUsername = NSTextField; 
                 songInformationPanel = SongInformationPanel; 
-                stationDialogPanel = NSPanel; 
+                stationController = StationController; 
                 tooltipMenuItem = NSMenuItem; 
             }; 
             SUPERCLASS = NSObject; 
@@ -48,6 +34,36 @@
                 track = NSTextField; 
             }; 
             SUPERCLASS = NSPanel; 
+        }, 
+        {
+            ACTIONS = {
+                search = id; 
+                showWindow = id; 
+                stationDataChanged = id; 
+                stationTypeChanged = id; 
+            }; 
+            CLASS = StationController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                artistImage = NSImageView; 
+                artistMainResultField = NSTextField; 
+                artistNoResultBox = NSBox; 
+                artistPlayMatchButton = NSButton; 
+                artistResultBox = NSBox; 
+                artistSearchButton = NSButton; 
+                artistSearchField = NSTextField; 
+                artistSearchIndicator = NSProgressIndicator; 
+                artistSimilarResultList = NSTableView; 
+                artistView = NSView; 
+                lastPlayedList = NSTableView; 
+                stationDialogPanel = NSPanel; 
+                stationType = NSPopUpButton; 
+                tabView = NSTabView; 
+                userCheckBox = NSButton; 
+                userView = NSView; 
+                username = NSTextField; 
+            }; 
+            SUPERCLASS = NSObject; 
         }
     ); 
     IBVersion = 1; 
