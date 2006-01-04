@@ -17,7 +17,6 @@
 		0C83A56307C4F734001A45EA /* AmuaController.h in Resources */ = {isa = PBXBuildFile; fileRef = 0C83A56107C4F734001A45EA /* AmuaController.h */; };
 		0C83A58907C4FE47001A45EA /* Preferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 0C83A58807C4FE47001A45EA /* Preferences.nib */; };
 		0C88FCA607C53D6500221576 /* Defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0C88FCA507C53D6500221576 /* Defaults.plist */; };
-		0C88FD5307C5449800221576 /* PreferencesController.h in Resources */ = {isa = PBXBuildFile; fileRef = 0C88FD5107C5449800221576 /* PreferencesController.h */; };
 		0C88FD5407C5449800221576 /* PreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C88FD5207C5449800221576 /* PreferencesController.m */; };
 		0C994E1007D13535005016EE /* KeyChain.h in Resources */ = {isa = PBXBuildFile; fileRef = 0C994E0E07D13535005016EE /* KeyChain.h */; };
 		0C994E1107D13535005016EE /* KeyChain.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C994E0F07D13535005016EE /* KeyChain.m */; };
@@ -27,11 +26,14 @@
 		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		F413ED7C0949CD45003CF0B3 /* StationController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F413ED7A0949CD45003CF0B3 /* StationController.h */; };
+		F413ED7D0949CD45003CF0B3 /* StationController.m in Sources */ = {isa = PBXBuildFile; fileRef = F413ED7B0949CD45003CF0B3 /* StationController.m */; };
 		F43B316907DB2D3300E14140 /* AmuaUpdater.h in Resources */ = {isa = PBXBuildFile; fileRef = F43B316707DB2D3300E14140 /* AmuaUpdater.h */; };
 		F43B316A07DB2D3300E14140 /* AmuaUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = F43B316807DB2D3300E14140 /* AmuaUpdater.m */; };
 		F45230E408DDB60000AF7E9A /* RecentStations.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F45230E208DDB60000AF7E9A /* RecentStations.h */; };
 		F45230E508DDB60000AF7E9A /* RecentStations.m in Sources */ = {isa = PBXBuildFile; fileRef = F45230E308DDB60000AF7E9A /* RecentStations.m */; };
 		F45B8A8007DB7231007383B1 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F45B8A7F07DB7231007383B1 /* Carbon.framework */; };
+		F4BC53BE096C311C005650EF /* PreferencesController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F4BC53BD096C311C005650EF /* PreferencesController.h */; };
 		F4EE7FE608DC4B2B004E13B7 /* StationSearchService.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F4EE7FE408DC4B2B004E13B7 /* StationSearchService.h */; };
 		F4EE7FE708DC4B2B004E13B7 /* StationSearchService.m in Sources */ = {isa = PBXBuildFile; fileRef = F4EE7FE508DC4B2B004E13B7 /* StationSearchService.m */; };
 		F4EF3CE407E1E6DC003BBC9F /* SongInformationPanel.h in Resources */ = {isa = PBXBuildFile; fileRef = F4EF3CE207E1E6DC003BBC9F /* SongInformationPanel.h */; };
@@ -75,6 +77,8 @@
 				0C5D882F07CCAC2100067D6B /* SSCrypto.framework in CopyFiles */,
 				F4EE7FE608DC4B2B004E13B7 /* StationSearchService.h in CopyFiles */,
 				F45230E408DDB60000AF7E9A /* RecentStations.h in CopyFiles */,
+				F413ED7C0949CD45003CF0B3 /* StationController.h in CopyFiles */,
+				F4BC53BE096C311C005650EF /* PreferencesController.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,7 +94,6 @@
 		0C83A56107C4F734001A45EA /* AmuaController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AmuaController.h; sourceTree = "<group>"; };
 		0C83A58807C4FE47001A45EA /* Preferences.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = Preferences.nib; sourceTree = "<group>"; };
 		0C88FCA507C53D6500221576 /* Defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Defaults.plist; sourceTree = "<group>"; };
-		0C88FD5107C5449800221576 /* PreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PreferencesController.h; sourceTree = "<group>"; };
 		0C88FD5207C5449800221576 /* PreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PreferencesController.m; sourceTree = "<group>"; };
 		0C994E0E07D13535005016EE /* KeyChain.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = KeyChain.h; sourceTree = "<group>"; };
 		0C994E0F07D13535005016EE /* KeyChain.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = KeyChain.m; sourceTree = "<group>"; };
@@ -104,11 +107,14 @@
 		32CA4F630368D1EE00C91783 /* Amua_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Amua_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Amua.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Amua.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F413ED7A0949CD45003CF0B3 /* StationController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = StationController.h; sourceTree = "<group>"; };
+		F413ED7B0949CD45003CF0B3 /* StationController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = StationController.m; sourceTree = "<group>"; };
 		F43B316707DB2D3300E14140 /* AmuaUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AmuaUpdater.h; sourceTree = "<group>"; };
 		F43B316807DB2D3300E14140 /* AmuaUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AmuaUpdater.m; sourceTree = "<group>"; };
 		F45230E208DDB60000AF7E9A /* RecentStations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecentStations.h; sourceTree = "<group>"; };
 		F45230E308DDB60000AF7E9A /* RecentStations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecentStations.m; sourceTree = "<group>"; };
 		F45B8A7F07DB7231007383B1 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+		F4BC53BD096C311C005650EF /* PreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PreferencesController.h; sourceTree = "<group>"; };
 		F4EE7FE408DC4B2B004E13B7 /* StationSearchService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StationSearchService.h; sourceTree = "<group>"; };
 		F4EE7FE508DC4B2B004E13B7 /* StationSearchService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StationSearchService.m; sourceTree = "<group>"; };
 		F4EF3CE207E1E6DC003BBC9F /* SongInformationPanel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SongInformationPanel.h; sourceTree = "<group>"; };
@@ -136,13 +142,14 @@
 			isa = PBXGroup;
 			children = (
 				0C83A56007C4F734001A45EA /* AmuaController.m */,
+				F413ED7B0949CD45003CF0B3 /* StationController.m */,
+				0C88FD5207C5449800221576 /* PreferencesController.m */,
 				0CB7A6D207C8AA9000E4342A /* LastfmWebService.m */,
 				F4EE7FE508DC4B2B004E13B7 /* StationSearchService.m */,
-				0C88FD5207C5449800221576 /* PreferencesController.m */,
-				F4F3FEB907CB28C600ECE67F /* AmuaView.m */,
-				F4EF3CE307E1E6DC003BBC9F /* SongInformationPanel.m */,
 				F45230E308DDB60000AF7E9A /* RecentStations.m */,
 				F43B316807DB2D3300E14140 /* AmuaUpdater.m */,
+				F4F3FEB907CB28C600ECE67F /* AmuaView.m */,
+				F4EF3CE307E1E6DC003BBC9F /* SongInformationPanel.m */,
 				0C994E0F07D13535005016EE /* KeyChain.m */,
 			);
 			name = Classes;
@@ -225,13 +232,14 @@
 			isa = PBXGroup;
 			children = (
 				0C83A56107C4F734001A45EA /* AmuaController.h */,
+				F413ED7A0949CD45003CF0B3 /* StationController.h */,
+				F4BC53BD096C311C005650EF /* PreferencesController.h */,
 				0CB7A6D107C8AA9000E4342A /* LastfmWebService.h */,
 				F4EE7FE408DC4B2B004E13B7 /* StationSearchService.h */,
-				0C88FD5107C5449800221576 /* PreferencesController.h */,
-				F4F3FEB807CB28C600ECE67F /* AmuaView.h */,
-				F4EF3CE207E1E6DC003BBC9F /* SongInformationPanel.h */,
 				F45230E208DDB60000AF7E9A /* RecentStations.h */,
 				F43B316707DB2D3300E14140 /* AmuaUpdater.h */,
+				F4F3FEB807CB28C600ECE67F /* AmuaView.h */,
+				F4EF3CE207E1E6DC003BBC9F /* SongInformationPanel.h */,
 				0C994E0E07D13535005016EE /* KeyChain.h */,
 			);
 			name = Headers;
@@ -300,7 +308,6 @@
 				0C83A56307C4F734001A45EA /* AmuaController.h in Resources */,
 				0C83A58907C4FE47001A45EA /* Preferences.nib in Resources */,
 				0C88FCA607C53D6500221576 /* Defaults.plist in Resources */,
-				0C88FD5307C5449800221576 /* PreferencesController.h in Resources */,
 				0CB7A6D307C8AA9000E4342A /* LastfmWebService.h in Resources */,
 				0CB7AD1007C92F1A00E4342A /* Credits.html in Resources */,
 				F4F3FEBC07CB28C600ECE67F /* AmuaView.h in Resources */,
@@ -328,6 +335,7 @@
 				F4EF3CE507E1E6DC003BBC9F /* SongInformationPanel.m in Sources */,
 				F4EE7FE708DC4B2B004E13B7 /* StationSearchService.m in Sources */,
 				F45230E508DDB60000AF7E9A /* RecentStations.m in Sources */,
+				F413ED7D0949CD45003CF0B3 /* StationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -432,7 +440,7 @@
 				F4762A97088ED66B004F2005 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Deployment;
 		};
 		F4762A98088ED66B004F2005 /* Build configuration list for PBXProject "Amua" */ = {
 			isa = XCConfigurationList;
@@ -442,7 +450,7 @@
 				F4762A9B088ED66B004F2005 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Deployment;
 		};
 /* End XCConfigurationList section */
 	};

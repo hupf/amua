@@ -33,24 +33,36 @@
 	return self;
 }
 
-- (id)searchSimilarArtist:(NSString *)artist
+- (id)searchSimilarArtist:(NSString *)artist withSender:(NSObject *)owner
 {
-	NSString *search = [[[NSString alloc] initWithString:[[[[NSString stringWithString:@"http://"]
+	if (lastSearch != nil) {
+		[lastSearch release];
+	}
+	lastSearch = [NSString stringWithString:[[[[NSString stringWithString:@"http://"]
 						stringByAppendingString:server]
 						stringByAppendingString:@"/1.0/get.php?resource=artist&document=similar&format=xml&artist="]
-						stringByAppendingString:artist]] autorelease];
-	search = [search stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+						stringByAppendingString:artist]];
+	lastSearch = [[lastSearch stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] retain];;
+	increaserElementName = @"artist";
+	mainElementName = @"similarartists";
+	
+	[NSThread detachNewThreadSelector:@selector(doSearch:) toTarget:self withObject:owner];
+}
 
+- (id)doSearch:(NSObject *)owner
+{
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    
 	// search and parse
-	NSURL* xmlURL = [NSURL URLWithString:search];
+	NSURL* xmlURL = [NSURL URLWithString:lastSearch];
 	NSXMLParser *addressParser = [[NSXMLParser alloc] initWithContentsOfURL:xmlURL];
     [addressParser setDelegate:self];
     [addressParser setShouldResolveExternalEntities:YES];
 	
-	increaserElementName = @"artist";
-	mainElementName = @"similarartists";
-	
 	BOOL success = [addressParser parse];
+	[owner searchFinished:self];
+	
+	[pool release];
 }
 
 - (NSString *)getMainResultText

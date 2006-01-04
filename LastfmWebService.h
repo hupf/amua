@@ -42,6 +42,8 @@
 	// Objects with fetched data
 	NSString *sessionID;
 	NSString *streamingServer;
+	NSString *baseHost;
+	NSString *basePath;
 	NSMutableDictionary *nowPlayingInformation;
 	NSImage *albumCover;
 	

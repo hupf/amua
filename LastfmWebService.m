@@ -47,7 +47,7 @@
 	// Establish session (e.g. request a sessionID)
 	NSString *getSessionURL = [[[NSString alloc] initWithString:[[[[[[NSString stringWithString:@"http://"]
 						stringByAppendingString:server]
-						stringByAppendingString:@"/radio/getsession.php?username="]
+						stringByAppendingString:@"/radio/handshake.php?version=1.1.2&platform=mac&debug=0&username="]
 						stringByAppendingString:username]
 						stringByAppendingString:@"&passwordmd5="]
 						stringByAppendingString:passwordMD5]] autorelease];
@@ -65,9 +65,10 @@
 - (void)updateNowPlayingInformation
 {
 	// Request song information of the currently playing track
-	NSString *nowPlayingURL = [[[NSString alloc] initWithString:[[[[[NSString stringWithString:@"http://"]
-						stringByAppendingString:server]
-						stringByAppendingString:@"/radio/np.php"]
+	NSString *nowPlayingURL = [[[NSString alloc] initWithString:[[[[[[NSString stringWithString:@"http://"]
+						stringByAppendingString:baseHost]
+						stringByAppendingString:basePath]
+						stringByAppendingString:@"/np.php"]
 						stringByAppendingString:@"?session="]
 						stringByAppendingString:sessionID]] autorelease];
 	
@@ -85,12 +86,14 @@
 - (void)executeControl:(NSString *)command
 {
 	// Execute a command
-	NSString *controlURL = [[[NSString alloc] initWithString:[[[[[[NSString stringWithString:@"http://"]
-						stringByAppendingString:server]
-						stringByAppendingString:@"/radio/control.php?session="]
+	NSString *controlURL = [[[NSString alloc] initWithString:[[[[[[[[NSString stringWithString:@"http://"]
+						stringByAppendingString:baseHost]
+						stringByAppendingString:basePath]
+						stringByAppendingString:@"/control.php?session="]
 						stringByAppendingString:sessionID]
 						stringByAppendingString:@"&command="]
-						stringByAppendingString:command]] autorelease];
+						stringByAppendingString:command]
+						stringByAppendingString:@"&debug=0"]] autorelease];
 	
 	controlCURLHandle = [[CURLHandle alloc] initWithURL:[NSURL URLWithString:controlURL] cached:FALSE];
 	
@@ -107,9 +110,10 @@
 {
 	if (sessionID && stationUrl) {
 		// tune to the station
-		NSString *tuneURL = [[[NSString alloc] initWithString:[[[[[[NSString stringWithString:@"http://"]
-							stringByAppendingString:server]
-							stringByAppendingString:@"/radio/adjust.php?session="]
+		NSString *tuneURL = [[[NSString alloc] initWithString:[[[[[[[NSString stringWithString:@"http://"]
+							stringByAppendingString:baseHost]
+							stringByAppendingString:basePath]
+							stringByAppendingString:@"/adjust.php?session="]
 							stringByAppendingString:sessionID]
 							stringByAppendingString:@"&url="]
 							stringByAppendingString:stationUrl]] autorelease];
@@ -255,6 +259,8 @@
 		} else {
 			sessionID = [[parsedResult objectForKey:@"session"] copy];
 			streamingServer = [[parsedResult objectForKey:@"stream_url"] copy];
+			baseHost = [[parsedResult objectForKey:@"base_url"] copy];
+			basePath = [[parsedResult objectForKey:@"base_path"] copy];
 			[parsedResult release];
 			[getSessionCURLHandle removeClient:self];
 			[getSessionCURLHandle release];

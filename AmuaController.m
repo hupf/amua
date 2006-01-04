@@ -100,113 +100,17 @@
 	}
 	
 	recentStations = [[RecentStations alloc] initWithPreferences:preferences];
-	[playDialogRecentStations setDataSource:recentStations];
+	[stationController setRecentStations:recentStations];
+	[stationController setPreferences:preferences];
 	
 	[self updateMenu];
 }
 
-
-// play dialog methods
-- (void)showPlayDialog:(id)sender
-{
-	[playDialogTabView selectFirstTabViewItem:self];
-	[stationDialogPanel makeKeyAndOrderFront:nil];
-	[self playDialogToggleCheckBox:playDialogUserCheckBox];
-	[self playDialogChangeType:playDialogSearchType];
-}
-
-
-- (void)playDialogSearch:(id)sender
-{
-	NSString *searchString = [playDialogSearchField stringValue];
-	searchService = [[StationSearchService alloc]
-						initWithWebServiceServer:[preferences stringForKey:@"webServiceServer"]
-						asUserAgent:[preferences stringForKey:@"userAgent"]];
-	[searchService searchSimilarArtist:searchString];
-	NSString *mainResultText = [searchService getMainResultText];
-	if (mainResultText == nil) {
-		mainResultText = @"There is no exact match";
-		[playDialogSearchResultImage setImage:nil];
-	} else {
-		mainResultText = [[NSString stringWithString:@"Exact Match: "]
-							stringByAppendingString:[searchService getMainResultText]];
-		NSImage *image = [[NSImage alloc] initWithContentsOfURL:[searchService getImageUrl]];
-		
-		// resize the image, why the heck doesn't that work automatically?
-		float width, height;
-		width = [image size].width;
-		height = [image size].height;
-		float max = width;
-		if (max < height)
-			max = height;
-		width *= 100/max;
-		height *= 100/max;
-		[image setSize:NSMakeSize(width, height)];
-		[image setScalesWhenResized:YES];
-		
-		[playDialogSearchResultImage setImage:image];
-	}
-	
-	[playDialogMainSearchResult setStringValue:mainResultText];
-	[playDialogSearchResults setDataSource:searchService];
-	
-	[self playDialogChangeType:playDialogSearchType];
-}
-
-- (void)playDialogPlay:(id)sender
+- (void)play:(id)sender
 {
 	playing = YES;
 	[self updateMenu];
-	NSString *stationUrl;
-	
-	if ([[[playDialogTabView selectedTabViewItem] label] isEqualToString:@"Select Station"]) {
-		NSString* name;
-		NSString* type;
-		if (![playDialogArtistView isHidden]) {
-			if ([[(NSButton *)sender title] isEqualToString:@"Play"]) {
-				name = [searchService getMainResultText];
-				NSString *artistString = [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-				stationUrl = [[[NSString stringWithString:@"lastfm://artist/"]
-									stringByAppendingString:artistString]
-									stringByAppendingString:@"/similarartists"];
-			} else {
-				name = [searchService getSearchResultWithIndex:[playDialogSearchResults selectedRow]];
-				NSString *artistString = [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-				stationUrl = [[[NSString stringWithString:@"lastfm://artist/"]
-									stringByAppendingString:artistString]
-									stringByAppendingString:@"/similarartists"];
-			}
-			type = @"Similar Artist Radio";
-		} else if (![playDialogUserView isHidden]) {
-			NSString *user;
-			if ([playDialogUserCheckBox state] == 1) {
-				user = [playDialogUsername stringValue];
-			} else {
-				user = [preferences stringForKey:@"username"];
-			}
-			NSString  *radioType;
-			if ([[[playDialogSearchType selectedItem] title] isEqualToString:@"Profile Radio"]) {
-				radioType = @"/profile";
-				type = @"Profile Radio";
-			} else if ([[[playDialogSearchType selectedItem] title] isEqualToString:@"Personal Radio"])  {
-				radioType = @"/personal";
-				type = @"Personal Radio";
-			}
-			stationUrl = [[[NSString stringWithString:@"lastfm://user/"]
-									stringByAppendingString:user]
-									stringByAppendingString:radioType];
-			name = user;
-			
-		}
-		
-		// store the station url in the last stations
-		[recentStations addStation:stationUrl withType:type withName:name];
-		[playDialogRecentStations setDataSource:recentStations];
-	} else {
-		stationUrl = [recentStations stationByIndex:[playDialogRecentStations selectedRow]];
-		[recentStations moveToFront:[playDialogRecentStations selectedRow]];
-		[playDialogRecentStations setDataSource:recentStations];
-	}
+	NSString *stationUrl = [stationController getStationURLFromSender:sender];
 
 	// Create web service object
 	if (webService != nil) {
@@ -219,60 +123,12 @@
 	[webService createSessionForUser:[preferences stringForKey:@"username"]
 		withPasswordHash:[self md5:[keyChain genericPasswordForService:@"Amua"
 										account:[preferences stringForKey:@"username"]]]];
-										
-	[stationDialogPanel orderOut:self];
-}
-
-- (void)playDialogToggleCheckBox:(id)sender
-{
-	if ([playDialogUserCheckBox state] == 1) {
-		[playDialogUsername setEnabled:YES];
-		[playDialogUsername setStringValue:@""];
-	} else {
-		[playDialogUsername setEnabled:NO];
-		[playDialogUsername setStringValue:[preferences stringForKey:@"username"]];
-	}
-}
-
-- (void)playDialogChangeType:(id)sender
-{
-	if (playDialogSearchType == sender) {
-		// hide all views
-		[playDialogArtistView setHidden:YES];
-		[playDialogUserView setHidden:YES];
-		
-		// change size and visibility of view
-		NSRect rect = [stationDialogPanel frame];
-		if ([[[playDialogSearchType selectedItem] title] isEqualToString:@"Similar Artist Radio"]) {
-			if (searchService != nil) {
-				rect.origin.y += rect.size.height - 515;
-				rect.size.height = 515;
-			} else {
-				rect.origin.y += rect.size.height - 183;
-				rect.size.height = 183;
-			}
-			[stationDialogPanel setFrame:rect display:YES animate:YES];
-			[playDialogArtistView setHidden:NO];
-		} else {
-			[playDialogArtistView setHidden:YES];
-		}
-		if ([[[playDialogSearchType selectedItem] title] isEqualToString:@"Profile Radio"] ||
-			[[[playDialogSearchType selectedItem] title] isEqualToString:@"Personal Radio"]) {
-			rect.origin.y += rect.size.height - 220;
-			rect.size.height = 220;
-			[stationDialogPanel setFrame:rect display:YES animate:YES];
-			[playDialogUserView setHidden:NO];
-		} else {
-			[playDialogUserView setHidden:YES];
-		}
-	}
-	
-	
+	[stationController hideWindow];
 }
 
 
 // menu actions
-- (void)play:(id)sender
+- (void)playMostRecent:(id)sender
 {
 	playing = YES;
 	[self updateMenu];
@@ -513,7 +369,7 @@
 			}
 			
 			play = [[[NSMenuItem alloc] initWithTitle:@"Play Most Recent Station"
-						action:@selector(play:) keyEquivalent:@""] autorelease];
+						action:@selector(playMostRecent:) keyEquivalent:@""] autorelease];
 			[play setTarget:self];
 			[menu insertItem:play atIndex:0];
 			[playDialog setTarget:self];
@@ -544,11 +400,12 @@
 				[play setAction:nil];
 				[play setEnabled:NO];
 			} else {
-				[play setAction:@selector(play:)];
+				[play setAction:@selector(playMostRecent:)];
 				[play setEnabled:YES];
 			}
 			[play setTitle:@"Play Most Recent Station"];
-			[playDialog setAction:@selector(showPlayDialog:)];
+			[playDialog setTarget:stationController];
+			[playDialog setAction:@selector(showWindow:)];
 			[playDialog setEnabled:YES];
 			
 			
@@ -679,23 +536,6 @@
 	if (webService != nil) {
 		[webService updateNowPlayingInformation];
 	}
-}
-
-// Delegate methods
-- (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem
-{
-	NSRect rect = [stationDialogPanel frame];
-	float small = 183;
-	float big = 400;
-	
-	if ([[tabViewItem label] isEqualToString:@"Select Station"]) {
-		[self playDialogChangeType:playDialogSearchType];
-	} else if ([[tabViewItem label] isEqualToString:@"Recent Stations"]) {
-		rect.origin.y += rect.size.height - big;
-		rect.size.height = big;
-		[stationDialogPanel setFrame:rect display:YES animate:YES];
-	}
-	
 }
 
 
