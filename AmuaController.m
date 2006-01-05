@@ -108,6 +108,9 @@
 
 - (void)play:(id)sender
 {
+	if (playing) {
+		[self stop:self];
+	}
 	playing = YES;
 	[self updateMenu];
 	NSString *stationUrl = [stationController getStationURLFromSender:sender];
