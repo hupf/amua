@@ -60,7 +60,11 @@
     [addressParser setShouldResolveExternalEntities:YES];
 	
 	BOOL success = [addressParser parse];
-	[owner searchFinished:self];
+	
+	// this special call is necessary to make sure the searchFinished method
+	// is called in the main thread (for drawing reasons)
+	[owner performSelectorOnMainThread:@selector(searchFinished:)
+        withObject:self waitUntilDone:YES];
 	
 	[pool release];
 }
