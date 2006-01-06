@@ -37,6 +37,7 @@
     IBOutlet NSTableView *artistSimilarResultList;
     IBOutlet NSView *artistView;
 	IBOutlet NSButton *artistPlayMatchButton;
+	IBOutlet NSScrollView *lastPlayedView;
     IBOutlet NSTableView *lastPlayedList;
     IBOutlet NSPopUpButton *stationType;
     IBOutlet NSTabView *tabView;

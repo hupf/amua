@@ -24,7 +24,6 @@
 
 #define ARTIST_STATION_TYPE 1
 #define USER_STATION_TYPE 2
-#define GROUP_STATION_TYPE 3
 
 @implementation StationController
 
@@ -46,6 +45,7 @@
 - (IBAction)stationTypeChanged:(id)sender
 {
 	if (stationType == sender) {
+		
 		// hide all views
 		[artistView setHidden:YES];
 		[userView setHidden:YES];
@@ -53,6 +53,7 @@
 		// change size and visibility of view
 		NSRect rect = [stationDialogPanel frame];
 		if ([[[stationType selectedItem] title] isEqualToString:@"Similar Artist Radio"]) {
+			// resize to similar artist search box
 			selectedStationType = ARTIST_STATION_TYPE;
 			if (searchService != nil) {
 				rect.origin.y += rect.size.height - 515;
@@ -63,24 +64,27 @@
 			}
 			[stationDialogPanel setFrame:rect display:YES animate:YES];
 			[artistView setHidden:NO];
+			
+			
 		} else if ([[[stationType selectedItem] title] isEqualToString:@"Profile Radio"] ||
+			// resize for profile or personal radio
 			[[[stationType selectedItem] title] isEqualToString:@"Personal Radio"]) {
 			selectedStationType = USER_STATION_TYPE;
 			rect.origin.y += rect.size.height - 220;
 			rect.size.height = 220;
 			[stationDialogPanel setFrame:rect display:YES animate:YES];
 			[userView setHidden:NO];
+			
+			
 		}
 		
 		[self stationDataChanged:self];
-	}	
+	}
 }
 
 - (IBAction)showWindow:(id)sender
 {
 	[NSApp activateIgnoringOtherApps:YES];
-	[artistView setHidden:NO];
-	[userView setHidden:YES];
 	[self stationTypeChanged:stationType];
 	[tabView selectFirstTabViewItem:self];
 	[stationDialogPanel makeKeyAndOrderFront:nil];
@@ -219,18 +223,18 @@
 	return stationUrl;
 }
 
-- (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem
+- (void)tabView:(NSTabView *)targetTabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem
 {
-	NSRect rect = [stationDialogPanel frame];
-	float small = 183;
-	float big = 400;
 	
-	if ([[tabViewItem label] isEqualToString:@"Select Station"]) {
+	if ([tabViewItem isEqualTo:[targetTabView tabViewItemAtIndex:0]]) {
 		[self stationTypeChanged:stationType];
-	} else if ([[tabViewItem label] isEqualToString:@"Recent Stations"]) {
-		rect.origin.y += rect.size.height - big;
-		rect.size.height = big;
+	} else if ([tabViewItem isEqualTo:[targetTabView tabViewItemAtIndex:1]]) {
+		NSRect rect = [stationDialogPanel frame];
+		rect.origin.y += rect.size.height - 400;
+		rect.size.height = 400;
+		[lastPlayedView setHidden:YES];
 		[stationDialogPanel setFrame:rect display:YES animate:YES];
+		[lastPlayedView setHidden:NO];
 	}
 	
 }
