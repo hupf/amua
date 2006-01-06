@@ -37,10 +37,7 @@
     IBOutlet NSTableView *artistSimilarResultList;
     IBOutlet NSView *artistView;
 	IBOutlet NSButton *artistPlayMatchButton;
-	IBOutlet NSScrollView *lastPlayedView;
-    IBOutlet NSTableView *lastPlayedList;
     IBOutlet NSPopUpButton *stationType;
-    IBOutlet NSTabView *tabView;
     IBOutlet NSButton *userCheckBox;
     IBOutlet NSTextField *username;
     IBOutlet NSView *userView;
@@ -61,6 +58,5 @@
 - (void)setPreferences:(NSUserDefaults *)prefs;
 - (void)setRecentStations:(RecentStations *)recentStations;
 - (NSString *)getStationURLFromSender:(id)sender;
-- (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem;
 
 @end

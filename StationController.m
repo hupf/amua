@@ -58,11 +58,11 @@
 			// resize to similar artist search box
 			selectedStationType = ARTIST_STATION_TYPE;
 			if (searchService != nil) {
-				rect.origin.y += rect.size.height - 515;
-				rect.size.height = 515;
+				rect.origin.y += rect.size.height - 465;
+				rect.size.height = 465;
 			} else {
-				rect.origin.y += rect.size.height - 183;
-				rect.size.height = 183;
+				rect.origin.y += rect.size.height - 125;
+				rect.size.height = 125;
 			}
 			[stationDialogPanel setFrame:rect display:YES animate:YES];
 			[artistView setHidden:NO];
@@ -73,8 +73,8 @@
 			[[stationType selectedItem] isEqual:[stationType itemAtIndex:2]]) {
 			// resize for profile or personal radio
 			selectedStationType = USER_STATION_TYPE;
-			rect.origin.y += rect.size.height - 220;
-			rect.size.height = 220;
+			rect.origin.y += rect.size.height - 180;
+			rect.size.height = 180;
 			[stationDialogPanel setFrame:rect display:YES animate:YES];
 			[userView setHidden:NO];
 			
@@ -82,8 +82,8 @@
 		} else if ([[stationType selectedItem] isEqual:[stationType itemAtIndex:3]]) {
 			// resize for custom URL radio
 			selectedStationType = CUSTOM_STATION_TYPE;
-			rect.origin.y += rect.size.height - 183;
-			rect.size.height = 183;
+			rect.origin.y += rect.size.height - 125;
+			rect.size.height = 125;
 			[stationDialogPanel setFrame:rect display:YES animate:YES];
 			[customURLView setHidden:NO];
 			[customURLField selectText:self];
@@ -98,7 +98,6 @@
 {
 	[NSApp activateIgnoringOtherApps:YES];
 	[self stationTypeChanged:stationType];
-	[tabView selectFirstTabViewItem:self];
 	[stationDialogPanel makeKeyAndOrderFront:nil];
 }
 
@@ -175,87 +174,62 @@
 - (void)setRecentStations:(RecentStations *)stations
 {
 	recentStations = [stations retain];
-	[lastPlayedList setDataSource:recentStations];
 }
 
 - (NSString *)getStationURLFromSender:(id)sender
 {
-	NSString *stationUrl;
-	if ([[[tabView selectedTabViewItem] label] isEqualToString:@"Select Station"]) {
-		NSString *name, *type, *user, *radioType;
-		switch (selectedStationType) {
-			case ARTIST_STATION_TYPE:
-				if ([(NSButton *)sender isEqualTo:artistPlayMatchButton]) {
-					name = [searchService getMainResultText];
-					NSString *artistString = [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-					stationUrl = [[[NSString stringWithString:@"lastfm://artist/"]
-										stringByAppendingString:artistString]
-										stringByAppendingString:@"/similarartists"];
-				} else {
-					name = [searchService getSearchResultWithIndex:[artistSimilarResultList selectedRow]];
-					NSString *artistString = [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-					stationUrl = [[[NSString stringWithString:@"lastfm://artist/"]
-										stringByAppendingString:artistString]
-										stringByAppendingString:@"/similarartists"];
-				}
-				type = @"Similar Artist Radio";
-				break;
-				
-			case USER_STATION_TYPE:
-				if ([userCheckBox state] == 1) {
-					user = [username stringValue];
-				} else {
-					user = [preferences stringForKey:@"username"];
-				}
-				
-				if ([[[stationType selectedItem] title] isEqualToString:@"Profile Radio"]) {
-					radioType = @"/profile";
-					type = @"Profile Radio";
-				} else if ([[[stationType selectedItem] title] isEqualToString:@"Personal Radio"])  {
-					radioType = @"/personal";
-					type = @"Personal Radio";
-				}
-				stationUrl = [[[NSString stringWithString:@"lastfm://user/"]
-										stringByAppendingString:user]
-										stringByAppendingString:radioType];
-				name = user;
-				break;
-				
-			case CUSTOM_STATION_TYPE:
-				
-				stationUrl = [customURLField stringValue];
-				name = [customURLField stringValue];
-				type = @"Custom URL";
-				break;
-			
-		}
-		
-		// store the station url in the last stations
-		[recentStations addStation:stationUrl withType:type withName:name];
-		[lastPlayedList setDataSource:recentStations];
-	} else {
-		stationUrl = [recentStations stationURLByIndex:[lastPlayedList selectedRow]];
-		[recentStations moveToFront:[lastPlayedList selectedRow]];
-		[lastPlayedList setDataSource:recentStations];
-	}
+	NSString *stationUrl, *name, *type, *user, *radioType;
+    switch (selectedStationType) {
+        case ARTIST_STATION_TYPE:
+            if ([(NSButton *)sender isEqualTo:artistPlayMatchButton]) {
+                name = [searchService getMainResultText];
+                NSString *artistString = [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                stationUrl = [[[NSString stringWithString:@"lastfm://artist/"]
+                                    stringByAppendingString:artistString]
+                                    stringByAppendingString:@"/similarartists"];
+            } else {
+                name = [searchService getSearchResultWithIndex:[artistSimilarResultList selectedRow]];
+                NSString *artistString = [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                stationUrl = [[[NSString stringWithString:@"lastfm://artist/"]
+                                    stringByAppendingString:artistString]
+                                    stringByAppendingString:@"/similarartists"];
+            }
+            type = @"Similar Artist Radio";
+            break;
+            
+        case USER_STATION_TYPE:
+            if ([userCheckBox state] == 1) {
+                user = [username stringValue];
+            } else {
+                user = [preferences stringForKey:@"username"];
+            }
+            
+            if ([[[stationType selectedItem] title] isEqualToString:@"Profile Radio"]) {
+                radioType = @"/profile";
+                type = @"Profile Radio";
+            } else if ([[[stationType selectedItem] title] isEqualToString:@"Personal Radio"])  {
+                radioType = @"/personal";
+                type = @"Personal Radio";
+            }
+            stationUrl = [[[NSString stringWithString:@"lastfm://user/"]
+                                    stringByAppendingString:user]
+                                    stringByAppendingString:radioType];
+            name = user;
+            break;
+            
+        case CUSTOM_STATION_TYPE:
+            
+            stationUrl = [customURLField stringValue];
+            name = [customURLField stringValue];
+            type = @"Custom URL";
+            break;
+        
+    }
+    
+    // store the station url in the last stations
+    [recentStations addStation:stationUrl withType:type withName:name];
 	
 	return stationUrl;
-}
-
-- (void)tabView:(NSTabView *)targetTabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem
-{
-	
-	if ([tabViewItem isEqualTo:[targetTabView tabViewItemAtIndex:0]]) {
-		[self stationTypeChanged:stationType];
-	} else if ([tabViewItem isEqualTo:[targetTabView tabViewItemAtIndex:1]]) {
-		NSRect rect = [stationDialogPanel frame];
-		rect.origin.y += rect.size.height - 400;
-		rect.size.height = 400;
-		[lastPlayedView setHidden:YES];
-		[stationDialogPanel setFrame:rect display:YES animate:YES];
-		[lastPlayedView setHidden:NO];
-	}
-	
 }
 
 @end

@@ -41,9 +41,5 @@
 - (void)store;
 - (void)clear;
 - (BOOL)stationsAvailable;
-- (id)tableView:(NSTableView *)aTableView
-    objectValueForTableColumn:(NSTableColumn *)aTableColumn
-    row:(int)rowIndex;
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView;
 
 @end

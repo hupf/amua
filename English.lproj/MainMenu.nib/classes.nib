@@ -60,11 +60,8 @@
                 artistView = NSView; 
                 customURLField = NSTextField; 
                 customURLView = NSView; 
-                lastPlayedList = NSTableView; 
-                lastPlayedView = NSScrollView; 
                 stationDialogPanel = NSPanel; 
                 stationType = NSPopUpButton; 
-                tabView = NSTabView; 
                 userCheckBox = NSButton; 
                 userView = NSView; 
                 username = NSTextField; 

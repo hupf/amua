@@ -110,23 +110,6 @@
     [self store];
 }
 
-- (id)tableView:(NSTableView *)aTableView
-    objectValueForTableColumn:(NSTableColumn *)aTableColumn
-    row:(int)rowIndex
-{
-	NSDictionary* rowElement = [recentStations objectAtIndex:[recentStations count]-1-rowIndex];
-	if ([[[aTableColumn headerCell] stringValue] isEqualToString:@"Radio Type"]) {
-		return [rowElement objectForKey:@"type"];
-	} else {
-		return [rowElement objectForKey:@"name"];
-	}
-}
-
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView
-{
-	return [recentStations count];
-}
-
 - (void)dealloc
 {
 	[preferences release];

@@ -109,9 +109,10 @@
 
 - (void)play:(id)sender
 {
-	if (playing) {
-		[self stop:self];
-	}
+	NSString *scriptSource = @"tell application \"iTunes\" \n stop \n end tell";
+	NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
+	[script executeAndReturnError:nil];
+    
 	playing = YES;
 	[self updateMenu];
     
@@ -134,9 +135,10 @@
 
 - (void)playRecentStation:(id)sender
 {
-	if (playing) {
-		[self stop:self];
-	}
+	NSString *scriptSource = @"tell application \"iTunes\" \n stop \n end tell";
+	NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
+	[script executeAndReturnError:nil];
+    
 	playing = YES;
 	[self updateMenu];
     
@@ -164,6 +166,10 @@
 // menu actions
 - (void)playMostRecent:(id)sender
 {
+	NSString *scriptSource = @"tell application \"iTunes\" \n stop \n end tell";
+	NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
+	[script executeAndReturnError:nil];
+    
 	playing = YES;
 	[self updateMenu];
 	
@@ -276,6 +282,11 @@
 {
 	[recentStations clear];
     [self updateRecentPlayedMenu];
+    int index = [menu indexOfItemWithTitle:@"Play Most Recent Station"];
+    if (index >= 0) {
+    	[[menu itemAtIndex:index] setAction:nil];
+        [[menu itemAtIndex:index] setEnabled:NO];
+    }
 }
 
 - (IBAction)openLastfmHomepage:(id)sender
