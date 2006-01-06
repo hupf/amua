@@ -3,7 +3,7 @@
 //  Amua
 //
 //  Created by Mathis & Simon Hofer on 17.02.05.
-//  Copyright 2005 Mathis & Simon Hofer.
+//  Copyright 2005-2006 Mathis & Simon Hofer.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -104,6 +104,7 @@
 	[stationController setPreferences:preferences];
 	
 	[self updateMenu];
+    [self updateRecentPlayedMenu];
 }
 
 - (void)play:(id)sender
@@ -113,6 +114,7 @@
 	}
 	playing = YES;
 	[self updateMenu];
+    
 	NSString *stationUrl = [stationController getStationURLFromSender:sender];
 
 	// Create web service object
@@ -127,6 +129,35 @@
 		withPasswordHash:[self md5:[keyChain genericPasswordForService:@"Amua"
 										account:[preferences stringForKey:@"username"]]]];
 	[stationController hideWindow];
+    [self updateRecentPlayedMenu];
+}
+
+- (void)playRecentStation:(id)sender
+{
+	if (playing) {
+		[self stop:self];
+	}
+	playing = YES;
+	[self updateMenu];
+    
+    int index = [playRecentMenu indexOfItem:sender];
+    NSString *stationUrl = [NSString stringWithString:[recentStations stationURLByIndex:index]];
+    NSLog(@"%i %@", index, stationUrl);
+    [recentStations moveToFront:index];
+
+	// Create web service object
+	if (webService != nil) {
+		[webService release];
+	}
+	webService = [[LastfmWebService alloc]
+					initWithWebServiceServer:[preferences stringForKey:@"webServiceServer"]
+					withStationUrl:stationUrl
+					asUserAgent:[preferences stringForKey:@"userAgent"]];
+	[webService createSessionForUser:[preferences stringForKey:@"username"]
+		withPasswordHash:[self md5:[keyChain genericPasswordForService:@"Amua"
+										account:[preferences stringForKey:@"username"]]]];
+	[stationController hideWindow];
+    [self updateRecentPlayedMenu];
 }
 
 
@@ -239,6 +270,12 @@
 	}
 	timer = [[NSTimer scheduledTimerWithTimeInterval:(5) target:self
 				selector:@selector(fireTimer:) userInfo:nil repeats:NO] retain];
+}
+
+- (IBAction)clearRecentStations:(id)sender
+{
+	[recentStations clear];
+    [self updateRecentPlayedMenu];
 }
 
 - (IBAction)openLastfmHomepage:(id)sender
@@ -400,11 +437,11 @@
 			
 		} else {
 			if ([recentStations stationsAvailable]) {
-				[play setAction:nil];
-				[play setEnabled:NO];
-			} else {
 				[play setAction:@selector(playMostRecent:)];
 				[play setEnabled:YES];
+			} else {
+				[play setAction:nil];
+				[play setEnabled:NO];
 			}
 			[play setTitle:@"Play Most Recent Station"];
 			[playDialog setTarget:stationController];
@@ -516,6 +553,36 @@
 		}
 		
 	}
+}
+
+- (void)updateRecentPlayedMenu
+{
+	while ([playRecentMenu itemAtIndex:0] != clearRecentMenuItem) {
+    	[playRecentMenu removeItemAtIndex:0];
+    }
+    
+	if ([recentStations stationsAvailable]) {
+    	[clearRecentMenuItem setEnabled:YES];
+        [clearRecentMenuItem setTarget:self];
+        [clearRecentMenuItem setAction:@selector(clearRecentStations:)];
+        [playRecentMenu insertItem:[NSMenuItem separatorItem] atIndex:0];
+        
+        int i;
+        for (i=[recentStations stationsCount]-1; i>=0; i--) {
+        	NSDictionary *station = [[[recentStations stationByIndex:i] retain] autorelease];
+            NSString *title = [[[NSString alloc] initWithString:[[[station objectForKey:@"type"]
+            			stringByAppendingString:@": "] stringByAppendingString:[station objectForKey:@"name"]]]
+                        autorelease];
+        	NSMenuItem *stationItem = [[[NSMenuItem alloc] initWithTitle:title
+            		action:@selector(playRecentStation:) keyEquivalent:@""] autorelease];
+			[stationItem setTarget:self];
+			[stationItem setEnabled:YES];
+			[playRecentMenu insertItem:stationItem atIndex:0];
+        }
+    } else {
+    	[clearRecentMenuItem setEnabled:NO];
+        [clearRecentMenuItem setAction:nil];
+    }
 }
 
 - (void)updateTimer
@@ -635,7 +702,6 @@
 	}
 	
 	[preferences setInteger:(int)alwaysDisplayTooltip forKey:@"alwaysDisplayTooltip"];
-	[recentStations storeInPreferences:preferences];
 }
 
 @end

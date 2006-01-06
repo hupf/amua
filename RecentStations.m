@@ -3,7 +3,7 @@
 //  Amua
 //
 //  Created by Mathis & Simon Hofer on 11.03.05.
-//  Copyright 2005 Mathis & Simon Hofer.
+//  Copyright 2005-2006 Mathis & Simon Hofer.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -24,9 +24,10 @@
 
 @implementation RecentStations
 
-- (id)initWithPreferences:(NSUserDefaults *)preferences
+- (id)initWithPreferences:(NSUserDefaults *)prefs
 {
 	[super init];
+    preferences = [prefs retain];
 	NSArray* staticStations = [preferences objectForKey:@"recentStations"];
 	if (staticStations == nil) {
 		recentStations = [[NSMutableArray alloc] init];
@@ -36,12 +37,12 @@
 	return self;
 }
 
-- addStation:(NSString *)stationUrl withType:(NSString *)type withName:(NSString *)name
+- (void)addStation:(NSString *)stationUrl withType:(NSString *)type withName:(NSString *)name
 {
 	NSMutableDictionary *stationObject = [[[NSMutableDictionary alloc] init] autorelease];
-	[stationObject setObject:stationUrl forKey:@"url"];
-	[stationObject setObject:name forKey:@"name"];
-	[stationObject setObject:type forKey:@"type"];
+	[stationObject setObject:[stationUrl retain] forKey:@"url"];
+	[stationObject setObject:[name retain] forKey:@"name"];
+	[stationObject setObject:[type retain] forKey:@"type"];
 	
 	int i;
 	for (i=0; i < [recentStations count];) {
@@ -58,35 +59,56 @@
 		[recentStations release];
 		recentStations = [[NSMutableArray alloc] initWithArray:array];
 	}
+    
+    [self store];
 }
 
--(BOOL)stationsAvailable
+- (BOOL)stationsAvailable
 {
-	return [recentStations count] <= 0;
+	return [recentStations count] > 0;
 }
 
--(NSString *)mostRecentStation
+- (NSString *)mostRecentStation
 {
 	return [[recentStations lastObject] objectForKey:@"url"];
 }
 
--(NSString *)stationByIndex:(int)index
+- (NSDictionary *)stationByIndex:(int)index
+{
+	return [recentStations objectAtIndex:[recentStations count]-1-index];
+}
+
+- (NSString *)stationURLByIndex:(int)index
 {
 	return [[recentStations objectAtIndex:[recentStations count]-1-index] objectForKey:@"url"];
 }
 
--moveToFront:(int)index
+- (int)stationsCount
 {
-	NSDictionary *temp = [recentStations objectAtIndex:[recentStations count]-1-index];
-	[recentStations removeObjectAtIndex:[recentStations count]-1-index];
-	[recentStations addObject: temp];
+	return [recentStations count];
 }
 
--storeInPreferences:(NSUserDefaults *)preferences
+- (void)moveToFront:(int)index
+{
+	if (index > 0) {
+		NSDictionary *temp = [[[recentStations objectAtIndex:[recentStations count]-1-index] retain] autorelease];
+		[recentStations removeObjectAtIndex:[recentStations count]-1-index];
+		[recentStations addObject:temp];
+	    [self store];
+    }
+}
+
+- (void)store
 {
 	[preferences setObject:recentStations forKey:@"recentStations"];
+    [preferences synchronize];
 }
 
+- (void)clear
+{
+	[recentStations removeAllObjects];
+    [self store];
+}
 
 - (id)tableView:(NSTableView *)aTableView
     objectValueForTableColumn:(NSTableColumn *)aTableColumn
@@ -103,6 +125,12 @@
 - (int)numberOfRowsInTableView:(NSTableView *)aTableView
 {
 	return [recentStations count];
+}
+
+- (void)dealloc
+{
+	[preferences release];
+    [recentStations release];
 }
 
 @end

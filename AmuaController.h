@@ -3,7 +3,7 @@
 //  Amua
 //
 //  Created by Mathis & Simon Hofer on 17.02.05.
-//  Copyright 2005 Mathis & Simon Hofer.
+//  Copyright 2005-2006 Mathis & Simon Hofer.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -47,6 +47,12 @@
 	
 	// The menu item for changing the behavior of the tooltip
 	IBOutlet NSMenuItem *tooltipMenuItem;
+    
+    // The submenu that contains the recent played stations
+	IBOutlet NSMenu *playRecentMenu;
+	
+	// The menu item for clearing the recent played stations menu
+	IBOutlet NSMenuItem *clearRecentMenuItem;
 	
 	// A reference to the NSApplication, used to put the about window to front
 	IBOutlet NSApplication *application;
@@ -82,11 +88,13 @@
 	
 }
 - (void)play:(id)sender;
+- (void)playRecentStation:(id)sender;
 - (void)playMostRecent:(id)sender;
 - (void)stop:(id)sender;
 - (void)loveSong:(id)sender;
 - (void)skipSong:(id)sender;
 - (void)banSong:(id)sender;
+- (IBAction)clearRecentStations:(id)sender;
 - (IBAction)openLastfmHomepage:(id)sender;
 - (IBAction)openPersonalPage:(id)sender;
 - (IBAction)openPreferences:(id)sender;
@@ -96,6 +104,7 @@
 - (void)showTooltip:(id)sender;
 - (void)hideTooltip:(id)sender;
 - (void)updateMenu;
+- (void)updateRecentPlayedMenu;
 - (void)updateTimer;
 - (void)fireTimer:(id)sender;
 - (void)handlePreferencesChanged:(NSNotification *)aNotification;
