@@ -3,7 +3,7 @@
 //  Amua
 //
 //  Created by Mathis & Simon Hofer on 11.03.05.
-//  Copyright 2005 Mathis & Simon Hofer.
+//  Copyright 2005-2006 Mathis & Simon Hofer.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -27,16 +27,20 @@
 @interface RecentStations : NSObject {
 
 	NSMutableArray *recentStations;
+    NSUserDefaults *preferences;
 
 }
 
-- (id)initWithPreferences:(NSUserDefaults *)preferences;
-- addStation:(NSString *)stationUrl withType:(NSString *)type withName:(NSString *)name;
--(NSString *)mostRecentStation;
--(NSString *)stationByIndex:(int)index;
--moveToFront:(int)index;
--storeInPreferences:(NSUserDefaults *)preferences;
--(BOOL)stationsAvailable;
+- (id)initWithPreferences:(NSUserDefaults *)prefs;
+- (void)addStation:(NSString *)stationUrl withType:(NSString *)type withName:(NSString *)name;
+- (NSString *)mostRecentStation;
+- (NSDictionary *)stationByIndex:(int)index;
+- (NSString *)stationURLByIndex:(int)index;
+- (int)stationsCount;
+- (void)moveToFront:(int)index;
+- (void)store;
+- (void)clear;
+- (BOOL)stationsAvailable;
 - (id)tableView:(NSTableView *)aTableView
     objectValueForTableColumn:(NSTableColumn *)aTableColumn
     row:(int)rowIndex;

@@ -3,7 +3,7 @@
 //  Amua
 //
 //  Created by Mathis & Simon Hofer on 09.12.05.
-//  Copyright 2005 Mathis & Simon Hofer.
+//  Copyright 2005-2006 Mathis & Simon Hofer.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -234,7 +234,7 @@
 		[recentStations addStation:stationUrl withType:type withName:name];
 		[lastPlayedList setDataSource:recentStations];
 	} else {
-		stationUrl = [recentStations stationByIndex:[lastPlayedList selectedRow]];
+		stationUrl = [recentStations stationURLByIndex:[lastPlayedList selectedRow]];
 		[recentStations moveToFront:[lastPlayedList selectedRow]];
 		[lastPlayedList setDataSource:recentStations];
 	}

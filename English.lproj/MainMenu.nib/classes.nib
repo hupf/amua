@@ -3,6 +3,7 @@
         {
             ACTIONS = {
                 changeTooltipSettings = id; 
+                clearRecentStations = id; 
                 openAboutPanel = id; 
                 openLastfmHomepage = id; 
                 openPersonalPage = id; 
@@ -14,7 +15,9 @@
             LANGUAGE = ObjC; 
             OUTLETS = {
                 application = NSApplication; 
+                clearRecentMenuItem = NSMenuItem; 
                 menu = NSMenu; 
+                playRecentMenu = NSMenu; 
                 songInformationPanel = SongInformationPanel; 
                 stationController = StationController; 
                 tooltipMenuItem = NSMenuItem; 
