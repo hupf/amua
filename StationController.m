@@ -24,6 +24,7 @@
 
 #define ARTIST_STATION_TYPE 1
 #define USER_STATION_TYPE 2
+#define CUSTOM_STATION_TYPE 3
 
 @implementation StationController
 
@@ -49,10 +50,11 @@
 		// hide all views
 		[artistView setHidden:YES];
 		[userView setHidden:YES];
+		[customURLView setHidden:YES];
 		
 		// change size and visibility of view
 		NSRect rect = [stationDialogPanel frame];
-		if ([[[stationType selectedItem] title] isEqualToString:@"Similar Artist Radio"]) {
+		if ([[stationType selectedItem] isEqual:[stationType itemAtIndex:0]]) {
 			// resize to similar artist search box
 			selectedStationType = ARTIST_STATION_TYPE;
 			if (searchService != nil) {
@@ -64,17 +66,27 @@
 			}
 			[stationDialogPanel setFrame:rect display:YES animate:YES];
 			[artistView setHidden:NO];
+			[artistSearchField selectText:self];
 			
 			
-		} else if ([[[stationType selectedItem] title] isEqualToString:@"Profile Radio"] ||
+		} else if ([[stationType selectedItem] isEqual:[stationType itemAtIndex:1]] ||
+			[[stationType selectedItem] isEqual:[stationType itemAtIndex:2]]) {
 			// resize for profile or personal radio
-			[[[stationType selectedItem] title] isEqualToString:@"Personal Radio"]) {
 			selectedStationType = USER_STATION_TYPE;
 			rect.origin.y += rect.size.height - 220;
 			rect.size.height = 220;
 			[stationDialogPanel setFrame:rect display:YES animate:YES];
 			[userView setHidden:NO];
 			
+			
+		} else if ([[stationType selectedItem] isEqual:[stationType itemAtIndex:3]]) {
+			// resize for custom URL radio
+			selectedStationType = CUSTOM_STATION_TYPE;
+			rect.origin.y += rect.size.height - 183;
+			rect.size.height = 183;
+			[stationDialogPanel setFrame:rect display:YES animate:YES];
+			[customURLView setHidden:NO];
+			[customURLField selectText:self];
 			
 		}
 		
@@ -207,6 +219,13 @@
 										stringByAppendingString:user]
 										stringByAppendingString:radioType];
 				name = user;
+				break;
+				
+			case CUSTOM_STATION_TYPE:
+				
+				stationUrl = [customURLField stringValue];
+				name = [customURLField stringValue];
+				type = @"Custom URL";
 				break;
 			
 		}

@@ -55,6 +55,8 @@
                 artistSearchIndicator = NSProgressIndicator; 
                 artistSimilarResultList = NSTableView; 
                 artistView = NSView; 
+                customURLField = NSTextField; 
+                customURLView = NSView; 
                 lastPlayedList = NSTableView; 
                 lastPlayedView = NSScrollView; 
                 stationDialogPanel = NSPanel; 

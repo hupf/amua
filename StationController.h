@@ -44,6 +44,8 @@
     IBOutlet NSButton *userCheckBox;
     IBOutlet NSTextField *username;
     IBOutlet NSView *userView;
+	IBOutlet NSView *customURLView;
+	IBOutlet NSTextField *customURLField;
 	
 	StationSearchService *searchService;
 	NSUserDefaults *preferences;
