@@ -38,6 +38,7 @@
 	CURLHandle *nowPlayingCURLHandle;
 	CURLHandle *controlCURLHandle;
 	CURLHandle *tuningCURLHandle;
+	CURLHandle *discoveryCURLHandle;
 	
 	// Objects with fetched data
 	NSString *sessionID;
@@ -53,6 +54,7 @@
 		withStationUrl:(NSString *)url
 		asUserAgent:(NSString *)userAgentIdentifier;
 - (void)createSessionForUser:(NSString *)username withPasswordHash:(NSString *)passwordMD5;
+- (void)setDiscovery:(bool)state;
 - (void)updateNowPlayingInformation;
 - (void)executeControl:(NSString *)command;
 - (NSString *)streamingServer;

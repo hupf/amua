@@ -21,7 +21,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <SSCrypto/SSCrypto.h>
+#import <openssl/md5.h>
 #import "AmuaView.h"
 #import "AmuaUpdater.h"
 #import "PreferencesController.h"
@@ -47,6 +47,9 @@
 	
 	// The menu item for changing the behavior of the tooltip
 	IBOutlet NSMenuItem *tooltipMenuItem;
+	
+	IBOutlet NSMenuItem *discoveryMenuItem;
+	IBOutlet NSMenuItem *recordtoprofileMenuItem;
     
     // The submenu that contains the recent played stations
 	IBOutlet NSMenu *playRecentMenu;

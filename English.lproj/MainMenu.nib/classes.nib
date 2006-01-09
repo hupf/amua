@@ -2,6 +2,8 @@
     IBClasses = (
         {
             ACTIONS = {
+                changeDiscoverySettings = id; 
+                changeRecordtoprofileSettings = id; 
                 changeTooltipSettings = id; 
                 clearRecentStations = id; 
                 openAboutPanel = id; 
@@ -16,8 +18,10 @@
             OUTLETS = {
                 application = NSApplication; 
                 clearRecentMenuItem = NSMenuItem; 
+                discoveryMenuItem = NSMenuItem; 
                 menu = NSMenu; 
                 playRecentMenu = NSMenu; 
+                recordtoprofileMenuItem = NSMenuItem; 
                 songInformationPanel = SongInformationPanel; 
                 stationController = StationController; 
                 tooltipMenuItem = NSMenuItem; 
