@@ -28,6 +28,12 @@
 
 @implementation StationController
 
+- (void)awakeFromNib
+{
+	[artistSimilarResultList setTarget:amuaController];
+	[artistSimilarResultList setDoubleAction:@selector(play:)];
+}
+
 - (IBAction)stationDataChanged:(id)sender
 {
 	switch (selectedStationType) {

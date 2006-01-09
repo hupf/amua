@@ -99,8 +99,8 @@
 		[view addMouseOverListener];
 	}
 	
-	[discoveryMenuItem setState:[preferences boolForKey:@"discoveryPosition"]];
-	[recordtoprofileMenuItem setState:[preferences boolForKey:@"recordtoprofilePosition"]];
+	[discoveryMenuItem setState:[preferences boolForKey:@"discoveryMode"]];
+	[recordtoprofileMenuItem setState:[preferences boolForKey:@"recordToProfile"]];
 	
 	recentStations = [[RecentStations alloc] initWithPreferences:preferences];
 	[stationController setRecentStations:recentStations];
@@ -399,32 +399,32 @@
 - (void)changeDiscoverySettings:(id)sender
 { 
     if ([discoveryMenuItem state] == NSOnState) {
-	[discoveryMenuItem setState:NSOffState];
-	[preferences setBool:FALSE forKey:@"discoveryPosition"];
-	[preferences synchronize];
-	[webService setDiscovery:FALSE];
+		[discoveryMenuItem setState:NSOffState];
+		[preferences setBool:FALSE forKey:@"discoveryMode"];
+		[preferences synchronize];
+		[webService setDiscovery:FALSE];
     } else {
-	[discoveryMenuItem setState:NSOnState];
-	[preferences setBool:TRUE forKey:@"discoveryPosition"];
-	[preferences synchronize];
-	[webService setDiscovery:TRUE];
+		[discoveryMenuItem setState:NSOnState];
+		[preferences setBool:TRUE forKey:@"discoveryMode"];
+		[preferences synchronize];
+		[webService setDiscovery:TRUE];
     }
     
 }
 
 // recordtoprofile methods
-- (void)changeRecordtoprofileSettings:(id)sender
+- (void)changeRecordToProfileSettings:(id)sender
 { 
     if ([recordtoprofileMenuItem state] == NSOnState) {
-	[recordtoprofileMenuItem setState:NSOffState];
-	[preferences setBool:FALSE forKey:@"recordtoprofilePosition"];
-	[preferences synchronize];
-	[webService executeControl:@"nortp"];
+		[recordtoprofileMenuItem setState:NSOffState];
+		[preferences setBool:FALSE forKey:@"recordToProfile"];
+		[preferences synchronize];
+		[webService executeControl:@"nortp"];
     } else {
-	[preferences setBool:TRUE forKey:@"recordtoprofilePosition"];
-	[preferences synchronize];
-	[recordtoprofileMenuItem setState:NSOnState];
-	[webService executeControl:@"rtp"];
+		[preferences setBool:TRUE forKey:@"recordToProfile"];
+		[preferences synchronize];
+		[recordtoprofileMenuItem setState:NSOnState];
+		[webService executeControl:@"rtp"];
     }
     
 }
@@ -671,8 +671,8 @@
 	NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
 	[script executeAndReturnError:nil];
 	
-	[webService setDiscovery:[preferences boolForKey:@"discoveryPosition"]];
-	[webService executeControl:([preferences boolForKey:@"discoveryPosition"] ? @"rtp" : @"nortp")];
+	[webService setDiscovery:[preferences boolForKey:@"discoveryMode"]];
+	[webService executeControl:([preferences boolForKey:@"discoveryMode"] ? @"rtp" : @"nortp")];
 	
 	// Set the timer so that in five seconds the new song information will be fetched
 	timer = [[NSTimer scheduledTimerWithTimeInterval:(5) target:self

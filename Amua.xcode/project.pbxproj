@@ -343,6 +343,20 @@
 			settings = {
 			};
 		};
+		0CB409E30972E5ED00E0C772 = {
+			isa = PBXFileReference;
+			lastKnownFileType = "compiled.mach-o.dylib";
+			name = libcrypto.dylib;
+			path = /usr/lib/libcrypto.dylib;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		0CB409E40972E5ED00E0C772 = {
+			fileRef = 0CB409E30972E5ED00E0C772;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		0CB7A6D107C8AA9000E4342A = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -397,7 +411,7 @@
 //104
 		1058C7A0FEA54F0111CA2CBB = {
 			children = (
-				D41E763C0972304E00AC22E3,
+				0CB409E30972E5ED00E0C772,
 				0C5D882707CCAC0B00067D6B,
 				F45B8A7F07DB7231007383B1,
 				0C287A6707C677F400AF7154,
@@ -716,7 +730,7 @@
 				0C287A6807C677F400AF7154,
 				F45B8A8007DB7231007383B1,
 				0C5D882807CCAC0B00067D6B,
-				D41E763D0972304E00AC22E3,
+				0CB409E40972E5ED00E0C772,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -742,30 +756,6 @@
 //8D2
 //8D3
 //8D4
-//D40
-//D41
-//D42
-//D43
-//D44
-		D41E763C0972304E00AC22E3 = {
-			isa = PBXFileReference;
-			lastKnownFileType = "compiled.mach-o.dylib";
-			name = libcrypto.0.9.7.dylib;
-			path = /usr/lib/libcrypto.0.9.7.dylib;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-		D41E763D0972304E00AC22E3 = {
-			fileRef = D41E763C0972304E00AC22E3;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-//D40
-//D41
-//D42
-//D43
-//D44
 //F40
 //F41
 //F42

@@ -21,12 +21,16 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "AmuaController.h"
 #import "StationSearchService.h"
 #import "RecentStations.h"
 
+@class AmuaController;
+
 @interface StationController : NSObject
 {
-	IBOutlet NSPanel *stationDialogPanel;
+	IBOutlet AmuaController *amuaController;
+    IBOutlet NSPanel *stationDialogPanel;
     IBOutlet NSImageView *artistImage;
     IBOutlet NSTextField *artistMainResultField;
     IBOutlet NSBox *artistNoResultBox;
