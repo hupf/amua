@@ -99,6 +99,9 @@
 		[view addMouseOverListener];
 	}
 	
+	[discoveryMenuItem setState:[preferences boolForKey:@"discoveryPosition"]];
+	[recordtoprofileMenuItem setState:[preferences boolForKey:@"recordtoprofilePosition"]];
+	
 	recentStations = [[RecentStations alloc] initWithPreferences:preferences];
 	[stationController setRecentStations:recentStations];
 	[stationController setPreferences:preferences];
@@ -392,7 +395,39 @@
 	mouseIsOverIcon = NO;
 }
 
+// discovery methods
+- (void)changeDiscoverySettings:(id)sender
+{ 
+    if ([discoveryMenuItem state] == NSOnState) {
+	[discoveryMenuItem setState:NSOffState];
+	[preferences setBool:FALSE forKey:@"discoveryPosition"];
+	[preferences synchronize];
+	[webService setDiscovery:FALSE];
+    } else {
+	[discoveryMenuItem setState:NSOnState];
+	[preferences setBool:TRUE forKey:@"discoveryPosition"];
+	[preferences synchronize];
+	[webService setDiscovery:TRUE];
+    }
+    
+}
 
+// recordtoprofile methods
+- (void)changeRecordtoprofileSettings:(id)sender
+{ 
+    if ([recordtoprofileMenuItem state] == NSOnState) {
+	[recordtoprofileMenuItem setState:NSOffState];
+	[preferences setBool:FALSE forKey:@"recordtoprofilePosition"];
+	[preferences synchronize];
+	[webService executeControl:@"nortp"];
+    } else {
+	[preferences setBool:TRUE forKey:@"recordtoprofilePosition"];
+	[preferences synchronize];
+	[recordtoprofileMenuItem setState:NSOnState];
+	[webService executeControl:@"rtp"];
+    }
+    
+}
 
 - (void)updateMenu
 {
@@ -636,6 +671,9 @@
 	NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
 	[script executeAndReturnError:nil];
 	
+	[webService setDiscovery:[preferences boolForKey:@"discoveryPosition"]];
+	[webService executeControl:([preferences boolForKey:@"discoveryPosition"] ? @"rtp" : @"nortp")];
+	
 	// Set the timer so that in five seconds the new song information will be fetched
 	timer = [[NSTimer scheduledTimerWithTimeInterval:(5) target:self
 				selector:@selector(fireTimer:) userInfo:nil repeats:NO] retain];
@@ -688,23 +726,13 @@
 	[menu insertItem:[NSMenuItem separatorItem] atIndex:1];
 }
 
-- (NSString *)md5:(NSString *)clearTextString
+- (NSString *)md5:(NSString *)clear
 {
-	// Why the heck can't they provide a simple and stupid md5() method!?
-	NSData *seedData = [[SSCrypto getKeyDataWithLength:32] retain];
-    SSCrypto *crypto = [[[SSCrypto alloc] initWithSymmetricKey:seedData] autorelease];
-	[crypto setClearTextWithString:clearTextString];
-	
-	// And why does NSData make such a f****** fancy output!? What for? To parse it out again???
-	NSString *md5Hash = [[crypto digest:@"MD5"] description];
-	md5Hash = [[[[NSString stringWithString:[md5Hash substringWithRange:NSMakeRange(1, 8)]]
-					stringByAppendingString:[md5Hash substringWithRange:NSMakeRange(10, 8)]]
-					stringByAppendingString:[md5Hash substringWithRange:NSMakeRange(19, 8)]]
-					stringByAppendingString:[md5Hash substringWithRange:NSMakeRange(28, 8)]];
-	[crypto release];
-	[seedData release];
-	
-	return md5Hash;
+    unsigned long long md[MD5_DIGEST_LENGTH]; // 128 bit
+    
+    MD5((unsigned char *)[clear UTF8String], strlen([clear UTF8String]), (unsigned char *)md);
+    
+    return [NSString stringWithFormat:@"%qx%qx", md[0], md[1]];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {

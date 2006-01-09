@@ -55,8 +55,8 @@
 	getSessionCURLHandle = [[CURLHandle alloc] initWithURL:[NSURL URLWithString:getSessionURL] cached:FALSE];
 	
 	[getSessionCURLHandle setFailsOnError:YES];
-    [getSessionCURLHandle setFollowsRedirects:YES];
-    [getSessionCURLHandle setUserAgent:userAgent];
+	[getSessionCURLHandle setFollowsRedirects:YES];
+	[getSessionCURLHandle setUserAgent:userAgent];
 
 	[getSessionCURLHandle addClient:self];
 	[getSessionCURLHandle loadInBackground]; // Send and receive webpage
@@ -106,30 +106,52 @@
 	[controlCURLHandle loadInBackground]; // Send and receive webpage
 }
 
+- (CURLHandle *)adjust:(NSString *)url
+{
+    if (!sessionID || !url)
+	return nil;
+    
+    NSString *genericURL = [[[NSString alloc] initWithString:[[[[[[[NSString stringWithString:@"http://"]
+						    stringByAppendingString:baseHost]
+						    stringByAppendingString:basePath]
+						    stringByAppendingString:@"/adjust.php?session="]
+						    stringByAppendingString:sessionID]
+						    stringByAppendingString:@"&url="]
+						    stringByAppendingString:url]] autorelease];
+    CURLHandle *genericCURLHandle = [[CURLHandle alloc] initWithURL:
+			    [NSURL URLWithString:genericURL] cached:FALSE];
+    
+    [genericCURLHandle setFailsOnError:YES];
+    [genericCURLHandle setFollowsRedirects:YES];
+    
+    [genericCURLHandle setUserAgent:userAgent];
+    
+    [genericCURLHandle addClient:self];
+    
+    return genericCURLHandle;
+}
+
 - (void)tuneStation
 {
-	if (sessionID && stationUrl) {
-		// tune to the station
-		NSString *tuneURL = [[[NSString alloc] initWithString:[[[[[[[NSString stringWithString:@"http://"]
-							stringByAppendingString:baseHost]
-							stringByAppendingString:basePath]
-							stringByAppendingString:@"/adjust.php?session="]
-							stringByAppendingString:sessionID]
-							stringByAppendingString:@"&url="]
-							stringByAppendingString:stationUrl]] autorelease];
-		NSLog(@"tuning to: %@", stationUrl);
-		tuningCURLHandle = [[CURLHandle alloc] initWithURL:[NSURL URLWithString:tuneURL] cached:FALSE];
-		
-		[tuningCURLHandle setFailsOnError:YES];
-		[tuningCURLHandle setFollowsRedirects:YES];
-		
-		[tuningCURLHandle setUserAgent:userAgent];
-		
-		[tuningCURLHandle addClient:self];
-		[tuningCURLHandle loadInBackground]; // Send and receive webpage
-	} else {
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"StartPlayingError" object:self];
-	}
+    tuningCURLHandle = [self adjust:stationUrl];
+    
+    if(tuningCURLHandle) {
+	NSLog(@"tuning to: %@", stationUrl);
+	[tuningCURLHandle loadInBackground];
+    } else
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"StartPlayingError" object:self];
+}
+
+- (void)setDiscovery:(bool)state
+{
+    discoveryCURLHandle = [self adjust:
+	[NSString stringWithFormat:@"lastfm://settings/discovery/%@", (state ? @"on" : @"off")]];
+    
+    if(discoveryCURLHandle) {
+	NSLog(@"setting discovery to: %@", (state ? @"on" : @"off"));
+	[discoveryCURLHandle loadInBackground];
+    } else	
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"SetDiscoveryError" object:self];
 }
 
 - (NSString *)streamingServer;
@@ -234,7 +256,7 @@
 - (void)URLHandleResourceDidFinishLoading:(NSURLHandle *)sender
 {
 	// Compute response (e.g. loaded webpage)
-    NSString *result = [[[NSString alloc] initWithData:[sender resourceData] encoding:NSUTF8StringEncoding] autorelease];
+	NSString *result = [[[NSString alloc] initWithData:[sender resourceData] encoding:NSUTF8StringEncoding] autorelease];
 	NSMutableDictionary *parsedResult = [[NSMutableDictionary alloc] init];
 	
 	// Parse keys and values and put them into a NSDictionary
@@ -252,8 +274,6 @@
 	
 		if ([[parsedResult objectForKey:@"session"] isEqualToString:@"FAILED"]) {
 			[parsedResult release];
-			[getSessionCURLHandle removeClient:self];
-			[getSessionCURLHandle release];
 			getSessionCURLHandle = nil;
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"StartPlayingError" object:self];
 		} else {
@@ -262,8 +282,6 @@
 			baseHost = [[parsedResult objectForKey:@"base_url"] copy];
 			basePath = [[parsedResult objectForKey:@"base_path"] copy];
 			[parsedResult release];
-			[getSessionCURLHandle removeClient:self];
-			[getSessionCURLHandle release];
 			getSessionCURLHandle = nil;
 			[self tuneStation];
 		}
@@ -272,14 +290,10 @@
 	
 		if ([[parsedResult objectForKey:@"response"] isEqualToString:@"OK"]) {
 			[parsedResult release];
-			[tuningCURLHandle removeClient:self];
-			[tuningCURLHandle release];
 			tuningCURLHandle = nil;
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"StartPlaying" object:self];
 		} else {
 			[parsedResult release];
-			[tuningCURLHandle removeClient:self];
-			[tuningCURLHandle release];
 			tuningCURLHandle = nil;
 			NSLog(@"Amua: Station tuning error");
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"StartPlaying" object:self];
@@ -287,8 +301,6 @@
 		
 	} else if ([sender isEqual:nowPlayingCURLHandle]) { // Response for song information request
 		
-		[nowPlayingCURLHandle removeClient:self];
-		[nowPlayingCURLHandle release];
 		nowPlayingCURLHandle = nil;
 		if (nowPlayingInformation != nil) {
 			[nowPlayingInformation release];
@@ -305,11 +317,18 @@
 	} else if ([sender isEqual:controlCURLHandle]) { // Response for executed command
 	
 		// We don't do anything, whether the sent command was successful or not
-		[controlCURLHandle release];
-		[controlCURLHandle removeClient:self];
 		controlCURLHandle = nil;
 		
+	} else if ([sender isEqual:discoveryCURLHandle]) { // Response to changing discover setting
+		
+		discoveryCURLHandle = nil;
+
+		// work around a bug in the lastfm server  
+		[[self adjust:stationUrl] loadInBackground];
 	}
+	
+	[sender release];
+	[sender removeClient:self];
 }
 
 - (void)URLHandleResourceDidBeginLoading:(NSURLHandle *)sender {}
