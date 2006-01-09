@@ -76,6 +76,17 @@
 		[preferences setInteger:1 forKey:@"showPossibleUpdateDialog"];
 		[preferences synchronize];
 	}
+    
+	// Upgrade from version 0.5 to 0.5.1
+	if ([[preferences objectForKey:@"version"] isEqualToString:@"0.5"]) {
+		// Add preferences values for discovery mode and record to profile
+        [preferences setBool:FALSE forKey:@"discoveryMode"];
+        [preferences setBool:TRUE forKey:@"recordToProfile"];
+        
+		[preferences setObject:@"0.5.1" forKey:@"version"];
+		[preferences setInteger:1 forKey:@"showPossibleUpdateDialog"];
+		[preferences synchronize];
+	}
 	
 	// Make sure, the version is written into the user's preferences file, also
 	// if it's not an upgrade but a new installation

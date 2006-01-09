@@ -3,7 +3,7 @@
         {
             ACTIONS = {
                 changeDiscoverySettings = id; 
-                changeRecordtoprofileSettings = id; 
+                changeRecordToProfileSettings = id; 
                 changeTooltipSettings = id; 
                 clearRecentStations = id; 
                 openAboutPanel = id; 
@@ -52,6 +52,7 @@
             CLASS = StationController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                amuaController = AmuaController; 
                 artistImage = NSImageView; 
                 artistMainResultField = NSTextField; 
                 artistNoResultBox = NSBox; 

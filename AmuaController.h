@@ -33,6 +33,8 @@
 
 #define MAX_SONGTEXT_LENGTH 30
 
+@class StationController;
+
 @interface AmuaController : NSObject
 {
 	
