@@ -276,8 +276,8 @@
 	
 		if ([[parsedResult objectForKey:@"session"] isEqualToString:@"FAILED"]) {
 			[parsedResult release];
-			//[getSessionCURLHandle removeClient:self];
-			//[getSessionCURLHandle release];
+			[getSessionCURLHandle removeClient:self];
+			[getSessionCURLHandle release];
 			getSessionCURLHandle = nil;
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"StartPlayingError" object:self];
 		} else {
@@ -286,8 +286,8 @@
 			baseHost = [[parsedResult objectForKey:@"base_url"] copy];
 			basePath = [[parsedResult objectForKey:@"base_path"] copy];
 			[parsedResult release];
-			//[getSessionCURLHandle removeClient:self];
-			//[getSessionCURLHandle release];
+			[getSessionCURLHandle removeClient:self];
+			[getSessionCURLHandle release];
 			getSessionCURLHandle = nil;
 			[self tuneStation];
 		}
@@ -296,14 +296,14 @@
 	
 		if ([[parsedResult objectForKey:@"response"] isEqualToString:@"OK"]) {
 			[parsedResult release];
-			//[tuningCURLHandle removeClient:self];
-			//[tuningCURLHandle release];
+			[tuningCURLHandle removeClient:self];
+			[tuningCURLHandle release];
 			tuningCURLHandle = nil;
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"StartPlaying" object:self];
 		} else {
 			[parsedResult release];
-			//[tuningCURLHandle removeClient:self];
-			//[tuningCURLHandle release];
+			[tuningCURLHandle removeClient:self];
+			[tuningCURLHandle release];
 			tuningCURLHandle = nil;
 			NSLog(@"Amua: Station tuning error");
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"StartPlaying" object:self];
@@ -311,8 +311,8 @@
 		
 	} else if ([sender isEqual:nowPlayingCURLHandle]) { // Response for song information request
 		
-		//[nowPlayingCURLHandle removeClient:self];
-		//[nowPlayingCURLHandle release];
+		[nowPlayingCURLHandle removeClient:self];
+		[nowPlayingCURLHandle release];
 		nowPlayingCURLHandle = nil;
 		if (nowPlayingInformation != nil) {
 			[nowPlayingInformation release];
@@ -329,8 +329,8 @@
 	} else if ([sender isEqual:controlCURLHandle]) { // Response for executed command
 	
 		// We don't do anything, whether the sent command was successful or not
-		//[controlCURLHandle removeClient:self];
-		//[controlCURLHandle release];
+		[controlCURLHandle removeClient:self];
+		[controlCURLHandle release];
 		controlCURLHandle = nil;
 		
 	} else if ([sender isEqual:discoveryCURLHandle]) { // Response to changing discover setting
@@ -341,8 +341,8 @@
 		[[self adjust:stationUrl] loadInBackground];
 	}
 	
-	[sender release];
-	[sender removeClient:self];
+	//[sender release];
+	//[sender removeClient:self];
 }
 
 - (void)URLHandleResourceDidBeginLoading:(NSURLHandle *)sender {}
