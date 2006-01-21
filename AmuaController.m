@@ -75,6 +75,11 @@
 	
 	playing = NO;
 	
+	[[NSAppleEventManager sharedAppleEventManager] setEventHandler:self
+		andSelector:@selector(handleOpenUrl:withReplyEvent:)
+		forEventClass:kInternetEventClass
+		andEventID:kAEGetURL];
+	
 	return self;
 }
 
@@ -108,9 +113,10 @@
 	
 	[self updateMenu];
     [self updateRecentPlayedMenu];
+
 }
 
-- (void)play:(id)sender
+- (void)playUrl:(NSString *)url
 {
 	NSString *scriptSource = @"tell application \"iTunes\" \n stop \n end tell";
 	NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
@@ -118,8 +124,6 @@
     
 	playing = YES;
 	[self updateMenu];
-    
-	NSString *stationUrl = [stationController getStationURLFromSender:sender];
 
 	// Create web service object
 	if (webService != nil) {
@@ -127,40 +131,29 @@
 	}
 	webService = [[LastfmWebService alloc]
 					initWithWebServiceServer:[preferences stringForKey:@"webServiceServer"]
-					withStationUrl:stationUrl
+					withStationUrl:url
 					asUserAgent:[preferences stringForKey:@"userAgent"]];
 	[webService createSessionForUser:[preferences stringForKey:@"username"]
 		withPasswordHash:[self md5:[keyChain genericPasswordForService:@"Amua"
 										account:[preferences stringForKey:@"username"]]]];
+
+}
+
+- (void)play:(id)sender
+{
+	NSString *stationUrl = [stationController getStationURLFromSender:sender];
 	[stationController hideWindow];
+	[self playUrl:stationUrl];
     [self updateRecentPlayedMenu];
 }
 
 - (void)playRecentStation:(id)sender
 {
-	NSString *scriptSource = @"tell application \"iTunes\" \n stop \n end tell";
-	NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
-	[script executeAndReturnError:nil];
-    
-	playing = YES;
-	[self updateMenu];
-    
     int index = [playRecentMenu indexOfItem:sender];
     NSString *stationUrl = [NSString stringWithString:[recentStations stationURLByIndex:index]];
     NSLog(@"%i %@", index, stationUrl);
     [recentStations moveToFront:index];
-
-	// Create web service object
-	if (webService != nil) {
-		[webService release];
-	}
-	webService = [[LastfmWebService alloc]
-					initWithWebServiceServer:[preferences stringForKey:@"webServiceServer"]
-					withStationUrl:stationUrl
-					asUserAgent:[preferences stringForKey:@"userAgent"]];
-	[webService createSessionForUser:[preferences stringForKey:@"username"]
-		withPasswordHash:[self md5:[keyChain genericPasswordForService:@"Amua"
-										account:[preferences stringForKey:@"username"]]]];
+	[self playUrl: stationUrl];
 	[stationController hideWindow];
     [self updateRecentPlayedMenu];
 }
@@ -177,15 +170,7 @@
 	[self updateMenu];
 	
 	NSString *stationUrl = [recentStations mostRecentStation];
-
-	// Create web service object
-	webService = [[LastfmWebService alloc]
-					initWithWebServiceServer:[preferences stringForKey:@"webServiceServer"]
-					withStationUrl:stationUrl
-					asUserAgent:[preferences stringForKey:@"userAgent"]];
-	[webService createSessionForUser:[preferences stringForKey:@"username"]
-		withPasswordHash:[self md5:[keyChain genericPasswordForService:@"Amua"
-										account:[preferences stringForKey:@"username"]]]];
+	[self playUrl:stationUrl];
 }
 
 - (void)stop:(id)sender
@@ -362,7 +347,6 @@
 									
 			// set the tooltip location
 			NSPoint point;
-			BOOL needToPosition = NO;
 			if (alwaysDisplayTooltip) {
 				point = NSPointFromString([preferences stringForKey:@"tooltipPosition"]);
 				if (point.x == 0 && point.y == 0) {
@@ -735,7 +719,20 @@
     return [NSString stringWithFormat:@"%qx%qx", md[0], md[1]];
 }
 
-- (void)applicationWillTerminate:(NSNotification *)aNotification {
+- (void)handleOpenUrl:(NSAppleEventDescriptor *)event
+						withReplyEvent:(NSAppleEventDescriptor *)replyEvent
+{
+	NSString *filename = [[event paramDescriptorForKeyword: keyDirectObject]
+								stringValue];
+	if ([filename hasPrefix:@"lastfm"]) {
+		[self playUrl:filename];
+		[recentStations addStation:filename withType:@"Link" withName:filename];
+		[self updateRecentPlayedMenu];
+	}
+}
+
+- (void)applicationWillTerminate:(NSNotification *)aNotification
+{
 	if (playing) {
 		[self stop:self];
 	}
