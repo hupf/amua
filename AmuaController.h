@@ -92,6 +92,7 @@
 	bool alwaysDisplayTooltip;
 	
 }
+- (void)playUrl:(NSString *)url;
 - (void)play:(id)sender;
 - (void)playRecentStation:(id)sender;
 - (void)playMostRecent:(id)sender;
@@ -117,5 +118,7 @@
 - (void)handleUpdateNowPlayingInformation:(NSNotification *)aNotification;
 - (void)handleStartPlayingError:(NSNotification *)aNotification;
 - (NSString *)md5:(NSString *)clearTextString;
+- (void)handleOpenUrl:(NSAppleEventDescriptor *)event
+						withReplyEvent:(NSAppleEventDescriptor *)replyEvent;
 - (void)applicationWillTerminate:(NSNotification *)aNotification;
 @end

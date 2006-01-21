@@ -152,6 +152,7 @@
 
 - (void)dealloc
 {
+	[super dealloc];
 	[preferences release];
 }
 
