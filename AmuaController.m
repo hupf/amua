@@ -654,6 +654,8 @@
 								stringByAppendingString:@"\" \n end tell"];
 	NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
 	[script executeAndReturnError:nil];
+    
+    [webService updateNowPlayingInformation];
 	
 	[webService setDiscovery:[preferences boolForKey:@"discoveryMode"]];
 	[webService executeControl:([preferences boolForKey:@"discoveryMode"] ? @"rtp" : @"nortp")];
