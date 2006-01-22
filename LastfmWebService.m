@@ -52,7 +52,9 @@
 						stringByAppendingString:@"&passwordmd5="]
 						stringByAppendingString:passwordMD5]] autorelease];
 	
-	getSessionCURLHandle = [[CURLHandle alloc] initWithURL:[NSURL URLWithString:getSessionURL] cached:FALSE];
+	getSessionCURLHandle = [[CURLHandle alloc]
+    						initWithURL:[NSURL URLWithString:getSessionURL]
+                            cached:FALSE];
 	
 	[getSessionCURLHandle setFailsOnError:YES];
 	[getSessionCURLHandle setFollowsRedirects:YES];
@@ -72,7 +74,9 @@
 						stringByAppendingString:@"?session="]
 						stringByAppendingString:sessionID]] autorelease];
 	
-	nowPlayingCURLHandle = [[CURLHandle alloc] initWithURL:[NSURL URLWithString:nowPlayingURL] cached:FALSE];
+	nowPlayingCURLHandle = [[CURLHandle alloc]
+    						initWithURL:[NSURL URLWithString:nowPlayingURL]
+                            cached:FALSE];
 	
 	[nowPlayingCURLHandle setFailsOnError:YES];
     [nowPlayingCURLHandle setFollowsRedirects:YES];
@@ -95,7 +99,9 @@
 						stringByAppendingString:command]
 						stringByAppendingString:@"&debug=0"]] autorelease];
 	
-	controlCURLHandle = [[CURLHandle alloc] initWithURL:[NSURL URLWithString:controlURL] cached:FALSE];
+	controlCURLHandle = [[CURLHandle alloc]
+    						initWithURL:[NSURL URLWithString:controlURL]
+                            cached:FALSE];
 	
 	[controlCURLHandle setFailsOnError:YES];
     [controlCURLHandle setFollowsRedirects:YES];
@@ -139,20 +145,23 @@
 		NSLog(@"tuning to: %@", stationUrl);
 		[tuningCURLHandle loadInBackground];
     } else {
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"StartPlayingError" object:self];
+		[[NSNotificationCenter defaultCenter]
+        	postNotificationName:@"StartPlayingError" object:self];
     }
 }
 
 - (void)setDiscovery:(bool)state
 {
     discoveryCURLHandle = [self adjust:
-	[NSString stringWithFormat:@"lastfm://settings/discovery/%@", (state ? @"on" : @"off")]];
+		[NSString stringWithFormat:@"lastfm://settings/discovery/%@",
+        (state ? @"on" : @"off")]];
     
     if(discoveryCURLHandle) {
 		NSLog(@"setting discovery to: %@", (state ? @"on" : @"off"));
 		[discoveryCURLHandle loadInBackground];
     } else {
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"SetDiscoveryError" object:self];
+		[[NSNotificationCenter defaultCenter]
+        	postNotificationName:@"SetDiscoveryError" object:self];
     }
 }
 
@@ -244,7 +253,8 @@
 
 - (NSString *)nowPlayingRadioStationProfile
 {
-	if (nowPlayingInformation != nil && ![[nowPlayingInformation objectForKey:@"stationfeed"] isEqualToString:user]) {
+	if (nowPlayingInformation != nil
+    	&& ![[nowPlayingInformation objectForKey:@"stationfeed"] isEqualToString:user]) {
 		// return user you stream from (only on private and personal radio)
 		return [nowPlayingInformation objectForKey:@"stationfeed"];
 	} else {
@@ -258,7 +268,9 @@
 - (void)URLHandleResourceDidFinishLoading:(NSURLHandle *)sender
 {
 	// Compute response (e.g. loaded webpage)
-	NSString *result = [[[NSString alloc] initWithData:[sender resourceData] encoding:NSUTF8StringEncoding] autorelease];
+	NSString *result = [[[NSString alloc]
+    	initWithData:[sender resourceData]
+        encoding:NSUTF8StringEncoding] autorelease];
 	NSMutableDictionary *parsedResult = [[NSMutableDictionary alloc] init];
 	
 	// Parse keys and values and put them into a NSDictionary
@@ -267,7 +279,8 @@
 	for (i=0; i< [values count]; i++) {
 		NSRange equalPosition = [[values objectAtIndex:i] rangeOfString:@"="];
 		if (equalPosition.length > 0) {
-			[parsedResult setObject:[[values objectAtIndex:i] substringFromIndex:equalPosition.location+equalPosition.length]
+			[parsedResult setObject:[[values objectAtIndex:i]
+            	substringFromIndex:equalPosition.location+equalPosition.length]
 					forKey:[[values objectAtIndex:i] substringToIndex:equalPosition.location]];
 		}
 	}
@@ -276,18 +289,15 @@
 	
 		if ([[parsedResult objectForKey:@"session"] isEqualToString:@"FAILED"]) {
 			[parsedResult release];
-			[getSessionCURLHandle removeClient:self];
-			[getSessionCURLHandle release];
 			getSessionCURLHandle = nil;
-			[[NSNotificationCenter defaultCenter] postNotificationName:@"StartPlayingError" object:self];
+			[[NSNotificationCenter defaultCenter]
+            	postNotificationName:@"StartPlayingError" object:self];
 		} else {
 			sessionID = [[parsedResult objectForKey:@"session"] copy];
 			streamingServer = [[parsedResult objectForKey:@"stream_url"] copy];
 			baseHost = [[parsedResult objectForKey:@"base_url"] copy];
 			basePath = [[parsedResult objectForKey:@"base_path"] copy];
 			[parsedResult release];
-			[getSessionCURLHandle removeClient:self];
-			[getSessionCURLHandle release];
 			getSessionCURLHandle = nil;
 			[self tuneStation];
 		}
@@ -296,41 +306,40 @@
 	
 		if ([[parsedResult objectForKey:@"response"] isEqualToString:@"OK"]) {
 			[parsedResult release];
-			[tuningCURLHandle removeClient:self];
-			[tuningCURLHandle release];
 			tuningCURLHandle = nil;
-			[[NSNotificationCenter defaultCenter] postNotificationName:@"StartPlaying" object:self];
+			[[NSNotificationCenter defaultCenter]
+            	postNotificationName:@"StartPlaying" object:self];
 		} else {
 			[parsedResult release];
-			[tuningCURLHandle removeClient:self];
-			[tuningCURLHandle release];
 			tuningCURLHandle = nil;
 			NSLog(@"Amua: Station tuning error");
-			[[NSNotificationCenter defaultCenter] postNotificationName:@"StartPlaying" object:self];
+			[[NSNotificationCenter defaultCenter]
+            	postNotificationName:@"StartPlaying" object:self];
 		}
 		
 	} else if ([sender isEqual:nowPlayingCURLHandle]) { // Response for song information request
 		
-		[nowPlayingCURLHandle removeClient:self];
-		[nowPlayingCURLHandle release];
 		nowPlayingCURLHandle = nil;
-		if (nowPlayingInformation != nil) {
-			[nowPlayingInformation release];
-		}
-		nowPlayingInformation = parsedResult;
-		if ([nowPlayingInformation objectForKey:@"albumcover_small"] != nil) {
-			if (albumCover != nil) {
-				[albumCover release];
-			}
-			albumCover = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[nowPlayingInformation objectForKey:@"albumcover_small"]]];
-		}
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"UpdateNowPlayingInformation" object:self];
 		
+		if ([[parsedResult objectForKey:@"streaming"] isEqual:@"true"]) {
+			if (nowPlayingInformation != nil) {
+				[nowPlayingInformation release];
+			}
+			nowPlayingInformation = parsedResult;
+			if ([nowPlayingInformation objectForKey:@"albumcover_small"] != nil) {
+				if (albumCover != nil) {
+					[albumCover release];
+				}
+				albumCover = [[NSImage alloc] initWithContentsOfURL:
+                	[NSURL URLWithString:[nowPlayingInformation
+                    	objectForKey:@"albumcover_small"]]];
+			}
+			[[NSNotificationCenter defaultCenter]
+            	postNotificationName:@"UpdateNowPlayingInformation" object:self];
+		}
 	} else if ([sender isEqual:controlCURLHandle]) { // Response for executed command
 	
 		// We don't do anything, whether the sent command was successful or not
-		[controlCURLHandle removeClient:self];
-		[controlCURLHandle release];
 		controlCURLHandle = nil;
 		
 	} else if ([sender isEqual:discoveryCURLHandle]) { // Response to changing discover setting
@@ -341,8 +350,8 @@
 		[[self adjust:stationUrl] loadInBackground];
 	}
 	
-	//[sender release];
-	//[sender removeClient:self];
+	[sender removeClient:self];	
+	[sender release];
 }
 
 - (void)URLHandleResourceDidBeginLoading:(NSURLHandle *)sender {}
@@ -352,7 +361,8 @@
 	if (sender == getSessionCURLHandle || sender == tuningCURLHandle) {
 		[sender removeClient:self];
 		[sender release];
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"StartPlayingError" object:self];
+		[[NSNotificationCenter defaultCenter]
+        	postNotificationName:@"StartPlayingError" object:self];
 	} else {
 		[sender removeClient:self];
 		[sender release];
@@ -366,7 +376,8 @@
 	if (sender == getSessionCURLHandle || sender == tuningCURLHandle) {
 		[sender removeClient:self];
 		[sender release];
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"StartPlayingError" object:self];
+		[[NSNotificationCenter defaultCenter]
+        	postNotificationName:@"StartPlayingError" object:self];
 	} else {
 		[sender removeClient:self];
 		[sender release];
