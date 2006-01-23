@@ -130,13 +130,6 @@
 			refType = 0;
 			sourceTree = "<absolute>";
 		};
-		0C5D882707CCAC0B00067D6B = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.framework;
-			path = CURLHandle.framework;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
 		0C73309107CB340600D4A0AC = {
 			isa = PBXFileReference;
 			lastKnownFileType = image.icns;
@@ -223,8 +216,9 @@
 			files = (
 				0C84495C09798D6F00A0F823,
 				0C84495D09798D6F00A0F823,
-				0C84495E09798D6F00A0F823,
 				0C84495F09798D6F00A0F823,
+				0CDA84600985678F00DFC43F,
+				0CDA8462098567C900DFC43F,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -246,7 +240,7 @@
 				0C84489F09798C6700A0F823,
 			);
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\" /Users/m/Documents/Development/Amua";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -503,12 +497,6 @@
 			settings = {
 			};
 		};
-		0C84495E09798D6F00A0F823 = {
-			fileRef = 0C5D882707CCAC0B00067D6B;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		0C84495F09798D6F00A0F823 = {
 			fileRef = 0CB409E30972E5ED00E0C772;
 			isa = PBXBuildFile;
@@ -526,16 +514,10 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0C84498A09798FCB00A0F823,
+				0CDA8468098567D600DFC43F,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0C84498A09798FCB00A0F823 = {
-			fileRef = 0C5D882707CCAC0B00067D6B;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		0C88FCA507C53D6500221576 = {
 			fileEncoding = 4;
@@ -609,6 +591,39 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
+		0CDA845F0985678F00DFC43F = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = ApplicationServices.framework;
+			path = /System/Library/Frameworks/ApplicationServices.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		0CDA84600985678F00DFC43F = {
+			fileRef = 0CDA845F0985678F00DFC43F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0CDA8461098567C900DFC43F = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			path = CURLHandle.framework;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		0CDA8462098567C900DFC43F = {
+			fileRef = 0CDA8461098567C900DFC43F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0CDA8468098567D600DFC43F = {
+			fileRef = 0CDA8461098567C900DFC43F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 //0C0
 //0C1
 //0C2
@@ -621,8 +636,9 @@
 //104
 		1058C7A0FEA54F0111CA2CBB = {
 			children = (
+				0CDA8461098567C900DFC43F,
+				0CDA845F0985678F00DFC43F,
 				0CB409E30972E5ED00E0C772,
-				0C5D882707CCAC0B00067D6B,
 				F45B8A7F07DB7231007383B1,
 				0C287A6707C677F400AF7154,
 			);
