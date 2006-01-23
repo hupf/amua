@@ -83,13 +83,29 @@
 	return self;
 }
 
+
 - (void)awakeFromNib
 {	
-	// check for a new version
+	// Check if a new version of Amua is available
 	AmuaUpdater *updater = [[[AmuaUpdater alloc] init] autorelease];
 	if ((BOOL)[[preferences stringForKey:@"showPossibleUpdateDialog"] intValue]) {
 		[updater checkForUpdates];
 	}
+    
+    // Check if Amua is the default player for the lastfm:// protocol
+    bool isDefault = [self isDefaultLastfmPlayer];
+    NSLog(isDefault?@"default":@"not default");
+    if (!isDefault) {
+    	int alertAction = NSRunAlertPanel(@"Default Last.fm Player",
+        					@"Amua is not currently set as your default Last.fm player. " \
+                             "Would you like to make it your default Last.fm player?",
+        					@"Yes", @"No", nil);
+		NSLog(@"%i", alertAction);
+        if (alertAction == 1) {
+        	// Set Amua as default Last.fm player.
+			[self setDefaultLastfmPlayer];
+		}
+    }
 
 	// Add an menu item to the status bar
 	statusItem = [[[NSStatusBar systemStatusBar]
@@ -116,6 +132,7 @@
 
 }
 
+
 - (void)playUrl:(NSString *)url
 {
 	NSString *scriptSource = @"tell application \"iTunes\" \n stop \n end tell";
@@ -139,6 +156,7 @@
 
 }
 
+
 - (void)play:(id)sender
 {
 	NSString *stationUrl = [stationController getStationURLFromSender:sender];
@@ -146,6 +164,7 @@
 	[self playUrl:stationUrl];
     [self updateRecentPlayedMenu];
 }
+
 
 - (void)playRecentStation:(id)sender
 {
@@ -172,6 +191,7 @@
 	NSString *stationUrl = [recentStations mostRecentStation];
 	[self playUrl:stationUrl];
 }
+
 
 - (void)stop:(id)sender
 {
@@ -201,10 +221,12 @@
 	[self hideTooltip:self];
 }
 
+
 - (void)loveSong:(id)sender
 {
 	[webService executeControl:@"love"];
 }
+
 
 - (void)skipSong:(id)sender
 {
@@ -236,6 +258,7 @@
 				selector:@selector(fireTimer:) userInfo:nil repeats:NO] retain];
 }
 
+
 - (void)banSong:(id)sender
 {
 	[webService executeControl:@"ban"];
@@ -266,6 +289,7 @@
 				selector:@selector(fireTimer:) userInfo:nil repeats:NO] retain];
 }
 
+
 - (IBAction)clearRecentStations:(id)sender
 {
 	[recentStations clear];
@@ -277,10 +301,12 @@
     }
 }
 
+
 - (IBAction)openLastfmHomepage:(id)sender
 {
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.last.fm/"]];
 }
+
 
 - (IBAction)openPersonalPage:(id)sender
 {
@@ -288,6 +314,7 @@
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[prefix
 			stringByAppendingString:[preferences stringForKey:@"username"]]]];
 }
+
 
 - (IBAction)openPreferences:(id)sender
 {
@@ -299,10 +326,12 @@
     [[preferencesController window] makeKeyAndOrderFront:nil];
 }
 
+
 - (void)openAlbumPage:(id)sender
 {
 	[[NSWorkspace sharedWorkspace] openURL:[webService nowPlayingAlbumPage]];
 }
+
 
 - (IBAction)openAboutPanel:(id)sender
 {
@@ -332,6 +361,7 @@
 	}
 	
 }
+
 
 - (void)showTooltip:(id)sender
 {
@@ -370,6 +400,7 @@
 
 }
 
+
 - (void)hideTooltip:(id)sender
 {
 	// remove the tooltip window
@@ -379,7 +410,7 @@
 	mouseIsOverIcon = NO;
 }
 
-// discovery methods
+
 - (void)changeDiscoverySettings:(id)sender
 { 
     if ([discoveryMenuItem state] == NSOnState) {
@@ -396,7 +427,7 @@
     
 }
 
-// recordtoprofile methods
+
 - (void)changeRecordToProfileSettings:(id)sender
 { 
     if ([recordtoprofileMenuItem state] == NSOnState) {
@@ -412,6 +443,7 @@
     }
     
 }
+
 
 - (void)updateMenu
 {
@@ -585,6 +617,7 @@
 	}
 }
 
+
 - (void)updateRecentPlayedMenu
 {
 	while ([playRecentMenu itemAtIndex:0] != clearRecentMenuItem) {
@@ -615,6 +648,7 @@
     }
 }
 
+
 - (void)updateTimer
 {
 	// Set the timer to fire after the currently playing song will be finished.
@@ -631,6 +665,7 @@
 				selector:@selector(fireTimer:) userInfo:nil repeats:NO] retain];
 }
 
+
 - (void)fireTimer:(id)sender
 {
 	if (webService != nil) {
@@ -639,11 +674,13 @@
 }
 
 
+
 // Handlers
 - (void)handlePreferencesChanged:(NSNotification *)aNotification
 {
 	[self updateMenu];
 }
+
 
 - (void)handleStartPlaying:(NSNotification *)aNotification
 {
@@ -664,6 +701,7 @@
 	timer = [[NSTimer scheduledTimerWithTimeInterval:(5) target:self
 				selector:@selector(fireTimer:) userInfo:nil repeats:NO] retain];
 }
+
 
 - (void)handleUpdateNowPlayingInformation:(NSNotification *)aNotification
 {
@@ -694,6 +732,7 @@
 	}
 }
 
+
 - (void)handleStartPlayingError:(NSNotification *)aNotification
 {
 	playing = NO;
@@ -712,6 +751,7 @@
 	[menu insertItem:[NSMenuItem separatorItem] atIndex:1];
 }
 
+
 - (NSString *)md5:(NSString *)clear
 {
     unsigned long long md[MD5_DIGEST_LENGTH]; // 128 bit
@@ -720,6 +760,7 @@
     
     return [NSString stringWithFormat:@"%qx%qx", md[0], md[1]];
 }
+
 
 - (void)handleOpenUrl:(NSAppleEventDescriptor *)event
 						withReplyEvent:(NSAppleEventDescriptor *)replyEvent
@@ -733,6 +774,7 @@
 	}
 }
 
+
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {
 	if (playing) {
@@ -740,6 +782,80 @@
 	}
 	
 	[preferences setInteger:(int)alwaysDisplayTooltip forKey:@"alwaysDisplayTooltip"];
+}
+
+
+- (bool)isDefaultLastfmPlayer
+{
+	// This method is from Mozilla Firefox source code
+    // (see browser/components/shell/src/nsMacShellService.cpp).
+    
+	bool isDefault = true;
+
+	// Since neither Launch Services nor Internet Config actually differ between 
+	// bundles which have the same bundle identifier (That is, if we set our
+	// bundle's URL as the default handler, Launch Service might return the
+	// URL of another firefox bundle as the defualt http handler), we are
+	// comparing the bundles' identifiers rather than their URLs.
+
+	CFStringRef amuaID = CFBundleGetIdentifier(CFBundleGetMainBundle());
+	if (!amuaID) {
+		// CFBundleGetIdentifier is expected to return NULL only if the specified
+		// bundle doesn't have a bundle identifier in its plist. In this case, that
+		// means a failure, since our bundle does have an identifier.
+		NSLog(@"isDefaultLastfmPlayer: failure in plist");
+	}
+
+	CFRetain(amuaID);
+
+	// Get the default http handler URL
+	CFURLRef defaultLastfmPlayerURL;
+	OSStatus err = _LSCopyDefaultSchemeHandlerURL(CFSTR("lastfm"),
+							&defaultLastfmPlayerURL);
+	if (err == noErr) {
+		// Get a reference to the bundle (based on its URL)
+		CFBundleRef defaultLastfmPlayerBundle = CFBundleCreate(NULL, 
+							defaultLastfmPlayerURL);
+		if (defaultLastfmPlayerBundle) {
+			CFStringRef defaultLastfmPlayerID = CFBundleGetIdentifier(defaultLastfmPlayerBundle);
+			if (defaultLastfmPlayerID) {
+				CFRetain(defaultLastfmPlayerID);
+				// and compare it to our bundle identifier
+				isDefault = CFStringCompare(amuaID, defaultLastfmPlayerID, 0)
+ 														== kCFCompareEqualTo;
+				CFRelease(defaultLastfmPlayerID);
+			}
+			else {
+				// If the default browser bundle doesn't have an identifier in its plist,
+				// it's not our bundle
+				isDefault = false;
+			}
+
+			CFRelease(defaultLastfmPlayerBundle);
+		}
+
+		CFRelease(defaultLastfmPlayerURL);
+	}
+
+	// release the idetifiers strings
+	CFRelease(amuaID);
+    
+	return isDefault;
+}
+
+
+- (void)setDefaultLastfmPlayer
+{
+	// This method is from Mozilla Firefox source code
+    // (see browser/components/shell/src/nsMacShellService.cpp).
+    
+	CFURLRef amuaURL = CFBundleCopyBundleURL(CFBundleGetMainBundle());
+                NSLog((NSString*)CFCopyDescription(amuaURL));
+	
+	_LSSetDefaultSchemeHandlerURL(CFSTR("lastfm"), amuaURL);
+	_LSSaveAndRefresh();
+	
+	CFRelease(amuaURL);
 }
 
 @end

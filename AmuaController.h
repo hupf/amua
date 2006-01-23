@@ -22,6 +22,10 @@
 
 #import <Cocoa/Cocoa.h>
 #import <openssl/md5.h>
+#import <Foundation/Foundation.h>
+//#include <CoreFoundation/CoreFoundation.h>
+//#include <Carbon/Carbon.h>
+//#import <ApplicationServices/ApplicationServices.h>
 #import "AmuaView.h"
 #import "AmuaUpdater.h"
 #import "PreferencesController.h"
@@ -32,6 +36,26 @@
 #import "KeyChain.h"
 
 #define MAX_SONGTEXT_LENGTH 30
+
+
+// From Mozilla Firefox source code, use to check default player
+// (see browser/components/shell/src/nsMacShellService.cpp):
+// These Launch Services functions are undocumented. We're using them since they're
+// the only way to set the default opener for URLs / file extensions.
+
+// Returns the CFURL for application currently set as the default opener for the
+// given URL scheme. appURL must be released by the caller.
+extern OSStatus _LSCopyDefaultSchemeHandlerURL(CFStringRef scheme, CFURLRef *appURL);
+extern OSStatus _LSSetDefaultSchemeHandlerURL(CFStringRef scheme, CFURLRef appURL);
+extern OSStatus _LSSaveAndRefresh(void);
+// Callers should pass 0 as both inType and inCreator in order to set the default opener
+// without modifing those.
+extern OSStatus _LSSetWeakBindingForType(OSType inType,
+                                         OSType inCreator,
+                                         CFStringRef inExtension,
+                                         LSRolesMask inRoleMask,
+                                         const FSRef* inBindingRef);
+
 
 @class StationController;
 
@@ -121,4 +145,6 @@
 - (void)handleOpenUrl:(NSAppleEventDescriptor *)event
 						withReplyEvent:(NSAppleEventDescriptor *)replyEvent;
 - (void)applicationWillTerminate:(NSNotification *)aNotification;
+- (bool)isDefaultLastfmPlayer;
+- (void)setDefaultLastfmPlayer;
 @end
