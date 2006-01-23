@@ -22,10 +22,6 @@
 
 #import <Cocoa/Cocoa.h>
 #import <openssl/md5.h>
-#import <Foundation/Foundation.h>
-//#include <CoreFoundation/CoreFoundation.h>
-//#include <Carbon/Carbon.h>
-//#import <ApplicationServices/ApplicationServices.h>
 #import "AmuaView.h"
 #import "AmuaUpdater.h"
 #import "PreferencesController.h"
