@@ -21,25 +21,80 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "KeyChain.h"
 #import <CURLHandle/CURLHandle.h>
 #import <CURLHandle/CURLHandle+extras.h>
+#import "KeyChain.h"
 
-
+/**
+ * The class that checks for and handles Amua updates.
+ */
 @interface AmuaUpdater : NSObject <NSURLHandleClient> {
-
-	NSUserDefaults *preferences;
-	CURLHandle *updaterCURLHandle;
+	
+    /**
+     * A reference to the application preferences object.
+     */
+	NSUserDefaults* preferences;
+    
+	/**
+     * The CURLHandle object for the data transmission to look for updates.
+     */
+	CURLHandle* updaterCURLHandle;
+    
+    /**
+     * Always show a message, even if no update is available.
+     */
+    bool verbose;
 
 }
 
+/**
+ * Constructor.
+ */
 - (id)init;
+
+/**
+ * Set verbose mode.
+ */
+- (void)setVerbose:(bool)v;
+
+/**
+ * Send request to check if new updates are available.
+ */
 - (void)checkForUpdates;
+
+/**
+ * Upgrade the Amua preferences file to the newest version.
+ */
 - (void)upgradeConfigFile;
-- (void)URLHandleResourceDidFinishLoading:(NSURLHandle *)sender;
-- (void)URLHandleResourceDidBeginLoading:(NSURLHandle *)sender;
-- (void)URLHandleResourceDidCancelLoading:(NSURLHandle *)sender;
-- (void)URLHandle:(NSURLHandle *)sender resourceDataDidBecomeAvailable:(NSData *)newBytes;
-- (void)URLHandle:(NSURLHandle *)sender resourceDidFailLoadingWithReason:(NSString *)reason;
+
+/**
+ * If a new update is available, inform the user.
+ */
+- (void)URLHandleResourceDidFinishLoading:(NSURLHandle*)sender;
+
+/**
+ * Nothing to be done.
+ */
+- (void)URLHandleResourceDidBeginLoading:(NSURLHandle*)sender;
+
+/**
+ * No error message.
+ */
+- (void)URLHandleResourceDidCancelLoading:(NSURLHandle*)sender;
+
+/**
+ * Nothing to be done.
+ */
+- (void)URLHandle:(NSURLHandle *)sender resourceDataDidBecomeAvailable:(NSData*)newBytes;
+
+/**
+ * No error message.
+ */
+- (void)URLHandle:(NSURLHandle *)sender resourceDidFailLoadingWithReason:(NSString*)reason;
+
+/**
+ * Deconstructor.
+ */
+- (void)dealloc;
 
 @end

@@ -24,13 +24,13 @@
 
 @implementation AmuaController
 
--(id)init
+- (id)init
 {
     // Read in the XML file with the default preferences
-	NSString *file = [[NSBundle mainBundle]
+	NSString* file = [[NSBundle mainBundle]
         pathForResource:@"Defaults" ofType:@"plist"];
 
-    NSDictionary *defaultPreferences = [NSDictionary dictionaryWithContentsOfFile:file];
+    NSDictionary* defaultPreferences = [NSDictionary dictionaryWithContentsOfFile:file];
 	
 	keyChain = [[KeyChain alloc] init];
 	
@@ -87,24 +87,14 @@
 - (void)awakeFromNib
 {	
 	// Check if a new version of Amua is available
-	AmuaUpdater *updater = [[[AmuaUpdater alloc] init] autorelease];
-	if ((BOOL)[[preferences stringForKey:@"showPossibleUpdateDialog"] intValue]) {
+	AmuaUpdater* updater = [[[AmuaUpdater alloc] init] autorelease];
+	if ([preferences boolForKey:@"performUpdatesCheck"]) {
 		[updater checkForUpdates];
 	}
     
     // Check if Amua is the default player for the lastfm:// protocol
-    bool isDefault = [self isDefaultLastfmPlayer];
-    NSLog(isDefault?@"default":@"not default");
-    if (!isDefault) {
-    	int alertAction = NSRunAlertPanel(@"Default Last.fm Player",
-        					@"Amua is not currently set as your default Last.fm player. " \
-                             "Would you like to make it your default Last.fm player?",
-        					@"Yes", @"No", nil);
-		NSLog(@"%i", alertAction);
-        if (alertAction == 1) {
-        	// Set Amua as default Last.fm player.
-			[self setDefaultLastfmPlayer];
-		}
+    if ([preferences boolForKey:@"performDefaultPlayerCheck"] && ![self isDefaultLastfmPlayer]) {
+    	[defaultPlayerPanel makeKeyAndOrderFront:nil];
     }
 
 	// Add an menu item to the status bar
@@ -133,10 +123,10 @@
 }
 
 
-- (void)playUrl:(NSString *)url
+- (void)playUrl:(NSString*)url
 {
-	NSString *scriptSource = @"tell application \"iTunes\" \n stop \n end tell";
-	NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
+	NSString* scriptSource = @"tell application \"iTunes\" \n stop \n end tell";
+	NSAppleScript* script = [[NSAppleScript alloc] initWithSource:scriptSource];
 	[script executeAndReturnError:nil];
     
 	playing = YES;
@@ -159,7 +149,7 @@
 
 - (void)play:(id)sender
 {
-	NSString *stationUrl = [stationController getStationURLFromSender:sender];
+	NSString* stationUrl = [stationController getStationURLFromSender:sender];
 	[stationController hideWindow];
 	[self playUrl:stationUrl];
     [self updateRecentPlayedMenu];
@@ -169,7 +159,7 @@
 - (void)playRecentStation:(id)sender
 {
     int index = [playRecentMenu indexOfItem:sender];
-    NSString *stationUrl = [NSString stringWithString:[recentStations stationURLByIndex:index]];
+    NSString* stationUrl = [NSString stringWithString:[recentStations stationURLByIndex:index]];
     NSLog(@"%i %@", index, stationUrl);
     [recentStations moveToFront:index];
 	[self playUrl: stationUrl];
@@ -178,17 +168,16 @@
 }
 
 
-// menu actions
 - (void)playMostRecent:(id)sender
 {
-	NSString *scriptSource = @"tell application \"iTunes\" \n stop \n end tell";
-	NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
+	NSString* scriptSource = @"tell application \"iTunes\" \n stop \n end tell";
+	NSAppleScript* script = [[NSAppleScript alloc] initWithSource:scriptSource];
 	[script executeAndReturnError:nil];
     
 	playing = YES;
 	[self updateMenu];
 	
-	NSString *stationUrl = [recentStations mostRecentStation];
+	NSString* stationUrl = [recentStations mostRecentStation];
 	[self playUrl:stationUrl];
 }
 
@@ -208,8 +197,8 @@
 	
 	// Tell iTunes it should stop playing.
 	// Change this command if you want to control another player that is apple-scriptable.
-	NSString *scriptSource = @"tell application \"iTunes\" \n stop \n end tell";
-	NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
+	NSString* scriptSource = @"tell application \"iTunes\" \n stop \n end tell";
+	NSAppleScript* script = [[NSAppleScript alloc] initWithSource:scriptSource];
 	[script executeAndReturnError:nil];
 	
 	if (alwaysDisplayTooltip) {
@@ -234,19 +223,19 @@
 	
 	// Deactivate some menu items that should not be pressed
 	// until new song is streaming
-	NSMenuItem *nowPlayingTrack = [menu itemAtIndex:0];
+	NSMenuItem* nowPlayingTrack = [menu itemAtIndex:0];
 	[nowPlayingTrack setAction:nil];
 	[nowPlayingTrack setEnabled:NO];
 	
-	NSMenuItem *love = [menu itemAtIndex:2];
+	NSMenuItem*love = [menu itemAtIndex:2];
 	[love setAction:nil];
 	[love setEnabled:NO];
 	
-	NSMenuItem *skip = [menu itemAtIndex:3];
+	NSMenuItem* skip = [menu itemAtIndex:3];
 	[skip setAction:nil];
 	[skip setEnabled:NO];
 	
-	NSMenuItem *ban = [menu itemAtIndex:4];
+	NSMenuItem* ban = [menu itemAtIndex:4];
 	[ban setAction:nil];
 	[ban setEnabled:NO];
 	
@@ -265,19 +254,19 @@
 	
 	// Deactivate some menu items that should not be pressed
 	// until new song is streaming
-	NSMenuItem *nowPlayingTrack = [menu itemAtIndex:0];
+	NSMenuItem* nowPlayingTrack = [menu itemAtIndex:0];
 	[nowPlayingTrack setAction:nil];
 	[nowPlayingTrack setEnabled:NO];
 	
-	NSMenuItem *love = [menu itemAtIndex:2];
+	NSMenuItem* love = [menu itemAtIndex:2];
 	[love setAction:nil];
 	[love setEnabled:NO];
 	
-	NSMenuItem *skip = [menu itemAtIndex:3];
+	NSMenuItem* skip = [menu itemAtIndex:3];
 	[skip setAction:nil];
 	[skip setEnabled:NO];
 	
-	NSMenuItem *ban = [menu itemAtIndex:4];
+	NSMenuItem* ban = [menu itemAtIndex:4];
 	[ban setAction:nil];
 	[ban setEnabled:NO];
 	
@@ -310,7 +299,7 @@
 
 - (IBAction)openPersonalPage:(id)sender
 {
-	NSString *prefix = @"http://www.last.fm/user/";
+	NSString* prefix = @"http://www.last.fm/user/";
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[prefix
 			stringByAppendingString:[preferences stringForKey:@"username"]]]];
 }
@@ -368,10 +357,10 @@
 
 	if (webService != nil) {
 	
-		NSString *artist = [webService nowPlayingArtist];
-		NSString *album = [webService nowPlayingAlbum];
-		NSString *title = [webService nowPlayingTrack];
-		NSImage *image = [webService nowPlayingAlbumImage];
+		NSString* artist = [webService nowPlayingArtist];
+		NSString* album = [webService nowPlayingAlbum];
+		NSString* title = [webService nowPlayingTrack];
+		NSImage* image = [webService nowPlayingAlbumImage];
 		
 		if (artist && album && title && image && playing) {
 									
@@ -448,7 +437,7 @@
 - (void)updateMenu
 {
 	// Disable personal page menu item if no username is set
-	NSMenuItem *personalPage = [menu itemWithTitle:@"Personal Page"];
+	NSMenuItem* personalPage = [menu itemWithTitle:@"Personal Page"];
 	if ([[preferences stringForKey:@"username"] isEqualToString:@""]) {
 		[personalPage setAction:nil];
 		[personalPage setEnabled:NO];
@@ -459,8 +448,8 @@
 	
 	if (!playing) { // Stop state
 		
-		NSMenuItem *play = [menu itemWithTitle:@"Play Most Recent Station"];
-		NSMenuItem *playDialog = [menu itemWithTitle:@"Play Station..."];
+		NSMenuItem* play = [menu itemWithTitle:@"Play Most Recent Station"];
+		NSMenuItem* playDialog = [menu itemWithTitle:@"Play Station..."];
 		if (play == nil) {
 		
 			// Remove all menu items until stop item if it exists
@@ -490,7 +479,7 @@
 			[playDialog setAction:nil];
 			[playDialog setEnabled:NO];
 			
-			NSMenuItem *hint = [[[NSMenuItem alloc] initWithTitle:@"Hint: Check Preferences"
+			NSMenuItem* hint = [[[NSMenuItem alloc] initWithTitle:@"Hint: Check Preferences"
 									action:nil keyEquivalent:@""] autorelease];
 			[hint setEnabled:NO];
 			[menu insertItem:hint atIndex:0];
@@ -521,7 +510,7 @@
 		
 	} else { // Playing state
 	
-		NSMenuItem *stop = [menu itemWithTitle:@"Play Most Recent Station"];
+		NSMenuItem* stop = [menu itemWithTitle:@"Play Most Recent Station"];
 		
 		if (stop != nil) { // Were in stop state previously
 			
@@ -533,7 +522,7 @@
 			}
 			
 			// Create menu items that are needed in play state
-			NSMenuItem *nowPlayingTrack = [[[NSMenuItem alloc] initWithTitle:@"Connecting..."
+			NSMenuItem* nowPlayingTrack = [[[NSMenuItem alloc] initWithTitle:@"Connecting..."
 												action:nil keyEquivalent:@""] autorelease];
 			[nowPlayingTrack setTarget:self];
 			[nowPlayingTrack setEnabled:NO];
@@ -541,19 +530,19 @@
 			
 			[menu insertItem:[NSMenuItem separatorItem] atIndex:1];
 			
-			NSMenuItem *love = [[[NSMenuItem alloc] initWithTitle:@"Love"
+			NSMenuItem* love = [[[NSMenuItem alloc] initWithTitle:@"Love"
 									action:nil keyEquivalent:@""] autorelease];
 			[love setTarget:self];
 			[love setEnabled:NO];
 			[menu insertItem:love atIndex:2];
 			
-			NSMenuItem *skip = [[[NSMenuItem alloc] initWithTitle:@"Skip"
+			NSMenuItem* skip = [[[NSMenuItem alloc] initWithTitle:@"Skip"
 									action:nil keyEquivalent:@""] autorelease];
 			[skip setTarget:self];
 			[skip setEnabled:NO];
 			[menu insertItem:skip atIndex:3];
 			
-			NSMenuItem *ban = [[[NSMenuItem alloc] initWithTitle:@"Ban"
+			NSMenuItem* ban = [[[NSMenuItem alloc] initWithTitle:@"Ban"
 									action:nil keyEquivalent:@""] autorelease];
 			[ban setTarget:self];
 			[ban setEnabled:NO];
@@ -566,16 +555,16 @@
 			
 		} else { // Already were in play state previously
 			
-			NSMenuItem *nowPlayingTrack = [menu itemAtIndex:0];
-			NSMenuItem *love = [menu itemAtIndex:2];
-			NSMenuItem *skip = [menu itemAtIndex:3];
-			NSMenuItem *ban = [menu itemAtIndex:4];
+			NSMenuItem* nowPlayingTrack = [menu itemAtIndex:0];
+			NSMenuItem* love = [menu itemAtIndex:2];
+			NSMenuItem* skip = [menu itemAtIndex:3];
+			NSMenuItem* ban = [menu itemAtIndex:4];
 			
 			// Enable the menu items for song information, love, skip and ban
 			// if it is streaming, disable them otherwise.
 			if ([webService streaming]) {
 				
-				NSString *songText = [[[webService nowPlayingArtist] stringByAppendingString:@" - "]
+				NSString* songText = [[[webService nowPlayingArtist] stringByAppendingString:@" - "]
 											stringByAppendingString:[webService nowPlayingTrack]];
 				if ([songText length] > MAX_SONGTEXT_LENGTH) {
 					// Shorten the songtext
@@ -632,8 +621,8 @@
         
         int i;
         for (i=[recentStations stationsCount]-1; i>=0; i--) {
-        	NSDictionary *station = [[[recentStations stationByIndex:i] retain] autorelease];
-            NSString *title = [[[NSString alloc] initWithString:[[[station objectForKey:@"type"]
+        	NSDictionary* station = [[[recentStations stationByIndex:i] retain] autorelease];
+            NSString* title = [[[NSString alloc] initWithString:[[[station objectForKey:@"type"]
             			stringByAppendingString:@": "] stringByAppendingString:[station objectForKey:@"name"]]]
                         autorelease];
         	NSMenuItem *stationItem = [[[NSMenuItem alloc] initWithTitle:title
@@ -676,20 +665,20 @@
 
 
 // Handlers
-- (void)handlePreferencesChanged:(NSNotification *)aNotification
+- (void)handlePreferencesChanged:(NSNotification*)aNotification
 {
 	[self updateMenu];
 }
 
 
-- (void)handleStartPlaying:(NSNotification *)aNotification
+- (void)handleStartPlaying:(NSNotification*)aNotification
 {
 	// Tell iTunes it should start playing.
 	// Change this command if you want to control another player that is apple-scriptable.
-	NSString *scriptSource = [[@"tell application \"iTunes\" \n open location \""
+	NSString* scriptSource = [[@"tell application \"iTunes\" \n open location \""
 								stringByAppendingString:[webService streamingServer]]
 								stringByAppendingString:@"\" \n end tell"];
-	NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
+	NSAppleScript* script = [[NSAppleScript alloc] initWithSource:scriptSource];
 	[script executeAndReturnError:nil];
     
     [webService updateNowPlayingInformation];
@@ -708,16 +697,18 @@
 	[self updateTimer];
 	[self updateMenu];
 	
-	NSString *artist = [webService nowPlayingArtist];
-	NSString *album = [webService nowPlayingAlbum];
-	NSString *title = [webService nowPlayingTrack];
-	NSImage *image = [webService nowPlayingAlbumImage];
+	NSString* artist = [webService nowPlayingArtist];
+	NSString* album = [webService nowPlayingAlbum];
+	NSString* title = [webService nowPlayingTrack];
+	NSImage* image = [webService nowPlayingAlbumImage];
 	
-	NSString *radioStation = [webService nowPlayingRadioStation];
+	NSString* radioStation = [webService nowPlayingRadioStation];
 	if (artist && album && title && image && playing) {
 		[songInformationPanel updateArtist:artist album:album track:title
-			albumImage:image radioStation:radioStation radioStationUser:[webService nowPlayingRadioStationProfile]
-			trackPosition:[webService nowPlayingTrackProgress] trackDuration:[webService nowPlayingTrackDuration]];
+			albumImage:image radioStation:radioStation
+            radioStationUser:[webService nowPlayingRadioStationProfile]
+			trackPosition:[webService nowPlayingTrackProgress]
+            trackDuration:[webService nowPlayingTrackDuration]];
 	}
 		
 	// show updated tooltip if necessary 
@@ -743,7 +734,7 @@
 		webService = nil;
 	}
 	
-	NSMenuItem *error = [[[NSMenuItem alloc] initWithTitle:@"Connection Error"
+	NSMenuItem* error = [[[NSMenuItem alloc] initWithTitle:@"Connection Error"
 								action:nil keyEquivalent:@""] autorelease];
 	[error setEnabled:NO];
 	[menu insertItem:error atIndex:0];
@@ -752,20 +743,20 @@
 }
 
 
-- (NSString *)md5:(NSString *)clear
+- (NSString*)md5:(NSString*)clear
 {
     unsigned long long md[MD5_DIGEST_LENGTH]; // 128 bit
     
-    MD5((unsigned char *)[clear UTF8String], strlen([clear UTF8String]), (unsigned char *)md);
+    MD5((unsigned char*)[clear UTF8String], strlen([clear UTF8String]), (unsigned char*)md);
     
     return [NSString stringWithFormat:@"%qx%qx", md[0], md[1]];
 }
 
 
-- (void)handleOpenUrl:(NSAppleEventDescriptor *)event
-						withReplyEvent:(NSAppleEventDescriptor *)replyEvent
+- (void)handleOpenUrl:(NSAppleEventDescriptor*)event
+						withReplyEvent:(NSAppleEventDescriptor*)replyEvent
 {
-	NSString *filename = [[event paramDescriptorForKeyword: keyDirectObject]
+	NSString* filename = [[event paramDescriptorForKeyword: keyDirectObject]
 								stringValue];
 	if ([filename hasPrefix:@"lastfm"]) {
 		[self playUrl:filename];
@@ -775,7 +766,7 @@
 }
 
 
-- (void)applicationWillTerminate:(NSNotification *)aNotification
+- (void)applicationWillTerminate:(NSNotification*)aNotification
 {
 	if (playing) {
 		[self stop:self];
@@ -787,9 +778,6 @@
 
 - (bool)isDefaultLastfmPlayer
 {
-	// This method is from Mozilla Firefox source code
-    // (see browser/components/shell/src/nsMacShellService.cpp).
-    
 	bool isDefault = true;
 
 	// Since neither Launch Services nor Internet Config actually differ between 
@@ -844,18 +832,28 @@
 }
 
 
-- (void)setDefaultLastfmPlayer
+- (IBAction)setDefaultLastfmPlayer:(id)sender
 {
-	// This method is from Mozilla Firefox source code
-    // (see browser/components/shell/src/nsMacShellService.cpp).
-    
 	CFURLRef amuaURL = CFBundleCopyBundleURL(CFBundleGetMainBundle());
-                NSLog((NSString*)CFCopyDescription(amuaURL));
-	
 	_LSSetDefaultSchemeHandlerURL(CFSTR("lastfm"), amuaURL);
 	_LSSaveAndRefresh();
-	
 	CFRelease(amuaURL);
+    
+    [preferences setBool:([defaultPlayerAlwaysCheck state] == NSOnState)
+    		     forKey:@"performDefaultPlayerCheck"];
+    [preferences synchronize];
+    
+    [defaultPlayerPanel orderOut:self];
+}
+
+
+- (IBAction)setNotDefaultLastfmPlayer:(id)sender
+{
+	[preferences setBool:([defaultPlayerAlwaysCheck state] == NSOnState)
+    		     forKey:@"performDefaultPlayerCheck"];
+    [preferences synchronize];
+    
+    [defaultPlayerPanel orderOut:self];
 }
 
 @end

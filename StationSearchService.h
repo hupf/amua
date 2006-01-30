@@ -24,42 +24,136 @@
 #import <CURLHandle/CURLHandle.h>
 #import <CURLHandle/CURLHandle+extras.h>
 
-
+/**
+ * Communication class for performing station search queries.
+ */
 @interface StationSearchService : NSObject {
 
-	// The webservice server's hostname
-	NSString *server;
-	NSString *userAgent;
+	/**
+     * The webservice server's hostname.
+     */
+	NSString* server;
+    
+    /**
+     * User agent name that is sent with the HTML header.
+     */
+	NSString* userAgent;
 	
-	NSString *lastSearch;
+    /**
+     * The last search query.
+     */
+	NSString* lastSearch;
 	
+    /**
+     * An array that will contain the result.
+     */
 	NSMutableArray* result;
-	NSString *increaserElementName;
-	NSString *mainElementName;
-	NSMutableDictionary *temp;
-	NSDictionary *mainResultEntry;
-	NSString *tempValue;
+    
+    /**
+     * 
+     */
+	NSString* increaserElementName;
+    
+    /**
+     * 
+     */
+	NSString* mainElementName;
+    
+    /**
+     * 
+     */
+	NSMutableDictionary* temp;
+    
+    /**
+     * 
+     */
+	NSDictionary* mainResultEntry;
+    
+    /**
+     * 
+     */
+	NSString* tempValue;
+    
+    /**
+     * 
+     */
 	BOOL parsingData;
 	
 }
 
-- (id)initWithWebServiceServer:(NSString *)webServiceServer
-			       asUserAgent:(NSString *)userAgentIdentifier;
-- (id)searchSimilarArtist:(NSString *)artist withSender:(NSObject *)owner;
+/**
+ * Constructor.
+ * 
+ * @param webServiceServer The host to connect to.
+ * @param userAgentIdentifier The user agent string.
+ */
+- (id)initWithWebServiceServer:(NSString*)webServiceServer
+			       asUserAgent:(NSString*)userAgentIdentifier;
+                   
+/**
+ * Perform a similar artist radio station search.
+ * 
+ * @param artist The artist search query.
+ * @param owner The sending object.
+ */
+- (id)searchSimilarArtist:(NSString*)artist withSender:(NSObject*)owner;
 
-- (NSString *)getMainResultText;
-- (NSURL *)getImageUrl;
-- (NSString *)getSearchResultWithIndex:(int)index;
+/**
+ * 
+ */
+- (NSString*)getMainResultText;
 
-- (id)tableView:(NSTableView *)aTableView
-    objectValueForTableColumn:(NSTableColumn *)aTableColumn
+/**
+ * 
+ */
+- (NSURL*)getImageUrl;
+
+/**
+ * 
+ */
+- (NSString*)getSearchResultWithIndex:(int)index;
+
+/**
+ * 
+ */
+- (id)tableView:(NSTableView*)aTableView
+    objectValueForTableColumn:(NSTableColumn*)aTableColumn
     row:(int)rowIndex;
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView;
+
+/**
+ * 
+ */
+- (int)numberOfRowsInTableView:(NSTableView*)aTableView;
 
 // delegates from XML parser
-- (void)parserDidStartDocument:(NSXMLParser *)parser;
-- (void)parserDidEndDocument:(NSXMLParser *)parser;
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qualifiedName attributes:(NSDictionary *)attributeDict;
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
-- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string;
+/**
+ * 
+ */
+- (void)parserDidStartDocument:(NSXMLParser*)parser;
+
+/**
+ * 
+ */
+- (void)parserDidEndDocument:(NSXMLParser*)parser;
+
+/**
+ * 
+ */
+- (void)parser:(NSXMLParser*)parser didStartElement:(NSString*)elementName
+                                    namespaceURI:(NSString*)namespaceURI
+                                    qualifiedName:(NSString*)qualifiedName
+                                    attributes:(NSDictionary*)attributeDict;
+
+/**
+ * 
+ */
+- (void)parser:(NSXMLParser*)parser didEndElement:(NSString*)elementName
+                                    namespaceURI:(NSString*)namespaceURI
+                                    qualifiedName:(NSString*)qName;
+
+/**
+ * 
+ */
+- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString*)string;
+
 @end

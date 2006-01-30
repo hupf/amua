@@ -37,6 +37,7 @@
 	return self;
 }
 
+
 - (void)addStation:(NSString *)stationUrl withType:(NSString *)type withName:(NSString *)name
 {
 	NSMutableDictionary *stationObject = [[[NSMutableDictionary alloc] init] autorelease];
@@ -63,30 +64,36 @@
     [self store];
 }
 
+
 - (BOOL)stationsAvailable
 {
 	return [recentStations count] > 0;
 }
+
 
 - (NSString *)mostRecentStation
 {
 	return [[recentStations lastObject] objectForKey:@"url"];
 }
 
+
 - (NSDictionary *)stationByIndex:(int)index
 {
 	return [recentStations objectAtIndex:[recentStations count]-1-index];
 }
+
 
 - (NSString *)stationURLByIndex:(int)index
 {
 	return [[recentStations objectAtIndex:[recentStations count]-1-index] objectForKey:@"url"];
 }
 
+
 - (int)stationsCount
 {
 	return [recentStations count];
 }
+
 
 - (void)moveToFront:(int)index
 {
@@ -98,17 +105,20 @@
     }
 }
 
+
 - (void)store
 {
 	[preferences setObject:recentStations forKey:@"recentStations"];
     [preferences synchronize];
 }
 
+
 - (void)clear
 {
 	[recentStations removeAllObjects];
     [self store];
 }
+
 
 - (void)dealloc
 {

@@ -24,9 +24,9 @@
 
 @implementation LastfmWebService
 
-- (id)initWithWebServiceServer:(NSString *)webServiceServer
-		withStationUrl:(NSString *)url
-		asUserAgent:(NSString *)userAgentIdentifier
+- (id)initWithWebServiceServer:(NSString*)webServiceServer
+		withStationUrl:(NSString*)url
+		asUserAgent:(NSString*)userAgentIdentifier
 {
 	[super init];
 
@@ -40,12 +40,12 @@
 	return self;
 }
 
-- (void)createSessionForUser:(NSString *)username withPasswordHash:(NSString *)passwordMD5
+
+- (void)createSessionForUser:(NSString*)username withPasswordHash:(NSString*)passwordMD5
 {
 	user = [username copy];
 	
-	// Establish session (e.g. request a sessionID)
-	NSString *getSessionURL = [[[NSString alloc] initWithString:[[[[[[NSString stringWithString:@"http://"]
+	NSString* getSessionURL = [[[NSString alloc] initWithString:[[[[[[NSString stringWithString:@"http://"]
 						stringByAppendingString:server]
 						stringByAppendingString:@"/radio/handshake.php?version=1.1.2&platform=mac&debug=0&username="]
 						stringByAppendingString:username]
@@ -64,10 +64,10 @@
 	[getSessionCURLHandle loadInBackground]; // Send and receive webpage
 }
 
+
 - (void)updateNowPlayingInformation
 {
-	// Request song information of the currently playing track
-	NSString *nowPlayingURL = [[[NSString alloc] initWithString:[[[[[[NSString stringWithString:@"http://"]
+	NSString* nowPlayingURL = [[[NSString alloc] initWithString:[[[[[[NSString stringWithString:@"http://"]
 						stringByAppendingString:baseHost]
 						stringByAppendingString:basePath]
 						stringByAppendingString:@"/np.php"]
@@ -87,10 +87,14 @@
 	[nowPlayingCURLHandle loadInBackground]; // Send and receive webpage
 }
 
-- (void)executeControl:(NSString *)command
+
+- (void)executeControl:(NSString*)command
 {
-	// Execute a command
-	NSString *controlURL = [[[NSString alloc] initWithString:[[[[[[[[NSString stringWithString:@"http://"]
+	if (!sessionID) {
+		return nil;
+    }
+	
+	NSString* controlURL = [[[NSString alloc] initWithString:[[[[[[[[NSString stringWithString:@"http://"]
 						stringByAppendingString:baseHost]
 						stringByAppendingString:basePath]
 						stringByAppendingString:@"/control.php?session="]
@@ -112,19 +116,21 @@
 	[controlCURLHandle loadInBackground]; // Send and receive webpage
 }
 
-- (CURLHandle *)adjust:(NSString *)url
+
+- (CURLHandle*)adjust:(NSString*)url
 {
-    if (!sessionID || !url)
-	return nil;
+    if (!sessionID || !url) {
+		return nil;
+    }
     
-    NSString *genericURL = [[[NSString alloc] initWithString:[[[[[[[NSString stringWithString:@"http://"]
+    NSString* genericURL = [[[NSString alloc] initWithString:[[[[[[[NSString stringWithString:@"http://"]
 						    stringByAppendingString:baseHost]
 						    stringByAppendingString:basePath]
 						    stringByAppendingString:@"/adjust.php?session="]
 						    stringByAppendingString:sessionID]
 						    stringByAppendingString:@"&url="]
 						    stringByAppendingString:url]] autorelease];
-    CURLHandle *genericCURLHandle = [[CURLHandle alloc] initWithURL:
+    CURLHandle* genericCURLHandle = [[CURLHandle alloc] initWithURL:
 			    [NSURL URLWithString:genericURL] cached:FALSE];
     
     [genericCURLHandle setFailsOnError:YES];
@@ -136,6 +142,7 @@
     
     return genericCURLHandle;
 }
+
 
 - (void)tuneStation
 {
@@ -149,6 +156,7 @@
         	postNotificationName:@"StartPlayingError" object:self];
     }
 }
+
 
 - (void)setDiscovery:(bool)state
 {
@@ -165,10 +173,12 @@
     }
 }
 
-- (NSString *)streamingServer;
+
+- (NSString*)streamingServer;
 {
 	return streamingServer;
 }
+
 
 - (bool)streaming
 {
@@ -179,7 +189,8 @@
 	}
 }
 
-- (NSString *)nowPlayingArtist
+
+- (NSString*)nowPlayingArtist
 {
 	if (nowPlayingInformation != nil) {
 		return [nowPlayingInformation objectForKey:@"artist"];
@@ -188,7 +199,8 @@
 	}
 }
 
-- (NSString *)nowPlayingTrack
+
+- (NSString*)nowPlayingTrack
 {
 	if (nowPlayingInformation != nil) {
 		return [nowPlayingInformation objectForKey:@"track"];
@@ -197,7 +209,8 @@
 	}
 }
 
-- (NSString *)nowPlayingAlbum
+
+- (NSString*)nowPlayingAlbum
 {
 	if (nowPlayingInformation != nil) {
 		return [nowPlayingInformation objectForKey:@"album"];
@@ -206,7 +219,8 @@
 	}
 }
 
-- (NSURL *)nowPlayingAlbumPage
+
+- (NSURL*)nowPlayingAlbumPage
 {
 	if (nowPlayingInformation != nil) {
 		return [NSURL URLWithString:[nowPlayingInformation objectForKey:@"album_url"]];
@@ -215,7 +229,8 @@
 	}
 }
 
-- (NSImage *)nowPlayingAlbumImage
+
+- (NSImage*)nowPlayingAlbumImage
 {
 	if (albumCover != nil) {
 		return albumCover;
@@ -223,6 +238,7 @@
 		return nil;
 	}
 }
+
 
 - (int)nowPlayingTrackDuration
 {
@@ -233,6 +249,7 @@
 	}
 }
 
+
 - (int)nowPlayingTrackProgress
 {
 	if (nowPlayingInformation != nil) {
@@ -242,7 +259,8 @@
 	}
 }
 
-- (NSString *)nowPlayingRadioStation
+
+- (NSString*)nowPlayingRadioStation
 {
 	if (nowPlayingInformation != nil) {
 		return [nowPlayingInformation objectForKey:@"station"];
@@ -251,7 +269,8 @@
 	}
 }
 
-- (NSString *)nowPlayingRadioStationProfile
+
+- (NSString*)nowPlayingRadioStationProfile
 {
 	if (nowPlayingInformation != nil
     	&& ![[nowPlayingInformation objectForKey:@"stationfeed"] isEqualToString:user]) {
@@ -268,13 +287,13 @@
 - (void)URLHandleResourceDidFinishLoading:(NSURLHandle *)sender
 {
 	// Compute response (e.g. loaded webpage)
-	NSString *result = [[[NSString alloc]
+	NSString* result = [[[NSString alloc]
     	initWithData:[sender resourceData]
         encoding:NSUTF8StringEncoding] autorelease];
-	NSMutableDictionary *parsedResult = [[NSMutableDictionary alloc] init];
+	NSMutableDictionary* parsedResult = [[NSMutableDictionary alloc] init];
 	
 	// Parse keys and values and put them into a NSDictionary
-	NSArray *values = [result componentsSeparatedByString:@"\n"];
+	NSArray* values = [result componentsSeparatedByString:@"\n"];
 	int i;
 	for (i=0; i< [values count]; i++) {
 		NSRange equalPosition = [[values objectAtIndex:i] rangeOfString:@"="];
@@ -354,9 +373,11 @@
 	[sender release];
 }
 
-- (void)URLHandleResourceDidBeginLoading:(NSURLHandle *)sender {}
 
-- (void)URLHandleResourceDidCancelLoading:(NSURLHandle *)sender
+- (void)URLHandleResourceDidBeginLoading:(NSURLHandle*)sender {}
+
+
+- (void)URLHandleResourceDidCancelLoading:(NSURLHandle*)sender
 {
 	if (sender == getSessionCURLHandle || sender == tuningCURLHandle) {
 		[sender removeClient:self];
@@ -369,9 +390,11 @@
 	}
 }
 
-- (void)URLHandle:(NSURLHandle *)sender resourceDataDidBecomeAvailable:(NSData *)newBytes {}
 
-- (void)URLHandle:(NSURLHandle *)sender resourceDidFailLoadingWithReason:(NSString *)reason
+- (void)URLHandle:(NSURLHandle*)sender resourceDataDidBecomeAvailable:(NSData*)newBytes {}
+
+
+- (void)URLHandle:(NSURLHandle*)sender resourceDidFailLoadingWithReason:(NSString*)reason
 {
 	if (sender == getSessionCURLHandle || sender == tuningCURLHandle) {
 		[sender removeClient:self];

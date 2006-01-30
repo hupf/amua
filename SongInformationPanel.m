@@ -51,12 +51,11 @@
 }
 
 
-
 - (id)initWithContentRect:(NSRect)contentRect
                 styleMask:(unsigned int)styleMask
                   backing:(NSBackingStoreType)backingType
                     defer:(BOOL)flag
-                   screen:(NSScreen *)aScreen
+                   screen:(NSScreen*)aScreen
 {
 
     self = [super initWithContentRect:contentRect
@@ -79,10 +78,12 @@
 
 }
 
+
 - (void)show
 {
 	[self makeKeyAndOrderFront:nil];
 }
+
 
 - (void)hide
 {
@@ -90,8 +91,10 @@
 	visible = NO;
 }
 
-- (void)updateArtist:(NSString *)inArtist album:(NSString *)inAlbum track:(NSString *)inTrack
-		albumImage:(NSImage *)inImage radioStation:(NSString *)inRadioStation radioStationUser:(NSString *)inRadioStationUser
+
+- (void)updateArtist:(NSString*)inArtist album:(NSString*)inAlbum track:(NSString*)inTrack
+		albumImage:(NSImage*)inImage radioStation:(NSString*)inRadioStation
+        radioStationUser:(NSString*)inRadioStationUser
 		trackPosition:(int)inTrackPosition trackDuration:(int)inTrackDuration
 {
 	inArtist = [self shorten:inArtist];
@@ -107,7 +110,7 @@
 		[artist setStringValue:inArtist];
 		[album setStringValue:inAlbum];
 		[track setStringValue:inTrack];
-		NSString *footerTitle = inRadioStation;
+		NSString* footerTitle = inRadioStation;
 		if (inRadioStationUser != nil) {
 			 footerTitle = [[footerTitle stringByAppendingString:@" feeding from "] stringByAppendingString:inRadioStationUser];
 		}
@@ -128,6 +131,7 @@
 	visible = YES;
 }
 
+
 - (void)updateTime:(id)sender
 {
 	if (trackPosition + 1 >= trackDuration) {
@@ -142,7 +146,7 @@
 	int progressMinute = (trackPosition - progressSecond) / 60;
 	int totalSecond = trackDuration % 60;
 	int totalMinute = (trackDuration - totalSecond) / 60;
-	NSString *string = @"";
+	NSString* string = @"";
 	if (progressMinute < 10) {
 		string = [string stringByAppendingString:@"0"];
 	}
@@ -166,6 +170,7 @@
 	[time setStringValue:string];
 }
 
+
 - (void)autoPosition
 {
 	NSPoint point = [NSEvent mouseLocation];
@@ -178,6 +183,7 @@
 	}
 	[self setFrameOrigin:point];
 }
+
 
 - (void)resize
 {
@@ -211,12 +217,13 @@
 	
 }
 
+
 - (BOOL)visible
 {
 	return visible;
 }
 
-- (NSString *)shorten:(NSString *)string
+- (NSString*)shorten:(NSString*)string
 {
 	if ([string length] > MAX_SIZE) {
 		// Shorten the string

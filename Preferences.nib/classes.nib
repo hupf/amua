@@ -4,6 +4,8 @@
         {
             ACTIONS = {
                 cancel = id; 
+                checkForUpdates = id; 
+                myAction = id; 
                 save = id; 
                 setDefaults = id; 
                 stationChanged = id; 
@@ -12,11 +14,9 @@
             CLASS = PreferencesController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                defaultCheckBox = NSButton; 
                 password = NSTextField; 
-                radioStation = NSPopUpButton; 
-                recordToProfile = NSButton; 
-                stationDifferentUser = NSButton; 
-                stationUser = NSTextField; 
+                updatesCheckBox = NSButton; 
                 username = NSTextField; 
                 webServiceServer = NSTextField; 
             }; 

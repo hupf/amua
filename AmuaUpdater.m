@@ -22,27 +22,36 @@
 
 #import "AmuaUpdater.h"
 
-
 @implementation AmuaUpdater
 
 - (id)init
 {
-	NSString *file = [[NSBundle mainBundle]
+	NSString* file = [[NSBundle mainBundle]
         pathForResource:@"Defaults" ofType:@"plist"];
 
-    NSDictionary *defaultPreferences = [NSDictionary dictionaryWithContentsOfFile:file];
+    NSDictionary* defaultPreferences = [NSDictionary dictionaryWithContentsOfFile:file];
 	
 	preferences = [[NSUserDefaults standardUserDefaults] retain];
     [preferences registerDefaults:defaultPreferences];
 	
 	[self upgradeConfigFile];
+    
+    verbose = NO;
 	
 	return [super init];
 }
 
+
+- (void)setVerbose:(bool)v
+{
+	verbose = v;
+}
+
+
 - (void)checkForUpdates
 {
-	updaterCURLHandle = [[CURLHandle alloc] initWithURL:[NSURL URLWithString:[preferences stringForKey:@"updateURL"]] cached:FALSE];
+	updaterCURLHandle = [[CURLHandle alloc]
+    	initWithURL:[NSURL URLWithString:[preferences stringForKey:@"updateURL"]] cached:FALSE];
 	
 	[updaterCURLHandle setFailsOnError:YES];
 	[updaterCURLHandle setFollowsRedirects:YES];
@@ -51,13 +60,14 @@
 	[updaterCURLHandle loadInBackground];
 }
 
+
 - (void)upgradeConfigFile
 {
 	// Upgrade from version 0.3 (that had no version attribute) to version 0.4
 	if ([preferences objectForKey:@"version"] == nil) {
 		// Remove password from plist file and add it to keychain
 		if ([preferences objectForKey:@"password"] != nil) {
-			KeyChain *keyChain = [[[KeyChain alloc] init] autorelease];
+			KeyChain* keyChain = [[[KeyChain alloc] init] autorelease];
 			[keyChain setGenericPassword:[preferences stringForKey:@"password"]
 						forService:@"Amua"
 						account:[preferences stringForKey:@"username"]];
@@ -72,6 +82,7 @@
 	// Upgrade from version 0.4 to 0.5
 	if ([[preferences objectForKey:@"version"] isEqualToString:@"0.4"]) {
 		// No changes in configuration file
+        
 		[preferences setObject:@"0.5" forKey:@"version"];
 		[preferences setInteger:1 forKey:@"showPossibleUpdateDialog"];
 		[preferences synchronize];
@@ -80,11 +91,14 @@
 	// Upgrade from version 0.5 to 0.5.1
 	if ([[preferences objectForKey:@"version"] isEqualToString:@"0.5"]) {
 		// Add preferences values for discovery mode and record to profile
-        [preferences setBool:FALSE forKey:@"discoveryMode"];
-        [preferences setBool:TRUE forKey:@"recordToProfile"];
-        
-		[preferences setObject:@"0.5.1" forKey:@"version"];
-		[preferences setInteger:1 forKey:@"showPossibleUpdateDialog"];
+        [preferences setBool:NO forKey:@"discoveryMode"];
+        [preferences setBool:YES forKey:@"recordToProfile"];
+        // Add flag for default player check and updates check
+        [preferences setBool:YES forKey:@"performDefaultPlayerCheck"];
+        [preferences setBool:YES forKey:@"performUpdatesCheck"];
+        [preferences removeObjectForKey:@"showPossibleUpdateDialog"];
+		
+        [preferences setObject:@"0.5.1" forKey:@"version"];
 		[preferences synchronize];
 	}
 	
@@ -94,17 +108,18 @@
 	[preferences synchronize];
 }
 
+
 - (void)URLHandleResourceDidFinishLoading:(NSURLHandle *)sender
 {
-	NSString *result = [[[NSString alloc] initWithData:[updaterCURLHandle resourceData]
+	NSString* result = [[[NSString alloc] initWithData:[updaterCURLHandle resourceData]
 								encoding:NSUTF8StringEncoding] autorelease];
 	[updaterCURLHandle removeClient:self];
 	[updaterCURLHandle release];
 	updaterCURLHandle = nil;
 	
 	// parse content
-	NSArray *values = [result componentsSeparatedByString:@"\n"];
-	NSMutableDictionary *parsedResult = [[[NSMutableDictionary alloc] init] autorelease];
+	NSArray* values = [result componentsSeparatedByString:@"\n"];
+	NSMutableDictionary* parsedResult = [[[NSMutableDictionary alloc] init] autorelease];
 	int i;
 	for (i=0; i< [values count]; i++) {
 		NSRange equalPosition = [[values objectAtIndex:i] rangeOfString:@"="];
@@ -119,36 +134,43 @@
 	if (![[parsedResult objectForKey:@"version"] isEqualToString:[preferences stringForKey:@"version"]]) {
 		[preferences setInteger:0 forKey:@"showPossibleUpdateDialog"];
 		[preferences synchronize];
-		NSString *body = [[@"Amua version " stringByAppendingString:[parsedResult objectForKey:@"version"]]
-								stringByAppendingString:@" is available"];
+		NSString* body = [[@"Amua version " stringByAppendingString:[parsedResult objectForKey:@"version"]]
+								stringByAppendingString:@" is available."];
 		int alertAction = NSRunAlertPanel(@"Amua", body, @"Get New Version", @"Cancel", nil);
 		if (alertAction == 1) {
 			[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[parsedResult objectForKey:@"URL"]]];
 		}
-	}
+	} else if (verbose) {
+    	NSRunAlertPanel(@"Amua", @"Your version is up to date.", @"OK", nil, nil);
+    }
 }
 
-- (void)URLHandleResourceDidBeginLoading:(NSURLHandle *)sender
+
+- (void)URLHandleResourceDidBeginLoading:(NSURLHandle*)sender
 {
 }
 
-- (void)URLHandleResourceDidCancelLoading:(NSURLHandle *)sender
+
+- (void)URLHandleResourceDidCancelLoading:(NSURLHandle*)sender
+{
+	[updaterCURLHandle removeClient:self];
+	[updaterCURLHandle release];
+	updaterCURLHandle = nil;
+}
+
+
+- (void)URLHandle:(NSURLHandle*)sender resourceDataDidBecomeAvailable:(NSData*)newBytes
+{
+}
+
+
+- (void)URLHandle:(NSURLHandle*)sender resourceDidFailLoadingWithReason:(NSString*)reason
 {
 	[updaterCURLHandle removeClient:self];
 	[updaterCURLHandle release];
 	updaterCURLHandle = nil;
 }
 
-- (void)URLHandle:(NSURLHandle *)sender resourceDataDidBecomeAvailable:(NSData *)newBytes
-{
-}
-
-- (void)URLHandle:(NSURLHandle *)sender resourceDidFailLoadingWithReason:(NSString *)reason
-{
-	[updaterCURLHandle removeClient:self];
-	[updaterCURLHandle release];
-	updaterCURLHandle = nil;
-}
 
 - (void)dealloc
 {

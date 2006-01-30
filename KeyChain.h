@@ -14,6 +14,9 @@
 #import <CoreServices/CoreServices.h>
 #import <Carbon/Carbon.h>
 
+/**
+ * Keychain class from Fire, modified by iScrobbler.
+ */
 @interface KeyChain : NSObject {
     unsigned	maxPasswordLength ;
 }

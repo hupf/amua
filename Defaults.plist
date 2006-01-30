@@ -31,6 +31,18 @@
 	
 	<key>tooltipPosition</key>
 	<string>{0,0}</string>
+    
+    <key>discoveryMode</key>
+	<false/>
+    
+    <key>recordToProfile</key>
+	<true/>
+    
+    <key>performDefaultPlayerCheck</key>
+	<true/>
+    
+    <key>performUpdatesCheck</key>
+	<true/>
 
 </dict>
 </plist>

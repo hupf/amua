@@ -2,3 +2,4 @@ build
 CURLHandle.framework
 SSCrypto.framework
 .project
+*~.nib
