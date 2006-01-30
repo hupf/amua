@@ -22,23 +22,89 @@
 
 #import <Cocoa/Cocoa.h>
 
-
+/**
+ * Handles the Amua statusbar icon, "is-a" NSView.
+ */
 @interface AmuaView : NSView {
 	
-	NSStatusItem *statusItem;
-	NSMenu *menu;
+    /**
+	 * The Amua statusbar item.
+	 */
+	NSStatusItem* statusItem;
+    
+    /**
+	 * The Amua menu.
+	 */
+	NSMenu* menu;
+    
+    /**
+	 * A flag for wheter the menu is visible or not.
+     * 
+     * The flag is used to invert the color of the Amua status bar icon, if the
+     * menu is visible (active).
+	 */
 	bool menuIsVisible;
+    
+    /**
+	 * 
+	 */
 	NSTrackingRectTag mouseEventTag;
 
 }
 
-- (id)initWithFrame:(NSRect)frame statusItem:(NSStatusItem *)status menu:(NSMenu *)myMenu;
+/**
+ * Constructor.
+ * 
+ * @param frame Initializes the view with frame as its frame rectangle.
+ * @param status A reference to the statusbar item.
+ * @param myMenu A reference to the Amua menu.
+ */
+- (id)initWithFrame:(NSRect)frame statusItem:(NSStatusItem*)status menu:(NSMenu*)myMenu;
+
+/**
+ * Displays the statusbar icon and the rectangle in the back.
+ * 
+ * @param rect A rectangle for the statusbar.
+ */
 - (void)drawRect:(NSRect)rect;
+
+/**
+ * Install a listener for mouse over events.
+ */
 - (void)addMouseOverListener;
+
+/**
+ * Remove the listener fr mouse over events.
+ */
 - (void)removeMouseOverListener;
-- (void)mouseDown:(NSEvent *) theEvent;
-- (void)mouseEntered:(NSEvent *) theEvent;
-- (void)mouseExited:(NSEvent *) theEvent;
+
+/**
+ * Actions if the mouse button is pressed over the Amua statusbar icon.
+ * 
+ * Pops up the menu, inverts the icon color, etc.
+ */
+- (void)mouseDown:(NSEvent*)theEvent;
+
+/**
+ * Actions if the mouse enters the Amua statusbar icon.
+ */
+- (void)mouseEntered:(NSEvent*)theEvent;
+
+/**
+ * Actions if the mouse exists the Amua statusbar icon.
+ */
+- (void)mouseExited:(NSEvent*)theEvent;
+
+/**
+ * Check if the is visible or not.
+ * 
+ * @return YES if the menu is visible, NO otherwise.
+ */
 - (bool)menuIsVisible;
+
+/**
+ * Deconstructor.
+ */
+- (void)dealloc;
 
 @end

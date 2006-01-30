@@ -24,8 +24,8 @@
 
 @implementation StationSearchService
 
-- (id)initWithWebServiceServer:(NSString *)webServiceServer
-			       asUserAgent:(NSString *)userAgentIdentifier
+- (id)initWithWebServiceServer:(NSString*)webServiceServer
+			       asUserAgent:(NSString*)userAgentIdentifier
 {
 	[super init];
 	server = [webServiceServer copy];
@@ -33,7 +33,8 @@
 	return self;
 }
 
-- (id)searchSimilarArtist:(NSString *)artist withSender:(NSObject *)owner
+
+- (id)searchSimilarArtist:(NSString*)artist withSender:(NSObject*)owner
 {
 	if (lastSearch != nil) {
 		[lastSearch release];
@@ -49,13 +50,14 @@
 	[NSThread detachNewThreadSelector:@selector(doSearch:) toTarget:self withObject:owner];
 }
 
-- (id)doSearch:(NSObject *)owner
+
+- (id)doSearch:(NSObject*)owner
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
     
 	// search and parse
 	NSURL* xmlURL = [NSURL URLWithString:lastSearch];
-	NSXMLParser *addressParser = [[NSXMLParser alloc] initWithContentsOfURL:xmlURL];
+	NSXMLParser* addressParser = [[NSXMLParser alloc] initWithContentsOfURL:xmlURL];
     [addressParser setDelegate:self];
     [addressParser setShouldResolveExternalEntities:YES];
 	
@@ -69,7 +71,8 @@
 	[pool release];
 }
 
-- (NSString *)getMainResultText
+
+- (NSString*)getMainResultText
 {
 	if (mainResultEntry != nil && [[mainResultEntry objectForKey:@"streamable"] isEqualToString:@"1"]) {
 		return [mainResultEntry objectForKey:@"artist"];
@@ -78,7 +81,8 @@
 	}
 }
 
-- (NSString *)getSearchResultWithIndex:(int)index
+
+- (NSString*)getSearchResultWithIndex:(int)index
 {
 	if (result != nil && [[[result objectAtIndex:index] objectForKey:@"streamable"] isEqualToString:@"1"]) {
 		return [[result objectAtIndex:index] objectForKey:@"name"];
@@ -88,7 +92,7 @@
 }
 
 
-- (NSURL *)getImageUrl
+- (NSURL*)getImageUrl
 {
 	if (mainResultEntry != nil) {
 		return [NSURL URLWithString:[mainResultEntry objectForKey:@"picture"]];
@@ -98,9 +102,8 @@
 }
 
 
-
-- (id)tableView:(NSTableView *)aTableView
-    objectValueForTableColumn:(NSTableColumn *)aTableColumn
+- (id)tableView:(NSTableView*)aTableView
+    objectValueForTableColumn:(NSTableColumn*)aTableColumn
     row:(int)rowIndex
 {
 	if (result != nil) {
@@ -110,17 +113,14 @@
 	}
 }
 
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+
+- (int)numberOfRowsInTableView:(NSTableView*)aTableView
 {
     return [result count];
 }
 
 
-
-
-
-
-- (void)parserDidStartDocument:(NSXMLParser *)parser
+- (void)parserDidStartDocument:(NSXMLParser*)parser
 {
 	//NSLog(@"start document");
 	if (result != nil) {
@@ -132,7 +132,8 @@
 	temp = [[NSMutableDictionary alloc] init];
 }
 
-- (void)parserDidEndDocument:(NSXMLParser *)parser
+
+- (void)parserDidEndDocument:(NSXMLParser*)parser
 {
 	//NSLog(@"end document");
 	/*int i;
@@ -145,10 +146,11 @@
 	}*/
 }
 
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName
-	                                    namespaceURI:(NSString *)namespaceURI
-									   qualifiedName:(NSString *)qualifiedName
-									      attributes:(NSDictionary *)attributeDict
+
+- (void)parser:(NSXMLParser*)parser didStartElement:(NSString*)elementName
+	                                namespaceURI:(NSString*)namespaceURI
+									qualifiedName:(NSString*)qualifiedName
+									attributes:(NSDictionary*)attributeDict
 {
 	if (parsingData == YES) {
 		
@@ -163,7 +165,10 @@
 	}
 }
 
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName
+
+- (void)parser:(NSXMLParser*)parser didEndElement:(NSString*)elementName
+                                    namespaceURI:(NSString*)namespaceURI
+                                    qualifiedName:(NSString*)qName
 {
 	if ([elementName isEqualToString:increaserElementName]) {
 		parsingData = NO;
@@ -195,12 +200,12 @@
 	}
 }
 
-- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string
+
+- (void)parser:(NSXMLParser*)parser foundCharacters:(NSString*)string
 {
 	if (parsingData == YES) {
 		tempValue = [tempValue stringByAppendingString:string];
 	}
 }
-
 
 @end

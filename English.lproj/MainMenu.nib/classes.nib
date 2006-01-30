@@ -12,12 +12,16 @@
                 openPreferences = id; 
                 play = id; 
                 playMostRecent = id; 
+                setDefaultLastfmPlayer = id; 
+                setNotDefaultLastfmPlayer = id; 
             }; 
             CLASS = AmuaController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 application = NSApplication; 
                 clearRecentMenuItem = NSMenuItem; 
+                defaultPlayerAlwaysCheck = NSButton; 
+                defaultPlayerPanel = NSPanel; 
                 discoveryMenuItem = NSMenuItem; 
                 menu = NSMenu; 
                 playRecentMenu = NSMenu; 

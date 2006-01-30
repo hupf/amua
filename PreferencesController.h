@@ -22,22 +22,100 @@
 
 #import <Cocoa/Cocoa.h>
 #import "KeyChain.h"
+#import "AmuaUpdater.h"
 
-@interface PreferencesController : NSWindowController
-{
-	IBOutlet NSPopUpButton *radioStation;
-	IBOutlet NSTextField *username;
-    IBOutlet NSTextField *password;
-	IBOutlet NSTextField *webServiceServer;
-	IBOutlet NSPanel *window;
-	NSUserDefaults *preferences;
-	KeyChain *keyChain;
+/**
+ * The controller class for the preferences window.
+ * 
+ * Username and webservice server are store in the application preferences file,
+ * the password is store in the keychain.
+ */
+@interface PreferencesController : NSWindowController {
+
+    /**
+     * The username textfield
+     */
+	IBOutlet NSTextField* username;
+        
+    /**
+     * The password textfield.
+     */
+    IBOutlet NSTextField* password;
+        
+    /**
+     * The textfield for the webservice server hostname.
+     */
+	IBOutlet NSTextField* webServiceServer;
+        
+    /**
+     * The preferences window.
+     */
+	IBOutlet NSPanel* window;
+    
+    /**
+     * Check for updates checkbox.
+     */ 
+    IBOutlet NSButton* updatesCheckBox;
+    
+    /**
+     * Check if Amua is default player checkbox.
+     */
+    IBOutlet NSButton* defaultCheckBox;
+        
+    /**
+     * A reference to the application preferences object.
+     */
+	NSUserDefaults* preferences;
+        
+    /**
+     * A reference to the keychain object.
+     */
+	KeyChain* keyChain;
 }
+
+/**
+ * Constructor.
+ */
+- (id)init;
+
+/**
+ * Actions after the window did load..
+ */
 - (void)windowDidLoad;
-- (void)windowWillClose:(NSNotification *)aNotification;
+
+/**
+ * Actions before the window will close.
+ */
+- (void)windowWillClose:(NSNotification*)aNotification;
+
+/**
+ * Close the window without saving.
+ */
 - (IBAction)cancel:(id)sender;
+
+/**
+ * Store preferences and password and close window.
+ */
 - (IBAction)save:(id)sender;
+
+/**
+ * Set the default preferences (reset).
+ */
 - (IBAction)setDefaults:(id)sender;
+
+/**
+ * Load stored preferences and update the textfields.
+ */
 - (void)updateFields;
+
+/**
+ * Perform an update check.
+ */
+- (IBAction)checkForUpdates:(id)sender;
+
+/**
+ * Deconstructor.
+ */
 - (void)dealloc;
+
 @end

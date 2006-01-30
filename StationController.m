@@ -34,6 +34,7 @@
 	[artistSimilarResultList setDoubleAction:@selector(play:)];
 }
 
+
 - (IBAction)stationDataChanged:(id)sender
 {
 	switch (selectedStationType) {
@@ -48,6 +49,7 @@
 			break;
 	}
 }
+
 
 - (IBAction)stationTypeChanged:(id)sender
 {
@@ -100,6 +102,7 @@
 	}
 }
 
+
 - (IBAction)showWindow:(id)sender
 {
 	[NSApp activateIgnoringOtherApps:YES];
@@ -107,10 +110,12 @@
 	[stationDialogPanel makeKeyAndOrderFront:nil];
 }
 
+
 - (void)hideWindow
 {
 	[stationDialogPanel orderOut:self];
 }
+
 
 - (IBAction)search:(id)sender
 {
@@ -118,7 +123,7 @@
 	[artistSearchIndicator setHidden:false];
 	[artistSearchIndicator startAnimation:self];
 	[artistSearchField setEnabled:false];
-	NSString *searchString = [artistSearchField stringValue];
+	NSString* searchString = [artistSearchField stringValue];
 	if (searchService != nil) {
 		[searchService release];
 	}
@@ -128,9 +133,10 @@
 	[searchService searchSimilarArtist:searchString withSender:self];
 }
 
-- (void)searchFinished:(StationSearchService *)service
+
+- (void)searchFinished:(StationSearchService*)service
 {
-	NSString *mainResultText = [searchService getMainResultText];
+	NSString* mainResultText = [searchService getMainResultText];
 	if (mainResultText == nil) {
 		mainResultText = @"There is no exact match";
 		[artistImage setImage:nil];
@@ -138,7 +144,7 @@
 		mainResultText = [[NSString stringWithString:@"Exact Match: "]
 							stringByAppendingString:[searchService getMainResultText]];
 		NSLog(@"%@", [searchService getImageUrl]);
-		NSImage *image = [[NSImage alloc] initWithContentsOfURL:[searchService getImageUrl]];
+		NSImage* image = [[NSImage alloc] initWithContentsOfURL:[searchService getImageUrl]];
 		
 		// resize the image, why the heck doesn't that work automatically?
 		float width, height;
@@ -172,30 +178,33 @@
 	[self stationTypeChanged:stationType];
 }
 
-- (void)setPreferences:(NSUserDefaults *)prefs
+
+- (void)setPreferences:(NSUserDefaults*)prefs
 {
 	preferences = [prefs retain];
 }
 
-- (void)setRecentStations:(RecentStations *)stations
+
+- (void)setRecentStations:(RecentStations*)stations
 {
 	recentStations = [stations retain];
 }
 
-- (NSString *)getStationURLFromSender:(id)sender
+
+- (NSString*)getStationURLFromSender:(id)sender
 {
 	NSString *stationUrl, *name, *type, *user, *radioType;
     switch (selectedStationType) {
         case ARTIST_STATION_TYPE:
-            if ([(NSButton *)sender isEqualTo:artistPlayMatchButton]) {
+            if ([(NSButton*)sender isEqualTo:artistPlayMatchButton]) {
                 name = [searchService getMainResultText];
-                NSString *artistString = [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                NSString* artistString = [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                 stationUrl = [[[NSString stringWithString:@"lastfm://artist/"]
                                     stringByAppendingString:artistString]
                                     stringByAppendingString:@"/similarartists"];
             } else {
                 name = [searchService getSearchResultWithIndex:[artistSimilarResultList selectedRow]];
-                NSString *artistString = [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                NSString* artistString = [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                 stationUrl = [[[NSString stringWithString:@"lastfm://artist/"]
                                     stringByAppendingString:artistString]
                                     stringByAppendingString:@"/similarartists"];

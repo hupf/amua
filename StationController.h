@@ -25,42 +25,169 @@
 #import "StationSearchService.h"
 #import "RecentStations.h"
 
-@class AmuaController;
+@class AmuaController; // Forward declaration
 
-@interface StationController : NSObject
-{
-	IBOutlet AmuaController *amuaController;
-    IBOutlet NSPanel *stationDialogPanel;
-    IBOutlet NSImageView *artistImage;
-    IBOutlet NSTextField *artistMainResultField;
-    IBOutlet NSBox *artistNoResultBox;
-    IBOutlet NSBox *artistResultBox;
-    IBOutlet NSTextField *artistSearchField;
-	IBOutlet NSButton *artistSearchButton;
-	IBOutlet NSProgressIndicator *artistSearchIndicator;
-    IBOutlet NSTableView *artistSimilarResultList;
-    IBOutlet NSView *artistView;
-	IBOutlet NSButton *artistPlayMatchButton;
-    IBOutlet NSPopUpButton *stationType;
-    IBOutlet NSButton *userCheckBox;
-    IBOutlet NSTextField *username;
-    IBOutlet NSView *userView;
-	IBOutlet NSView *customURLView;
-	IBOutlet NSTextField *customURLField;
+/**
+ * The controller class for the station select window.
+ */
+@interface StationController : NSObject {
 	
-	StationSearchService *searchService;
-	NSUserDefaults *preferences;
+	/**
+     * A reference to the main controller object.
+     */
+	IBOutlet AmuaController* amuaController;
+    
+	/**
+     * The panel.
+     */
+    IBOutlet NSPanel* stationDialogPanel;
+    
+	/**
+     * The artist image that is displayed with the similar artist station search result.
+     */
+    IBOutlet NSImageView* artistImage;
+    
+	/**
+     * 
+     */
+    IBOutlet NSTextField* artistMainResultField;
+    
+	/**
+     * The box for no search result for the similar artist station search.
+     */
+    IBOutlet NSBox* artistNoResultBox;
+    
+	/**
+     * The box with the result of the similar artist station search.
+     */
+    IBOutlet NSBox* artistResultBox;
+    
+	/**
+     * The textfield for the similar artist station search expression.
+     */
+    IBOutlet NSTextField* artistSearchField;
+    
+	/**
+     * The search button for the similar artist station search.
+     */
+	IBOutlet NSButton* artistSearchButton;
+    
+	/**
+     * The process indicator for the similar artist station search.
+     */
+	IBOutlet NSProgressIndicator* artistSearchIndicator;
+    
+	/**
+     * The list for the search results of the similar artist station search.
+     */
+    IBOutlet NSTableView* artistSimilarResultList;
+    
+	/**
+     * The view that groups the elements of the similar artist station search.
+     */
+    IBOutlet NSView* artistView;
+    
+	/**
+     * The play button for the similar artist station search.
+     */
+	IBOutlet NSButton* artistPlayMatchButton;
+    
+	/**
+     * The popup menu to select the station type.
+     */
+    IBOutlet NSPopUpButton* stationType;
+    
+	/**
+     * The checkbox for the personal and profile station search.
+     * 
+     * If the box is unchecked, the default user is taken.
+     */
+    IBOutlet NSButton* userCheckBox;
+    
+	/**
+     * The username textfield for the personal and profile station search.
+     */
+    IBOutlet NSTextField* username;
+    
+	/**
+     * The view that groups the elements of the personal and profile station search.
+     */
+    IBOutlet NSView* userView;
+    
+	/**
+     * The view that groups the elements of the custom URL station.
+     */
+	IBOutlet NSView* customURLView;
+    
+	/**
+     * The textfield for the URL of the custom URL station.
+     */
+	IBOutlet NSTextField* customURLField;
+	
+	/**
+     * A reference to the station search service object.
+     */
+	StationSearchService* searchService;
+    
+    /**
+     * A reference to the application preferences object.
+     */
+	NSUserDefaults* preferences;
+    
+	/**
+     * The selected station type.
+     */
 	int selectedStationType;
-	RecentStations *recentStations;
+    
+	/**
+     * A reference to the recent stations object.
+     */
+	RecentStations* recentStations;
 }
 
+/**
+ * Actions after station data changed.
+ */
 - (IBAction)stationDataChanged:(id)sender;
+
+/**
+ * Shows the right station select view.
+ */
 - (IBAction)stationTypeChanged:(id)sender;
+
+/**
+ * Show the station select window.
+ */
 - (IBAction)showWindow:(id)sender;
+
+/**
+ * Hide the station select window.
+ */
 - (void)hideWindow;
+
+/**
+ * Perform search.
+ */
 - (IBAction)search:(id)sender;
-- (void)setPreferences:(NSUserDefaults *)prefs;
-- (void)setRecentStations:(RecentStations *)recentStations;
-- (NSString *)getStationURLFromSender:(id)sender;
+
+/**
+ * Display the search result.
+ */
+- (void)searchFinished:(StationSearchService*)service;
+
+/**
+ * Set the application preferences  object.
+ */
+- (void)setPreferences:(NSUserDefaults*)prefs;
+
+/**
+ * Update the array with the recent stations.
+ */
+- (void)setRecentStations:(RecentStations*)recentStations;
+
+/**
+ * Used in play method of AmuaController to know what station should be played.
+ */
+- (NSString*)getStationURLFromSender:(id)sender;
 
 @end

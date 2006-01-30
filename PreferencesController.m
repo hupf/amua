@@ -24,7 +24,7 @@
 
 @implementation PreferencesController
 
--(id)init
+- (id)init
 {
     if(self = [super initWithWindowNibName:@"Preferences"]) {
         [self setWindowFrameAutosaveName:@"PreferencesWindow"];
@@ -37,28 +37,36 @@
     return self;
 }
 
--(void)windowDidLoad
+
+- (void)windowDidLoad
 {
     [self updateFields];
     [window makeMainWindow];
 }
 
--(void)windowWillClose:(NSNotification *)aNotification
+
+- (void)windowWillClose:(NSNotification*)aNotification
 {
 	// Update the fields for the next time the window will be opened
 	[self updateFields];
 }
+
 
 - (IBAction)cancel:(id)sender
 {
 	[[self window] performClose:nil];
 }
 
+
 - (IBAction)save:(id)sender
 {
 	// Save the actual field contents to harddisk
 	[preferences setObject:[username stringValue] forKey:@"username"];
 	[preferences setObject:[webServiceServer stringValue] forKey:@"webServiceServer"];
+    [preferences setBool:([defaultCheckBox state] == NSOnState)
+    		     forKey:@"performDefaultPlayerCheck"];
+    [preferences setBool:([updatesCheckBox state] == NSOnState)
+    		     forKey:@"performUpdatesCheck"];
 	
 	[preferences synchronize];
 	
@@ -75,19 +83,31 @@
 	[[self window] performClose:nil];
 }
 
+
 - (IBAction)setDefaults:(id)sender
 {	
 	// Read in the XML file with the default preferences
-	NSString *file = [[NSBundle mainBundle]
+	NSString* file = [[NSBundle mainBundle]
         pathForResource:@"Defaults" ofType:@"plist"];
 
-    NSDictionary *defaultPreferences = [NSDictionary dictionaryWithContentsOfFile:file];
+    NSDictionary* defaultPreferences = [NSDictionary dictionaryWithContentsOfFile:file];
 	
 	// Fill the fields with the factory defaults
 	[username setStringValue:[defaultPreferences objectForKey:@"username"]];
 	[password setStringValue:@""];
 	[webServiceServer setStringValue:[defaultPreferences objectForKey:@"webServiceServer"]];
+    if ([defaultPreferences valueForKey:@"performDefaultPlayerCheck"]) {
+    	[defaultCheckBox setState:NSOnState];
+    } else {
+    	[defaultCheckBox setState:NSOffState];
+    }
+    if ([defaultPreferences valueForKey:@"performUpdatesCheck"]) {
+    	[updatesCheckBox setState:NSOnState];
+    } else {
+    	[updatesCheckBox setState:NSOffState];
+    }
 }
+
 
 - (void)updateFields
 {
@@ -96,7 +116,25 @@
 	[password setStringValue:[keyChain genericPasswordForService:@"Amua"
                                        account:[preferences stringForKey:@"username"]]];
 	[webServiceServer setStringValue:[preferences stringForKey:@"webServiceServer"]];
+    if ([preferences boolForKey:@"performDefaultPlayerCheck"]) {
+    	[defaultCheckBox setState:NSOnState];
+    } else {
+    	[defaultCheckBox setState:NSOffState];
+    }
+    if ([preferences boolForKey:@"performUpdatesCheck"]) {
+    	[updatesCheckBox setState:NSOnState];
+    } else {
+    	[updatesCheckBox setState:NSOffState];
+    }
 }
+
+- (IBAction)checkForUpdates:(id)sender
+{
+	AmuaUpdater* updater = [[[AmuaUpdater alloc] init] autorelease];
+    [updater setVerbose:YES];
+	[updater checkForUpdates];
+}
+
 
 - (void)dealloc
 {
