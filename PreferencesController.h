@@ -35,42 +35,42 @@
     /**
      * The username textfield
      */
-	IBOutlet NSTextField* username;
+	IBOutlet NSTextField *username;
         
     /**
      * The password textfield.
      */
-    IBOutlet NSTextField* password;
+    IBOutlet NSTextField *password;
         
     /**
      * The textfield for the webservice server hostname.
      */
-	IBOutlet NSTextField* webServiceServer;
+	IBOutlet NSTextField *webServiceServer;
         
     /**
      * The preferences window.
      */
-	IBOutlet NSPanel* window;
+	IBOutlet NSPanel *window;
     
     /**
      * Check for updates checkbox.
      */ 
-    IBOutlet NSButton* updatesCheckBox;
+    IBOutlet NSButton *updatesCheckBox;
     
     /**
      * Check if Amua is default player checkbox.
      */
-    IBOutlet NSButton* defaultCheckBox;
+    IBOutlet NSButton *defaultCheckBox;
         
     /**
      * A reference to the application preferences object.
      */
-	NSUserDefaults* preferences;
+	NSUserDefaults *preferences;
         
     /**
      * A reference to the keychain object.
      */
-	KeyChain* keyChain;
+	KeyChain *keyChain;
 }
 
 /**
@@ -86,7 +86,7 @@
 /**
  * Actions before the window will close.
  */
-- (void)windowWillClose:(NSNotification*)aNotification;
+- (void)windowWillClose:(NSNotification *)aNotification;
 
 /**
  * Close the window without saving.

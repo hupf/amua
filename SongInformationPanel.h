@@ -33,37 +33,37 @@
 	/**
      * The textfield to display the album name.
      */
-    IBOutlet NSTextField* album;
+    IBOutlet NSTextField *album;
     
     /**
      * The textfield to display the artist name.
      */
-    IBOutlet NSTextField* artist;
+    IBOutlet NSTextField *artist;
     
     /**
      * The textfield to display a footer text (station name, profile).
      */
-    IBOutlet NSTextField* footer;
+    IBOutlet NSTextField *footer;
     
     /**
      * The album cover image.
      */
-    IBOutlet NSImageView* image;
+    IBOutlet NSImageView *image;
     
     /**
      * The textfield to display the played and remaining time.
      */
-    IBOutlet NSTextField* time;
+    IBOutlet NSTextField *time;
     
     /**
      * The textfield to display the track name.
      */
-    IBOutlet NSTextField* track;
+    IBOutlet NSTextField *track;
     
     /**
      * A separation line.
      */
-	IBOutlet NSBox* line;
+	IBOutlet NSBox *line;
     
     /**
      * The already played time of the track.
@@ -78,7 +78,7 @@
     /**
      * A timer to update the already played time.
      */
-	NSTimer* timer;
+	NSTimer *timer;
     
     /**
      * A flag for wheter the panel is visible or not.
@@ -113,7 +113,7 @@
                 styleMask:(unsigned int)styleMask
                   backing:(NSBackingStoreType)backingType
                     defer:(BOOL)flag
-                   screen:(NSScreen*)aScreen;
+                   screen:(NSScreen *)aScreen;
 
 /**
  * Show the panel.
@@ -138,9 +138,9 @@
  * @param inTrackPosition The played time.
  * @param inTrackDuration The remaining time to play.
  */
-- (void)updateArtist:(NSString*)inArtist album:(NSString*)inAlbum track:(NSString*)inTrack
-		albumImage:(NSImage*)inImage radioStation:(NSString*)inRadioStation
-        radioStationUser:(NSString*)inRadioStationUser
+- (void)updateArtist:(NSString *)inArtist album:(NSString *)inAlbum track:(NSString *)inTrack
+		albumImage:(NSImage *)inImage radioStation:(NSString *)inRadioStation
+        radioStationUser:(NSString *)inRadioStationUser
 		trackPosition:(int)inTrackPosition trackDuration:(int)inTrackDuration;
 
 /**
@@ -170,6 +170,6 @@
  * 
  * @param string A string to shorten.
  */
-- (NSString*)shorten:(NSString*)string;
+- (NSString *)shorten:(NSString *)string;
 
 @end

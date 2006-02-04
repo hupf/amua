@@ -25,7 +25,7 @@
 
 @implementation AmuaView
 
-- (id)initWithFrame:(NSRect)frame statusItem:(NSStatusItem*)status menu:(NSMenu*)myMenu
+- (id)initWithFrame:(NSRect)frame statusItem:(NSStatusItem *)status menu:(NSMenu *)myMenu
 {
     self = [super initWithFrame:frame];
 	if (self) {
@@ -40,7 +40,7 @@
 - (void)drawRect:(NSRect)rect
 {
 	// invert icon if necessary
-	NSColor* color;
+	NSColor *color;
 	if (!menuIsVisible) {
 		color = [[[NSColor blackColor] retain] autorelease];
 	} else {
@@ -70,7 +70,7 @@
 }
 
 
-- (void)mouseDown:(NSEvent*) theEvent
+- (void)mouseDown:(NSEvent *) theEvent
 {
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"mouseDown" object:self];
 	menuIsVisible = YES;
@@ -81,13 +81,13 @@
 }	
 
 
-- (void)mouseEntered:(NSEvent*)theEvent
+- (void)mouseEntered:(NSEvent *)theEvent
 {
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"mouseEntered" object:self];
 }
 
 
-- (void)mouseExited:(NSEvent*)theEvent
+- (void)mouseExited:(NSEvent *)theEvent
 {
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"mouseExited" object:self];
 }

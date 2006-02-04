@@ -28,7 +28,7 @@
 {
 	[super init];
     preferences = [prefs retain];
-	NSArray* staticStations = [preferences objectForKey:@"recentStations"];
+	NSArray *staticStations = [preferences objectForKey:@"recentStations"];
 	if (staticStations == nil) {
 		recentStations = [[NSMutableArray alloc] init];
 	} else {

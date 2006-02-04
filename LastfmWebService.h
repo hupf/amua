@@ -36,77 +36,81 @@
 	/**
      * The webservice server's hostname.
      */
-	NSString* server;
+	NSString *server;
     
     /**
      * User agent name that is sent with the HTML header.
      */
-	NSString* userAgent;
+	NSString *userAgent;
     
     /**
      * The name of the Last.fm user.
      */
-    NSString* user;
+    NSString *user;
     
     /**
      * The URL of the station to play (tune in).
      */
-	NSString* stationUrl;
+	NSString *stationUrl;
 	
 	/**
      * The CURLHandle object for the data transmission of the get session commands.
      */
-    CURLHandle* getSessionCURLHandle;
+    CURLHandle *getSessionCURLHandle;
     
 	/**
      * The CURLHandle object for fetching informations about the playing song.
      */
-    CURLHandle* nowPlayingCURLHandle;
+    CURLHandle *nowPlayingCURLHandle;
     
 	/**
      * The CURLHandle object for the data transmission of various control commands.
      */
-	CURLHandle* controlCURLHandle;
+	CURLHandle *controlCURLHandle;
     
 	/**
      * The CURLHandle object for the data transmission of tuning to a station commands.
      */
-	CURLHandle* tuningCURLHandle;
+	CURLHandle *tuningCURLHandle;
     
 	/**
      * The CURLHandle object to set the discovery mode.
      */
-	CURLHandle* discoveryCURLHandle;
+	CURLHandle *discoveryCURLHandle;
 	
 	/**
      * Will contain the session id after a session has been established.
      */
-	NSString* sessionID;
+	NSString *sessionID;
     
     /**
      * Will contain the hostname of the streaming server after a session has been established.
      */
-	NSString* streamingServer;
+	NSString *streamingServer;
     
     /**
+     * The host that is returned after handshake.
      * 
+     * Used to send further commands.
      */
-	NSString* baseHost;
+	NSString *baseHost;
     
     /**
+     * The path on the baseHost that is returned after handshake.
      * 
+     * Used to send further commands.
      */
-	NSString* basePath;
+	NSString *basePath;
     
     /**
      * Will contain informations about the playing song after information has been received.
      */
-	NSMutableDictionary* nowPlayingInformation;
+	NSMutableDictionary *nowPlayingInformation;
     
     /**
      * Will contain the album cover image of the playing song after information has been received.
      */
-	NSImage* albumCover;
+	NSImage *albumCover;
 	
 }
 
@@ -117,9 +121,9 @@
  * @param url The station URL to connect to.
  * @param userAgentIdentifier The user agent string.
  */
-- (id)initWithWebServiceServer:(NSString*)webServiceServer
-		withStationUrl:(NSString*)url
-		asUserAgent:(NSString*)userAgentIdentifier;
+- (id)initWithWebServiceServer:(NSString *)webServiceServer
+		withStationUrl:(NSString *)url
+		asUserAgent:(NSString *)userAgentIdentifier;
 
 /**
  * Establish session for a given user (request a sessionID).
@@ -127,7 +131,7 @@
  * @param username The username of the user to identify.
  * @param passwordMD5 The MD5 hash of the user's password.
  */
-- (void)createSessionForUser:(NSString*)username withPasswordHash:(NSString*)passwordMD5;
+- (void)createSessionForUser:(NSString *)username withPasswordHash:(NSString *)passwordMD5;
 
 /**
  * Request song information of the currently playing track.
@@ -140,12 +144,12 @@
  * @param command A command to execute (possible commands are skip, ban, love,
  *                rtp and nortp).
  */
-- (void)executeControl:(NSString*)command;
+- (void)executeControl:(NSString *)command;
 
 /**
  * Execute a command to adjust (tune in) to a given station URL.
  */
-- (CURLHandle *)adjust:(NSString*)url;
+- (CURLHandle *)adjust:(NSString *)url;
 
 /**
  * Tune in to the station defined by stationUrl.
@@ -164,7 +168,7 @@
  * 
  * @return The hostname of the streaming server.
  */
-- (NSString*)streamingServer;
+- (NSString *)streamingServer;
 
 /**
  * Check if currently in streaming state.
@@ -181,7 +185,7 @@
  * 
  * @return The artist name of the current song.
  */
-- (NSString*)nowPlayingArtist;
+- (NSString *)nowPlayingArtist;
 
 /**
  * Get the track name of the current song.
@@ -191,7 +195,7 @@
  * 
  * @return The track name of the current song.
  */
-- (NSString*)nowPlayingTrack;
+- (NSString *)nowPlayingTrack;
 
 /**
  * Get the album name of the current song.
@@ -201,7 +205,7 @@
  * 
  * @return The album name of the current song.
  */
-- (NSString*)nowPlayingAlbum;
+- (NSString *)nowPlayingAlbum;
 
 /**
  * Get the album URL of the current song.
@@ -211,7 +215,7 @@
  * 
  * @return The album URL of the current song.
  */
-- (NSURL*)nowPlayingAlbumPage;
+- (NSURL *)nowPlayingAlbumPage;
 
 /**
  * Get the album cover image of the current song.
@@ -221,7 +225,7 @@
  * 
  * @return The album cover image of the current song.
  */
-- (NSImage*)nowPlayingAlbumImage;
+- (NSImage *)nowPlayingAlbumImage;
 
 /**
  * Get the duration of the current track.
@@ -251,7 +255,7 @@
  * 
  * @return The currently playing station name.
  */
-- (NSString*)nowPlayingRadioStation;
+- (NSString *)nowPlayingRadioStation;
 
 /**
  * Get the profile name of the currently playing station.
@@ -261,26 +265,26 @@
  * 
  * @return The profile name of the currently playing station.
  */
-- (NSString*)nowPlayingRadioStationProfile;
+- (NSString *)nowPlayingRadioStationProfile;
 
 /**
  * Parse the values out of the HTTP result and do necessary actions.
  */
-- (void)URLHandleResourceDidFinishLoading:(NSURLHandle*)sender;
+- (void)URLHandleResourceDidFinishLoading:(NSURLHandle *)sender;
 
-- (void)URLHandleResourceDidBeginLoading:(NSURLHandle*)sender;
+- (void)URLHandleResourceDidBeginLoading:(NSURLHandle *)sender;
 
-- (void)URLHandleResourceDidCancelLoading:(NSURLHandle*)sender;
+- (void)URLHandleResourceDidCancelLoading:(NSURLHandle *)sender;
 
 /**
  * Nothing to be done.
  */
-- (void)URLHandle:(NSURLHandle*)sender resourceDataDidBecomeAvailable:(NSData*)newBytes;
+- (void)URLHandle:(NSURLHandle *)sender resourceDataDidBecomeAvailable:(NSData *)newBytes;
 
 /**
  * Display error.
  */
-- (void)URLHandle:(NSURLHandle*)sender resourceDidFailLoadingWithReason:(NSString*)reason;
+- (void)URLHandle:(NSURLHandle *)sender resourceDidFailLoadingWithReason:(NSString *)reason;
 
 /**
  * Deconstructor.

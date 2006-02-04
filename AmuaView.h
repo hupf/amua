@@ -30,12 +30,12 @@
     /**
 	 * The Amua statusbar item.
 	 */
-	NSStatusItem* statusItem;
+	NSStatusItem *statusItem;
     
     /**
 	 * The Amua menu.
 	 */
-	NSMenu* menu;
+	NSMenu *menu;
     
     /**
 	 * A flag for wheter the menu is visible or not.
@@ -46,7 +46,7 @@
 	bool menuIsVisible;
     
     /**
-	 * 
+	 * The rectangle used to track the mouse.
 	 */
 	NSTrackingRectTag mouseEventTag;
 
@@ -59,7 +59,7 @@
  * @param status A reference to the statusbar item.
  * @param myMenu A reference to the Amua menu.
  */
-- (id)initWithFrame:(NSRect)frame statusItem:(NSStatusItem*)status menu:(NSMenu*)myMenu;
+- (id)initWithFrame:(NSRect)frame statusItem:(NSStatusItem *)status menu:(NSMenu *)myMenu;
 
 /**
  * Displays the statusbar icon and the rectangle in the back.
@@ -83,17 +83,17 @@
  * 
  * Pops up the menu, inverts the icon color, etc.
  */
-- (void)mouseDown:(NSEvent*)theEvent;
+- (void)mouseDown:(NSEvent *)theEvent;
 
 /**
  * Actions if the mouse enters the Amua statusbar icon.
  */
-- (void)mouseEntered:(NSEvent*)theEvent;
+- (void)mouseEntered:(NSEvent *)theEvent;
 
 /**
  * Actions if the mouse exists the Amua statusbar icon.
  */
-- (void)mouseExited:(NSEvent*)theEvent;
+- (void)mouseExited:(NSEvent *)theEvent;
 
 /**
  * Check if the is visible or not.

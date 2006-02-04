@@ -32,50 +32,50 @@
 	/**
      * The webservice server's hostname.
      */
-	NSString* server;
+	NSString *server;
     
     /**
      * User agent name that is sent with the HTML header.
      */
-	NSString* userAgent;
+	NSString *userAgent;
 	
     /**
      * The last search query.
      */
-	NSString* lastSearch;
+	NSString *lastSearch;
 	
     /**
      * An array that will contain the result.
      */
-	NSMutableArray* result;
+	NSMutableArray *result;
     
     /**
-     * 
+     * The XML element name for the rest of the result entries.
      */
-	NSString* increaserElementName;
+	NSString *increaserElementName;
     
     /**
-     * 
+     * The XML element name of the main result entry.
      */
-	NSString* mainElementName;
+	NSString *mainElementName;
     
     /**
-     * 
+     * The data for the current parsing result entry.
      */
-	NSMutableDictionary* temp;
+	NSMutableDictionary *temp;
     
     /**
-     * 
+     * The exact matching result.
      */
-	NSDictionary* mainResultEntry;
+	NSDictionary *mainResultEntry;
     
     /**
-     * 
+     * The data that has been parsed so far for the current tag.
      */
-	NSString* tempValue;
+	NSString *tempValue;
     
     /**
-     * 
+     * True if the NSXMLParser is parsing data.
      */
 	BOOL parsingData;
 	
@@ -87,8 +87,8 @@
  * @param webServiceServer The host to connect to.
  * @param userAgentIdentifier The user agent string.
  */
-- (id)initWithWebServiceServer:(NSString*)webServiceServer
-			       asUserAgent:(NSString*)userAgentIdentifier;
+- (id)initWithWebServiceServer:(NSString *)webServiceServer
+			       asUserAgent:(NSString *)userAgentIdentifier;
                    
 /**
  * Perform a similar artist radio station search.
@@ -96,64 +96,66 @@
  * @param artist The artist search query.
  * @param owner The sending object.
  */
-- (id)searchSimilarArtist:(NSString*)artist withSender:(NSObject*)owner;
+- (id)searchSimilarArtist:(NSString *)artist withSender:(NSObject *)owner;
 
 /**
- * 
+ * Get the description of the main result.
  */
-- (NSString*)getMainResultText;
+- (NSString *)getMainResultText;
 
 /**
- * 
+ * Get the URL of the image for the main result.
  */
-- (NSURL*)getImageUrl;
+- (NSURL *)getImageUrl;
 
 /**
- * 
+ * Get the result entry for a specific index.
+ *
+ * @param index The index of the entry.
+ * @return The description of the search result at index.
  */
-- (NSString*)getSearchResultWithIndex:(int)index;
+- (NSString *)getSearchResultWithIndex:(int)index;
 
 /**
- * 
+ * Delegate of NSTableView.
  */
-- (id)tableView:(NSTableView*)aTableView
-    objectValueForTableColumn:(NSTableColumn*)aTableColumn
+- (id)tableView:(NSTableView *)aTableView
+    objectValueForTableColumn:(NSTableColumn *)aTableColumn
     row:(int)rowIndex;
 
 /**
- * 
+ * Delegate of NSTableView.
  */
-- (int)numberOfRowsInTableView:(NSTableView*)aTableView;
-
-// delegates from XML parser
-/**
- * 
- */
-- (void)parserDidStartDocument:(NSXMLParser*)parser;
+- (int)numberOfRowsInTableView:(NSTableView *)aTableView;
 
 /**
- * 
+ * Delegate of NSXMLParser.
  */
-- (void)parserDidEndDocument:(NSXMLParser*)parser;
+- (void)parserDidStartDocument:(NSXMLParser *)parser;
 
 /**
- * 
+ * Delegate of NSXMLParser.
  */
-- (void)parser:(NSXMLParser*)parser didStartElement:(NSString*)elementName
-                                    namespaceURI:(NSString*)namespaceURI
-                                    qualifiedName:(NSString*)qualifiedName
-                                    attributes:(NSDictionary*)attributeDict;
+- (void)parserDidEndDocument:(NSXMLParser *)parser;
 
 /**
- * 
+ * Delegate of NSXMLParser.
  */
-- (void)parser:(NSXMLParser*)parser didEndElement:(NSString*)elementName
-                                    namespaceURI:(NSString*)namespaceURI
-                                    qualifiedName:(NSString*)qName;
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName
+                                    namespaceURI:(NSString *)namespaceURI
+                                    qualifiedName:(NSString *)qualifiedName
+                                    attributes:(NSDictionary *)attributeDict;
 
 /**
- * 
+ * Delegate of NSXMLParser.
  */
-- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString*)string;
+- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName
+                                    namespaceURI:(NSString *)namespaceURI
+                                    qualifiedName:(NSString *)qName;
+
+/**
+ * Delegate of NSXMLParser.
+ */
+- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string;
 
 @end

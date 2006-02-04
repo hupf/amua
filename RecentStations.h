@@ -32,12 +32,12 @@
     /**
      * An array that contains the list of the recent stations.
      */
-	NSMutableArray* recentStations;
+	NSMutableArray *recentStations;
     
     /**
      * A reference to the application preferences object.
      */
-    NSUserDefaults* preferences;
+    NSUserDefaults *preferences;
 
 }
 
@@ -46,7 +46,7 @@
  * 
  * @param prefs The application preferences object.
  */
-- (id)initWithPreferences:(NSUserDefaults*)prefs;
+- (id)initWithPreferences:(NSUserDefaults *)prefs;
 
 /**
  * Add a station to the list of the recently played stations.
@@ -55,14 +55,14 @@
  * @param type The type of the station.
  * @param name The name of the station.
  */
-- (void)addStation:(NSString*)stationUrl withType:(NSString*)type withName:(NSString*)name;
+- (void)addStation:(NSString *)stationUrl withType:(NSString *)type withName:(NSString *)name;
 
 /**
  * Get the URL of the most recent station.
  * 
  * @return The URL of the most recent station.
  */
-- (NSString*)mostRecentStation;
+- (NSString *)mostRecentStation;
 
 /**
  * Get a station by list index.
@@ -70,7 +70,7 @@
  * @param index The index of the station to get.
  * @return A dictionary containing the station data ("url", "name" and "type").
  */
-- (NSDictionary*)stationByIndex:(int)index;
+- (NSDictionary *)stationByIndex:(int)index;
 
 /**
  * Get a station URL by list index
@@ -78,7 +78,7 @@
  * @param index The index of the station to get.
  * @return The URL of the station.
  */
-- (NSString*)stationURLByIndex:(int)index;
+- (NSString *)stationURLByIndex:(int)index;
 
 /**
  * Get the amount of stations in the recent stations list.

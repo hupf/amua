@@ -55,7 +55,7 @@
                 styleMask:(unsigned int)styleMask
                   backing:(NSBackingStoreType)backingType
                     defer:(BOOL)flag
-                   screen:(NSScreen*)aScreen
+                   screen:(NSScreen *)aScreen
 {
 
     self = [super initWithContentRect:contentRect
@@ -92,9 +92,9 @@
 }
 
 
-- (void)updateArtist:(NSString*)inArtist album:(NSString*)inAlbum track:(NSString*)inTrack
-		albumImage:(NSImage*)inImage radioStation:(NSString*)inRadioStation
-        radioStationUser:(NSString*)inRadioStationUser
+- (void)updateArtist:(NSString *)inArtist album:(NSString *)inAlbum track:(NSString *)inTrack
+		albumImage:(NSImage *)inImage radioStation:(NSString *)inRadioStation
+        radioStationUser:(NSString *)inRadioStationUser
 		trackPosition:(int)inTrackPosition trackDuration:(int)inTrackDuration
 {
 	inArtist = [self shorten:inArtist];
@@ -110,7 +110,7 @@
 		[artist setStringValue:inArtist];
 		[album setStringValue:inAlbum];
 		[track setStringValue:inTrack];
-		NSString* footerTitle = inRadioStation;
+		NSString *footerTitle = inRadioStation;
 		if (inRadioStationUser != nil) {
 			 footerTitle = [[footerTitle stringByAppendingString:@" feeding from "] stringByAppendingString:inRadioStationUser];
 		}
@@ -146,7 +146,7 @@
 	int progressMinute = (trackPosition - progressSecond) / 60;
 	int totalSecond = trackDuration % 60;
 	int totalMinute = (trackDuration - totalSecond) / 60;
-	NSString* string = @"";
+	NSString *string = @"";
 	if (progressMinute < 10) {
 		string = [string stringByAppendingString:@"0"];
 	}
@@ -223,7 +223,7 @@
 	return visible;
 }
 
-- (NSString*)shorten:(NSString*)string
+- (NSString *)shorten:(NSString *)string
 {
 	if ([string length] > MAX_SIZE) {
 		// Shorten the string

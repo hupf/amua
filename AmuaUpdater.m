@@ -26,10 +26,10 @@
 
 - (id)init
 {
-	NSString* file = [[NSBundle mainBundle]
+	NSString *file = [[NSBundle mainBundle]
         pathForResource:@"Defaults" ofType:@"plist"];
 
-    NSDictionary* defaultPreferences = [NSDictionary dictionaryWithContentsOfFile:file];
+    NSDictionary *defaultPreferences = [NSDictionary dictionaryWithContentsOfFile:file];
 	
 	preferences = [[NSUserDefaults standardUserDefaults] retain];
     [preferences registerDefaults:defaultPreferences];
@@ -67,7 +67,7 @@
 	if ([preferences objectForKey:@"version"] == nil) {
 		// Remove password from plist file and add it to keychain
 		if ([preferences objectForKey:@"password"] != nil) {
-			KeyChain* keyChain = [[[KeyChain alloc] init] autorelease];
+			KeyChain *keyChain = [[[KeyChain alloc] init] autorelease];
 			[keyChain setGenericPassword:[preferences stringForKey:@"password"]
 						forService:@"Amua"
 						account:[preferences stringForKey:@"username"]];
@@ -111,15 +111,15 @@
 
 - (void)URLHandleResourceDidFinishLoading:(NSURLHandle *)sender
 {
-	NSString* result = [[[NSString alloc] initWithData:[updaterCURLHandle resourceData]
+	NSString *result = [[[NSString alloc] initWithData:[updaterCURLHandle resourceData]
 								encoding:NSUTF8StringEncoding] autorelease];
 	[updaterCURLHandle removeClient:self];
 	[updaterCURLHandle release];
 	updaterCURLHandle = nil;
 	
 	// parse content
-	NSArray* values = [result componentsSeparatedByString:@"\n"];
-	NSMutableDictionary* parsedResult = [[[NSMutableDictionary alloc] init] autorelease];
+	NSArray *values = [result componentsSeparatedByString:@"\n"];
+	NSMutableDictionary *parsedResult = [[[NSMutableDictionary alloc] init] autorelease];
 	int i;
 	for (i=0; i< [values count]; i++) {
 		NSRange equalPosition = [[values objectAtIndex:i] rangeOfString:@"="];
@@ -134,7 +134,7 @@
 	if (![[parsedResult objectForKey:@"version"] isEqualToString:[preferences stringForKey:@"version"]]) {
 		[preferences setInteger:0 forKey:@"showPossibleUpdateDialog"];
 		[preferences synchronize];
-		NSString* body = [[@"Amua version " stringByAppendingString:[parsedResult objectForKey:@"version"]]
+		NSString *body = [[@"Amua version " stringByAppendingString:[parsedResult objectForKey:@"version"]]
 								stringByAppendingString:@" is available."];
 		int alertAction = NSRunAlertPanel(@"Amua", body, @"Get New Version", @"Cancel", nil);
 		if (alertAction == 1) {
@@ -146,12 +146,12 @@
 }
 
 
-- (void)URLHandleResourceDidBeginLoading:(NSURLHandle*)sender
+- (void)URLHandleResourceDidBeginLoading:(NSURLHandle *)sender
 {
 }
 
 
-- (void)URLHandleResourceDidCancelLoading:(NSURLHandle*)sender
+- (void)URLHandleResourceDidCancelLoading:(NSURLHandle *)sender
 {
 	[updaterCURLHandle removeClient:self];
 	[updaterCURLHandle release];
@@ -159,12 +159,12 @@
 }
 
 
-- (void)URLHandle:(NSURLHandle*)sender resourceDataDidBecomeAvailable:(NSData*)newBytes
+- (void)URLHandle:(NSURLHandle *)sender resourceDataDidBecomeAvailable:(NSData *)newBytes
 {
 }
 
 
-- (void)URLHandle:(NSURLHandle*)sender resourceDidFailLoadingWithReason:(NSString*)reason
+- (void)URLHandle:(NSURLHandle *)sender resourceDidFailLoadingWithReason:(NSString *)reason
 {
 	[updaterCURLHandle removeClient:self];
 	[updaterCURLHandle release];
