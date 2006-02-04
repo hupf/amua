@@ -33,12 +33,12 @@
     /**
      * A reference to the application preferences object.
      */
-	NSUserDefaults* preferences;
+	NSUserDefaults *preferences;
     
 	/**
      * The CURLHandle object for the data transmission to look for updates.
      */
-	CURLHandle* updaterCURLHandle;
+	CURLHandle *updaterCURLHandle;
     
     /**
      * Always show a message, even if no update is available.
@@ -70,27 +70,27 @@
 /**
  * If a new update is available, inform the user.
  */
-- (void)URLHandleResourceDidFinishLoading:(NSURLHandle*)sender;
+- (void)URLHandleResourceDidFinishLoading:(NSURLHandle *)sender;
 
 /**
  * Nothing to be done.
  */
-- (void)URLHandleResourceDidBeginLoading:(NSURLHandle*)sender;
+- (void)URLHandleResourceDidBeginLoading:(NSURLHandle *)sender;
 
 /**
  * No error message.
  */
-- (void)URLHandleResourceDidCancelLoading:(NSURLHandle*)sender;
+- (void)URLHandleResourceDidCancelLoading:(NSURLHandle *)sender;
 
 /**
  * Nothing to be done.
  */
-- (void)URLHandle:(NSURLHandle *)sender resourceDataDidBecomeAvailable:(NSData*)newBytes;
+- (void)URLHandle:(NSURLHandle *)sender resourceDataDidBecomeAvailable:(NSData *)newBytes;
 
 /**
  * No error message.
  */
-- (void)URLHandle:(NSURLHandle *)sender resourceDidFailLoadingWithReason:(NSString*)reason;
+- (void)URLHandle:(NSURLHandle *)sender resourceDidFailLoadingWithReason:(NSString *)reason;
 
 /**
  * Deconstructor.

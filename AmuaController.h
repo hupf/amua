@@ -50,7 +50,7 @@ extern OSStatus _LSSetWeakBindingForType(OSType inType,
                                          OSType inCreator,
                                          CFStringRef inExtension,
                                          LSRolesMask inRoleMask,
-                                         const FSRef* inBindingRef);
+                                         const FSRef *inBindingRef);
 
 
 @class StationController; // Forward declaration
@@ -71,82 +71,82 @@ extern OSStatus _LSSetWeakBindingForType(OSType inType,
 	/**
      * The custom view of the statusItem.
      */
-	AmuaView* view;
+	AmuaView *view;
 	
 	/**
      * The menu that will be displayed by the status item.
      */
-	IBOutlet NSMenu* menu;
+	IBOutlet NSMenu *menu;
 	
 	/**
      * The menu item for changing the behavior of the tooltip.
      */
-	IBOutlet NSMenuItem* tooltipMenuItem;
+	IBOutlet NSMenuItem *tooltipMenuItem;
 	
     /**
      * The menu item to toggle the discovery mode.
      */
-	IBOutlet NSMenuItem* discoveryMenuItem;
+	IBOutlet NSMenuItem *discoveryMenuItem;
     
     /**
      * The menu item to toggle the record to profile mode.
      */
-	IBOutlet NSMenuItem* recordtoprofileMenuItem;
+	IBOutlet NSMenuItem *recordtoprofileMenuItem;
     
     /**
      * The submenu that contains the recent played stations.
      */
-	IBOutlet NSMenu* playRecentMenu;
+	IBOutlet NSMenu *playRecentMenu;
 	
 	/**
      * The menu item for clearing the recent played stations menu.
      */
-	IBOutlet NSMenuItem* clearRecentMenuItem;
+	IBOutlet NSMenuItem *clearRecentMenuItem;
 	
 	/**
      * A reference to the NSApplication, used to put the about window to front.
      */
-	IBOutlet NSApplication* application;
+	IBOutlet NSApplication *application;
 	
     /**
      * The panel that shows artist, album and song information.
      */
-	IBOutlet SongInformationPanel* songInformationPanel;
+	IBOutlet SongInformationPanel *songInformationPanel;
 	
     /**
      * The "Play station..." window controller.
      */
-	IBOutlet StationController* stationController;
+	IBOutlet StationController *stationController;
     
     /**
      * The alert panel that shows up, if Amua is not the default Last.fm player.
      */
-    IBOutlet NSPanel* defaultPlayerPanel;
+    IBOutlet NSPanel *defaultPlayerPanel;
     
     /**
      * The checkbox that defines if the default player check should be done.
      */
-    IBOutlet NSButton* defaultPlayerAlwaysCheck;
+    IBOutlet NSButton *defaultPlayerAlwaysCheck;
 	
     /**
      * Manages the list of the recently played stations.
      */
-	RecentStations* recentStations;
+	RecentStations *recentStations;
 	
 	/**
      * The preferences window controller.
      */
-	PreferencesController* preferencesController;
+	PreferencesController *preferencesController;
 	
 	/**
      * The preferences tracking object.
      */
-    NSUserDefaults* preferences;
+    NSUserDefaults *preferences;
 	
     /**
      * The webservice communication object.
      */
-	LastfmWebService* webService;
+	LastfmWebService *webService;
 	
 	/**
      * A boolean to check playing status.
@@ -156,7 +156,7 @@ extern OSStatus _LSSetWeakBindingForType(OSType inType,
 	/**
      * A timer that will get actual song information.
      */
-	NSTimer* timer;
+	NSTimer *timer;
 	
 	/**
      * A boolean indicating that the mouse is over the icon.
@@ -191,7 +191,7 @@ extern OSStatus _LSSetWeakBindingForType(OSType inType,
  * 
  * @param url The URL of the station.
  */
-- (void)playUrl:(NSString*)url;
+- (void)playUrl:(NSString *)url;
 
 /**
  * Start playing/streaming a station that is set by the station controller.
@@ -336,7 +336,7 @@ extern OSStatus _LSSetWeakBindingForType(OSType inType,
 /**
  * Update menu after preferences have changed.
  */
-- (void)handlePreferencesChanged:(NSNotification*)aNotification;
+- (void)handlePreferencesChanged:(NSNotification *)aNotification;
 
 /**
  * Start playback.
@@ -344,7 +344,7 @@ extern OSStatus _LSSetWeakBindingForType(OSType inType,
  * A timer is set that fires after five seconds, to fetch the song informations
  * of the new song.
  */
-- (void)handleStartPlaying:(NSNotification*)aNotification;
+- (void)handleStartPlaying:(NSNotification *)aNotification;
 
 /**
  * Get fetched song informations and update the song information panel.
@@ -354,7 +354,7 @@ extern OSStatus _LSSetWeakBindingForType(OSType inType,
 /**
  * Add error to menu if start playing failed.
  */
-- (void)handleStartPlayingError:(NSNotification*)aNotification;
+- (void)handleStartPlayingError:(NSNotification *)aNotification;
 
 /**
  * Generates the MD5 hash of a string.
@@ -362,7 +362,7 @@ extern OSStatus _LSSetWeakBindingForType(OSType inType,
  * @param clearTextString A string to generate a MD5 hash from.
  * @return The calculated MD5 hash.
  */
-- (NSString*)md5:(NSString*)clearTextString;
+- (NSString *)md5:(NSString *)clearTextString;
 
 /**
  * Open a given URL.
@@ -370,13 +370,13 @@ extern OSStatus _LSSetWeakBindingForType(OSType inType,
  * @param event An event descriptor that contains the URL.
  * @param replyEvent Not used.
  */
-- (void)handleOpenUrl:(NSAppleEventDescriptor*)event
-						withReplyEvent:(NSAppleEventDescriptor*)replyEvent;
+- (void)handleOpenUrl:(NSAppleEventDescriptor *)event
+						withReplyEvent:(NSAppleEventDescriptor *)replyEvent;
 
 /**
  * Stop playing if Amua quits.
  */
-- (void)applicationWillTerminate:(NSNotification*)aNotification;
+- (void)applicationWillTerminate:(NSNotification *)aNotification;
 
 /**
  * Check if Amua is registered as default application for the lastfm:// protocol.

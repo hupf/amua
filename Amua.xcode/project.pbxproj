@@ -216,9 +216,9 @@
 			files = (
 				0C84495C09798D6F00A0F823,
 				0C84495D09798D6F00A0F823,
-				0C84495F09798D6F00A0F823,
 				0CDA84600985678F00DFC43F,
 				0CDA8462098567C900DFC43F,
+				0CC7E4AD099513A60027C60C,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -240,9 +240,8 @@
 				0C84489F09798C6700A0F823,
 			);
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\" /Users/m/Documents/Development/Amua";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = Amua;
 				SECTORDER_FLAGS = "";
@@ -497,12 +496,6 @@
 			settings = {
 			};
 		};
-		0C84495F09798D6F00A0F823 = {
-			fileRef = 0CB409E30972E5ED00E0C772;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		0C84496009798DB300A0F823 = {
 			fileRef = 089C165CFE840E0CC02AAC07;
 			isa = PBXBuildFile;
@@ -559,14 +552,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		0CB409E30972E5ED00E0C772 = {
-			isa = PBXFileReference;
-			lastKnownFileType = "compiled.mach-o.dylib";
-			name = libcrypto.dylib;
-			path = /usr/lib/libcrypto.dylib;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
 		0CB7A6D107C8AA9000E4342A = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -590,6 +575,20 @@
 			path = Credits.html;
 			refType = 4;
 			sourceTree = "<group>";
+		};
+		0CC7E4AC099513A60027C60C = {
+			isa = PBXFileReference;
+			lastKnownFileType = "compiled.mach-o.dylib";
+			name = libcrypto.dylib;
+			path = /usr/lib/libcrypto.dylib;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		0CC7E4AD099513A60027C60C = {
+			fileRef = 0CC7E4AC099513A60027C60C;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		0CDA845F0985678F00DFC43F = {
 			isa = PBXFileReference;
@@ -636,9 +635,9 @@
 //104
 		1058C7A0FEA54F0111CA2CBB = {
 			children = (
+				0CC7E4AC099513A60027C60C,
 				0CDA8461098567C900DFC43F,
 				0CDA845F0985678F00DFC43F,
-				0CB409E30972E5ED00E0C772,
 				F45B8A7F07DB7231007383B1,
 				0C287A6707C677F400AF7154,
 			);

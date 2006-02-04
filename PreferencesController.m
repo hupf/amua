@@ -45,7 +45,7 @@
 }
 
 
-- (void)windowWillClose:(NSNotification*)aNotification
+- (void)windowWillClose:(NSNotification *)aNotification
 {
 	// Update the fields for the next time the window will be opened
 	[self updateFields];
@@ -87,10 +87,10 @@
 - (IBAction)setDefaults:(id)sender
 {	
 	// Read in the XML file with the default preferences
-	NSString* file = [[NSBundle mainBundle]
+	NSString *file = [[NSBundle mainBundle]
         pathForResource:@"Defaults" ofType:@"plist"];
 
-    NSDictionary* defaultPreferences = [NSDictionary dictionaryWithContentsOfFile:file];
+    NSDictionary *defaultPreferences = [NSDictionary dictionaryWithContentsOfFile:file];
 	
 	// Fill the fields with the factory defaults
 	[username setStringValue:[defaultPreferences objectForKey:@"username"]];
@@ -130,7 +130,7 @@
 
 - (IBAction)checkForUpdates:(id)sender
 {
-	AmuaUpdater* updater = [[[AmuaUpdater alloc] init] autorelease];
+	AmuaUpdater *updater = [[[AmuaUpdater alloc] init] autorelease];
     [updater setVerbose:YES];
 	[updater checkForUpdates];
 }
