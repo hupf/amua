@@ -34,7 +34,7 @@
 }
 
 
-- (id)searchSimilarArtist:(NSString *)artist withSender:(NSObject *)owner
+- (void)searchSimilarArtist:(NSString *)artist withSender:(NSObject *)owner
 {
 	if (lastSearch != nil) {
 		[lastSearch release];
@@ -51,7 +51,7 @@
 }
 
 
-- (id)doSearch:(NSObject *)owner
+- (void)doSearch:(NSObject *)owner
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     
