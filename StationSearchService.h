@@ -96,7 +96,7 @@
  * @param artist The artist search query.
  * @param owner The sending object.
  */
-- (id)searchSimilarArtist:(NSString *)artist withSender:(NSObject *)owner;
+- (void)searchSimilarArtist:(NSString *)artist withSender:(NSObject *)owner;
 
 /**
  * Get the description of the main result.
