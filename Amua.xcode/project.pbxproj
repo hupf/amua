@@ -17,6 +17,7 @@
 				0C287793096EBB1B00BABB9E,
 				0C287795096EBB1B00BABB9E,
 				0C287797096EBB1B00BABB9E,
+				0CE744C309951961000BE49B,
 			);
 			isa = PBXGroup;
 			name = Classes;
@@ -173,6 +174,7 @@
 				0C8448B509798D2F00A0F823,
 				0C8448B609798D2F00A0F823,
 				0C8448B709798D2F00A0F823,
+				0CE744C409951961000BE49B,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -183,6 +185,7 @@
 				0C84496009798DB300A0F823,
 				0C8448A509798D0700A0F823,
 				0C8448A709798D0700A0F823,
+				0CE744D809951B31000BE49B,
 				0C8448A809798D0700A0F823,
 				0C8448A909798D0700A0F823,
 				0C8448AA09798D0700A0F823,
@@ -207,6 +210,7 @@
 				0C8448C009798D5200A0F823,
 				0C8448C109798D5200A0F823,
 				0C8448C209798D5200A0F823,
+				0CE744C509951961000BE49B,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -623,6 +627,47 @@
 			settings = {
 			};
 		};
+		0CE744C209951961000BE49B = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = Notification.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0CE744C309951961000BE49B = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = Notification.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0CE744C409951961000BE49B = {
+			fileRef = 0CE744C209951961000BE49B;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0CE744C509951961000BE49B = {
+			fileRef = 0CE744C309951961000BE49B;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0CE744D709951B31000BE49B = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			path = Notification.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0CE744D809951B31000BE49B = {
+			fileRef = 0CE744D709951B31000BE49B;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 //0C0
 //0C1
 //0C2
@@ -745,6 +790,7 @@
 				089C165CFE840E0CC02AAC07,
 				29B97318FDCFA39411CA2CEA,
 				0C83A58807C4FE47001A45EA,
+				0CE744D709951B31000BE49B,
 			);
 			isa = PBXGroup;
 			name = Resources;
@@ -868,6 +914,7 @@
 				0C287792096EBB1B00BABB9E,
 				0C287794096EBB1B00BABB9E,
 				0C287796096EBB1B00BABB9E,
+				0CE744C209951961000BE49B,
 			);
 			isa = PBXGroup;
 			name = Headers;

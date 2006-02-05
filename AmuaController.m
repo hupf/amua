@@ -94,7 +94,15 @@
     
     // Check if Amua is the default player for the lastfm:// protocol
     if ([preferences boolForKey:@"performDefaultPlayerCheck"] && ![self isDefaultLastfmPlayer]) {
-    	[defaultPlayerPanel makeKeyAndOrderFront:nil];
+    	//[defaultPlayerPanel makeKeyAndOrderFront:nil];
+        defaultPlayerNotification = [[Notification alloc] initWithTitle:@"Default Last.fm Player"
+        					withDescription:@"Amua is not currently set as your default Last.fm player. " \
+											 "Would you like to make it your default Last.fm player?"
+                            withDismissText:@"Always perform this check when starting Amua"
+                            dismissState:[preferences boolForKey:@"performDefaultPlayerCheck"]
+                            action:@selector(defaultPlayerNotificationResult:)
+                            target:self];
+		[defaultPlayerNotification display];
     }
 
 	// Add an menu item to the status bar
@@ -832,28 +840,28 @@
 }
 
 
-- (IBAction)setDefaultLastfmPlayer:(id)sender
+- (void)setDefaultLastfmPlayer
 {
 	CFURLRef amuaURL = CFBundleCopyBundleURL(CFBundleGetMainBundle());
 	_LSSetDefaultSchemeHandlerURL(CFSTR("lastfm"), amuaURL);
 	_LSSaveAndRefresh();
 	CFRelease(amuaURL);
-    
-    [preferences setBool:([defaultPlayerAlwaysCheck state] == NSOnState)
-    		     forKey:@"performDefaultPlayerCheck"];
-    [preferences synchronize];
-    
-    [defaultPlayerPanel orderOut:self];
 }
 
 
-- (IBAction)setNotDefaultLastfmPlayer:(id)sender
+- (void)defaultPlayerNotificationResult:(id)sender
 {
-	[preferences setBool:([defaultPlayerAlwaysCheck state] == NSOnState)
-    		     forKey:@"performDefaultPlayerCheck"];
-    [preferences synchronize];
+	if (sender == defaultPlayerNotification) {
+    	if ([defaultPlayerNotification clickedButton] == YES_BUTTON_CLICKED) {
+        	[self setDefaultLastfmPlayer];
+        }
+        
+        [preferences setBool:[defaultPlayerNotification dismissState]
+                     forKey:@"performDefaultPlayerCheck"];
+        [preferences synchronize];
+    }
     
-    [defaultPlayerPanel orderOut:self];
+    [sender release];
 }
 
 @end
