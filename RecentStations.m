@@ -122,9 +122,10 @@
 
 - (void)dealloc
 {
-	[super dealloc];
 	[preferences release];
     [recentStations release];
+    
+    [super dealloc];
 }
 
 @end

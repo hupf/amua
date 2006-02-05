@@ -30,7 +30,11 @@
 #import "StationController.h"
 #import "RecentStations.h"
 #import "KeyChain.h"
+#import "Notification.h"
 
+/**
+ * The maximum number of characters for the song text before it is cropped.
+ */
 #define MAX_SONGTEXT_LENGTH 30
 
 
@@ -117,16 +121,6 @@ extern OSStatus _LSSetWeakBindingForType(OSType inType,
      * The "Play station..." window controller.
      */
 	IBOutlet StationController *stationController;
-    
-    /**
-     * The alert panel that shows up, if Amua is not the default Last.fm player.
-     */
-    IBOutlet NSPanel *defaultPlayerPanel;
-    
-    /**
-     * The checkbox that defines if the default player check should be done.
-     */
-    IBOutlet NSButton *defaultPlayerAlwaysCheck;
 	
     /**
      * Manages the list of the recently played stations.
@@ -172,6 +166,11 @@ extern OSStatus _LSSetWeakBindingForType(OSType inType,
      * A boolean indicating if the Tooltip is always visible.
      */
 	bool alwaysDisplayTooltip;
+    
+    /**
+     * The notification for the default Last.fm player check.
+     */
+    Notification *defaultPlayerNotification;
 }
 
 /**
@@ -396,11 +395,11 @@ extern OSStatus _LSSetWeakBindingForType(OSType inType,
  * It uses some undocumented functions of the Mac OS X's launch services to
  * register Amua as default application for the lastfm:// protocol.
  */
-- (IBAction)setDefaultLastfmPlayer:(id)sender;
+- (void)setDefaultLastfmPlayer;
 
 /**
- * Do not set Amua as default player for the lastfm:// protocol.
+ * Action for the default Last.fm player notification.
  */
-- (IBAction)setNotDefaultLastfmPlayer:(id)sender;
+- (void)defaultPlayerNotificationResult:(id)sender;
 
 @end

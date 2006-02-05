@@ -37,6 +37,7 @@
 	[self upgradeConfigFile];
     
     verbose = NO;
+    updateUrl = nil;
 	
 	return [super init];
 }
@@ -58,6 +59,22 @@
 
 	[updaterCURLHandle addClient:self];
 	[updaterCURLHandle loadInBackground];
+}
+
+
+- (void)finishCheckForUpdates:(id)sender
+{
+	if (sender == notification) {
+    	if ([notification clickedButton] == YES_BUTTON_CLICKED) {
+        	[[NSWorkspace sharedWorkspace] openURL:updateUrl];
+        }
+        [updateUrl release];
+        updateUrl = nil;
+        
+        [preferences setBool:[notification dismissState] forKey:@"performUpdatesCheck"];
+    }
+    
+	[sender release];
 }
 
 
@@ -127,19 +144,23 @@
 			[parsedResult setObject:[[values objectAtIndex:i]
 					substringFromIndex:equalPosition.location+equalPosition.length]
 					forKey:[[values objectAtIndex:i] substringToIndex:equalPosition.location]];
+                    
 		}
 	}
 	
 	// check if the online version is more recent
 	if (![[parsedResult objectForKey:@"version"] isEqualToString:[preferences stringForKey:@"version"]]) {
-		[preferences setInteger:0 forKey:@"showPossibleUpdateDialog"];
-		[preferences synchronize];
-		NSString *body = [[@"Amua version " stringByAppendingString:[parsedResult objectForKey:@"version"]]
-								stringByAppendingString:@" is available."];
-		int alertAction = NSRunAlertPanel(@"Amua", body, @"Get New Version", @"Cancel", nil);
-		if (alertAction == 1) {
-			[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[parsedResult objectForKey:@"URL"]]];
-		}
+    	updateUrl = [[NSURL alloc] initWithString:[parsedResult objectForKey:@"URL"]];
+		NSString *body = [[@"Amua " stringByAppendingString:[parsedResult objectForKey:@"version"]]
+								stringByAppendingString:@" is available. Would you like to download the new version?"];
+        notification = [[Notification alloc] initWithTitle:@"Amua Update" withDescription:body
+                                   withDismissText:@"Always check for updates at startup"
+                                   dismissState:[preferences boolForKey:@"performUpdatesCheck"]
+                                   yesButtonText:@"Get New Version"
+                                   noButtonText:@"Not yet"
+                                   action:@selector(finishCheckForUpdates:)
+                                   target:self];
+		[notification display];
 	} else if (verbose) {
     	NSRunAlertPanel(@"Amua", @"Your version is up to date.", @"OK", nil, nil);
     }
@@ -174,8 +195,12 @@
 
 - (void)dealloc
 {
-	[super dealloc];
 	[preferences release];
+    if (updateUrl != nil) {
+    	[updateUrl release];
+    }
+    
+	[super dealloc];
 }
 
 @end

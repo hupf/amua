@@ -24,6 +24,7 @@
 #import <CURLHandle/CURLHandle.h>
 #import <CURLHandle/CURLHandle+extras.h>
 #import "KeyChain.h"
+#import "Notification.h"
 
 /**
  * The class that checks for and handles Amua updates.
@@ -44,6 +45,16 @@
      * Always show a message, even if no update is available.
      */
     bool verbose;
+    
+    /**
+     * The notification dialog to notify the user about the current updates.
+     */
+    Notification *notification;
+    
+    /**
+     * The URL where the update is located.
+     */
+    NSURL *updateUrl;
 
 }
 
@@ -61,6 +72,11 @@
  * Send request to check if new updates are available.
  */
 - (void)checkForUpdates;
+
+/**
+ * The method that is called by the Notification object when dialog has been clicked.
+ */
+- (void)finishCheckForUpdates:(id)sender;
 
 /**
  * Upgrade the Amua preferences file to the newest version.
