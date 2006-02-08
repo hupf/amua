@@ -47,7 +47,7 @@
 	
 	NSString *getSessionURL = [[[NSString alloc] initWithString:[[[[[[NSString stringWithString:@"http://"]
 						stringByAppendingString:server]
-						stringByAppendingString:@"/radio/handshake.php?version=1.1.2&platform=mac&debug=0&username="]
+						stringByAppendingString:@"/radio/handshake.php?version=1.1.5&platform=mac&debug=0&username="]
 						stringByAppendingString:username]
 						stringByAppendingString:@"&passwordmd5="]
 						stringByAppendingString:passwordMD5]] autorelease];
