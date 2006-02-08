@@ -612,6 +612,8 @@
 		}
 		
 	}
+	
+	[menu update];
 }
 
 
@@ -692,7 +694,7 @@
     [webService updateNowPlayingInformation];
 	
 	[webService setDiscovery:[preferences boolForKey:@"discoveryMode"]];
-	[webService executeControl:([preferences boolForKey:@"discoveryMode"] ? @"rtp" : @"nortp")];
+	[webService executeControl:([preferences boolForKey:@"recordToProfile"] ? @"rtp" : @"nortp")];
 	
 	// Set the timer so that in five seconds the new song information will be fetched
 	timer = [[NSTimer scheduledTimerWithTimeInterval:(5) target:self

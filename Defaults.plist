@@ -20,9 +20,6 @@
 	<key>version</key>
 	<string>0.5.1</string>
 	
-	<key>showPossibleUpdateDialog</key>
-	<integer>1</integer>
-	
 	<key>updateURL</key>
 	<string>http://amua.sourceforge.net/version</string>
 	
