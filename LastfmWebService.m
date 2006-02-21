@@ -45,6 +45,9 @@
 {
 	user = [username copy];
 	
+	LOG([[NSString stringWithString:@"handshake with username: "]
+		 stringByAppendingString: user]);
+	
 	NSString *getSessionURL = [[[NSString alloc] initWithString:[[[[[[NSString stringWithString:@"http://"]
 						stringByAppendingString:server]
 						stringByAppendingString:@"/radio/handshake.php?version=1.1.5&platform=mac&debug=0&username="]
@@ -67,6 +70,7 @@
 
 - (void)updateNowPlayingInformation
 {
+	LOG(@"updating song information");
 	NSString *nowPlayingURL = [[[NSString alloc] initWithString:[[[[[[NSString stringWithString:@"http://"]
 						stringByAppendingString:baseHost]
 						stringByAppendingString:basePath]
@@ -93,6 +97,9 @@
 	if (!sessionID) {
 		return;
     }
+	
+	LOG([[NSString stringWithString:@"executing command: "]
+		 stringByAppendingString: command]);
 	
 	NSString *controlURL = [[[NSString alloc] initWithString:[[[[[[[[NSString stringWithString:@"http://"]
 						stringByAppendingString:baseHost]
@@ -122,6 +129,9 @@
     if (!sessionID || !url) {
 		return nil;
     }
+	
+	LOG([[NSString stringWithString:@"tuning to station: "]
+		 stringByAppendingString: url]);
     
     NSString *genericURL = [[[NSString alloc] initWithString:[[[[[[[NSString stringWithString:@"http://"]
 						    stringByAppendingString:baseHost]
@@ -149,9 +159,9 @@
     tuningCURLHandle = [self adjust:stationUrl];
     
     if(tuningCURLHandle) {
-		NSLog(@"tuning to: %@", stationUrl);
 		[tuningCURLHandle loadInBackground];
     } else {
+		ERROR(@"curl handle does not exist");
 		[[NSNotificationCenter defaultCenter]
         	postNotificationName:@"StartPlayingError" object:self];
     }
@@ -165,9 +175,11 @@
         (state ? @"on" : @"off")]];
     
     if(discoveryCURLHandle) {
-		NSLog(@"setting discovery to: %@", (state ? @"on" : @"off"));
+		LOG([[NSString stringWithString:@"set discovery mode to: "]
+			stringByAppendingString:(state ? @"on" : @"off")]);
 		[discoveryCURLHandle loadInBackground];
     } else {
+		ERROR(@"curl handle does not exist");
 		[[NSNotificationCenter defaultCenter]
         	postNotificationName:@"SetDiscoveryError" object:self];
     }
@@ -307,6 +319,7 @@
 	if ([sender isEqual:getSessionCURLHandle]) { // Response for session-request
 	
 		if ([[parsedResult objectForKey:@"session"] isEqualToString:@"FAILED"]) {
+			ERROR(@"handshake failed");
 			[parsedResult release];
 			getSessionCURLHandle = nil;
 			[[NSNotificationCenter defaultCenter]
@@ -318,6 +331,8 @@
 			basePath = [[parsedResult objectForKey:@"base_path"] copy];
 			[parsedResult release];
 			getSessionCURLHandle = nil;
+			LOG([[NSString stringWithString:@"handshake done, sessionid: "]
+				 stringByAppendingString:sessionID]);
 			[self tuneStation];
 		}
 		
@@ -326,12 +341,13 @@
 		if ([[parsedResult objectForKey:@"response"] isEqualToString:@"OK"]) {
 			[parsedResult release];
 			tuningCURLHandle = nil;
+			LOG(@"station tuned");
 			[[NSNotificationCenter defaultCenter]
             	postNotificationName:@"StartPlaying" object:self];
 		} else {
 			[parsedResult release];
 			tuningCURLHandle = nil;
-			NSLog(@"Amua: Station tuning error");
+			ERROR(@"station tuning error");
 			[[NSNotificationCenter defaultCenter]
             	postNotificationName:@"StartPlaying" object:self];
 		}
@@ -339,11 +355,10 @@
 	} else if ([sender isEqual:nowPlayingCURLHandle]) { // Response for song information request
 		
 		nowPlayingCURLHandle = nil;
-		
+		if (nowPlayingInformation != nil) {
+            [nowPlayingInformation release];
+        }
 		if ([[parsedResult objectForKey:@"streaming"] isEqual:@"true"]) {
-			if (nowPlayingInformation != nil) {
-				[nowPlayingInformation release];
-			}
 			nowPlayingInformation = parsedResult;
 			if ([nowPlayingInformation objectForKey:@"albumcover_small"] != nil) {
 				if (albumCover != nil) {
@@ -353,9 +368,15 @@
                 	[NSURL URLWithString:[nowPlayingInformation
                     	objectForKey:@"albumcover_small"]]];
 			}
-			[[NSNotificationCenter defaultCenter]
-            	postNotificationName:@"UpdateNowPlayingInformation" object:self];
+			
+			LOG(@"song information received");			
+		} else {
+            nowPlayingInformation = nil;
+			ERROR(@"get song information: not streaming");
 		}
+        
+        [[NSNotificationCenter defaultCenter]
+            	postNotificationName:@"UpdateNowPlayingInformation" object:self];
 	} else if ([sender isEqual:controlCURLHandle]) { // Response for executed command
 	
 		// We don't do anything, whether the sent command was successful or not
@@ -379,6 +400,8 @@
 
 - (void)URLHandleResourceDidCancelLoading:(NSURLHandle *)sender
 {
+	ERROR(@"handle did cancel loading");
+	
 	if (sender == getSessionCURLHandle || sender == tuningCURLHandle) {
 		[sender removeClient:self];
 		[sender release];
@@ -396,6 +419,8 @@
 
 - (void)URLHandle:(NSURLHandle *)sender resourceDidFailLoadingWithReason:(NSString *)reason
 {
+	ERROR(@"handle did fail loading");
+
 	if (sender == getSessionCURLHandle || sender == tuningCURLHandle) {
 		[sender removeClient:self];
 		[sender release];
