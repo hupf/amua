@@ -26,7 +26,7 @@
 
 - (id)init
 {
-    if(self = [super initWithWindowNibName:@"Preferences"]) {
+    if (self = [super initWithWindowNibName:@"Preferences"]) {
         [self setWindowFrameAutosaveName:@"PreferencesWindow"];
     }
 	

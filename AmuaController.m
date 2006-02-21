@@ -168,7 +168,6 @@
 {
     int index = [playRecentMenu indexOfItem:sender];
     NSString *stationUrl = [NSString stringWithString:[recentStations stationURLByIndex:index]];
-    NSLog(@"%i %@", index, stationUrl);
     [recentStations moveToFront:index];
 	[self playUrl: stationUrl];
 	[stationController hideWindow];
@@ -801,7 +800,7 @@
 		// CFBundleGetIdentifier is expected to return NULL only if the specified
 		// bundle doesn't have a bundle identifier in its plist. In this case, that
 		// means a failure, since our bundle does have an identifier.
-		NSLog(@"isDefaultLastfmPlayer: failure in plist");
+		ERROR(@"isDefaultLastfmPlayer: failure in plist");
 	}
 
 	CFRetain(amuaID);
