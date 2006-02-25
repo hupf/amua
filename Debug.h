@@ -20,7 +20,7 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //
 
-#define DEBUG 1
+#define DEBUG 0
 
 
 #define ERROR(m) NSLog(@"ERROR: %@", m)
@@ -28,5 +28,5 @@
 #if (DEBUG == 1)
 #define LOG(m) NSLog(@"LOG: %@", m)
 #else
-#define LOG(m) ()
+#define LOG(m) ;
 #endif

@@ -18,6 +18,7 @@
 				0C287795096EBB1B00BABB9E,
 				0C287797096EBB1B00BABB9E,
 				0CE744C309951961000BE49B,
+				0C2FC69C09B07EF700AB9C67,
 			);
 			isa = PBXGroup;
 			name = Classes;
@@ -52,6 +53,20 @@
 //0C2
 //0C3
 //0C4
+		0C00AD6009AB9E7500A6D710 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = Debug.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0C00AD6109AB9E7500A6D710 = {
+			fileRef = 0C00AD6009AB9E7500A6D710;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		0C287790096EBB1B00BABB9E = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -131,6 +146,34 @@
 			refType = 0;
 			sourceTree = "<absolute>";
 		};
+		0C2FC69B09B07EF700AB9C67 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = FloatingTextField.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0C2FC69C09B07EF700AB9C67 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = FloatingTextField.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0C2FC69D09B07EF700AB9C67 = {
+			fileRef = 0C2FC69B09B07EF700AB9C67;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0C2FC69E09B07EF700AB9C67 = {
+			fileRef = 0C2FC69C09B07EF700AB9C67;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		0C73309107CB340600D4A0AC = {
 			isa = PBXFileReference;
 			lastKnownFileType = image.icns;
@@ -175,6 +218,8 @@
 				0C8448B609798D2F00A0F823,
 				0C8448B709798D2F00A0F823,
 				0CE744C409951961000BE49B,
+				0C00AD6109AB9E7500A6D710,
+				0C2FC69D09B07EF700AB9C67,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -211,6 +256,7 @@
 				0C8448C109798D5200A0F823,
 				0C8448C209798D5200A0F823,
 				0CE744C509951961000BE49B,
+				0C2FC69E09B07EF700AB9C67,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -294,7 +340,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>0.5.2</string>
+	<string>0.5.3</string>
 	<key>LSUIElement</key>
 	<string>1</string>
 	<key>NSMainNibFile</key>
@@ -899,6 +945,8 @@
 				0C287794096EBB1B00BABB9E,
 				0C287796096EBB1B00BABB9E,
 				0CE744C209951961000BE49B,
+				0C2FC69B09B07EF700AB9C67,
+				0C00AD6009AB9E7500A6D710,
 			);
 			isa = PBXGroup;
 			name = Headers;
