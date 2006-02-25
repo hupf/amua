@@ -126,6 +126,8 @@
 		F46D60FD099646B00023FC2F /* Notification.h in Headers */ = {isa = PBXBuildFile; fileRef = F46D60FA099646B00023FC2F /* Notification.h */; };
 		F46D60FE099646B00023FC2F /* Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = F46D60FB099646B00023FC2F /* Notification.m */; };
 		F46D60FF099646B00023FC2F /* Notification.nib in Resources */ = {isa = PBXBuildFile; fileRef = F46D60FC099646B00023FC2F /* Notification.nib */; };
+		F47030E009AF6D2100F420F5 /* FloatingTextField.h in Headers */ = {isa = PBXBuildFile; fileRef = F47030DE09AF6D2100F420F5 /* FloatingTextField.h */; };
+		F47030E109AF6D2100F420F5 /* FloatingTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = F47030DF09AF6D2100F420F5 /* FloatingTextField.m */; };
 		F4DB25B9099CCB5500E52D60 /* Debug.h in Headers */ = {isa = PBXBuildFile; fileRef = F4DB25B8099CCB5500E52D60 /* Debug.h */; };
 /* End PBXBuildFile section */
 
@@ -204,6 +206,8 @@
 		F46D60FA099646B00023FC2F /* Notification.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Notification.h; sourceTree = "<group>"; };
 		F46D60FB099646B00023FC2F /* Notification.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Notification.m; sourceTree = "<group>"; };
 		F46D60FC099646B00023FC2F /* Notification.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = Notification.nib; sourceTree = "<group>"; };
+		F47030DE09AF6D2100F420F5 /* FloatingTextField.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FloatingTextField.h; sourceTree = "<group>"; };
+		F47030DF09AF6D2100F420F5 /* FloatingTextField.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FloatingTextField.m; sourceTree = "<group>"; };
 		F4DB25B8099CCB5500E52D60 /* Debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Debug.h; sourceTree = "<group>"; };
 		F4EF3CE207E1E6DC003BBC9F /* SongInformationPanel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SongInformationPanel.h; sourceTree = "<group>"; };
 		F4EF3CE307E1E6DC003BBC9F /* SongInformationPanel.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SongInformationPanel.m; sourceTree = "<group>"; };
@@ -240,6 +244,7 @@
 				0C287795096EBB1B00BABB9E /* StationController.m */,
 				0C287797096EBB1B00BABB9E /* StationSearchService.m */,
 				F46D60FB099646B00023FC2F /* Notification.m */,
+				F47030DF09AF6D2100F420F5 /* FloatingTextField.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -335,6 +340,7 @@
 				0C287796096EBB1B00BABB9E /* StationSearchService.h */,
 				F46D60FA099646B00023FC2F /* Notification.h */,
 				F4DB25B8099CCB5500E52D60 /* Debug.h */,
+				F47030DE09AF6D2100F420F5 /* FloatingTextField.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
@@ -358,6 +364,7 @@
 				0C8448B709798D2F00A0F823 /* StationSearchService.h in Headers */,
 				F46D60FD099646B00023FC2F /* Notification.h in Headers */,
 				F4DB25B9099CCB5500E52D60 /* Debug.h in Headers */,
+				F47030E009AF6D2100F420F5 /* FloatingTextField.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -429,6 +436,7 @@
 				0C8448C109798D5200A0F823 /* StationController.m in Sources */,
 				0C8448C209798D5200A0F823 /* StationSearchService.m in Sources */,
 				F46D60FE099646B00023FC2F /* Notification.m in Sources */,
+				F47030E109AF6D2100F420F5 /* FloatingTextField.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -22,7 +22,7 @@
 
 #import "SongInformationPanel.h"
 
-#define MAX_SIZE 50
+#define MAX_TEXTFIELD_SIZE 350
 
 @implementation SongInformationPanel
 
@@ -81,13 +81,22 @@
 
 - (void)show
 {
+    [artist startFloating];
+    [album startFloating];
+    [track startFloating];
+    [footer startFloating];
 	[self makeKeyAndOrderFront:nil];
+    visible = YES;
 }
 
 
 - (void)hide
 {
-	[self orderOut:nil];
+    [self orderOut:nil];
+    [artist stopFloating];
+    [album stopFloating];
+    [track stopFloating];
+    [footer stopFloating];
 	visible = NO;
 }
 
@@ -97,24 +106,23 @@
         radioStationUser:(NSString *)inRadioStationUser
 		trackPosition:(int)inTrackPosition trackDuration:(int)inTrackDuration
 {
-	inArtist = [self shorten:inArtist];
-	inAlbum = [self shorten:inAlbum];
-	inTrack = [self shorten:inTrack];
-	inRadioStation = [self shorten:inRadioStation];
-	inRadioStationUser = [self shorten:inRadioStationUser];
 	
 	if (![[artist stringValue] isEqualToString:inArtist] ||
 		![[album stringValue] isEqualToString:inAlbum] ||
 		![[track stringValue] isEqualToString:inTrack]) {
 		
 		[artist setStringValue:inArtist];
+        [artist setMaxSize:MAX_TEXTFIELD_SIZE-[artist frame].origin.x];
 		[album setStringValue:inAlbum];
+        [album setMaxSize:MAX_TEXTFIELD_SIZE-[album frame].origin.x];
 		[track setStringValue:inTrack];
+        [track setMaxSize:MAX_TEXTFIELD_SIZE-[track frame].origin.x];
 		NSString *footerTitle = inRadioStation;
 		if (inRadioStationUser != nil) {
 			 footerTitle = [[footerTitle stringByAppendingString:@" feeding from "] stringByAppendingString:inRadioStationUser];
 		}
 		[footer setStringValue:footerTitle];
+        [footer setMaxSize:MAX_TEXTFIELD_SIZE-[footer frame].origin.x];
 		[image setImage:inImage];
 		trackPosition = inTrackPosition;
 		trackDuration = inTrackDuration;
@@ -208,11 +216,11 @@
 	}
 	
 	[self setContentSize:NSMakeSize(maxSize, [self frame].size.height)];
-	[artist display];
-	[album display];
-	[track display];
+	//[artist display];
+	//[album display];
+	//[track display];
 	[time display];
-	[footer display];
+	//[footer display];
 	[self display];
 	
 }
@@ -221,15 +229,6 @@
 - (BOOL)visible
 {
 	return visible;
-}
-
-- (NSString *)shorten:(NSString *)string
-{
-	if ([string length] > MAX_SIZE) {
-		// Shorten the string
-		string = [[string substringToIndex:MAX_SIZE] stringByAppendingString:@"..."];
-	}
-	return string;
 }
 
 @end
