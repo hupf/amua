@@ -21,6 +21,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "FloatingTextField.h"
 
 /**
  * Implementation of the song information panel.
@@ -33,17 +34,17 @@
 	/**
      * The textfield to display the album name.
      */
-    IBOutlet NSTextField *album;
+    IBOutlet FloatingTextField *album;
     
     /**
      * The textfield to display the artist name.
      */
-    IBOutlet NSTextField *artist;
+    IBOutlet FloatingTextField *artist;
     
     /**
      * The textfield to display a footer text (station name, profile).
      */
-    IBOutlet NSTextField *footer;
+    IBOutlet FloatingTextField *footer;
     
     /**
      * The album cover image.
@@ -58,7 +59,7 @@
     /**
      * The textfield to display the track name.
      */
-    IBOutlet NSTextField *track;
+    IBOutlet FloatingTextField *track;
     
     /**
      * A separation line.
@@ -164,12 +165,5 @@
  * @return YES if the panel is visible, NO otherwise.
  */
 - (BOOL)visible;
-
-/**
- * Shorten a given string to a maximum of MAX_SIZE characters (three dots are added).
- * 
- * @param string A string to shorten.
- */
-- (NSString *)shorten:(NSString *)string;
 
 @end

@@ -29,16 +29,17 @@
             SUPERCLASS = NSObject; 
         }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = FloatingTextField; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
         {
             CLASS = SongInformationPanel; 
             LANGUAGE = ObjC; 
             OUTLETS = {
-                album = NSBox; 
-                artist = NSTextField; 
-                footer = NSTextField; 
+                album = FloatingTextField; 
+                artist = FloatingTextField; 
+                footer = FloatingTextField; 
                 image = NSImageView; 
                 time = NSTextField; 
-                track = NSTextField; 
+                track = FloatingTextField; 
             }; 
             SUPERCLASS = NSPanel; 
         }, 
