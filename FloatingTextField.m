@@ -43,6 +43,7 @@
     }
     [textField setStringValue:string];
     [textField sizeToFit];
+    [self resetPosition];
 }
 
 
@@ -82,9 +83,7 @@
     if (maxSizeValue < [textField frame].size.width) {
         timer = [[NSTimer scheduledTimerWithTimeInterval:(0.04) target:self
                                                 selector:@selector(reposition:) userInfo:nil repeats:YES] retain];
-        NSRect rect = [textField frame];
-        rect.origin.x = [self bounds].origin.x;
-        [textField setFrame:rect];
+        [self resetPosition];
         positionIncreasing = NO;
     }
 }
@@ -120,6 +119,14 @@
     }
     [textField setFrame:rect];
     [textField display];
+}
+
+
+- (void)resetPosition
+{
+	NSRect rect = [textField frame];
+    rect.origin.x = [self bounds].origin.x;
+    [textField setFrame:rect];
 }
 
 @end

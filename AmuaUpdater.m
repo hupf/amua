@@ -126,6 +126,13 @@
         [preferences setObject:@"0.5.2" forKey:@"version"];
 		[preferences synchronize];
 	}
+    
+    // Upgrade from version 0.5.2 to 0.5.3
+	if ([[preferences objectForKey:@"version"] isEqualToString:@"0.5.2"]) {
+		[preferences setObject:@"ws.audioscrobbler.com" forKey:@"webServiceServer"];
+        [preferences setObject:@"0.5.3" forKey:@"version"];
+		[preferences synchronize];
+	}
 	
 	// Make sure, the version is written into the user's preferences file, also
 	// if it's not an upgrade but a new installation

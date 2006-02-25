@@ -96,4 +96,10 @@
  * A reposition step (for internal use)
  */
 - (void)reposition:(id)sender;
+
+/**
+ * Reset the internal textfield position
+ */
+- (void)resetPosition;
+
 @end
