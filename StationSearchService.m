@@ -240,7 +240,7 @@
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string
 {
 	if (parsingData == YES) {
-		tempValue = [tempValue stringByAppendingString:string];
+		tempValue = [[tempValue stringByAppendingString:string] retain];
 	}
 }
 
