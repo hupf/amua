@@ -20,6 +20,7 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //
 
+#import "Debug.h"
 #import <Cocoa/Cocoa.h>
 #import <CURLHandle/CURLHandle.h>
 #import <CURLHandle/CURLHandle+extras.h>
@@ -27,7 +28,7 @@
 /**
  * Communication class for performing station search queries.
  */
-@interface StationSearchService : NSObject {
+@interface StationSearchService : NSObject<NSURLHandleClient> {
 
 	/**
      * The webservice server's hostname.
@@ -43,6 +44,11 @@
      * The last search query.
      */
 	NSString *lastSearch;
+    
+    /**
+     * The owner of the search service.
+     */
+    id owner;
 	
     /**
      * An array that will contain the result.
@@ -78,6 +84,11 @@
      * True if the NSXMLParser is parsing data.
      */
 	BOOL parsingData;
+    
+    /**
+     * The CURL handle object.
+     */
+    CURLHandle *searchHandle;
 	
 }
 
@@ -129,6 +140,19 @@
 - (int)numberOfRowsInTableView:(NSTableView *)aTableView;
 
 /**
+ * Parse the values out of the HTTP result and do necessary actions.
+ */
+- (void)URLHandleResourceDidFinishLoading:(NSURLHandle *)sender;
+
+- (void)URLHandleResourceDidBeginLoading:(NSURLHandle *)sender;
+
+- (void)URLHandleResourceDidCancelLoading:(NSURLHandle *)sender;
+
+- (void)URLHandle:(NSURLHandle *)sender resourceDataDidBecomeAvailable:(NSData *)newBytes;
+
+- (void)URLHandle:(NSURLHandle *)sender resourceDidFailLoadingWithReason:(NSString *)reason;
+
+/**
  * Delegate of NSXMLParser.
  */
 - (void)parserDidStartDocument:(NSXMLParser *)parser;
@@ -157,5 +181,10 @@
  * Delegate of NSXMLParser.
  */
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string;
+
+/**
+ * Deconstructor.
+ */
+- (void)dealloc;
 
 @end

@@ -121,6 +121,7 @@
 		0C84495D09798D6F00A0F823 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F45B8A7F07DB7231007383B1 /* Carbon.framework */; };
 		0C84495F09798D6F00A0F823 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CB409E30972E5ED00E0C772 /* libcrypto.dylib */; };
 		0C84496009798DB300A0F823 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
+		F429155709C1C8260088835A /* nocover.png in Resources */ = {isa = PBXBuildFile; fileRef = F429155609C1C8260088835A /* nocover.png */; };
 		F43EA11C097A8AE700C0FC11 /* CURLHandle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F43EA11B097A8AE700C0FC11 /* CURLHandle.framework */; };
 		F43EA122097A8AED00C0FC11 /* CURLHandle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F43EA11B097A8AE700C0FC11 /* CURLHandle.framework */; };
 		F46D60FD099646B00023FC2F /* Notification.h in Headers */ = {isa = PBXBuildFile; fileRef = F46D60FA099646B00023FC2F /* Notification.h */; };
@@ -199,6 +200,7 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* Amua_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Amua_Prefix.pch; sourceTree = "<group>"; };
+		F429155609C1C8260088835A /* nocover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nocover.png; sourceTree = "<group>"; };
 		F43B316707DB2D3300E14140 /* AmuaUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AmuaUpdater.h; sourceTree = "<group>"; };
 		F43B316807DB2D3300E14140 /* AmuaUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AmuaUpdater.m; sourceTree = "<group>"; };
 		F43EA11B097A8AE700C0FC11 /* CURLHandle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CURLHandle.framework; sourceTree = "<group>"; };
@@ -308,6 +310,7 @@
 				0C287791096EBB1B00BABB9E /* README.rtf */,
 				0C287790096EBB1B00BABB9E /* COPYING.txt */,
 				0C73309107CB340600D4A0AC /* Amua.icns */,
+				F429155609C1C8260088835A /* nocover.png */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
 				0C83A58807C4FE47001A45EA /* Preferences.nib */,
@@ -404,6 +407,7 @@
 				0C8448AB09798D0700A0F823 /* COPYING.txt in Resources */,
 				0C8448AC09798D0700A0F823 /* README.rtf in Resources */,
 				0C8448AD09798D0700A0F823 /* version.plist in Resources */,
+				F429155709C1C8260088835A /* nocover.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -490,10 +494,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					/Users/m/Documents/Development/Amua,
-					"$(SRCROOT)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
@@ -534,18 +535,24 @@
 		F43EA05D097A89BA00C0FC11 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Development;
 		};
 		F43EA05E097A89BA00C0FC11 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Deployment;
 		};
 		F43EA05F097A89BA00C0FC11 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Default;
 		};
