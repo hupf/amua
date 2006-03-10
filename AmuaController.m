@@ -362,34 +362,28 @@
 - (void)showTooltip:(id)sender
 {
 
-	if (webService != nil) {
-	
-		NSString *artist = [webService nowPlayingArtist];
-		NSString *album = [webService nowPlayingAlbum];
-		NSString *title = [webService nowPlayingTrack];
-		NSImage *image = [webService nowPlayingAlbumImage];
-		
-		if (artist && album && title && image && playing) {
-									
-			// set the tooltip location
-			NSPoint point;
-			if (alwaysDisplayTooltip) {
-				point = NSPointFromString([preferences stringForKey:@"tooltipPosition"]);
-				if (point.x == 0 && point.y == 0) {
-					point = [NSEvent mouseLocation];
-				}
-				[songInformationPanel setFrameOrigin:point];
-			} else {
-				// get mouse location
-				point = [NSEvent mouseLocation];
-				if (!mouseIsOverIcon || [songInformationPanel visible]) {
-					[songInformationPanel autoPosition];
-				}
-			}
+	if (playing && webService != nil) {
 			
-			[songInformationPanel show];
-		}
-	
+        if ([webService nowPlayingArtist] != nil && [webService nowPlayingTrack] != nil) {
+            // set the tooltip location
+            NSPoint point;
+            if (alwaysDisplayTooltip) {
+                point = NSPointFromString([preferences stringForKey:@"tooltipPosition"]);
+                if (point.x == 0 && point.y == 0) {
+                    point = [NSEvent mouseLocation];
+                }
+                [songInformationPanel setFrameOrigin:point];
+            } else {
+                // get mouse location
+                point = [NSEvent mouseLocation];
+                if (!mouseIsOverIcon || [songInformationPanel visible]) {
+                    [songInformationPanel autoPosition];
+                }
+            }
+            
+            [songInformationPanel show];
+        }
+        
 	}
 	
 	mouseIsOverIcon = YES;
@@ -712,13 +706,11 @@
 	NSImage *image = [webService nowPlayingAlbumImage];
 	
 	NSString *radioStation = [webService nowPlayingRadioStation];
-	if (artist && album && title && image && playing) {
-		[songInformationPanel updateArtist:artist album:album track:title
-			albumImage:image radioStation:radioStation
-            radioStationUser:[webService nowPlayingRadioStationProfile]
-			trackPosition:[webService nowPlayingTrackProgress]
-            trackDuration:[webService nowPlayingTrackDuration]];
-	}
+	[songInformationPanel updateArtist:artist album:album track:title
+        albumImage:image radioStation:radioStation
+        radioStationUser:[webService nowPlayingRadioStationProfile]
+		trackPosition:[webService nowPlayingTrackProgress]
+        trackDuration:[webService nowPlayingTrackDuration]];
 		
 	// show updated tooltip if necessary 
 	if ((![view menuIsVisible] && mouseIsOverIcon) || alwaysDisplayTooltip) {

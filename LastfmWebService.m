@@ -360,14 +360,21 @@
         }
 		if ([[parsedResult objectForKey:@"streaming"] isEqual:@"true"]) {
 			nowPlayingInformation = parsedResult;
+            if (albumCover != nil) {
+                [albumCover release];
+                albumCover = nil;
+            }
 			if ([nowPlayingInformation objectForKey:@"albumcover_small"] != nil) {
-				if (albumCover != nil) {
-					[albumCover release];
-				}
+				
 				albumCover = [[NSImage alloc] initWithContentsOfURL:
                 	[NSURL URLWithString:[nowPlayingInformation
                     	objectForKey:@"albumcover_small"]]];
 			}
+            
+            if (albumCover == nil) {
+                albumCover = [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForImageResource:@"nocover.png"]];
+                WARNING(@"no valid cover found");
+            }
 			
 			LOG(@"song information received");			
 		} else {

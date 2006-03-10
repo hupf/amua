@@ -143,7 +143,6 @@
 	} else {
 		mainResultText = [[NSString stringWithString:@"Exact Match: "]
 							stringByAppendingString:[searchService getMainResultText]];
-		NSLog(@"%@", [searchService getImageUrl]);
 		NSImage *image = [[NSImage alloc] initWithContentsOfURL:[searchService getImageUrl]];
 		
 		// resize the image, why the heck doesn't that work automatically?

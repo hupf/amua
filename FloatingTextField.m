@@ -83,9 +83,9 @@
     if (maxSizeValue < [textField frame].size.width) {
         timer = [[NSTimer scheduledTimerWithTimeInterval:(0.04) target:self
                                                 selector:@selector(reposition:) userInfo:nil repeats:YES] retain];
-        [self resetPosition];
-        positionIncreasing = NO;
     }
+    [self resetPosition];
+    positionIncreasing = NO;
 }
 
 

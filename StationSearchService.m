@@ -34,41 +34,38 @@
 }
 
 
-- (void)searchSimilarArtist:(NSString *)artist withSender:(NSObject *)owner
+- (void)searchSimilarArtist:(NSString *)artist withSender:(NSObject *)anOwner
 {
 	if (lastSearch != nil) {
 		[lastSearch release];
 	}
-	lastSearch = [NSString stringWithString:[[[[NSString stringWithString:@"http://"]
+    if (searchHandle != nil) {
+        [searchHandle release];
+    }
+    if (owner != nil) {
+        [owner release];
+    }
+    
+    
+	lastSearch = [[NSString stringWithString:[[[[NSString stringWithString:@"http://"]
 						stringByAppendingString:server]
 						stringByAppendingString:@"/1.0/get.php?resource=artist&document=similar&format=xml&artist="]
-						stringByAppendingString:artist]];
-	lastSearch = [[lastSearch stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] retain];;
+						stringByAppendingString:[artist stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]] retain];
+    
 	increaserElementName = @"artist";
 	mainElementName = @"similarartists";
-	
-	[NSThread detachNewThreadSelector:@selector(doSearch:) toTarget:self withObject:owner];
-}
-
-
-- (void)doSearch:(NSObject *)owner
-{
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     
-	// search and parse
-	NSURL *xmlURL = [NSURL URLWithString:lastSearch];
-	NSXMLParser *addressParser = [[NSXMLParser alloc] initWithContentsOfURL:xmlURL];
-    [addressParser setDelegate:self];
-    [addressParser setShouldResolveExternalEntities:YES];
-	
-	BOOL success = [addressParser parse];
-	
-	// this special call is necessary to make sure the searchFinished method
-	// is called in the main thread (for drawing reasons)
-	[owner performSelectorOnMainThread:@selector(searchFinished:)
-        withObject:self waitUntilDone:YES];
-	
-	[pool release];
+    LOG(@"searching similar artist");
+    LOG(lastSearch);
+    
+    owner = [anOwner retain];
+    searchHandle = [[CURLHandle alloc] initWithURL:[NSURL URLWithString:lastSearch]
+                        cached:FALSE];
+    [searchHandle setFailsOnError:YES];
+    [searchHandle setFollowsRedirects:YES];
+    [searchHandle setUserAgent:userAgent];
+	[searchHandle addClient:self];
+    [searchHandle loadInBackground];
 }
 
 
@@ -119,6 +116,56 @@
     return [result count];
 }
 
+- (void)URLHandleResourceDidFinishLoading:(NSURLHandle *)sender
+{
+    NSString *data = [[[NSString alloc]
+    	initWithData:[sender resourceData]
+            encoding:NSUTF8StringEncoding] autorelease];
+    LOG(@"search finished");
+    NSXMLParser *addressParser = [[NSXMLParser alloc] initWithData:
+                                [data dataUsingEncoding:NSUTF8StringEncoding]];
+    [addressParser setDelegate:self];
+    [addressParser setShouldResolveExternalEntities:YES];
+	
+	BOOL success = [addressParser parse];
+    if (!success) {
+        ERROR([[NSString stringWithString: @"search: could not parse xml file: "]
+                        stringByAppendingString:
+            [[addressParser parserError] localizedDescription]]);
+    }
+	
+	// this special call is necessary to make sure the searchFinished method
+	// is called in the main thread (for drawing reasons)
+	[owner performSelectorOnMainThread:@selector(searchFinished:)
+                            withObject:self waitUntilDone:YES];
+    
+    if (sender == searchHandle) {
+        searchHandle = nil;
+    }
+    
+    [sender release];
+}
+
+
+- (void)URLHandleResourceDidBeginLoading:(NSURLHandle *)sender
+{}
+
+
+- (void)URLHandleResourceDidCancelLoading:(NSURLHandle *)sender
+{
+    ERROR(@"search: could not load result");
+}
+
+
+- (void)URLHandle:(NSURLHandle *)sender resourceDataDidBecomeAvailable:(NSData *)newBytes
+{}
+
+
+- (void)URLHandle:(NSURLHandle *)sender resourceDidFailLoadingWithReason:(NSString *)reason
+{
+    ERROR(@"search: an error occured during loading process");
+}
+
 
 - (void)parserDidStartDocument:(NSXMLParser *)parser
 {
@@ -134,6 +181,9 @@
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser
 {
+    [mainElementName release];
+    [increaserElementName release];
+    [tempValue release];
 }
 
 
@@ -181,6 +231,7 @@
 		}
 		
 		[temp setObject:[[tempValue substringToIndex:end] substringFromIndex:start] forKey:elementName];
+        [tempValue release];
 		tempValue = [[NSString alloc] init];
 	}
 }
@@ -191,6 +242,23 @@
 	if (parsingData == YES) {
 		tempValue = [tempValue stringByAppendingString:string];
 	}
+}
+
+
+- (void)dealloc
+{
+    if (owner != nil) {
+        [owner release];
+    }
+    if (searchHandle != nil) {
+        [searchHandle release];
+    }
+    if (lastSearch != nil) {
+        [lastSearch release];
+    }
+    
+    [server release];
+    [userAgent release];
 }
 
 @end

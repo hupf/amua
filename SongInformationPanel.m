@@ -111,13 +111,28 @@
 		![[album stringValue] isEqualToString:inAlbum] ||
 		![[track stringValue] isEqualToString:inTrack]) {
 		
-		[artist setStringValue:inArtist];
+        if (inArtist != nil) {
+            [artist setStringValue:inArtist];
+        } else {
+            [artist setStringValue:@""];
+        }
         [artist setMaxSize:MAX_TEXTFIELD_SIZE-[artist frame].origin.x];
-		[album setStringValue:inAlbum];
+        if (inAlbum != nil) {
+            [album setStringValue:inAlbum];
+        } else {
+            [album setStringValue:@""];
+        }
         [album setMaxSize:MAX_TEXTFIELD_SIZE-[album frame].origin.x];
-		[track setStringValue:inTrack];
+        if (inTrack != nil) {
+            [track setStringValue:inTrack];
+        } else {
+            [track setStringValue:@""];
+        }
         [track setMaxSize:MAX_TEXTFIELD_SIZE-[track frame].origin.x];
-		NSString *footerTitle = inRadioStation;
+        NSString *footerTitle = inRadioStation;
+        if (footerTitle == nil) {
+            footerTitle = @"";
+        }
 		if (inRadioStationUser != nil) {
 			 footerTitle = [[footerTitle stringByAppendingString:@" feeding from "] stringByAppendingString:inRadioStationUser];
 		}
