@@ -53,6 +53,11 @@
      * The URL of the station to play (tune in).
      */
 	NSString *stationUrl;
+    
+    /**
+     * True if the user is a subscriber
+     */
+    bool subscriber;
 	
 	/**
      * The CURLHandle object for the data transmission of the get session commands.
@@ -184,6 +189,13 @@
 - (NSString *)streamingServer;
 
 /**
+ * Get the subscriber state of the user.
+ *
+ * @return True if user is a subscriber.
+ */
+- (bool)isSubscriber;
+
+/**
  * Check if currently in streaming state.
  * 
  * @return YES if streaming, NO otherwise.
@@ -279,6 +291,26 @@
  * @return The profile name of the currently playing station.
  */
 - (NSString *)nowPlayingRadioStationProfile;
+
+/**
+ * Get the discovery mode state of the server.
+ * 
+ * This information is only available after updateNowPlayingInformation has been
+ * called. Otherwise nil is returned.
+ *
+ * @return The mode as integer.
+ */
+- (int)discoveryMode;
+
+/**
+ * Get the record to profile state of the server.
+ * 
+ * This information is only available after updateNowPlayingInformation has been
+ * called. Otherwise nil is returned.
+ *
+ * @return The mode as boolean.
+ */
+- (bool)recordToProfile;
 
 /**
  * Parse the values out of the HTTP result and do necessary actions.
