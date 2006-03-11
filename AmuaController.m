@@ -159,11 +159,13 @@
 
 - (void)playUrl:(NSString *)url
 {
-	NSString *scriptSource = @"tell application \"iTunes\" \n stop \n end tell";
-	NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
-	[script executeAndReturnError:nil];
+    if (!playing) {
+        NSString *scriptSource = @"tell application \"iTunes\" \n stop \n end tell";
+        NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
+        [script executeAndReturnError:nil];
+    }
     
-	playing = YES;
+	connecting = YES;
 	[self updateMenu];
 
 	// Create web service object
@@ -202,13 +204,6 @@
 
 - (void)playMostRecent:(id)sender
 {
-	NSString *scriptSource = @"tell application \"iTunes\" \n stop \n end tell";
-	NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
-	[script executeAndReturnError:nil];
-    
-	playing = YES;
-	[self updateMenu];
-	
 	NSString *stationUrl = [recentStations mostRecentStation];
 	[self playUrl:stationUrl];
 }
@@ -491,7 +486,7 @@
         [discoveryMenuItem setTarget:self];
     }
 	
-	if (!playing) { // Stop state
+	if (!playing && !connecting) { // Stop state
 
         // add play most recent station button
         play = [[[NSMenuItem alloc] initWithTitle:@"Play Most Recent Station"
@@ -540,40 +535,39 @@
 												action:nil keyEquivalent:@""] autorelease];
         [nowPlayingTrack setTarget:self];
         [nowPlayingTrack setEnabled:NO];
-        [menu insertItem:nowPlayingTrack atIndex:0];
 			
-        [menu insertItem:[NSMenuItem separatorItem] atIndex:1];
+        [menu insertItem:[NSMenuItem separatorItem] atIndex:0];
 			
         NSMenuItem *love = [[[NSMenuItem alloc] initWithTitle:@"Love"
 									action:nil keyEquivalent:@""] autorelease];
         [love setTarget:self];
         [love setEnabled:NO];
-        [menu insertItem:love atIndex:2];
+        [menu insertItem:love atIndex:1];
 			
         NSMenuItem *skip = [[[NSMenuItem alloc] initWithTitle:@"Skip"
 									action:nil keyEquivalent:@""] autorelease];
         [skip setTarget:self];
         [skip setEnabled:NO];
-        [menu insertItem:skip atIndex:3];
+        [menu insertItem:skip atIndex:2];
 			
         NSMenuItem *ban = [[[NSMenuItem alloc] initWithTitle:@"Ban"
 									action:nil keyEquivalent:@""] autorelease];
         [ban setTarget:self];
         [ban setEnabled:NO];
-        [menu insertItem:ban atIndex:4];
+        [menu insertItem:ban atIndex:3];
 			
-        [menu insertItem:[NSMenuItem separatorItem] atIndex:5];
+        [menu insertItem:[NSMenuItem separatorItem] atIndex:4];
 		
         stop = [[[NSMenuItem alloc] initWithTitle:@"Stop"
                                            action:@selector(stop:) keyEquivalent:@""] autorelease];
         [stop setTarget:self];
         [stop setEnabled:YES];
-        [menu insertItem:stop atIndex:6];
+        [menu insertItem:stop atIndex:5];
 
 			
         // Enable the menu items for song information, love, skip and ban
         // if it is streaming
-        if (webService != nil && [webService streaming]) {
+        if (webService != nil && [webService streaming] && playing) {
 				
             NSString *songText = [[[webService nowPlayingArtist] stringByAppendingString:@" - "]
 											stringByAppendingString:[webService nowPlayingTrack]];
@@ -596,6 +590,8 @@
             [ban setEnabled:YES];
 				
         }
+        
+        [menu insertItem:nowPlayingTrack atIndex:0];
 		
 	}
     
@@ -692,13 +688,19 @@
 
 - (void)handleStartPlaying:(NSNotification *)aNotification
 {
-	// Tell iTunes it should start playing.
-	// Change this command if you want to control another player that is apple-scriptable.
-	NSString *scriptSource = [[@"tell application \"iTunes\" \n open location \""
+    if (!playing) {
+        // Tell iTunes it should start playing.
+        // Change this command if you want to control another player
+        // that is apple-scriptable.
+        NSString *scriptSource = [[@"tell application \"iTunes\" \n open location \""
 								stringByAppendingString:[webService streamingServer]]
 								stringByAppendingString:@"\" \n end tell"];
-	NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
-	[script executeAndReturnError:nil];
+        NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
+        [script executeAndReturnError:nil];
+    }
+    
+    connecting = NO;
+    playing = YES;
     
     [webService updateNowPlayingInformation];
 }
@@ -750,6 +752,7 @@
 
 - (void)handleStartPlayingError:(NSNotification *)aNotification
 {
+    connecting = NO;
 	playing = NO;
     if (webService != nil) {
 		[webService release];
