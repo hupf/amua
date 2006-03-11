@@ -25,23 +25,24 @@
 @implementation LastfmWebService
 
 - (id)initWithWebServiceServer:(NSString *)webServiceServer
-		withStationUrl:(NSString *)url
-		asUserAgent:(NSString *)userAgentIdentifier
+           asUserAgent:(NSString *)userAgentIdentifier
+           forUser:(NSString *)username withPasswordHash:(NSString *)passwordMD5;
 {
 	[super init];
 
 	server = [webServiceServer copy];
 	userAgent = [userAgentIdentifier copy];
-	stationUrl = [url copy];
 	
 	// Activate CURLHandle
     [CURLHandle curlHelloSignature:@"XxXx" acceptAll:YES];
-	
+    [self handshake:username withPasswordHash:passwordMD5];
+    refreshSongInformation = NO;
+    
 	return self;
 }
 
 
-- (void)createSessionForUser:(NSString *)username withPasswordHash:(NSString *)passwordMD5
+- (void)handshake:(NSString *)username withPasswordHash:(NSString *)passwordMD5
 {
 	user = [username copy];
 	
@@ -64,12 +65,14 @@
 	[getSessionCURLHandle setUserAgent:userAgent];
 
 	[getSessionCURLHandle addClient:self];
-	[getSessionCURLHandle loadInBackground]; // Send and receive webpage
+    [getSessionCURLHandle loadInBackground];
+    
 }
 
 
 - (void)updateNowPlayingInformation
 {
+    refreshSongInformation = NO;
 	LOG(@"updating song information");
 	NSString *nowPlayingURL = [[[NSString alloc] initWithString:[[[[[[NSString stringWithString:@"http://"]
 						stringByAppendingString:baseHost]
@@ -156,6 +159,7 @@
 
 - (void)tuneStation
 {
+    refreshSongInformation = YES;
     tuningCURLHandle = [self adjust:stationUrl];
     
     if(tuningCURLHandle) {
@@ -170,6 +174,7 @@
 
 - (void)setDiscovery:(bool)state
 {
+    refreshSongInformation = NO;
     discoveryCURLHandle = [self adjust:
 		[NSString stringWithFormat:@"lastfm://settings/discovery/%@",
         (state ? @"on" : @"off")]];
@@ -183,6 +188,12 @@
 		[[NSNotificationCenter defaultCenter]
         	postNotificationName:@"SetDiscoveryError" object:self];
     }
+}
+
+
+- (void)setStationURL:(NSString *)url
+{
+    stationUrl = [url copy];
 }
 
 
@@ -321,6 +332,10 @@
 		if ([[parsedResult objectForKey:@"session"] isEqualToString:@"FAILED"]) {
 			ERROR(@"handshake failed");
 			[parsedResult release];
+            sessionID = nil;
+            streamingServer = nil;
+            baseHost = nil;
+            basePath = nil;
 			getSessionCURLHandle = nil;
 			[[NSNotificationCenter defaultCenter]
             	postNotificationName:@"StartPlayingError" object:self];
@@ -333,7 +348,6 @@
 			getSessionCURLHandle = nil;
 			LOG([[NSString stringWithString:@"handshake done, sessionid: "]
 				 stringByAppendingString:sessionID]);
-			[self tuneStation];
 		}
 		
 	} else if ([sender isEqual:tuningCURLHandle]) { // Response for station tuning
@@ -342,15 +356,16 @@
 			[parsedResult release];
 			tuningCURLHandle = nil;
 			LOG(@"station tuned");
-			[[NSNotificationCenter defaultCenter]
-            	postNotificationName:@"StartPlaying" object:self];
 		} else {
 			[parsedResult release];
 			tuningCURLHandle = nil;
 			ERROR(@"station tuning error");
-			[[NSNotificationCenter defaultCenter]
-            	postNotificationName:@"StartPlaying" object:self];
 		}
+        
+        if (refreshSongInformation) {
+            [[NSNotificationCenter defaultCenter]
+            	postNotificationName:@"StartPlaying" object:self];
+        }
 		
 	} else if ([sender isEqual:nowPlayingCURLHandle]) { // Response for song information request
 		

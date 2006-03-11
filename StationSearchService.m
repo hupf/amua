@@ -143,6 +143,7 @@
         searchHandle = nil;
     }
     
+    [sender removeClient:self];
     [sender release];
 }
 
@@ -153,6 +154,7 @@
 
 - (void)URLHandleResourceDidCancelLoading:(NSURLHandle *)sender
 {
+    [sender removeClient:self];
     ERROR(@"search: could not load result");
 }
 
@@ -163,6 +165,7 @@
 
 - (void)URLHandle:(NSURLHandle *)sender resourceDidFailLoadingWithReason:(NSString *)reason
 {
+    [sender removeClient:self];
     ERROR(@"search: an error occured during loading process");
 }
 
@@ -259,6 +262,7 @@
     
     [server release];
     [userAgent release];
+    [super dealloc];
 }
 
 @end

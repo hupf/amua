@@ -112,6 +112,11 @@
      * Will contain the album cover image of the playing song after information has been received.
      */
 	NSImage *albumCover;
+    
+    /**
+     * If true the song information will be refreshed on the next action
+     */
+    bool refreshSongInformation;
 	
 }
 
@@ -123,8 +128,8 @@
  * @param userAgentIdentifier The user agent string.
  */
 - (id)initWithWebServiceServer:(NSString *)webServiceServer
-		withStationUrl:(NSString *)url
-		asUserAgent:(NSString *)userAgentIdentifier;
+		asUserAgent:(NSString *)userAgentIdentifier
+        forUser:(NSString *)username withPasswordHash:(NSString *)passwordMD5;
 
 /**
  * Establish session for a given user (request a sessionID).
@@ -132,7 +137,7 @@
  * @param username The username of the user to identify.
  * @param passwordMD5 The MD5 hash of the user's password.
  */
-- (void)createSessionForUser:(NSString *)username withPasswordHash:(NSString *)passwordMD5;
+- (void)handshake:(NSString *)username withPasswordHash:(NSString *)passwordMD5;
 
 /**
  * Request song information of the currently playing track.
@@ -163,6 +168,13 @@
  * @param state YES to switch it on, NO to switch it off.
  */
 - (void)setDiscovery:(bool)state;
+
+/**
+ * Set the station
+ *
+ * @param stationUrl The last.fm url of the station
+ */
+- (void)setStationURL:(NSString *)url;
 
 /**
  * Get the hostname of the streaming server as returned by the session command.

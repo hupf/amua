@@ -79,6 +79,15 @@
 		andSelector:@selector(handleOpenUrl:withReplyEvent:)
 		forEventClass:kInternetEventClass
 		andEventID:kAEGetURL];
+    
+    // start handshake with webservice
+    webService = [[LastfmWebService alloc]
+					initWithWebServiceServer:[preferences stringForKey:@"webServiceServer"]
+                    asUserAgent:[preferences stringForKey:@"userAgent"]
+                    forUser:[preferences stringForKey:@"username"]
+                    withPasswordHash:[self md5:
+                        [keyChain genericPasswordForService:@"Amua"
+                            account:[preferences stringForKey:@"username"]]]];
 	
 	return self;
 }
@@ -126,7 +135,6 @@
 	[stationController setPreferences:preferences];
 	
 	[self updateMenu];
-    [self updateRecentPlayedMenu];
 
 }
 
@@ -141,17 +149,18 @@
 	[self updateMenu];
 
 	// Create web service object
-	if (webService != nil) {
-		[webService release];
-	}
-	webService = [[LastfmWebService alloc]
+	if (webService == nil || [webService streamingServer] == nil) {
+        webService = [[LastfmWebService alloc]
 					initWithWebServiceServer:[preferences stringForKey:@"webServiceServer"]
-					withStationUrl:url
-					asUserAgent:[preferences stringForKey:@"userAgent"]];
-	[webService createSessionForUser:[preferences stringForKey:@"username"]
-		withPasswordHash:[self md5:[keyChain genericPasswordForService:@"Amua"
-										account:[preferences stringForKey:@"username"]]]];
-
+                              asUserAgent:[preferences stringForKey:@"userAgent"]
+                              forUser:[preferences stringForKey:@"username"]
+                              withPasswordHash:[self md5:
+                                  [keyChain genericPasswordForService:@"Amua"
+                                      account:[preferences stringForKey:@"username"]]]];
+	}
+	
+    [webService setStationURL:url];
+    [webService tuneStation];
 }
 
 
@@ -160,7 +169,6 @@
 	NSString *stationUrl = [stationController getStationURLFromSender:sender];
 	[stationController hideWindow];
 	[self playUrl:stationUrl];
-    [self updateRecentPlayedMenu];
 }
 
 
@@ -171,7 +179,6 @@
     [recentStations moveToFront:index];
 	[self playUrl: stationUrl];
 	[stationController hideWindow];
-    [self updateRecentPlayedMenu];
 }
 
 
@@ -194,12 +201,10 @@
 	playing = NO;
 	[self updateMenu];
 
-	if (webService != nil) {
+	if (timer != nil) {
 		[timer invalidate];
 		[timer release];
 		timer = nil;
-		[webService release];
-		webService = nil;
 	}
 	
 	// Tell iTunes it should stop playing.
@@ -382,6 +387,8 @@
             }
             
             [songInformationPanel show];
+        } else {
+            [songInformationPanel hide];
         }
         
 	}
@@ -437,6 +444,21 @@
 
 - (void)updateMenu
 {
+    // remove all variable entries
+    NSMenuItem *play = [menu itemWithTitle:@"Play Most Recent Station"];
+    NSMenuItem *stop = [menu itemWithTitle:@"Stop"];
+    NSMenuItem *playDialog = [menu itemWithTitle:@"Play Station..."];
+    int bound = -1;
+    if (play != nil) {
+        bound = [menu indexOfItemWithTitle:@"Play Most Recent Station"];
+    } else if (stop != nil) {
+        bound = [menu indexOfItemWithTitle:@"Stop"];        
+    }
+    int i;
+    for (i=0; i<=bound; i++) {
+        [menu removeItemAtIndex:0];
+    }
+    
 	// Disable personal page menu item if no username is set
 	NSMenuItem *personalPage = [menu itemWithTitle:@"Personal Page"];
 	if ([[preferences stringForKey:@"username"] isEqualToString:@""]) {
@@ -448,39 +470,28 @@
 	}
 	
 	if (!playing) { // Stop state
-		
-		NSMenuItem *play = [menu itemWithTitle:@"Play Most Recent Station"];
-		NSMenuItem *playDialog = [menu itemWithTitle:@"Play Station..."];
-		if (play == nil) {
-		
-			// Remove all menu items until stop item if it exists
-			int stopIndex = [menu indexOfItemWithTitle:@"Stop"];
-			int i;
-			for (i=0; i<=stopIndex; i++) {
-				[menu removeItemAtIndex:0];
-			}
-			
-			play = [[[NSMenuItem alloc] initWithTitle:@"Play Most Recent Station"
+
+        // add play most recent station button
+        play = [[[NSMenuItem alloc] initWithTitle:@"Play Most Recent Station"
 						action:@selector(playMostRecent:) keyEquivalent:@""] autorelease];
-			[play setTarget:self];
-			[menu insertItem:play atIndex:0];
-			[playDialog setTarget:self];
-			
-		}
+        [play setTarget:self];
+        [menu insertItem:play atIndex:0];
+        [playDialog setTarget:self];
 		
 		// Deactivate play menu item if no username/password or no web service
 		// server is set, activate it otherwise
 		if ([[preferences stringForKey:@"username"] isEqualToString:@""] ||
 			[[keyChain genericPasswordForService:@"Amua"
 					account:[preferences stringForKey:@"username"]] isEqualToString:@""] ||
-			[[preferences stringForKey:@"webServiceServer"] isEqualToString:@""]) {
+			[[preferences stringForKey:@"webServiceServer"] isEqualToString:@""] ||
+            webService == nil) {
 			
 			[play setAction:nil];
 			[play setEnabled:NO];
 			[playDialog setAction:nil];
 			[playDialog setEnabled:NO];
 			
-			NSMenuItem *hint = [[[NSMenuItem alloc] initWithTitle:@"Hint: Check Preferences"
+			NSMenuItem *hint = [[[NSMenuItem alloc] initWithTitle:@"Check Preferences"
 									action:nil keyEquivalent:@""] autorelease];
 			[hint setEnabled:NO];
 			[menu insertItem:hint atIndex:0];
@@ -495,116 +506,78 @@
 				[play setAction:nil];
 				[play setEnabled:NO];
 			}
-			[play setTitle:@"Play Most Recent Station"];
 			[playDialog setTarget:stationController];
 			[playDialog setAction:@selector(showWindow:)];
 			[playDialog setEnabled:YES];
-			
-			
-			// Remove hint item if it exists
-			int hintIndex = [menu indexOfItemWithTitle:@"Hint: Check Preferences"];
-			if (hintIndex != -1) {
-				[menu removeItemAtIndex:hintIndex];
-				[menu removeItemAtIndex:hintIndex];
-			}
 		}
 		
 	} else { // Playing state
-	
-		NSMenuItem *stop = [menu itemWithTitle:@"Play Most Recent Station"];
-		
-		if (stop != nil) { // Were in stop state previously
 			
-			// Remove all menu items until (without) play item
-			int playIndex = [menu indexOfItemWithTitle:@"Play Most Recent Station"];
-			int i;
-			for (i=0; i<playIndex; i++) {
-				[menu removeItemAtIndex:0];
-			}
-			
-			// Create menu items that are needed in play state
-			NSMenuItem *nowPlayingTrack = [[[NSMenuItem alloc] initWithTitle:@"Connecting..."
+        // Create menu items that are needed in play state
+        NSMenuItem *nowPlayingTrack = [[[NSMenuItem alloc] initWithTitle:@"Connecting..."
 												action:nil keyEquivalent:@""] autorelease];
-			[nowPlayingTrack setTarget:self];
-			[nowPlayingTrack setEnabled:NO];
-			[menu insertItem:nowPlayingTrack atIndex:0];
+        [nowPlayingTrack setTarget:self];
+        [nowPlayingTrack setEnabled:NO];
+        [menu insertItem:nowPlayingTrack atIndex:0];
 			
-			[menu insertItem:[NSMenuItem separatorItem] atIndex:1];
+        [menu insertItem:[NSMenuItem separatorItem] atIndex:1];
 			
-			NSMenuItem *love = [[[NSMenuItem alloc] initWithTitle:@"Love"
+        NSMenuItem *love = [[[NSMenuItem alloc] initWithTitle:@"Love"
 									action:nil keyEquivalent:@""] autorelease];
-			[love setTarget:self];
-			[love setEnabled:NO];
-			[menu insertItem:love atIndex:2];
+        [love setTarget:self];
+        [love setEnabled:NO];
+        [menu insertItem:love atIndex:2];
 			
-			NSMenuItem *skip = [[[NSMenuItem alloc] initWithTitle:@"Skip"
+        NSMenuItem *skip = [[[NSMenuItem alloc] initWithTitle:@"Skip"
 									action:nil keyEquivalent:@""] autorelease];
-			[skip setTarget:self];
-			[skip setEnabled:NO];
-			[menu insertItem:skip atIndex:3];
+        [skip setTarget:self];
+        [skip setEnabled:NO];
+        [menu insertItem:skip atIndex:3];
 			
-			NSMenuItem *ban = [[[NSMenuItem alloc] initWithTitle:@"Ban"
+        NSMenuItem *ban = [[[NSMenuItem alloc] initWithTitle:@"Ban"
 									action:nil keyEquivalent:@""] autorelease];
-			[ban setTarget:self];
-			[ban setEnabled:NO];
-			[menu insertItem:ban atIndex:4];
+        [ban setTarget:self];
+        [ban setEnabled:NO];
+        [menu insertItem:ban atIndex:4];
 			
-			[menu insertItem:[NSMenuItem separatorItem] atIndex:5];
+        [menu insertItem:[NSMenuItem separatorItem] atIndex:5];
+		
+        stop = [[[NSMenuItem alloc] initWithTitle:@"Stop"
+                                           action:@selector(stop:) keyEquivalent:@""] autorelease];
+        [stop setTarget:self];
+        [stop setEnabled:YES];
+        [menu insertItem:stop atIndex:6];
+
 			
-			[stop setTitle:@"Stop"];
-			[stop setAction:@selector(stop:)];
-			
-		} else { // Already were in play state previously
-			
-			NSMenuItem *nowPlayingTrack = [menu itemAtIndex:0];
-			NSMenuItem *love = [menu itemAtIndex:2];
-			NSMenuItem *skip = [menu itemAtIndex:3];
-			NSMenuItem *ban = [menu itemAtIndex:4];
-			
-			// Enable the menu items for song information, love, skip and ban
-			// if it is streaming, disable them otherwise.
-			if ([webService streaming]) {
+        // Enable the menu items for song information, love, skip and ban
+        // if it is streaming
+        if (webService != nil && [webService streaming]) {
 				
-				NSString *songText = [[[webService nowPlayingArtist] stringByAppendingString:@" - "]
+            NSString *songText = [[[webService nowPlayingArtist] stringByAppendingString:@" - "]
 											stringByAppendingString:[webService nowPlayingTrack]];
-				if ([songText length] > MAX_SONGTEXT_LENGTH) {
-					// Shorten the songtext
-					songText = [[songText substringToIndex:MAX_SONGTEXT_LENGTH] stringByAppendingString:@"..."];
-				}
+            if ([songText length] > MAX_SONGTEXT_LENGTH) {
+                // Shorten the songtext
+                songText = [[songText substringToIndex:MAX_SONGTEXT_LENGTH] stringByAppendingString:@"..."];
+            }
 				
-				[nowPlayingTrack setTitle:songText];
-				[nowPlayingTrack setAction:@selector(openAlbumPage:)];
-				[nowPlayingTrack setEnabled:YES];
+            [nowPlayingTrack setTitle:songText];
+            [nowPlayingTrack setAction:@selector(openAlbumPage:)];
+            [nowPlayingTrack setEnabled:YES];
+            
+            [love setAction:@selector(loveSong:)];
+            [love setEnabled:YES];
+            
+            [skip setAction:@selector(skipSong:)];
+            [skip setEnabled:YES];
+            
+            [ban setAction:@selector(banSong:)];
+            [ban setEnabled:YES];
 				
-				[love setAction:@selector(loveSong:)];
-				[love setEnabled:YES];
-				
-				[skip setAction:@selector(skipSong:)];
-				[skip setEnabled:YES];
-				
-				[ban setAction:@selector(banSong:)];
-				[ban setEnabled:YES];
-				
-			} else {
-			
-				[nowPlayingTrack setTitle:@"Connecting..."];
-				[nowPlayingTrack setAction:nil];
-				[nowPlayingTrack setEnabled:NO];
-				
-				[love setAction:nil];
-				[love setEnabled:NO];
-				
-				[skip setAction:nil];
-				[skip setEnabled:NO];
-				
-				[ban setAction:nil];
-				[ban setEnabled:NO];
-				
-			}
-			
-		}
+        }
 		
 	}
+    
+    [self updateRecentPlayedMenu];
 	
 	[menu update];
 }
@@ -631,7 +604,12 @@
         	NSMenuItem *stationItem = [[[NSMenuItem alloc] initWithTitle:title
             		action:@selector(playRecentStation:) keyEquivalent:@""] autorelease];
 			[stationItem setTarget:self];
-			[stationItem setEnabled:YES];
+            if (webService == nil) {
+                [stationItem setAction:nil];
+                [stationItem setEnabled:NO];
+            } else {
+                [stationItem setEnabled:YES];
+            }
 			[playRecentMenu insertItem:stationItem atIndex:0];
         }
     } else {
@@ -670,6 +648,16 @@
 // Handlers
 - (void)handlePreferencesChanged:(NSNotification *)aNotification
 {
+    if (webService != nil) {
+        [webService release];
+    }
+    webService = [[LastfmWebService alloc]
+					initWithWebServiceServer:[preferences stringForKey:@"webServiceServer"]
+                    asUserAgent:[preferences stringForKey:@"userAgent"]
+                    forUser:[preferences stringForKey:@"username"]
+                    withPasswordHash:[self md5:
+                        [keyChain genericPasswordForService:@"Amua"
+                            account:[preferences stringForKey:@"username"]]]];
 	[self updateMenu];
 }
 
@@ -728,19 +716,12 @@
 - (void)handleStartPlayingError:(NSNotification *)aNotification
 {
 	playing = NO;
-	[self updateMenu];
-	
-	if (webService != nil) {
+    if (webService != nil) {
 		[webService release];
 		webService = nil;
 	}
-	
-	NSMenuItem *error = [[[NSMenuItem alloc] initWithTitle:@"Connection Error"
-								action:nil keyEquivalent:@""] autorelease];
-	[error setEnabled:NO];
-	[menu insertItem:error atIndex:0];
-	
-	[menu insertItem:[NSMenuItem separatorItem] atIndex:1];
+    
+	[self updateMenu];
 }
 
 
