@@ -42,7 +42,7 @@
 				selector:@selector(handlePreferencesChanged:)
 				name:@"PreferencesChanged" object:nil];
 	
-    // Register handle for requested start playing from LastfmWebService
+    // Register handle for handshake notification from LastfmWebService
 	[[NSNotificationCenter defaultCenter] addObserver:self
                 selector:@selector(handleHandshake:)
                 name:@"handshake" object:nil];
@@ -62,6 +62,12 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self
 				selector:@selector(handleUpdateNowPlayingInformation:)
 				name:@"UpdateNowPlayingInformation"	object:nil];
+    
+    // Register handle for successful command notification from LastfmWebService
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                selector:@selector(handleCommandExecuted:)
+                name:@"commandExecuted"	object:nil];
+    
 	
 	// Register handle for mousentered event
 	[[NSNotificationCenter defaultCenter] addObserver:self
@@ -262,13 +268,6 @@
 	NSMenuItem *ban = [menu itemAtIndex:4];
 	[ban setAction:nil];
 	[ban setEnabled:NO];
-	
-	// Set the timer so that in five seconds the new song information will be fetched
-	if (timer != nil) {
-		[timer release];
-	}
-	timer = [[NSTimer scheduledTimerWithTimeInterval:(5) target:self
-				selector:@selector(fireTimer:) userInfo:nil repeats:NO] retain];
 }
 
 
@@ -293,13 +292,6 @@
 	NSMenuItem *ban = [menu itemAtIndex:4];
 	[ban setAction:nil];
 	[ban setEnabled:NO];
-	
-	// Set the timer so that in five seconds the new song information will be fetched
-	if (timer != nil) {
-		[timer release];
-	}
-	timer = [[NSTimer scheduledTimerWithTimeInterval:(5) target:self
-				selector:@selector(fireTimer:) userInfo:nil repeats:NO] retain];
 }
 
 
@@ -709,10 +701,6 @@
 	[script executeAndReturnError:nil];
     
     [webService updateNowPlayingInformation];
-	
-	// Set the timer so that in five seconds the new song information will be fetched
-	timer = [[NSTimer scheduledTimerWithTimeInterval:(5) target:self
-				selector:@selector(fireTimer:) userInfo:nil repeats:NO] retain];
 }
 
 
@@ -751,6 +739,12 @@
 		}
 		[self showTooltip:self];
 	}
+}
+
+
+- (void)handleCommandExecuted:(NSNotification *)aNotification
+{
+    [webService updateNowPlayingInformation];
 }
 
 

@@ -356,6 +356,11 @@ extern OSStatus _LSSetWeakBindingForType(OSType inType,
 - (void)handleUpdateNowPlayingInformation:(NSNotification *)aNotification;
 
 /**
+ * Notification about succesful command.
+ */
+- (void)handleCommandExecuted:(NSNotification *)aNotification;
+
+/**
  * Add error to menu if start playing failed.
  */
 - (void)handleStartPlayingError:(NSNotification *)aNotification;

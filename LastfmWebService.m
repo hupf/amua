@@ -433,6 +433,8 @@
 	
 		// We don't do anything, whether the sent command was successful or not
 		controlCURLHandle = nil;
+        [[NSNotificationCenter defaultCenter]
+            	postNotificationName:@"commandExecuted" object:self];
 		
 	} else if ([sender isEqual:discoveryCURLHandle]) { // Response to changing discover setting
 		
