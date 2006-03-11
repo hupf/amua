@@ -42,6 +42,11 @@
 				selector:@selector(handlePreferencesChanged:)
 				name:@"PreferencesChanged" object:nil];
 	
+    // Register handle for requested start playing from LastfmWebService
+	[[NSNotificationCenter defaultCenter] addObserver:self
+                selector:@selector(handleHandshake:)
+                name:@"handshake" object:nil];
+    
 	// Register handle for requested start playing from LastfmWebService
 	[[NSNotificationCenter defaultCenter] addObserver:self
 				selector:@selector(handleStartPlaying:)
@@ -135,6 +140,13 @@
 	[stationController setPreferences:preferences];
 	
 	[self updateMenu];
+    
+    if ([[preferences stringForKey:@"username"] isEqualToString:@""] ||
+        [[keyChain genericPasswordForService:@"Amua"
+                                     account:[preferences stringForKey:@"username"]] isEqualToString:@""] ||
+        [[preferences stringForKey:@"webServiceServer"] isEqualToString:@""]) {
+        [self openPreferences:self];
+    }
 
 }
 
@@ -410,18 +422,23 @@
 
 - (void)changeDiscoverySettings:(id)sender
 { 
-    if ([discoveryMenuItem state] == NSOnState) {
-		[discoveryMenuItem setState:NSOffState];
-		[preferences setBool:FALSE forKey:@"discoveryMode"];
-		[preferences synchronize];
-		[webService setDiscovery:FALSE];
-    } else {
-		[discoveryMenuItem setState:NSOnState];
-		[preferences setBool:TRUE forKey:@"discoveryMode"];
-		[preferences synchronize];
-		[webService setDiscovery:TRUE];
+    if ([webService isSubscriber]) {
+        if ([discoveryMenuItem state] == NSOnState) {
+            [discoveryMenuItem setState:NSOffState];
+            [preferences setBool:FALSE forKey:@"discoveryMode"];
+            [preferences synchronize];
+            if (webService != nil) {
+                [webService setDiscovery:FALSE];
+            }
+        } else {
+            [discoveryMenuItem setState:NSOnState];
+            [preferences setBool:TRUE forKey:@"discoveryMode"];
+            [preferences synchronize];
+            if (webService != nil) {
+                [webService setDiscovery:TRUE];
+            }
+        }
     }
-    
 }
 
 
@@ -431,14 +448,17 @@
 		[recordtoprofileMenuItem setState:NSOffState];
 		[preferences setBool:FALSE forKey:@"recordToProfile"];
 		[preferences synchronize];
-		[webService executeControl:@"nortp"];
+        if (webService != nil) {
+            [webService executeControl:@"nortp"];
+        }
     } else {
 		[preferences setBool:TRUE forKey:@"recordToProfile"];
 		[preferences synchronize];
 		[recordtoprofileMenuItem setState:NSOnState];
-		[webService executeControl:@"rtp"];
+        if (webService != nil) {
+            [webService executeControl:@"rtp"];
+        }
     }
-    
 }
 
 
@@ -468,6 +488,16 @@
 		[personalPage setAction:@selector(openPersonalPage:)];
 		[personalPage setEnabled:YES];
 	}
+    
+    if (webService == nil || ![webService isSubscriber]) {
+        [discoveryMenuItem setAction:nil];
+        [discoveryMenuItem setEnabled:NO];
+        [discoveryMenuItem setTarget:self];
+    } else {
+        [discoveryMenuItem setAction:@selector(changeDiscoverySettings:)];
+        [discoveryMenuItem setEnabled:YES]; 
+        [discoveryMenuItem setTarget:self];
+    }
 	
 	if (!playing) { // Stop state
 
@@ -662,6 +692,12 @@
 }
 
 
+- (void)handleHandshake:(NSNotification *)aNotification
+{
+    [self updateMenu];
+}
+
+
 - (void)handleStartPlaying:(NSNotification *)aNotification
 {
 	// Tell iTunes it should start playing.
@@ -673,9 +709,6 @@
 	[script executeAndReturnError:nil];
     
     [webService updateNowPlayingInformation];
-	
-	[webService setDiscovery:[preferences boolForKey:@"discoveryMode"]];
-	[webService executeControl:([preferences boolForKey:@"recordToProfile"] ? @"rtp" : @"nortp")];
 	
 	// Set the timer so that in five seconds the new song information will be fetched
 	timer = [[NSTimer scheduledTimerWithTimeInterval:(5) target:self
@@ -699,6 +732,14 @@
         radioStationUser:[webService nowPlayingRadioStationProfile]
 		trackPosition:[webService nowPlayingTrackProgress]
         trackDuration:[webService nowPlayingTrackDuration]];
+    
+    if ([webService isSubscriber] && 
+        [webService discoveryMode] != (int)[preferences boolForKey:@"discoveryMode"]) {
+        [webService setDiscovery:[preferences boolForKey:@"discoveryMode"]];
+    }
+    if ([webService recordToProfile] != [preferences boolForKey:@"recordToProfile"]) {
+        [webService executeControl:([preferences boolForKey:@"recordToProfile"] ? @"rtp" : @"nortp")];
+    }
 		
 	// show updated tooltip if necessary 
 	if ((![view menuIsVisible] && mouseIsOverIcon) || alwaysDisplayTooltip) {

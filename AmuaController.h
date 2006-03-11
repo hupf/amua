@@ -338,6 +338,11 @@ extern OSStatus _LSSetWeakBindingForType(OSType inType,
 - (void)handlePreferencesChanged:(NSNotification *)aNotification;
 
 /**
+ * Notification of a successful handshake.
+ */
+- (void)handleHandshake:(NSNotification *)aNotification;
+
+/**
  * Start playback.
  * 
  * A timer is set that fires after five seconds, to fetch the song informations

@@ -203,6 +203,12 @@
 }
 
 
+- (bool)isSubscriber
+{
+    return subscriber;
+}
+
+
 - (bool)streaming
 {
 	if (nowPlayingInformation != nil) {
@@ -305,6 +311,27 @@
 }
 
 
+- (int)discoveryMode
+{
+    if (nowPlayingInformation != nil) {
+        return [[nowPlayingInformation objectForKey:@"discovery"] intValue];
+    } else {
+        return -1;
+    }
+}
+
+
+- (bool)recordToProfile
+{
+    if (nowPlayingInformation != nil) {
+        return [[nowPlayingInformation objectForKey:@"recordtoprofile"]
+                    isEqualToString:@"1"];
+    } else {
+        return NO;
+    }
+}
+
+
 /* CURL Handlers */
 
 - (void)URLHandleResourceDidFinishLoading:(NSURLHandle *)sender
@@ -344,10 +371,13 @@
 			streamingServer = [[parsedResult objectForKey:@"stream_url"] copy];
 			baseHost = [[parsedResult objectForKey:@"base_url"] copy];
 			basePath = [[parsedResult objectForKey:@"base_path"] copy];
+            subscriber = (bool)[[parsedResult objectForKey:@"subscriber"] intValue]; 
 			[parsedResult release];
 			getSessionCURLHandle = nil;
 			LOG([[NSString stringWithString:@"handshake done, sessionid: "]
 				 stringByAppendingString:sessionID]);
+            [[NSNotificationCenter defaultCenter]
+            	postNotificationName:@"handshake" object:self];
 		}
 		
 	} else if ([sender isEqual:tuningCURLHandle]) { // Response for station tuning
