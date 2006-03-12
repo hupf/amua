@@ -74,7 +74,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>0.5.1</string>
+	<string>0.5.4</string>
 	<key>LSUIElement</key>
 	<string>1</string>
 	<key>NSMainNibFile</key>
@@ -567,7 +567,7 @@
 				F43EA05B097A89BA00C0FC11 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Deployment;
 		};
 		F43EA05C097A89BA00C0FC11 /* Build configuration list for PBXProject "Amua" */ = {
 			isa = XCConfigurationList;
@@ -577,7 +577,7 @@
 				F43EA05F097A89BA00C0FC11 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Deployment;
 		};
 /* End XCConfigurationList section */
 	};
