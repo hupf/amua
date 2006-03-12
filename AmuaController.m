@@ -648,9 +648,12 @@
 	
 	if (timer != nil) {
 		[timer release];
+        timer = nil;
 	}
-	timer = [[NSTimer scheduledTimerWithTimeInterval:(remainingTime) target:self
+    if (playing || connecting) {
+		timer = [[NSTimer scheduledTimerWithTimeInterval:(remainingTime) target:self
 				selector:@selector(fireTimer:) userInfo:nil repeats:NO] retain];
+    }
 }
 
 
@@ -723,12 +726,15 @@
 		trackPosition:[webService nowPlayingTrackProgress]
         trackDuration:[webService nowPlayingTrackDuration]];
     
-    if ([webService isSubscriber] && 
-        [webService discoveryMode] != (int)[preferences boolForKey:@"discoveryMode"]) {
-        [webService setDiscovery:[preferences boolForKey:@"discoveryMode"]];
-    }
-    if ([webService recordToProfile] != [preferences boolForKey:@"recordToProfile"]) {
-        [webService executeControl:([preferences boolForKey:@"recordToProfile"] ? @"rtp" : @"nortp")];
+    if ([webService streaming]) {
+    	if ([webService isSubscriber] && 
+            [webService discoveryMode] != -1 &&
+        	[webService discoveryMode] != (int)[preferences boolForKey:@"discoveryMode"]) {
+        	[webService setDiscovery:[preferences boolForKey:@"discoveryMode"]];
+    	}
+    	if ([webService recordToProfile] != [preferences boolForKey:@"recordToProfile"]) {
+        	[webService executeControl:([preferences boolForKey:@"recordToProfile"] ? @"rtp" : @"nortp")];
+    	}
     }
 		
 	// show updated tooltip if necessary 
