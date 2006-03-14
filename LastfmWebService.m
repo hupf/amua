@@ -32,6 +32,7 @@
 
 	server = [webServiceServer copy];
 	userAgent = [userAgentIdentifier copy];
+    connectionError = NO;
 	
 	// Activate CURLHandle
     [CURLHandle curlHelloSignature:@"XxXx" acceptAll:YES];
@@ -167,7 +168,7 @@
     } else {
 		ERROR(@"curl handle does not exist");
 		[[NSNotificationCenter defaultCenter]
-        	postNotificationName:@"StartPlayingError" object:self];
+        	postNotificationName:@"ConnectionError" object:self];
     }
 }
 
@@ -332,6 +333,12 @@
 }
 
 
+- (bool)connectionAvailable
+{
+    return !connectionError;
+}
+
+
 /* CURL Handlers */
 
 - (void)URLHandleResourceDidFinishLoading:(NSURLHandle *)sender
@@ -355,7 +362,7 @@
 	}
 	
 	if ([sender isEqual:getSessionCURLHandle]) { // Response for session-request
-	
+        
 		if ([[parsedResult objectForKey:@"session"] isEqualToString:@"FAILED"]) {
 			ERROR(@"handshake failed");
 			[parsedResult release];
@@ -365,7 +372,7 @@
             basePath = nil;
 			getSessionCURLHandle = nil;
 			[[NSNotificationCenter defaultCenter]
-            	postNotificationName:@"StartPlayingError" object:self];
+            	postNotificationName:@"HandshakeFailed" object:self];
 		} else {
 			sessionID = [[parsedResult objectForKey:@"session"] copy];
 			streamingServer = [[parsedResult objectForKey:@"stream_url"] copy];
@@ -377,7 +384,7 @@
 			LOG([[NSString stringWithString:@"handshake done, sessionid: "]
 				 stringByAppendingString:sessionID]);
             [[NSNotificationCenter defaultCenter]
-            	postNotificationName:@"handshake" object:self];
+            	postNotificationName:@"Handshake" object:self];
 		}
 		
 	} else if ([sender isEqual:tuningCURLHandle]) { // Response for station tuning
@@ -434,7 +441,7 @@
 		// We don't do anything, whether the sent command was successful or not
 		controlCURLHandle = nil;
         [[NSNotificationCenter defaultCenter]
-            	postNotificationName:@"commandExecuted" object:self];
+            	postNotificationName:@"CommandExecuted" object:self];
 		
 	} else if ([sender isEqual:discoveryCURLHandle]) { // Response to changing discover setting
 		
@@ -460,7 +467,7 @@
 		[sender removeClient:self];
 		[sender release];
 		[[NSNotificationCenter defaultCenter]
-        	postNotificationName:@"StartPlayingError" object:self];
+        	postNotificationName:@"ConnectionError" object:self];
 	} else {
 		[sender removeClient:self];
 		[sender release];
@@ -479,7 +486,7 @@
 		[sender removeClient:self];
 		[sender release];
 		[[NSNotificationCenter defaultCenter]
-        	postNotificationName:@"StartPlayingError" object:self];
+        	postNotificationName:@"ConnectionError" object:self];
 	} else {
 		[sender removeClient:self];
 		[sender release];

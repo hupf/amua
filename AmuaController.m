@@ -45,7 +45,17 @@
     // Register handle for handshake notification from LastfmWebService
 	[[NSNotificationCenter defaultCenter] addObserver:self
                 selector:@selector(handleHandshake:)
-                name:@"handshake" object:nil];
+                name:@"Handshake" object:nil];
+    
+    // Register handle for failed handshake notification from LastfmWebService
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                selector:@selector(handleHandshakeFailed:)
+                name:@"HandshakeFailed" object:nil];
+    
+    // Register handle for connection error notification from LastfmWebService
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                selector:@selector(handleConnectionError:)
+                name:@"ConnectionError" object:nil];
     
 	// Register handle for requested start playing from LastfmWebService
 	[[NSNotificationCenter defaultCenter] addObserver:self
@@ -66,7 +76,7 @@
     // Register handle for successful command notification from LastfmWebService
     [[NSNotificationCenter defaultCenter] addObserver:self
                 selector:@selector(handleCommandExecuted:)
-                name:@"commandExecuted"	object:nil];
+                name:@"CommandExecuted"	object:nil];
     
 	
 	// Register handle for mousentered event
@@ -92,13 +102,7 @@
 		andEventID:kAEGetURL];
     
     // start handshake with webservice
-    webService = [[LastfmWebService alloc]
-					initWithWebServiceServer:[preferences stringForKey:@"webServiceServer"]
-                    asUserAgent:[preferences stringForKey:@"userAgent"]
-                    forUser:[preferences stringForKey:@"username"]
-                    withPasswordHash:[self md5:
-                        [keyChain genericPasswordForService:@"Amua"
-                            account:[preferences stringForKey:@"username"]]]];
+    [self connectToServer:self];
 	
 	return self;
 }
@@ -170,13 +174,10 @@
 
 	// Create web service object
 	if (webService == nil || [webService streamingServer] == nil) {
-        webService = [[LastfmWebService alloc]
-					initWithWebServiceServer:[preferences stringForKey:@"webServiceServer"]
-                              asUserAgent:[preferences stringForKey:@"userAgent"]
-                              forUser:[preferences stringForKey:@"username"]
-                              withPasswordHash:[self md5:
-                                  [keyChain genericPasswordForService:@"Amua"
-                                      account:[preferences stringForKey:@"username"]]]];
+        if (webService != nil) {
+            [webService release];
+        }
+        [self connectToServer:self];
 	}
 	
     [webService setStationURL:url];
@@ -287,6 +288,21 @@
 	NSMenuItem *ban = [menu itemAtIndex:4];
 	[ban setAction:nil];
 	[ban setEnabled:NO];
+}
+
+
+- (void)connectToServer:(id)sender
+{
+    if (webService != nil) {
+        [webService release];
+    }
+    webService = [[LastfmWebService alloc]
+					initWithWebServiceServer:[preferences stringForKey:@"webServiceServer"]
+                    asUserAgent:[preferences stringForKey:@"userAgent"]
+                    forUser:[preferences stringForKey:@"username"]
+                    withPasswordHash:[self md5:
+                        [keyChain genericPasswordForService:@"Amua"
+                            account:[preferences stringForKey:@"username"]]]];
 }
 
 
@@ -500,20 +516,39 @@
 		if ([[preferences stringForKey:@"username"] isEqualToString:@""] ||
 			[[keyChain genericPasswordForService:@"Amua"
 					account:[preferences stringForKey:@"username"]] isEqualToString:@""] ||
-			[[preferences stringForKey:@"webServiceServer"] isEqualToString:@""] ||
-            webService == nil) {
+			[[preferences stringForKey:@"webServiceServer"] isEqualToString:@""]) {
+            
+            [play setAction:nil];
+			[play setEnabled:NO];
+			[playDialog setAction:nil];
+			[playDialog setEnabled:NO];
+            
+			NSMenuItem *hint = [[[NSMenuItem alloc] initWithTitle:@"Hint: Check Preferences"
+                                        action:nil keyEquivalent:@""] autorelease];
+			[hint setEnabled:NO];
+			[menu insertItem:hint atIndex:0];
+            [menu insertItem:[NSMenuItem separatorItem] atIndex:1];
+            
+        } else if (webService == nil) {
 			
 			[play setAction:nil];
 			[play setEnabled:NO];
 			[playDialog setAction:nil];
 			[playDialog setEnabled:NO];
-			
-			NSMenuItem *hint = [[[NSMenuItem alloc] initWithTitle:@"Check Preferences"
+            
+			NSMenuItem *hint = [[[NSMenuItem alloc] initWithTitle:userMessage
 									action:nil keyEquivalent:@""] autorelease];
 			[hint setEnabled:NO];
 			[menu insertItem:hint atIndex:0];
+            [menu insertItem:[NSMenuItem separatorItem] atIndex:1];
+            
+            NSMenuItem *reconnect = [[[NSMenuItem alloc] initWithTitle:@"Try Again"
+                                    action:@selector(connectToServer:) keyEquivalent:@""] autorelease];
+            [reconnect setEnabled:YES];
+            [reconnect setTarget:self];
+			[menu insertItem:reconnect atIndex:2];
 			
-			[menu insertItem:[NSMenuItem separatorItem] atIndex:1];
+			[menu insertItem:[NSMenuItem separatorItem] atIndex:3];
 			
 		} else {
 			if ([recentStations stationsAvailable]) {
@@ -688,6 +723,24 @@
     [self updateMenu];
 }
 
+- (void)handleHandshakeFailed:(NSNotification *)aNotification
+{
+    connecting = NO;
+	playing = NO;
+    
+    if (webService != nil) {
+        [webService release];
+        webService = nil;
+    }
+    
+    if (userMessage != nil) {
+        [userMessage release];
+    }
+    userMessage = [[NSString alloc] initWithString:@"Status: Login Failed"];
+    
+	[self updateMenu];
+}
+
 
 - (void)handleStartPlaying:(NSNotification *)aNotification
 {
@@ -756,14 +809,20 @@
 }
 
 
-- (void)handleStartPlayingError:(NSNotification *)aNotification
+- (void)handleConnectionError:(NSNotification *)aNotification
 {
     connecting = NO;
 	playing = NO;
+    
     if (webService != nil) {
-		[webService release];
-		webService = nil;
-	}
+        [webService release];
+        webService = nil;
+    }
+    
+    if (userMessage != nil) {
+        [userMessage release];
+    }
+    userMessage = [[NSString alloc] initWithString:@"Status: Broken Connection"];
     
 	[self updateMenu];
 }
