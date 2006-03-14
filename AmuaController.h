@@ -176,6 +176,11 @@ extern OSStatus _LSSetWeakBindingForType(OSType inType,
      * The notification for the default Last.fm player check.
      */
     Notification *defaultPlayerNotification;
+    
+    /**
+     * A string containing the current message for the user. 
+     */
+    NSString *userMessage;
 }
 
 /**
@@ -249,6 +254,11 @@ extern OSStatus _LSSetWeakBindingForType(OSType inType,
  * of the new song.
  */
 - (void)banSong:(id)sender;
+
+/**
+ * Establish a connection with the server and make a handshake.
+ */
+- (void)connectToServer:(id)sender;
 
 /**
  * Clear the list of the recent stations in the menu.
@@ -343,9 +353,14 @@ extern OSStatus _LSSetWeakBindingForType(OSType inType,
 - (void)handlePreferencesChanged:(NSNotification *)aNotification;
 
 /**
- * Notification of a successful handshake.
+ * Notification about a successful handshake.
  */
 - (void)handleHandshake:(NSNotification *)aNotification;
+
+/**
+ * Notification about a unsuccessful handshake.
+ */
+- (void)handleHandshakeFailed:(NSNotification *)aNotification;
 
 /**
  * Start playback.
@@ -366,9 +381,9 @@ extern OSStatus _LSSetWeakBindingForType(OSType inType,
 - (void)handleCommandExecuted:(NSNotification *)aNotification;
 
 /**
- * Add error to menu if start playing failed.
+ * Notification about a connection error.
  */
-- (void)handleStartPlayingError:(NSNotification *)aNotification;
+- (void)handleConnectionError:(NSNotification *)aNotification;
 
 /**
  * Generates the MD5 hash of a string.
