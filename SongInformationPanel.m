@@ -139,12 +139,14 @@
     
     [image setImage:inImage];
     
-    trackPosition = inTrackPosition > 0 ? inTrackPosition : 0;
-    trackDuration = inTrackDuration > 0 ? inTrackDuration : 0;
+    trackPosition = inTrackPosition >= 0 ? inTrackPosition-1 : 0;
+    trackDuration = inTrackDuration >= 0 ? inTrackDuration : 0;
     if (timer != nil) {
         [timer invalidate];
         timer = nil;
     }
+    
+    [self updateTime:self];
     timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateTime:) 
                 userInfo:nil repeats:YES];
 					
