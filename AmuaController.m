@@ -140,7 +140,15 @@
 	if (!alwaysDisplayTooltip) {
 		// listen to mouse events of AmuaView
 		[view addMouseOverListener];
-	}
+	} else {
+        // set info panel position altough it is not visible, otherwise
+        // the stored position would be overridden
+        NSPoint point = NSPointFromString([preferences stringForKey:@"tooltipPosition"]);
+        if (point.x == 0 && point.y == 0) {
+            point = [NSEvent mouseLocation];
+        }
+        [songInformationPanel setFrameOrigin:point];
+    }
 	
 	[discoveryMenuItem setState:[preferences boolForKey:@"discoveryMode"]];
 	[recordtoprofileMenuItem setState:[preferences boolForKey:@"recordToProfile"]];
@@ -406,7 +414,9 @@
             [songInformationPanel hide];
         }
         
-	}
+	} else {
+        [songInformationPanel hide];
+    }
 	
 	mouseIsOverIcon = YES;
 

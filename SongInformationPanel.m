@@ -106,50 +106,49 @@
         radioStationUser:(NSString *)inRadioStationUser
 		trackPosition:(int)inTrackPosition trackDuration:(int)inTrackDuration
 {
-	
-	if (![[artist stringValue] isEqualToString:inArtist] ||
-		![[album stringValue] isEqualToString:inAlbum] ||
-		![[track stringValue] isEqualToString:inTrack]) {
-		
-        if (inArtist != nil) {
-            [artist setStringValue:inArtist];
-        } else {
-            [artist setStringValue:@""];
-        }
-        [artist setMaxSize:MAX_TEXTFIELD_SIZE-[artist frame].origin.x];
-        if (inAlbum != nil) {
-            [album setStringValue:inAlbum];
-        } else {
-            [album setStringValue:@""];
-        }
-        [album setMaxSize:MAX_TEXTFIELD_SIZE-[album frame].origin.x];
-        if (inTrack != nil) {
-            [track setStringValue:inTrack];
-        } else {
-            [track setStringValue:@""];
-        }
-        [track setMaxSize:MAX_TEXTFIELD_SIZE-[track frame].origin.x];
-        NSString *footerTitle = inRadioStation;
-        if (footerTitle == nil) {
-            footerTitle = @"";
-        }
-		if (inRadioStationUser != nil) {
-			 footerTitle = [[footerTitle stringByAppendingString:@" feeding from "] stringByAppendingString:inRadioStationUser];
-		}
-		[footer setStringValue:footerTitle];
-        [footer setMaxSize:MAX_TEXTFIELD_SIZE-[footer frame].origin.x];
-		[image setImage:inImage];
-		trackPosition = inTrackPosition;
-		trackDuration = inTrackDuration;
-		if (timer != nil) {
-			[timer invalidate];
-			timer = nil;
-		}
-		timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateTime:) 
-					userInfo:nil repeats:YES];
+    if (inArtist != nil) {
+        [artist setStringValue:inArtist];
+    } else {
+        [artist setStringValue:@""];
+    }
+    [artist setMaxSize:MAX_TEXTFIELD_SIZE-[artist frame].origin.x];
+    
+    if (inAlbum != nil) {
+        [album setStringValue:inAlbum];
+    } else {
+        [album setStringValue:@""];
+    }
+    [album setMaxSize:MAX_TEXTFIELD_SIZE-[album frame].origin.x];
+    
+    if (inTrack != nil) {
+        [track setStringValue:inTrack];
+    } else {
+        [track setStringValue:@""];
+    }
+    [track setMaxSize:MAX_TEXTFIELD_SIZE-[track frame].origin.x];
+    
+    NSString *footerTitle = inRadioStation;
+    if (footerTitle == nil) {
+        footerTitle = @"";
+    }
+    if (inRadioStationUser != nil) {
+         footerTitle = [[footerTitle stringByAppendingString:@" feeding from "] stringByAppendingString:inRadioStationUser];
+    }
+    [footer setStringValue:footerTitle];
+    [footer setMaxSize:MAX_TEXTFIELD_SIZE-[footer frame].origin.x];
+    
+    [image setImage:inImage];
+    
+    trackPosition = inTrackPosition > 0 ? inTrackPosition : 0;
+    trackDuration = inTrackDuration > 0 ? inTrackDuration : 0;
+    if (timer != nil) {
+        [timer invalidate];
+        timer = nil;
+    }
+    timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateTime:) 
+                userInfo:nil repeats:YES];
 					
-		[self resize];					
-	}
+    [self resize];					
 	
 	visible = YES;
 }
