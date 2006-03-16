@@ -263,7 +263,12 @@ extern OSStatus _LSSetWeakBindingForType(OSType inType,
 /**
  * Establish a connection with the server and make a handshake.
  */
-- (void)connectToServer:(id)sender;
+- (void)connectToServer;
+
+/**
+ * Try again to open a connection.
+ */
+- (void)tryAgain:(id)sender;
 
 /**
  * Clear the list of the recent stations in the menu.
