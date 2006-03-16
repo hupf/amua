@@ -151,6 +151,11 @@ extern OSStatus _LSSetWeakBindingForType(OSType inType,
      * A boolean to check the connection status.
      */
     bool connecting;
+    
+    /**
+     * A boolean to check the login status.
+     */
+    bool loginPhase;
 	
 	/**
      * A timer that will get actual song information.

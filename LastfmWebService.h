@@ -305,7 +305,7 @@
  *
  * @return The mode as integer.
  */
-- (int)discoveryMode;
+- (bool)discoveryMode;
 
 /**
  * Get the record to profile state of the server.
