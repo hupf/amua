@@ -102,7 +102,7 @@
 		andEventID:kAEGetURL];
     
     // start handshake with webservice
-    [self connectToServer:self];
+    [self connectToServer];
 	
 	return self;
 }
@@ -185,7 +185,7 @@
         if (webService != nil) {
             [webService release];
         }
-        [self connectToServer:self];
+        [self connectToServer];
 	}
 	
     [webService setStationURL:url];
@@ -299,7 +299,7 @@
 }
 
 
-- (void)connectToServer:(id)sender
+- (void)connectToServer
 {
     loginPhase = YES;
     if (webService != nil) {
@@ -312,6 +312,13 @@
                     withPasswordHash:[self md5:
                         [keyChain genericPasswordForService:@"Amua"
                             account:[preferences stringForKey:@"username"]]]];
+}
+
+
+- (void)tryAgain:(id)sender
+{
+    [self connectToServer];
+    [self updateMenu];
 }
 
 
@@ -565,7 +572,7 @@
             [menu insertItem:[NSMenuItem separatorItem] atIndex:1];
             
             NSMenuItem *reconnect = [[[NSMenuItem alloc] initWithTitle:@"Try Again"
-                                    action:@selector(connectToServer:) keyEquivalent:@""] autorelease];
+                                    action:@selector(tryAgain:) keyEquivalent:@""] autorelease];
             [reconnect setEnabled:YES];
             [reconnect setTarget:self];
 			[menu insertItem:reconnect atIndex:2];
@@ -726,16 +733,7 @@
 // Handlers
 - (void)handlePreferencesChanged:(NSNotification *)aNotification
 {
-    if (webService != nil) {
-        [webService release];
-    }
-    webService = [[LastfmWebService alloc]
-					initWithWebServiceServer:[preferences stringForKey:@"webServiceServer"]
-                    asUserAgent:[preferences stringForKey:@"userAgent"]
-                    forUser:[preferences stringForKey:@"username"]
-                    withPasswordHash:[self md5:
-                        [keyChain genericPasswordForService:@"Amua"
-                            account:[preferences stringForKey:@"username"]]]];
+    [self connectToServer];
 	[self updateMenu];
 }
 
