@@ -354,7 +354,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>0.5.3</string>
+	<string>0.5.4</string>
 	<key>LSUIElement</key>
 	<string>1</string>
 	<key>NSMainNibFile</key>
