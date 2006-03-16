@@ -56,7 +56,6 @@
 						stringByAppendingString:[username stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]
 						stringByAppendingString:@"&passwordmd5="]
 						stringByAppendingString:passwordMD5]] autorelease];
-	
 	getSessionCURLHandle = [[CURLHandle alloc]
     						initWithURL:[NSURL URLWithString:getSessionURL]
                             cached:FALSE];
@@ -312,12 +311,12 @@
 }
 
 
-- (int)discoveryMode
+- (bool)discoveryMode
 {
     if (nowPlayingInformation != nil) {
-        return [[nowPlayingInformation objectForKey:@"discovery"] intValue];
+        return [[nowPlayingInformation objectForKey:@"discovery"] intValue] != -1;
     } else {
-        return -1;
+        return NO;
     }
 }
 
@@ -363,9 +362,8 @@
 	
 	if ([sender isEqual:getSessionCURLHandle]) { // Response for session-request
         
-		if ([[parsedResult objectForKey:@"session"] isEqualToString:@"FAILED"]) {
+		if ([[[parsedResult objectForKey:@"session"] lowercaseString] isEqualToString:@"failed"]) {
 			ERROR(@"handshake failed");
-			[parsedResult release];
             sessionID = nil;
             streamingServer = nil;
             baseHost = nil;
@@ -379,7 +377,6 @@
 			baseHost = [[parsedResult objectForKey:@"base_url"] copy];
 			basePath = [[parsedResult objectForKey:@"base_path"] copy];
             subscriber = (bool)[[parsedResult objectForKey:@"subscriber"] intValue]; 
-			[parsedResult release];
 			getSessionCURLHandle = nil;
 			LOG([[NSString stringWithString:@"handshake done, sessionid: "]
 				 stringByAppendingString:sessionID]);
@@ -390,11 +387,9 @@
 	} else if ([sender isEqual:tuningCURLHandle]) { // Response for station tuning
 	
 		if ([[parsedResult objectForKey:@"response"] isEqualToString:@"OK"]) {
-			[parsedResult release];
 			tuningCURLHandle = nil;
 			LOG(@"station tuned");
 		} else {
-			[parsedResult release];
 			tuningCURLHandle = nil;
 			ERROR(@"station tuning error");
 		}
@@ -410,8 +405,8 @@
 		if (nowPlayingInformation != nil) {
             [nowPlayingInformation release];
         }
-		if ([[parsedResult objectForKey:@"streaming"] isEqual:@"true"]) {
-			nowPlayingInformation = parsedResult;
+		if ([[[parsedResult objectForKey:@"streaming"] lowercaseString] isEqual:@"true"]) {
+			nowPlayingInformation = [parsedResult retain];
             if (albumCover != nil) {
                 [albumCover release];
                 albumCover = nil;
@@ -451,6 +446,7 @@
 		[[self adjust:stationUrl] loadInBackground];
 	}
 	
+    [parsedResult release];
 	[sender removeClient:self];	
 	[sender release];
 }

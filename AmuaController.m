@@ -301,6 +301,7 @@
 
 - (void)connectToServer:(id)sender
 {
+    loginPhase = YES;
     if (webService != nil) {
         [webService release];
     }
@@ -539,6 +540,17 @@
 			[menu insertItem:hint atIndex:0];
             [menu insertItem:[NSMenuItem separatorItem] atIndex:1];
             
+        } else if (loginPhase) {
+            [play setAction:nil];
+            [play setEnabled:NO];
+            [playDialog setAction:nil];
+            [playDialog setEnabled:NO];
+    
+            NSMenuItem *hint = [[[NSMenuItem alloc] initWithTitle:@"Loging in..."
+                                        action:nil keyEquivalent:@""] autorelease];
+            [hint setEnabled:NO];
+            [menu insertItem:hint atIndex:0];
+            [menu insertItem:[NSMenuItem separatorItem] atIndex:1];
         } else if (webService == nil) {
 			
 			[play setAction:nil];
@@ -730,6 +742,7 @@
 
 - (void)handleHandshake:(NSNotification *)aNotification
 {
+    loginPhase = NO;
     [self updateMenu];
 }
 
@@ -737,6 +750,7 @@
 {
     connecting = NO;
 	playing = NO;
+    loginPhase = NO;
     
     if (webService != nil) {
         [webService release];
@@ -791,8 +805,8 @@
     
     if ([webService streaming]) {
     	if ([webService isSubscriber] && 
-            [webService discoveryMode] != -1 &&
-        	[webService discoveryMode] != (int)[preferences boolForKey:@"discoveryMode"]) {
+            [webService streaming] && 
+        	[webService discoveryMode] != [preferences boolForKey:@"discoveryMode"]) {
         	[webService setDiscovery:[preferences boolForKey:@"discoveryMode"]];
     	}
     	if ([webService recordToProfile] != [preferences boolForKey:@"recordToProfile"]) {
@@ -823,6 +837,7 @@
 {
     connecting = NO;
 	playing = NO;
+    loginPhase = NO;
     
     if (webService != nil) {
         [webService release];
@@ -844,7 +859,19 @@
     
     MD5((unsigned char *)[clear UTF8String], strlen([clear UTF8String]), (unsigned char *)md);
     
-    return [NSString stringWithFormat:@"%qx%qx", md[0], md[1]];
+    NSMutableString *md0 = [NSMutableString stringWithFormat:@"%qx", md[0]];
+    NSMutableString *md1 = [NSMutableString stringWithFormat:@"%qx", md[1]];
+    int z1 = 16 - [md0 length];
+    int z2 = 16 - [md1 length];
+    while (z1 > 0) {
+        [md0 insertString:@"0" atIndex:0];
+        z1--;
+    }
+    while (z2 > 0) {
+        [md1 insertString:@"0" atIndex:0];
+        z2--;
+    }
+    return [md0 stringByAppendingString:md1];
 }
 
 
