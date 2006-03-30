@@ -180,11 +180,18 @@
 - (void)setDiscovery:(bool)state;
 
 /**
- * Set the station
+ * Set the station.
  *
- * @param stationUrl The last.fm url of the station
+ * @param stationUrl The last.fm url of the station.
  */
 - (void)setStationURL:(NSString *)url;
+
+/**
+ * Get the current station url.
+ *
+ * @return The station url.
+ */
+- (NSString *)stationURL;
 
 /**
  * Get the hostname of the streaming server as returned by the session command.

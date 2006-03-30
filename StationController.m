@@ -192,23 +192,22 @@
 
 - (NSString *)getStationURLFromSender:(id)sender
 {
-	NSString *stationUrl=nil, *name=nil, *type=nil, *user=nil, *radioType=nil;
+	NSString *stationUrl=nil, *user=nil, *radioType=nil;
     switch (selectedStationType) {
         case ARTIST_STATION_TYPE:
             if ([(NSButton *)sender isEqualTo:artistPlayMatchButton]) {
-                name = [searchService getMainResultText];
+                NSString *name = [searchService getMainResultText];
                 NSString *artistString = [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                 stationUrl = [[[NSString stringWithString:@"lastfm://artist/"]
                                     stringByAppendingString:artistString]
                                     stringByAppendingString:@"/similarartists"];
             } else {
-                name = [searchService getSearchResultWithIndex:[artistSimilarResultList selectedRow]];
+                NSString *name = [searchService getSearchResultWithIndex:[artistSimilarResultList selectedRow]];
                 NSString *artistString = [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                 stationUrl = [[[NSString stringWithString:@"lastfm://artist/"]
                                     stringByAppendingString:artistString]
                                     stringByAppendingString:@"/similarartists"];
             }
-            type = @"Similar Artist Radio";
             break;
             
         case USER_STATION_TYPE:
@@ -218,30 +217,21 @@
                 user = [preferences stringForKey:@"username"];
             }
             
-            if ([[[stationType selectedItem] title] isEqualToString:@"Profile Radio"]) {
-                radioType = @"/profile";
-                type = @"Profile Radio";
+            if ([[[stationType selectedItem] title] isEqualToString:@"Neighbour Radio"]) {
+                radioType = @"/neighbours";
             } else if ([[[stationType selectedItem] title] isEqualToString:@"Personal Radio"])  {
                 radioType = @"/personal";
-                type = @"Personal Radio";
             }
             stationUrl = [[[NSString stringWithString:@"lastfm://user/"]
-                                    stringByAppendingString:user]
+                                    stringByAppendingString:[user stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]
                                     stringByAppendingString:radioType];
-            name = user;
             break;
             
         case CUSTOM_STATION_TYPE:
-            
             stationUrl = [customURLField stringValue];
-            name = [customURLField stringValue];
-            type = @"Custom URL";
             break;
         
     }
-    
-    // store the station url in the last stations
-    [recentStations addStation:stationUrl withType:type withName:name];
 	
 	return stationUrl;
 }
