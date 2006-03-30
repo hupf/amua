@@ -52,10 +52,8 @@
  * Add a station to the list of the recently played stations.
  * 
  * @param stationUrl The URL of the station.
- * @param type The type of the station.
- * @param name The name of the station.
  */
-- (void)addStation:(NSString *)stationUrl withType:(NSString *)type withName:(NSString *)name;
+- (void)addStation:(NSString *)stationUrl;
 
 /**
  * Get the URL of the most recent station.

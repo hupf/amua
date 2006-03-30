@@ -197,6 +197,12 @@
 }
 
 
+- (NSString *)stationURL
+{
+    return stationUrl;
+}
+
+
 - (NSString *)streamingServer;
 {
 	return streamingServer;

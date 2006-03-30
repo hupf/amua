@@ -205,7 +205,6 @@
 {
     int index = [playRecentMenu indexOfItem:sender];
     NSString *stationUrl = [NSString stringWithString:[recentStations stationURLByIndex:index]];
-    [recentStations moveToFront:index];
 	[self playUrl: stationUrl];
 	[stationController hideWindow];
 }
@@ -686,7 +685,7 @@
         	NSMenuItem *stationItem = [[[NSMenuItem alloc] initWithTitle:title
             		action:@selector(playRecentStation:) keyEquivalent:@""] autorelease];
 			[stationItem setTarget:self];
-            if (webService == nil) {
+            if (webService == nil || loginPhase) {
                 [stationItem setAction:nil];
                 [stationItem setEnabled:NO];
             } else {
@@ -766,6 +765,7 @@
 
 - (void)handleStartPlaying:(NSNotification *)aNotification
 {
+    [recentStations addStation:[webService stationURL]];
     if (!playing) {
         // Tell iTunes it should start playing.
         // Change this command if you want to control another player
@@ -795,11 +795,15 @@
 	NSImage *image = [webService nowPlayingAlbumImage];
 	
 	NSString *radioStation = [webService nowPlayingRadioStation];
-	[songInformationPanel updateArtist:artist album:album track:title
-        albumImage:image radioStation:radioStation
-        radioStationUser:[webService nowPlayingRadioStationProfile]
-		trackPosition:[webService nowPlayingTrackProgress]
-        trackDuration:[webService nowPlayingTrackDuration]];
+    if ([webService streaming]) {
+        [songInformationPanel updateArtist:artist album:album track:title
+                                albumImage:image radioStation:radioStation
+                          radioStationUser:[webService nowPlayingRadioStationProfile]
+                             trackPosition:[webService nowPlayingTrackProgress]
+                             trackDuration:[webService nowPlayingTrackDuration]];
+    } else {
+        WARNING(@"updating song information failed.");
+    }
     
     if ([webService streaming]) {
     	if ([webService isSubscriber] && 
@@ -880,7 +884,6 @@
 								stringValue];
 	if ([filename hasPrefix:@"lastfm"]) {
 		[self playUrl:filename];
-		[recentStations addStation:filename withType:@"Link" withName:filename];
 		[self updateRecentPlayedMenu];
 	}
 }

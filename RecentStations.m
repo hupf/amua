@@ -38,12 +38,47 @@
 }
 
 
-- (void)addStation:(NSString *)stationUrl withType:(NSString *)type withName:(NSString *)name
+- (void)addStation:(NSString *)stationUrl
 {
+    
+    NSString *type=nil, *name=nil;
+    // remove lastfm:// and split by /
+    NSArray *array = [[stationUrl substringFromIndex:9] componentsSeparatedByString:@"/"];
+
+    // make known stations human readable
+    if ([[array objectAtIndex:0] isEqualToString:@"user"] && [array count] == 3) {
+        if ([[array objectAtIndex:2] isEqualToString:@"neighbours"]) {
+            name = [[array objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            type = @"Neighbour Radio";
+        } else if ([[array objectAtIndex:2] isEqualToString:@"personal"]) {
+            name = [[array objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            type = @"Personal Radio";
+        } else if ([[array objectAtIndex:2] isEqualToString:@"loved"]) {
+            name = [[array objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            type = @"Loved Tracks Radio";
+        }
+    } else if ([[array objectAtIndex:0] isEqualToString:@"globaltags"] && [array count] == 2) {
+        name = [[array objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        type = @"Global Tags Radio";
+    } else if ([[array objectAtIndex:0] isEqualToString:@"group"] && [array count] == 2) {
+        name = [[array objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        type = @"Group Radio";
+    } else if ([[array objectAtIndex:0] isEqualToString:@"artist"] && [array count] == 3 &&
+               [[array objectAtIndex:2] isEqualToString:@"similarartists"]) {
+        name = [[array objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        type = @"Similar Artist Radio";
+    }
+    
+    if (name == nil || type == nil) {
+        type = @"URL";
+        name = stationUrl;
+    }
+    
+    
 	NSMutableDictionary *stationObject = [[[NSMutableDictionary alloc] init] autorelease];
-	[stationObject setObject:[stationUrl retain] forKey:@"url"];
-	[stationObject setObject:[name retain] forKey:@"name"];
-	[stationObject setObject:[type retain] forKey:@"type"];
+	[stationObject setObject:stationUrl forKey:@"url"];
+	[stationObject setObject:name forKey:@"name"];
+	[stationObject setObject:type forKey:@"type"];
 	
 	int i;
 	for (i=0; i < [recentStations count];) {
