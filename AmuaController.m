@@ -515,15 +515,12 @@
 		[personalPage setEnabled:YES];
 	}
     
-    // Disable discovery entry if not subscriber or no connection available
-    if (webService == nil || ![webService isSubscriber]) {
-        [discoveryMenuItem setAction:nil];
-        [discoveryMenuItem setEnabled:NO];
-        [discoveryMenuItem setTarget:self];
-    } else {
-        [discoveryMenuItem setAction:@selector(changeDiscoverySettings:)];
-        [discoveryMenuItem setEnabled:YES]; 
-        [discoveryMenuItem setTarget:self];
+    // Disable discovery entry
+    [discoveryMenuItem setAction:nil];
+    [discoveryMenuItem setEnabled:NO];
+    [discoveryMenuItem setTarget:self];
+    if (webService != nil && ![webService isSubscriber]) {
+        [discoveryMenuItem setState:NSOffState];
     }
     
     // Disable record to profile entry if no connection available
@@ -593,6 +590,12 @@
                 [menu insertItem:[NSMenuItem separatorItem] atIndex:1];
             }
             
+            if ([webService isSubscriber]) {
+                [discoveryMenuItem setAction:@selector(changeDiscoverySettings:)];
+                [discoveryMenuItem setEnabled:YES]; 
+                [discoveryMenuItem setTarget:self];
+            }
+            
 			if ([recentStations stationsAvailable]) {
 				[play setAction:@selector(playMostRecent:)];
 				[play setEnabled:YES];
@@ -640,6 +643,12 @@
         [stop setTarget:self];
         [stop setEnabled:YES];
         [menu insertItem:stop atIndex:5];
+        
+        if ([webService isSubscriber]) {
+            [discoveryMenuItem setAction:@selector(changeDiscoverySettings:)];
+            [discoveryMenuItem setEnabled:YES]; 
+            [discoveryMenuItem setTarget:self];
+        }
 
 			
         // Enable the menu items for song information, love, skip and ban
@@ -760,8 +769,10 @@
 {
     loginPhase = NO;
     userMessage = nil;
+    [stationController setSubscriberMode:[webService isSubscriber]];
     [self updateMenu];
 }
+
 
 - (void)handleHandshakeFailed:(NSNotification *)aNotification
 {
@@ -846,19 +857,18 @@
                           radioStationUser:[webService nowPlayingRadioStationProfile]
                              trackPosition:[webService nowPlayingTrackProgress]
                              trackDuration:[webService nowPlayingTrackDuration]];
-    } else {
-        WARNING(@"updating song information failed.");
-    }
-    
-    if ([webService streaming]) {
-    	if ([webService isSubscriber] && 
-            [webService streaming] && 
-        	[webService discoveryMode] != [preferences boolForKey:@"discoveryMode"]) {
-        	[webService setDiscovery:[preferences boolForKey:@"discoveryMode"]];
+        // updated discovery setting from song information
+        if ([webService isSubscriber]) {
+            [discoveryMenuItem setState:[webService discoveryMode]];
+        	[preferences setBool:[webService discoveryMode] forKey:@"discoveryMode"];
+            [preferences synchronize];
     	}
+        // verify that record to profile setting is correct
     	if ([webService recordToProfile] != [preferences boolForKey:@"recordToProfile"]) {
         	[webService executeControl:([preferences boolForKey:@"recordToProfile"] ? @"rtp" : @"nortp")];
     	}
+    } else {
+        WARNING(@"updating song information failed.");
     }
 		
 	// show updated tooltip if necessary 
