@@ -22,9 +22,10 @@
 
 #import "StationController.h"
 
-#define ARTIST_STATION_TYPE 1
-#define USER_STATION_TYPE 2
-#define CUSTOM_STATION_TYPE 3
+#define ARTIST_RADIO 0
+#define NEIGHBOUR_RADIO 1
+#define PERSONAL_RADIO 2
+#define CUSTOM_URL_RADIO 3
 
 @implementation StationController
 
@@ -38,7 +39,8 @@
 - (IBAction)stationDataChanged:(id)sender
 {
 	switch (selectedStationType) {
-		case USER_STATION_TYPE:
+        case NEIGHBOUR_RADIO:
+		case PERSONAL_RADIO:
 			if ([userCheckBox state] == 1) {
 				[username setEnabled:YES];
 				[username setStringValue:@""];
@@ -51,9 +53,26 @@
 }
 
 
+- (void)setSubscriberMode:(bool)subscriber
+{
+    [stationType setAutoenablesItems:NO];
+    if (subscriber) {
+        [[stationType itemAtIndex:PERSONAL_RADIO] setEnabled:YES];
+    } else {
+        [[stationType itemAtIndex:PERSONAL_RADIO] setEnabled:NO];
+    }
+}
+
+
 - (IBAction)stationTypeChanged:(id)sender
 {
 	if (stationType == sender) {
+        
+        // if item is disabled select fist selectable item
+        int i;
+        for (i=0; ![[stationType selectedItem] isEnabled] && i<[[stationType itemArray] count]; i++) {
+            [stationType selectItemAtIndex:i];
+        }
 		
 		// hide all views
 		[artistView setHidden:YES];
@@ -62,9 +81,9 @@
 		
 		// change size and visibility of view
 		NSRect rect = [stationDialogPanel frame];
-		if ([[stationType selectedItem] isEqual:[stationType itemAtIndex:0]]) {
+		if ([[stationType selectedItem] isEqual:[stationType itemAtIndex:ARTIST_RADIO]]) {
 			// resize to similar artist search box
-			selectedStationType = ARTIST_STATION_TYPE;
+			selectedStationType = ARTIST_RADIO;
 			if (searchService != nil) {
 				rect.origin.y += rect.size.height - 465;
 				rect.size.height = 465;
@@ -77,19 +96,26 @@
 			[artistSearchField selectText:self];
 			
 			
-		} else if ([[stationType selectedItem] isEqual:[stationType itemAtIndex:1]] ||
-			[[stationType selectedItem] isEqual:[stationType itemAtIndex:2]]) {
+		} else if ([[stationType selectedItem] isEqual:[stationType itemAtIndex:NEIGHBOUR_RADIO]]) {
+            // resize for profile or personal radio
+			selectedStationType = NEIGHBOUR_RADIO;
+			rect.origin.y += rect.size.height - 180;
+			rect.size.height = 180;
+			[stationDialogPanel setFrame:rect display:YES animate:YES];
+			[userView setHidden:NO];
+            
+        } else if ([[stationType selectedItem] isEqual:[stationType itemAtIndex:PERSONAL_RADIO]]) {
 			// resize for profile or personal radio
-			selectedStationType = USER_STATION_TYPE;
+			selectedStationType = PERSONAL_RADIO;
 			rect.origin.y += rect.size.height - 180;
 			rect.size.height = 180;
 			[stationDialogPanel setFrame:rect display:YES animate:YES];
 			[userView setHidden:NO];
 			
 			
-		} else if ([[stationType selectedItem] isEqual:[stationType itemAtIndex:3]]) {
+		} else if ([[stationType selectedItem] isEqual:[stationType itemAtIndex:CUSTOM_URL_RADIO]]) {
 			// resize for custom URL radio
-			selectedStationType = CUSTOM_STATION_TYPE;
+			selectedStationType = CUSTOM_URL_RADIO;
 			rect.origin.y += rect.size.height - 125;
 			rect.size.height = 125;
 			[stationDialogPanel setFrame:rect display:YES animate:YES];
@@ -194,7 +220,7 @@
 {
 	NSString *stationUrl=nil, *user=nil, *radioType=nil;
     switch (selectedStationType) {
-        case ARTIST_STATION_TYPE:
+        case ARTIST_RADIO:
             if ([(NSButton *)sender isEqualTo:artistPlayMatchButton]) {
                 NSString *name = [searchService getMainResultText];
                 NSString *artistString = [name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -209,17 +235,18 @@
                                     stringByAppendingString:@"/similarartists"];
             }
             break;
-            
-        case USER_STATION_TYPE:
+        
+        case NEIGHBOUR_RADIO:
+        case PERSONAL_RADIO:
             if ([userCheckBox state] == 1) {
                 user = [username stringValue];
             } else {
                 user = [preferences stringForKey:@"username"];
             }
             
-            if ([[[stationType selectedItem] title] isEqualToString:@"Neighbour Radio"]) {
+            if (selectedStationType == NEIGHBOUR_RADIO) {
                 radioType = @"/neighbours";
-            } else if ([[[stationType selectedItem] title] isEqualToString:@"Personal Radio"])  {
+            } else if (selectedStationType == PERSONAL_RADIO)  {
                 radioType = @"/personal";
             }
             stationUrl = [[[NSString stringWithString:@"lastfm://user/"]
@@ -227,7 +254,7 @@
                                     stringByAppendingString:radioType];
             break;
             
-        case CUSTOM_STATION_TYPE:
+        case CUSTOM_URL_RADIO:
             stationUrl = [customURLField stringValue];
             break;
         

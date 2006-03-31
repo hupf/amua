@@ -48,12 +48,12 @@
 	LOG([[NSString stringWithString:@"handshake with username: "]
 		 stringByAppendingString: user]);
 	
-	NSString *getSessionURL = [[[NSString alloc] initWithString:[[[[[[NSString stringWithString:@"http://"]
-						stringByAppendingString:server]
-						stringByAppendingString:@"/radio/handshake.php?version=1.1.5&platform=mac&debug=0&username="]
-						stringByAppendingString:[username stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]
-						stringByAppendingString:@"&passwordmd5="]
-						stringByAppendingString:passwordMD5]] autorelease];
+	NSString *getSessionURL = [NSString stringWithFormat:
+        @"http://%@/radio/handshake.php?version=1.1.4&platform=mac&debug=0&username=%@&passwordmd5=%@",
+        server,
+        [username stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+        passwordMD5];
+
 	getSessionCURLHandle = [[CURLHandle alloc]
     						initWithURL:[NSURL URLWithString:getSessionURL]
                             cached:FALSE];
@@ -71,13 +71,9 @@
 - (void)updateNowPlayingInformation
 {
 	LOG(@"updating song information");
-	NSString *nowPlayingURL = [[[NSString alloc] initWithString:[[[[[[NSString stringWithString:@"http://"]
-						stringByAppendingString:baseHost]
-						stringByAppendingString:basePath]
-						stringByAppendingString:@"/np.php"]
-						stringByAppendingString:@"?session="]
-						stringByAppendingString:sessionID]] autorelease];
-	
+	NSString *nowPlayingURL = [NSString stringWithFormat:@"http://%@%@/np.php?session=%@&debug=0",
+                                            baseHost, basePath, sessionID];
+
 	nowPlayingCURLHandle = [[CURLHandle alloc]
     						initWithURL:[NSURL URLWithString:nowPlayingURL]
                             cached:FALSE];
@@ -101,14 +97,8 @@
 	LOG([[NSString stringWithString:@"executing command: "]
 		 stringByAppendingString: command]);
 	
-	NSString *controlURL = [[[NSString alloc] initWithString:[[[[[[[[NSString stringWithString:@"http://"]
-						stringByAppendingString:baseHost]
-						stringByAppendingString:basePath]
-						stringByAppendingString:@"/control.php?session="]
-						stringByAppendingString:sessionID]
-						stringByAppendingString:@"&command="]
-						stringByAppendingString:command]
-						stringByAppendingString:@"&debug=0"]] autorelease];
+	NSString *controlURL = [NSString stringWithFormat:@"http://%@%@/control.php?session=%@&command=%@&debug=0",
+                                         baseHost, basePath, sessionID, command];
 	
 	controlCURLHandle = [[CURLHandle alloc]
     						initWithURL:[NSURL URLWithString:controlURL]
@@ -133,13 +123,8 @@
 	LOG([[NSString stringWithString:@"tuning to station: "]
 		 stringByAppendingString: url]);
     
-    NSString *genericURL = [[[NSString alloc] initWithString:[[[[[[[NSString stringWithString:@"http://"]
-						    stringByAppendingString:baseHost]
-						    stringByAppendingString:basePath]
-						    stringByAppendingString:@"/adjust.php?session="]
-						    stringByAppendingString:sessionID]
-						    stringByAppendingString:@"&url="]
-						    stringByAppendingString:url]] autorelease];
+    NSString *genericURL = [NSString stringWithFormat:@"http://%@%@/adjust.php?session=%@&url=%@&debug=0",
+                                         baseHost, basePath, sessionID, url];
     CURLHandle *genericCURLHandle = [[CURLHandle alloc] initWithURL:
 			    [NSURL URLWithString:genericURL] cached:FALSE];
     
@@ -315,7 +300,7 @@
 - (bool)discoveryMode
 {
     if (nowPlayingInformation != nil) {
-        return [[nowPlayingInformation objectForKey:@"discovery"] intValue] != -1;
+        return [[nowPlayingInformation objectForKey:@"discovery"] intValue] == 1;
     } else {
         return NO;
     }
@@ -381,7 +366,6 @@
 		}
 		
 	} else if ([sender isEqual:tuningCURLHandle]) { // Response for station tuning
-        
         int error = [[parsedResult objectForKey:@"error"] intValue];
 		if (error == 0) {
 			tuningCURLHandle = nil;
@@ -394,9 +378,6 @@
             [[NSNotificationCenter defaultCenter]
                 postNotificationName:@"StationError" object:self];
 		}
-        
-        
-
 		
 	} else if ([sender isEqual:nowPlayingCURLHandle]) { // Response for song information request
 		
@@ -441,8 +422,6 @@
 		
 		discoveryCURLHandle = nil;
 
-		// work around a bug in the lastfm server  
-		[[self adjust:stationUrl] loadInBackground];
 	}
 	
     [parsedResult release];

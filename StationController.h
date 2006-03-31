@@ -151,6 +151,14 @@
 - (IBAction)stationDataChanged:(id)sender;
 
 /**
+ * Set subscriber mode of station controller.
+ *
+ * @param subscriber The subscriber mode. If false items only available for
+ * subscribers are not choosable.
+ */
+- (void)setSubscriberMode:(bool)subscriber;
+
+/**
  * Shows the right station select view.
  */
 - (IBAction)stationTypeChanged:(id)sender;
