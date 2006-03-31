@@ -378,7 +378,12 @@ extern OSStatus _LSSetWeakBindingForType(OSType inType,
  * A timer is set that fires after five seconds, to fetch the song informations
  * of the new song.
  */
-- (void)handleStartPlaying:(NSNotification *)aNotification;
+- (void)handleStationTuned:(NSNotification *)aNotification;
+
+/**
+ * Notification about an unsupported station.
+ */
+- (void)handleStationError:(NSNotification *)aNotification;
 
 /**
  * Get fetched song informations and update the song information panel.

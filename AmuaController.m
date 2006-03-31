@@ -59,8 +59,13 @@
     
 	// Register handle for requested start playing from LastfmWebService
 	[[NSNotificationCenter defaultCenter] addObserver:self
-				selector:@selector(handleStartPlaying:)
-				name:@"StartPlaying" object:nil];
+				selector:@selector(handleStationTuned:)
+				name:@"StationTuned" object:nil];
+    
+    // Register handle for station errors
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                selector:@selector(handleStationError:)
+                name:@"StationError" object:nil];
 				
 	// Register handle for connection errors
 	[[NSNotificationCenter defaultCenter] addObserver:self
@@ -220,6 +225,7 @@
 - (void)stop:(id)sender
 {
 	playing = NO;
+    connecting = NO;
 	[self updateMenu];
 
 	if (timer != nil) {
@@ -509,6 +515,7 @@
 		[personalPage setEnabled:YES];
 	}
     
+    // Disable discovery entry if not subscriber or no connection available
     if (webService == nil || ![webService isSubscriber]) {
         [discoveryMenuItem setAction:nil];
         [discoveryMenuItem setEnabled:NO];
@@ -517,6 +524,17 @@
         [discoveryMenuItem setAction:@selector(changeDiscoverySettings:)];
         [discoveryMenuItem setEnabled:YES]; 
         [discoveryMenuItem setTarget:self];
+    }
+    
+    // Disable record to profile entry if no connection available
+    if (webService == nil) {
+        [recordtoprofileMenuItem setAction:nil];
+        [recordtoprofileMenuItem setEnabled:NO];
+        [recordtoprofileMenuItem setTarget:self];
+    } else {
+        [recordtoprofileMenuItem setAction:@selector(changeRecordToProfileSettings:)];
+        [recordtoprofileMenuItem setEnabled:YES]; 
+        [recordtoprofileMenuItem setTarget:self];
     }
 	
 	if (!playing && !connecting) { // Stop state
@@ -527,6 +545,10 @@
         [play setTarget:self];
         [menu insertItem:play atIndex:0];
         [playDialog setTarget:self];
+        [play setAction:nil];
+        [play setEnabled:NO];
+        [playDialog setAction:nil];
+        [playDialog setEnabled:NO];
 		
 		// Deactivate play menu item if no username/password or no web service
 		// server is set, activate it otherwise
@@ -534,12 +556,7 @@
 			[[keyChain genericPasswordForService:@"Amua"
 					account:[preferences stringForKey:@"username"]] isEqualToString:@""] ||
 			[[preferences stringForKey:@"webServiceServer"] isEqualToString:@""]) {
-            
-            [play setAction:nil];
-			[play setEnabled:NO];
-			[playDialog setAction:nil];
-			[playDialog setEnabled:NO];
-            
+
 			NSMenuItem *hint = [[[NSMenuItem alloc] initWithTitle:@"Hint: Check Preferences"
                                         action:nil keyEquivalent:@""] autorelease];
 			[hint setEnabled:NO];
@@ -547,23 +564,12 @@
             [menu insertItem:[NSMenuItem separatorItem] atIndex:1];
             
         } else if (loginPhase) {
-            [play setAction:nil];
-            [play setEnabled:NO];
-            [playDialog setAction:nil];
-            [playDialog setEnabled:NO];
-    
             NSMenuItem *hint = [[[NSMenuItem alloc] initWithTitle:@"Loging in..."
                                         action:nil keyEquivalent:@""] autorelease];
             [hint setEnabled:NO];
             [menu insertItem:hint atIndex:0];
             [menu insertItem:[NSMenuItem separatorItem] atIndex:1];
         } else if (webService == nil) {
-			
-			[play setAction:nil];
-			[play setEnabled:NO];
-			[playDialog setAction:nil];
-			[playDialog setEnabled:NO];
-            
 			NSMenuItem *hint = [[[NSMenuItem alloc] initWithTitle:userMessage
 									action:nil keyEquivalent:@""] autorelease];
 			[hint setEnabled:NO];
@@ -578,7 +584,15 @@
 			
 			[menu insertItem:[NSMenuItem separatorItem] atIndex:3];
 			
-		} else {
+        } else {
+            if (userMessage != nil) {
+                NSMenuItem *hint = [[[NSMenuItem alloc] initWithTitle:userMessage
+                                                               action:nil keyEquivalent:@""] autorelease];
+                [hint setEnabled:NO];
+                [menu insertItem:hint atIndex:0];
+                [menu insertItem:[NSMenuItem separatorItem] atIndex:1];
+            }
+            
 			if ([recentStations stationsAvailable]) {
 				[play setAction:@selector(playMostRecent:)];
 				[play setEnabled:YES];
@@ -640,8 +654,13 @@
             }
 				
             [nowPlayingTrack setTitle:songText];
-            [nowPlayingTrack setAction:@selector(openAlbumPage:)];
-            [nowPlayingTrack setEnabled:YES];
+            if ([webService nowPlayingAlbumPage]) {
+                [nowPlayingTrack setAction:@selector(openAlbumPage:)];
+                [nowPlayingTrack setEnabled:YES];
+            } else {
+                [nowPlayingTrack setAction:nil];
+                [nowPlayingTrack setEnabled:NO];
+            }
             
             [love setAction:@selector(loveSong:)];
             [love setEnabled:YES];
@@ -740,6 +759,7 @@
 - (void)handleHandshake:(NSNotification *)aNotification
 {
     loginPhase = NO;
+    userMessage = nil;
     [self updateMenu];
 }
 
@@ -763,7 +783,7 @@
 }
 
 
-- (void)handleStartPlaying:(NSNotification *)aNotification
+- (void)handleStationTuned:(NSNotification *)aNotification
 {
     [recentStations addStation:[webService stationURL]];
     if (!playing) {
@@ -778,9 +798,34 @@
     }
     
     connecting = NO;
-    playing = YES;
+    userMessage = nil;
+    if (playing) {
+        if (timer != nil) {
+            [timer release];
+            timer = nil;
+        }
+        timer = [[NSTimer scheduledTimerWithTimeInterval:2 target:self
+                          selector:@selector(fireTimer:) userInfo:nil repeats:NO] retain];
+    } else {
+        playing = YES;
+        [webService updateNowPlayingInformation];
+    }
+}
+
+
+- (void)handleStationError:(NSNotification *)aNotification
+{
+    if (playing) {
+        [self stop:self];
+    }
+    connecting = NO;
     
-    [webService updateNowPlayingInformation];
+    if (userMessage != nil) {
+        [userMessage release];
+    }
+    userMessage = [[NSString alloc] initWithString:@"Error: Station Not Streamable"];
+    
+	[self updateMenu];
 }
 
 
@@ -831,12 +876,17 @@
 
 - (void)handleCommandExecuted:(NSNotification *)aNotification
 {
+    userMessage = nil;
     [webService updateNowPlayingInformation];
 }
 
 
 - (void)handleConnectionError:(NSNotification *)aNotification
 {
+    if (playing) {
+        [self stop:self];
+    }
+    
     connecting = NO;
 	playing = NO;
     loginPhase = NO;

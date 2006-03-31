@@ -117,16 +117,6 @@
      * Will contain the album cover image of the playing song after information has been received.
      */
 	NSImage *albumCover;
-    
-    /**
-     * If true the song information will be refreshed on the next action
-     */
-    bool refreshSongInformation;
-    
-    /**
-     * True if there has been a connection error.
-     */
-    bool connectionError;
 	
 }
 
@@ -323,13 +313,6 @@
  * @return The mode as boolean.
  */
 - (bool)recordToProfile;
-
-/**
- * Get the connection status.
- *
- * @return True if the server is available.
- */
-- (bool)connectionAvailable;
 
 /**
  * Parse the values out of the HTTP result and do necessary actions.
