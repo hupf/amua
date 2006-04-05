@@ -139,6 +139,7 @@
 - (void)dealloc
 {
     [preferences release];
+    [keyChain release];
     [super dealloc];
 }
 
