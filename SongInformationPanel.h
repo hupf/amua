@@ -22,6 +22,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "FloatingTextField.h"
+#import "Debug.h"
 
 /**
  * Implementation of the song information panel.
@@ -82,9 +83,14 @@
 	NSTimer *timer;
     
     /**
-     * A flag for wheter the panel is visible or not.
+     * A flag for whether the panel is visible or not.
      */
 	BOOL visible;
+    
+    /**
+     * A flag whether the informations are new.
+     */
+    BOOL newSongInformations;
 }
 
 
@@ -143,6 +149,14 @@
 		albumImage:(NSImage *)inImage radioStation:(NSString *)inRadioStation
         radioStationUser:(NSString *)inRadioStationUser
 		trackPosition:(int)inTrackPosition trackDuration:(int)inTrackDuration;
+
+/**
+ * Check whether the current song informations are new or have been set
+ * multiple times.
+ *
+ * @return True if the informations are new.
+ */
+- (BOOL)hasNewSongInformations;
 
 /**
  * Updates the already played time.

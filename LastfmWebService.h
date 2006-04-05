@@ -117,7 +117,11 @@
      * Will contain the album cover image of the playing song after information has been received.
      */
 	NSImage *albumCover;
-	
+    
+    /**
+     * Last executed command.
+     */
+	NSString *lastCommand;
 }
 
 /**
@@ -203,6 +207,13 @@
  * @return YES if streaming, NO otherwise.
  */
 - (bool)streaming;
+
+/**
+ * Check if the last executed command was the love command.
+ *
+ * @return True if the last command was love.
+ */
+- (BOOL)lastCommandWasLove;
 
 /**
  * Get the artist name of the current song.

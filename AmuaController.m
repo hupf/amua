@@ -733,7 +733,7 @@
 	// Set the timer to fire after the currently playing song will be finished.
 	// If no song is playing or the song is almost finished, fire it in five seconds.
 	int remainingTime = [webService nowPlayingTrackDuration] - [webService nowPlayingTrackProgress];
-	if (remainingTime < 5) {
+	if (remainingTime < 5 || ![songInformationPanel hasNewSongInformations]) {
 		remainingTime = 5;
 	}
 	
@@ -810,17 +810,9 @@
     
     connecting = NO;
     userMessage = nil;
-    if (playing) {
-        if (timer != nil) {
-            [timer release];
-            timer = nil;
-        }
-        timer = [[NSTimer scheduledTimerWithTimeInterval:2 target:self
-                          selector:@selector(fireTimer:) userInfo:nil repeats:NO] retain];
-    } else {
-        playing = YES;
-        [webService updateNowPlayingInformation];
-    }
+    
+    playing = YES;
+    [webService updateNowPlayingInformation];
 }
 
 
@@ -842,9 +834,6 @@
 
 - (void)handleUpdateNowPlayingInformation:(NSNotification *)aNotification
 {
-	[self updateTimer];
-	[self updateMenu];
-	
 	NSString *artist = [webService nowPlayingArtist];
 	NSString *album = [webService nowPlayingAlbum];
 	NSString *title = [webService nowPlayingTrack];
@@ -881,13 +870,18 @@
 		}
 		[self showTooltip:self];
 	}
+    
+    [self updateTimer];
+	[self updateMenu];
 }
 
 
 - (void)handleCommandExecuted:(NSNotification *)aNotification
 {
     userMessage = nil;
-    [webService updateNowPlayingInformation];
+    if (![webService lastCommandWasLove]) {
+        [webService updateNowPlayingInformation];
+    }
 }
 
 

@@ -111,6 +111,10 @@
 	
 	[controlCURLHandle addClient:self];
 	[controlCURLHandle loadInBackground]; // Send and receive webpage
+    if (lastCommand != nil) {
+        [lastCommand release];
+    }
+    lastCommand = [command retain];
 }
 
 
@@ -202,6 +206,12 @@
 	} else {
 		return false;
 	}
+}
+
+
+- (BOOL)lastCommandWasLove
+{
+    return lastCommand != nil && [lastCommand isEqualToString:@"love"];
 }
 
 
@@ -478,6 +488,9 @@
 	[streamingServer release];
 	[nowPlayingInformation release];
 	[albumCover release];
+    [lastCommand release];
+    [baseHost release];
+    [basePath release];
 	
 	[CURLHandle curlGoodbye];
 	

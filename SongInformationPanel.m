@@ -73,6 +73,7 @@
 	[self setLevel:NSStatusWindowLevel];
 	[self setFrameOrigin:NSMakePoint(0,0)];
 	visible = NO;
+    newSongInformations = YES;
 	
 	return self;
 
@@ -106,23 +107,36 @@
         radioStationUser:(NSString *)inRadioStationUser
 		trackPosition:(int)inTrackPosition trackDuration:(int)inTrackDuration
 {
+    newSongInformations = YES;
     if (inArtist != nil) {
+        newSongInformations = newSongInformations && !([artist stringValue] != nil
+                              && [[artist stringValue] isEqualToString:inArtist]);
         [artist setStringValue:inArtist];
     } else {
+        newSongInformations = newSongInformations && !([artist stringValue] == nil
+                              || [[artist stringValue] isEqualToString:@""]);
         [artist setStringValue:@""];
     }
     [artist setMaxSize:MAX_TEXTFIELD_SIZE-[artist frame].origin.x];
     
     if (inAlbum != nil) {
+        newSongInformations = newSongInformations && !([album stringValue] != nil
+                              && [[album stringValue] isEqualToString:inAlbum]);
         [album setStringValue:inAlbum];
     } else {
+        newSongInformations = newSongInformations && !([album stringValue] == nil
+                              || [[album stringValue] isEqualToString:@""]);
         [album setStringValue:@""];
     }
     [album setMaxSize:MAX_TEXTFIELD_SIZE-[album frame].origin.x];
     
     if (inTrack != nil) {
+        newSongInformations = newSongInformations && !([track stringValue] != nil
+                              && [[track stringValue] isEqualToString:inTrack]);
         [track setStringValue:inTrack];
     } else {
+        newSongInformations = newSongInformations && !([track stringValue] == nil
+                              || [[track stringValue] isEqualToString:@""]);
         [track setStringValue:@""];
     }
     [track setMaxSize:MAX_TEXTFIELD_SIZE-[track frame].origin.x];
@@ -153,6 +167,17 @@
     [self resize];					
 	
 	visible = YES;
+    if (newSongInformations) {
+        LOG(@"song info is new");
+    } else {
+        LOG(@"song info is old");
+    }
+}
+
+
+- (BOOL)hasNewSongInformations
+{
+    return newSongInformations;
 }
 
 
