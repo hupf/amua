@@ -183,6 +183,7 @@
     }
     
 	connecting = YES;
+    [view setError:NO];
 	[self updateMenu];
 
 	// Create web service object
@@ -307,6 +308,7 @@
 - (void)connectToServer
 {
     loginPhase = YES;
+    [view setError:NO];
     if (webService != nil) {
         [webService release];
     }
@@ -663,12 +665,9 @@
             }
 				
             [nowPlayingTrack setTitle:songText];
-            if ([webService nowPlayingAlbumPage]) {
+            if ([webService nowPlayingAlbumPage] != nil) {
                 [nowPlayingTrack setAction:@selector(openAlbumPage:)];
                 [nowPlayingTrack setEnabled:YES];
-            } else {
-                [nowPlayingTrack setAction:nil];
-                [nowPlayingTrack setEnabled:NO];
             }
             
             [love setAction:@selector(loveSong:)];
@@ -738,6 +737,7 @@
 	}
 	
 	if (timer != nil) {
+        [timer invalidate];
 		[timer release];
         timer = nil;
 	}
@@ -789,6 +789,7 @@
         [userMessage release];
     }
     userMessage = [[NSString alloc] initWithString:@"Status: Login Failed"];
+    [view setError:YES];
     
 	[self updateMenu];
 }
@@ -827,6 +828,7 @@
         [userMessage release];
     }
     userMessage = [[NSString alloc] initWithString:@"Error: Station Not Streamable"];
+    [view setError:YES];
     
 	[self updateMenu];
 }
@@ -904,6 +906,7 @@
         [userMessage release];
     }
     userMessage = [[NSString alloc] initWithString:@"Status: Broken Connection"];
+    [view setError:YES];
     
 	[self updateMenu];
 }
