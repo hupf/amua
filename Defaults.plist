@@ -15,10 +15,10 @@
 	<string>ws.audioscrobbler.com</string>
 	
 	<key>userAgent</key>
-	<string>Mozilla/4.5 (compatible; Amua/0.5.3; Mac_PowerPC)</string>
+	<string>Mozilla/4.5 (compatible; Amua/0.5.5; Mac_PowerPC)</string>
 	
 	<key>version</key>
-	<string>0.5.4</string>
+	<string>0.5.5</string>
 	
 	<key>updateURL</key>
 	<string>http://amua.sourceforge.net/version</string>
