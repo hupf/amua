@@ -32,6 +32,7 @@
 		menu = [myMenu retain];
 		statusItem = [status retain];
 		menuIsVisible = NO;
+        hasError = NO;
 	}
     return self;
 }
@@ -42,7 +43,11 @@
 	// invert icon if necessary
 	NSColor *color;
 	if (!menuIsVisible) {
-		color = [[[NSColor blackColor] retain] autorelease];
+        if (hasError) {
+            color = [[[NSColor redColor] retain] autorelease];
+        } else {
+            color = [[[NSColor blackColor] retain] autorelease];
+        }
 	} else {
 		color = [[[NSColor whiteColor] retain] autorelease];
 	}
@@ -96,6 +101,13 @@
 - (bool)menuIsVisible
 {
 	return menuIsVisible;
+}
+
+
+- (void)setError:(BOOL)error
+{
+    hasError = error;
+    [self setNeedsDisplay:YES];
 }
 
 

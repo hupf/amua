@@ -49,6 +49,11 @@
 	 * The rectangle used to track the mouse.
 	 */
 	NSTrackingRectTag mouseEventTag;
+    
+    /**
+     * Whether the application had an error.
+     */
+    bool hasError;
 
 }
 
@@ -101,6 +106,13 @@
  * @return YES if the menu is visible, NO otherwise.
  */
 - (bool)menuIsVisible;
+
+/**
+ * Set the error state of the application.
+ *
+ * @param error Set to true if the application is in error state.
+ */
+- (void)setError:(BOOL)error;
 
 /**
  * Deconstructor.
