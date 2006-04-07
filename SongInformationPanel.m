@@ -168,9 +168,9 @@
 	
 	visible = YES;
     if (newSongInformations) {
-        LOG(@"song info is new");
+        LOG(@"song information is new");
     } else {
-        LOG(@"song info is old");
+        WARNING(@"song information is old");
     }
 }
 
