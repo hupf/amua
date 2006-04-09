@@ -225,6 +225,7 @@
 
 - (void)stop:(id)sender
 {
+	[webService stopLoading];
 	playing = NO;
     connecting = NO;
 	[self updateMenu];
