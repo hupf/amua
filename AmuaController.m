@@ -100,11 +100,6 @@
 				name:@"mouseDown" object:nil];
 	
 	playing = NO;
-	
-	[[NSAppleEventManager sharedAppleEventManager] setEventHandler:self
-		andSelector:@selector(handleOpenUrl:withReplyEvent:)
-		forEventClass:kInternetEventClass
-		andEventID:kAEGetURL];
     
     // start handshake with webservice
     [self connectToServer];
@@ -772,6 +767,11 @@
     userMessage = nil;
     [stationController setSubscriberMode:[webService isSubscriber]];
     [self updateMenu];
+    
+    [[NSAppleEventManager sharedAppleEventManager] setEventHandler:self
+    andSelector:@selector(handleOpenUrl:withReplyEvent:)
+    forEventClass:kInternetEventClass
+    andEventID:kAEGetURL];
 }
 
 
