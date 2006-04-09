@@ -478,6 +478,16 @@
 }
 
 
+- (void)stopLoading
+{
+    getSessionCURLHandle = nil;
+    tuningCURLHandle = nil;
+    nowPlayingCURLHandle = nil;
+    controlCURLHandle = nil;
+    discoveryCURLHandle = nil;
+}
+
+
 - (void)dealloc
 {
 	[server release];
@@ -491,26 +501,6 @@
     [lastCommand release];
     [baseHost release];
     [basePath release];
-    if (getSessionCURLHandle != nil) {
-        [getSessionCURLHandle release];
-        getSessionCURLHandle = nil;
-    }
-    if (tuningCURLHandle != nil) {
-        [tuningCURLHandle release];
-        tuningCURLHandle = nil;
-    }
-    if (nowPlayingCURLHandle != nil) {
-        [nowPlayingCURLHandle release];
-        nowPlayingCURLHandle = nil;
-    }
-    if (controlCURLHandle != nil) {
-        [controlCURLHandle release];
-        controlCURLHandle = nil;
-    }
-    if (discoveryCURLHandle != nil) {
-        [discoveryCURLHandle release];
-        discoveryCURLHandle = nil;
-    }
 	
 	[CURLHandle curlGoodbye];
 	

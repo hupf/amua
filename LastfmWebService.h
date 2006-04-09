@@ -345,6 +345,11 @@
 - (void)URLHandle:(NSURLHandle *)sender resourceDidFailLoadingWithReason:(NSString *)reason;
 
 /**
+ * Stop the loading process if available.
+ */
+- (void)stopLoading;
+
+/**
  * Deconstructor.
  */
 - (void)dealloc;
