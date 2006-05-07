@@ -33,8 +33,6 @@
 	server = [webServiceServer retain];
 	userAgent = [userAgentIdentifier retain];
 	
-	// Activate CURLHandle
-    [CURLHandle curlHelloSignature:@"XxXx" acceptAll:YES];
     [self handshake:username withPasswordHash:passwordMD5];
     
 	return self;
@@ -204,7 +202,7 @@
 	if (nowPlayingInformation != nil) {
 		return [[nowPlayingInformation objectForKey:@"streaming"] isEqualToString:@"true"];
 	} else {
-		return false;
+		return NO;
 	}
 }
 
@@ -247,7 +245,7 @@
 
 - (NSURL *)nowPlayingAlbumPage
 {
-	if (nowPlayingInformation != nil) {
+	if (nowPlayingInformation != nil && [nowPlayingInformation objectForKey:@"album_url"] != nil) {
 		return [NSURL URLWithString:[nowPlayingInformation objectForKey:@"album_url"]];
 	} else {
 		return nil;
@@ -352,21 +350,33 @@
 	
 	if ([sender isEqual:getSessionCURLHandle]) { // Response for session-request
         
+        if (sessionID != nil) {
+            [sessionID release];
+        }
+        if (streamingServer != nil) {
+            [streamingServer release];
+            streamingServer = nil;
+        }
+        if (baseHost != nil) {
+            [baseHost release];
+            baseHost = nil;
+        }
+        if (basePath != nil) {
+            [basePath release];
+            basePath = nil;
+        }
+        
 		if ([[[parsedResult objectForKey:@"session"] lowercaseString] isEqualToString:@"failed"]) {
 			ERROR(@"handshake failed");
-            sessionID = nil;
-            streamingServer = nil;
-            baseHost = nil;
-            basePath = nil;
             subscriber = NO;
 			getSessionCURLHandle = nil;
 			[[NSNotificationCenter defaultCenter]
             	postNotificationName:@"HandshakeFailed" object:self];
 		} else {
-			sessionID = [[parsedResult objectForKey:@"session"] copy];
-			streamingServer = [[parsedResult objectForKey:@"stream_url"] copy];
-			baseHost = [[parsedResult objectForKey:@"base_url"] copy];
-			basePath = [[parsedResult objectForKey:@"base_path"] copy];
+			sessionID = [[parsedResult objectForKey:@"session"] retain];
+			streamingServer = [[parsedResult objectForKey:@"stream_url"] retain];
+			baseHost = [[parsedResult objectForKey:@"base_url"] retain];
+			basePath = [[parsedResult objectForKey:@"base_path"] retain];
             subscriber = (bool)[[parsedResult objectForKey:@"subscriber"] intValue]; 
 			getSessionCURLHandle = nil;
 			LOG([[NSString stringWithString:@"handshake done, sessionid: "]
@@ -377,13 +387,12 @@
 		
 	} else if ([sender isEqual:tuningCURLHandle]) { // Response for station tuning
         int error = [[parsedResult objectForKey:@"error"] intValue];
+        tuningCURLHandle = nil;
 		if (error == 0) {
-			tuningCURLHandle = nil;
 			LOG(@"station tuned");
             [[NSNotificationCenter defaultCenter]
                 postNotificationName:@"StationTuned" object:self];
 		} else {
-			tuningCURLHandle = nil;
 			ERROR(@"station tuning error");
             [[NSNotificationCenter defaultCenter]
                 postNotificationName:@"StationError" object:self];
@@ -402,7 +411,6 @@
                 albumCover = nil;
             }
 			if ([nowPlayingInformation objectForKey:@"albumcover_small"] != nil) {
-				
 				albumCover = [[NSImage alloc] initWithContentsOfURL:
                 	[NSURL URLWithString:[nowPlayingInformation
                     	objectForKey:@"albumcover_small"]]];
@@ -446,16 +454,12 @@
 - (void)URLHandleResourceDidCancelLoading:(NSURLHandle *)sender
 {
 	ERROR(@"handle did cancel loading");
-	
 	if (sender == getSessionCURLHandle || sender == tuningCURLHandle) {
-		[sender removeClient:self];
-		[sender release];
 		[[NSNotificationCenter defaultCenter]
         	postNotificationName:@"ConnectionError" object:self];
 	} else {
-		[sender removeClient:self];
-		[sender release];
-	}
+        [self stopLoading];
+    }
 }
 
 
@@ -465,44 +469,80 @@
 - (void)URLHandle:(NSURLHandle *)sender resourceDidFailLoadingWithReason:(NSString *)reason
 {
 	ERROR(@"handle did fail loading");
-
 	if (sender == getSessionCURLHandle || sender == tuningCURLHandle) {
-		[sender removeClient:self];
-		[sender release];
 		[[NSNotificationCenter defaultCenter]
         	postNotificationName:@"ConnectionError" object:self];
 	} else {
-		[sender removeClient:self];
-		[sender release];
-	}
+        [self stopLoading];
+    }
 }
 
 
 - (void)stopLoading
 {
-    getSessionCURLHandle = nil;
-    tuningCURLHandle = nil;
-    nowPlayingCURLHandle = nil;
-    controlCURLHandle = nil;
-    discoveryCURLHandle = nil;
+    if (getSessionCURLHandle != nil) {
+        [getSessionCURLHandle removeClient:self];
+        [tuningCURLHandle release];
+        getSessionCURLHandle = nil;
+    }
+    if (tuningCURLHandle != nil) {
+        [tuningCURLHandle removeClient:self];
+        [tuningCURLHandle release];
+        tuningCURLHandle = nil;
+    }
+    if (nowPlayingCURLHandle != nil) {
+        [nowPlayingCURLHandle removeClient:self];
+        [nowPlayingCURLHandle release];
+        nowPlayingCURLHandle = nil;
+    }
+    if (controlCURLHandle != nil) {
+        [controlCURLHandle removeClient:self];
+        [controlCURLHandle release];
+        controlCURLHandle = nil;
+    }
+    if (discoveryCURLHandle != nil) {
+        [discoveryCURLHandle removeClient:self];
+        [discoveryCURLHandle release];
+        discoveryCURLHandle = nil;
+    }
+    if (albumCover != nil) {
+        [albumCover release];
+        albumCover = nil;
+    }
+    if (nowPlayingInformation != nil) {
+        [nowPlayingInformation release];
+        nowPlayingInformation = nil;
+    }
 }
 
 
 - (void)dealloc
 {
-	[server release];
-	[stationUrl release];
-	[user release];
-	[userAgent release];
-	[sessionID release];
-	[streamingServer release];
-	[nowPlayingInformation release];
-	[albumCover release];
-    [lastCommand release];
-    [baseHost release];
-    [basePath release];
-	
-	[CURLHandle curlGoodbye];
+    [self stopLoading];
+    if (server != nil) {
+        [server release];
+    }
+    if (stationUrl != nil) {
+        [stationUrl release];
+    }
+    if (user != nil) {
+        [user release];
+    }
+    if (userAgent != nil) {
+        [userAgent release];
+    }
+    if (sessionID != nil) {
+        [sessionID release];
+    }
+    if (streamingServer != nil) {
+        [streamingServer release];
+    }
+    if (albumCover != nil) {
+        [albumCover release];
+    }
+    if (lastCommand != nil) {
+        [lastCommand release];
+    }
 	
 	[super dealloc];
 }

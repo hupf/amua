@@ -76,7 +76,6 @@
 {
     if (timer != nil) {
         [timer invalidate];
-        [timer release];
         timer = nil;
     }
     
@@ -93,7 +92,6 @@
 {
     if (timer != nil) {
         [timer invalidate];
-        [timer release];
         timer = nil;
     }
 }

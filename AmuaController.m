@@ -110,6 +110,9 @@
 
 - (void)awakeFromNib
 {	
+    // Activate CURLHandle
+    [CURLHandle curlHelloSignature:@"XxXx" acceptAll:YES];
+    
 	// Check if a new version of Amua is available
 	AmuaUpdater *updater = [[[AmuaUpdater alloc] init] autorelease];
 	if ([preferences boolForKey:@"performUpdatesCheck"]) {
@@ -173,7 +176,7 @@
 {
     if (!playing) {
         NSString *scriptSource = @"tell application \"iTunes\" \n stop \n end tell";
-        NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
+        NSAppleScript *script = [[[NSAppleScript alloc] initWithSource:scriptSource] autorelease];
         [script executeAndReturnError:nil];
     }
     
@@ -226,15 +229,14 @@
 	[self updateMenu];
 
 	if (timer != nil) {
-		[timer invalidate];
-		[timer release];
+        [timer performSelectorOnMainThread:@selector(invalidate) withObject:nil waitUntilDone:YES];
 		timer = nil;
 	}
 	
 	// Tell iTunes it should stop playing.
 	// Change this command if you want to control another player that is apple-scriptable.
 	NSString *scriptSource = @"tell application \"iTunes\" \n stop \n end tell";
-	NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
+	NSAppleScript *script = [[[NSAppleScript alloc] initWithSource:scriptSource] autorelease];
 	[script executeAndReturnError:nil];
 	
 	if (alwaysDisplayTooltip) {
@@ -244,6 +246,7 @@
 	}
 	
 	[self hideTooltip:self];
+    [songInformationPanel cleanUp];
 }
 
 
@@ -734,7 +737,6 @@
 	
 	if (timer != nil) {
         [timer invalidate];
-		[timer release];
         timer = nil;
 	}
     if (playing || connecting) {
@@ -806,7 +808,7 @@
         NSString *scriptSource = [[@"tell application \"iTunes\" \n open location \""
 								stringByAppendingString:[webService streamingServer]]
 								stringByAppendingString:@"\" \n end tell"];
-        NSAppleScript *script = [[NSAppleScript alloc] initWithSource:scriptSource];
+        NSAppleScript *script = [[[NSAppleScript alloc] initWithSource:scriptSource] autorelease];
         [script executeAndReturnError:nil];
     }
     
@@ -954,6 +956,8 @@
 	}
 	
 	[preferences setInteger:(int)alwaysDisplayTooltip forKey:@"alwaysDisplayTooltip"];
+    
+	[CURLHandle curlGoodbye];
 }
 
 
