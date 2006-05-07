@@ -159,6 +159,11 @@
 - (BOOL)hasNewSongInformations;
 
 /**
+ * Clean up the panel (for the stop state).
+ */
+- (void)cleanUp;
+
+/**
  * Updates the already played time.
  */
 - (void)updateTime:(id)sender;

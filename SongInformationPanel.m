@@ -159,10 +159,12 @@
         [timer invalidate];
         timer = nil;
     }
-    
+
     [self updateTime:self];
-    timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateTime:) 
+    if (trackPosition < trackDuration) {
+        timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateTime:) 
                 userInfo:nil repeats:YES];
+    }
 					
     [self resize];					
 	
@@ -181,11 +183,20 @@
 }
 
 
+- (void)cleanUp
+{
+    if (timer != nil) {
+        [timer invalidate];
+        timer = nil;
+    }
+}
+
+
 - (void)updateTime:(id)sender
 {
 	if (trackPosition + 1 >= trackDuration) {
 		trackPosition = trackDuration;
-		[timer invalidate];
+		[timer performSelectorOnMainThread:@selector(invalidate) withObject:nil waitUntilDone:YES];
 		timer = nil;
 	} else {
 		trackPosition++;
