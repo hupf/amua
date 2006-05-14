@@ -915,25 +915,19 @@
 }
 
 
-- (NSString *)md5:(NSString *)clear
+- (NSString *)md5:(NSString *)input
 {
-    unsigned long long md[MD5_DIGEST_LENGTH]; // 128 bit
+    unsigned char *hash = MD5((unsigned char*)[input cString], [input cStringLength], NULL);
+	int i;
     
-    MD5((unsigned char *)[clear UTF8String], strlen([clear UTF8String]), (unsigned char *)md);
-    
-    NSMutableString *md0 = [NSMutableString stringWithFormat:@"%qx", md[0]];
-    NSMutableString *md1 = [NSMutableString stringWithFormat:@"%qx", md[1]];
-    int z1 = 16 - [md0 length];
-    int z2 = 16 - [md1 length];
-    while (z1 > 0) {
-        [md0 insertString:@"0" atIndex:0];
-        z1--;
-    }
-    while (z2 > 0) {
-        [md1 insertString:@"0" atIndex:0];
-        z2--;
-    }
-    return [md0 stringByAppendingString:md1];
+	NSMutableString *hashString = [NSMutableString string];
+	
+    // Convert the binary hash into a string
+    for (i = 0; i < MD5_DIGEST_LENGTH; i++) {
+		[hashString appendFormat:@"%02x", *hash++];
+	}
+
+    return hashString;
 }
 
 

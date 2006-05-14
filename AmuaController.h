@@ -403,10 +403,10 @@ extern OSStatus _LSSetWeakBindingForType(OSType inType,
 /**
  * Generates the MD5 hash of a string.
  * 
- * @param clearTextString A string to generate a MD5 hash from.
+ * @param input A string to generate a MD5 hash from.
  * @return The calculated MD5 hash.
  */
-- (NSString *)md5:(NSString *)clearTextString;
+- (NSString *)md5:(NSString *)input;
 
 /**
  * Open a given URL.
