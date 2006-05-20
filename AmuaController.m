@@ -562,7 +562,7 @@
             [menu insertItem:[NSMenuItem separatorItem] atIndex:1];
             
         } else if (loginPhase) {
-            NSMenuItem *hint = [[[NSMenuItem alloc] initWithTitle:@"Loging in..."
+            NSMenuItem *hint = [[[NSMenuItem alloc] initWithTitle:@"Logging in..."
                                         action:nil keyEquivalent:@""] autorelease];
             [hint setEnabled:NO];
             [menu insertItem:hint atIndex:0];
