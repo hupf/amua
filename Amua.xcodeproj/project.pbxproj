@@ -36,6 +36,8 @@
 		F4069A0E0A1619880006D2B3 /* version.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0C287798096EBB1B00BABB9E /* version.plist */; };
 		F4069A0F0A1619880006D2B3 /* nocover.png in Resources */ = {isa = PBXBuildFile; fileRef = F429155609C1C8260088835A /* nocover.png */; };
 		F4069A120A1619C30006D2B3 /* CURLHandle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F43EA11B097A8AE700C0FC11 /* CURLHandle.framework */; };
+		F445FF010A2C93DD00A9989C /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F445FF000A2C93DD00A9989C /* Growl.framework */; };
+		F445FF1C0A2C93FD00A9989C /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F445FF000A2C93DD00A9989C /* Growl.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildStyle section */
@@ -70,6 +72,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				F4069A120A1619C30006D2B3 /* CURLHandle.framework in CopyFiles */,
+				F445FF1C0A2C93FD00A9989C /* Growl.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -111,6 +114,7 @@
 		F43B316707DB2D3300E14140 /* AmuaUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AmuaUpdater.h; sourceTree = "<group>"; };
 		F43B316807DB2D3300E14140 /* AmuaUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AmuaUpdater.m; sourceTree = "<group>"; };
 		F43EA11B097A8AE700C0FC11 /* CURLHandle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CURLHandle.framework; sourceTree = "<group>"; };
+		F445FF000A2C93DD00A9989C /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
 		F45B8A7F07DB7231007383B1 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		F46D60FA099646B00023FC2F /* Notification.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Notification.h; sourceTree = "<group>"; };
 		F46D60FB099646B00023FC2F /* Notification.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Notification.m; sourceTree = "<group>"; };
@@ -133,6 +137,7 @@
 				F4069A020A1619600006D2B3 /* Carbon.framework in Frameworks */,
 				F4069A030A1619600006D2B3 /* libcrypto.dylib in Frameworks */,
 				F4069A040A1619600006D2B3 /* CURLHandle.framework in Frameworks */,
+				F445FF010A2C93DD00A9989C /* Growl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -165,6 +170,7 @@
 				0CB409E30972E5ED00E0C772 /* libcrypto.dylib */,
 				F45B8A7F07DB7231007383B1 /* Carbon.framework */,
 				0C287A6707C677F400AF7154 /* Cocoa.framework */,
+				F445FF000A2C93DD00A9989C /* Growl.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";

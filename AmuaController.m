@@ -168,6 +168,8 @@
         [[preferences stringForKey:@"webServiceServer"] isEqualToString:@""]) {
         [self openPreferences:self];
     }
+    
+    [GrowlApplicationBridge setGrowlDelegate:self];
 
 }
 
@@ -851,6 +853,19 @@
                           radioStationUser:[webService nowPlayingRadioStationProfile]
                              trackPosition:[webService nowPlayingTrackProgress]
                              trackDuration:[webService nowPlayingTrackDuration]];
+        NSString *growlDescription = [NSString stringWithFormat:NSLocalizedString(@"Track: %@\nAlbum: %@\nArtist: %@", ""),
+                                        title, album, artist];
+        
+        // notify growl
+        [GrowlApplicationBridge
+            notifyWithTitle:@"Now Playing..."
+                description:growlDescription
+           notificationName:GROWL_NOTIFICATION_TRACK_CHANGE
+                   iconData:[image TIFFRepresentation]
+                   priority:0.0
+                   isSticky:NO
+               clickContext:nil];
+        
         // updated discovery setting from song information
         if ([webService isSubscriber]) {
             [discoveryMenuItem setState:[webService discoveryMode]];
@@ -1033,6 +1048,15 @@
     }
     
     [sender release];
+}
+
+- (NSDictionary *) registrationDictionaryForGrowl
+{
+    NSArray *notifications = [NSArray arrayWithObject:GROWL_NOTIFICATION_TRACK_CHANGE];
+    return ( [NSDictionary dictionaryWithObjectsAndKeys:
+        notifications, GROWL_NOTIFICATIONS_ALL,
+        notifications, GROWL_NOTIFICATIONS_DEFAULT,
+        nil] );
 }
 
 @end
