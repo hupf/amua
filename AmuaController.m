@@ -853,18 +853,20 @@
                           radioStationUser:[webService nowPlayingRadioStationProfile]
                              trackPosition:[webService nowPlayingTrackProgress]
                              trackDuration:[webService nowPlayingTrackDuration]];
-        NSString *growlDescription = [NSString stringWithFormat:NSLocalizedString(@"Track: %@\nAlbum: %@\nArtist: %@", ""),
-                                        title, album, artist];
-        
-        // notify growl
-        [GrowlApplicationBridge
-            notifyWithTitle:@"Now Playing..."
-                description:growlDescription
-           notificationName:GROWL_NOTIFICATION_TRACK_CHANGE
-                   iconData:[image TIFFRepresentation]
-                   priority:0.0
-                   isSticky:NO
-               clickContext:nil];
+        if ([songInformationPanel hasNewSongInformations]) {
+            NSString *growlDescription = [NSString stringWithFormat:NSLocalizedString(@"Track: %@\nAlbum: %@\nArtist: %@", ""),
+                                            title, album, artist];
+            
+            // notify growl
+            [GrowlApplicationBridge
+                notifyWithTitle:@"Now Playing..."
+                    description:growlDescription
+               notificationName:GROWL_NOTIFICATION_TRACK_CHANGE
+                       iconData:[image TIFFRepresentation]
+                       priority:0.0
+                       isSticky:NO
+                   clickContext:nil];
+        }
         
         // updated discovery setting from song information
         if ([webService isSubscriber]) {
