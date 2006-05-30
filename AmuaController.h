@@ -22,6 +22,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <openssl/md5.h>
+#import <Growl/Growl.h>
 #import "AmuaView.h"
 #import "AmuaUpdater.h"
 #import "PreferencesController.h"
@@ -36,6 +37,7 @@
  * The maximum number of characters for the song text before it is cropped.
  */
 #define MAX_SONGTEXT_LENGTH 30
+#define GROWL_NOTIFICATION_TRACK_CHANGE @"Track Change"
 
 
 // From Mozilla Firefox source code, use to check default player
@@ -65,7 +67,7 @@ extern OSStatus _LSSetWeakBindingForType(OSType inType,
  * It contains methods to start playing and stop the stream as well as methods
  * that use the song information panel to display the currently played song.
  */
-@interface AmuaController : NSObject {
+@interface AmuaController : NSObject <GrowlApplicationBridgeDelegate> {
 
     /**
      * The status item that will be added to the system status bar.
@@ -446,5 +448,11 @@ extern OSStatus _LSSetWeakBindingForType(OSType inType,
  * Action for the default Last.fm player notification.
  */
 - (void)defaultPlayerNotificationResult:(id)sender;
+
+
+/**
+ * Growl delegate. Get services.
+ */
+- (NSDictionary *) registrationDictionaryForGrowl;
 
 @end
