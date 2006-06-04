@@ -149,6 +149,14 @@
         [preferences setObject:@"0.5.5" forKey:@"version"];
 		[preferences synchronize];
 	}
+    
+    // Upgrade from version 0.5.5 to 0.5.6
+	if ([[preferences objectForKey:@"version"] isEqualToString:@"0.5.5"]) {
+        // no changes
+        
+        [preferences setObject:@"0.5.6" forKey:@"version"];
+		[preferences synchronize];
+	}
 	
 	// Make sure, the version is written into the user's preferences file, also
 	// if it's not an upgrade but a new installation

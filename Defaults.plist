@@ -18,7 +18,7 @@
 	<string>Mozilla/4.5 (compatible; Amua/0.5.5; Mac_PowerPC)</string>
 	
 	<key>version</key>
-	<string>0.5.5</string>
+	<string>0.5.6</string>
 	
 	<key>updateURL</key>
 	<string>http://amua.sourceforge.net/version</string>
