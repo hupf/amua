@@ -159,6 +159,10 @@
 	recentStations = [[RecentStations alloc] initWithPreferences:preferences];
 	[stationController setRecentStations:recentStations];
 	[stationController setPreferences:preferences];
+    [tagController setPreferences:preferences];
+    [[NSNotificationCenter defaultCenter] addObserver:tagController
+                                             selector:@selector(tagSaved:)
+                                                 name:@"TagSet" object:nil];
 	
 	[self updateMenu];
     
@@ -249,6 +253,7 @@
 	
 	[self hideTooltip:self];
     [songInformationPanel cleanUp];
+    [tagController hideWindow];
 }
 
 
@@ -501,7 +506,7 @@
     if (play != nil) {
         bound = [menu indexOfItemWithTitle:@"Play Most Recent Station"];
     } else if (stop != nil) {
-        bound = [menu indexOfItemWithTitle:@"Stop"];        
+        bound = [menu indexOfItemWithTitle:@"Stop"];
     }
     int i;
     for (i=0; i<=bound; i++) {
@@ -618,34 +623,40 @@
 												action:nil keyEquivalent:@""] autorelease];
         [nowPlayingTrack setTarget:self];
         [nowPlayingTrack setEnabled:NO];
-			
-        [menu insertItem:[NSMenuItem separatorItem] atIndex:0];
+        
+        NSMenuItem *tag = [[[NSMenuItem alloc] initWithTitle:@"Tag As..."
+                                                      action:nil keyEquivalent:@""] autorelease];
+        [tag setTarget:tagController];
+        [tag setEnabled:NO];
+        [menu insertItem:tag atIndex:0];
+        
+        [menu insertItem:[NSMenuItem separatorItem] atIndex:1];
 			
         NSMenuItem *love = [[[NSMenuItem alloc] initWithTitle:@"Love"
 									action:nil keyEquivalent:@""] autorelease];
         [love setTarget:self];
         [love setEnabled:NO];
-        [menu insertItem:love atIndex:1];
+        [menu insertItem:love atIndex:2];
 			
         NSMenuItem *skip = [[[NSMenuItem alloc] initWithTitle:@"Skip"
 									action:nil keyEquivalent:@""] autorelease];
         [skip setTarget:self];
         [skip setEnabled:NO];
-        [menu insertItem:skip atIndex:2];
+        [menu insertItem:skip atIndex:3];
 			
         NSMenuItem *ban = [[[NSMenuItem alloc] initWithTitle:@"Ban"
 									action:nil keyEquivalent:@""] autorelease];
         [ban setTarget:self];
         [ban setEnabled:NO];
-        [menu insertItem:ban atIndex:3];
+        [menu insertItem:ban atIndex:4];
 			
-        [menu insertItem:[NSMenuItem separatorItem] atIndex:4];
+        [menu insertItem:[NSMenuItem separatorItem] atIndex:5];
 		
         stop = [[[NSMenuItem alloc] initWithTitle:@"Stop"
                                            action:@selector(stop:) keyEquivalent:@""] autorelease];
         [stop setTarget:self];
         [stop setEnabled:YES];
-        [menu insertItem:stop atIndex:5];
+        [menu insertItem:stop atIndex:6];
         
         if ([webService isSubscriber]) {
             [discoveryMenuItem setAction:@selector(changeDiscoverySettings:)];
@@ -670,6 +681,9 @@
                 [nowPlayingTrack setAction:@selector(openAlbumPage:)];
                 [nowPlayingTrack setEnabled:YES];
             }
+            
+            [tag setAction:@selector(showWindow:)];
+            [tag setEnabled:YES];
             
             [love setAction:@selector(loveSong:)];
             [love setEnabled:YES];
@@ -770,6 +784,8 @@
     loginPhase = NO;
     userMessage = nil;
     [stationController setSubscriberMode:[webService isSubscriber]];
+    [tagController setWebservice:webService];
+    [tagController searchTags];
     [self updateMenu];
     
     [[NSAppleEventManager sharedAppleEventManager] setEventHandler:self
@@ -785,6 +801,7 @@
 	playing = NO;
     loginPhase = NO;
     
+    [tagController releaseWebservice];
     if (webService != nil) {
         [webService release];
         webService = nil;
@@ -866,6 +883,7 @@
                        priority:0.0
                        isSticky:NO
                    clickContext:nil];
+            [tagController setNewTrack:title fromAlbum:album andArtist:artist];
         }
         
         // updated discovery setting from song information
@@ -917,6 +935,7 @@
 	playing = NO;
     loginPhase = NO;
     
+    [tagController releaseWebservice];
     if (webService != nil) {
         [webService release];
         webService = nil;

@@ -83,6 +83,11 @@
      * The CURLHandle object to set the discovery mode.
      */
 	CURLHandle *discoveryCURLHandle;
+    
+    /**
+     * The CURLHandle object for the data transmission of the tags.
+     */
+    CURLHandle *tagsCURLHandle;
 	
 	/**
      * Will contain the session id after a session has been established.
@@ -172,6 +177,14 @@
  * @param state YES to switch it on, NO to switch it off.
  */
 - (void)setDiscovery:(bool)state;
+
+/**
+ * Save some data for some tags.
+ *
+ * @param tags A string containing the tags (comma separated).
+ * @param data A dictionary containing the artist, track and album data.
+ */
+- (void)setTags:(NSString *)tags forData:(NSMutableDictionary *)data;
 
 /**
  * Set the station.

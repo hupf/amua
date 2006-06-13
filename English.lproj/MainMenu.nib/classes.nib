@@ -24,6 +24,7 @@
                 recordtoprofileMenuItem = NSMenuItem; 
                 songInformationPanel = SongInformationPanel; 
                 stationController = StationController; 
+                tagController = TagController; 
                 tooltipMenuItem = NSMenuItem; 
             }; 
             SUPERCLASS = NSObject; 
@@ -71,6 +72,25 @@
                 userCheckBox = NSButton; 
                 userView = NSView; 
                 username = NSTextField; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {changeRadioButton = id; saveTags = id; }; 
+            CLASS = TagController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                albumButton = NSButtonCell; 
+                albumLabel = NSTextField; 
+                artistButton = NSButtonCell; 
+                artistLabel = NSTextField; 
+                radioButtons = NSMatrix; 
+                saveButton = NSButton; 
+                spinner = NSProgressIndicator; 
+                tagCombo = NSComboBox; 
+                tagWindow = NSWindow; 
+                trackButton = NSButtonCell; 
+                trackLabel = NSTextField; 
             }; 
             SUPERCLASS = NSObject; 
         }

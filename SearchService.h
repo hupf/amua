@@ -1,5 +1,5 @@
 //
-//  StationSearchService.h
+//  SearchService.h
 //  Amua
 //
 //  Created by Mathis & Simon Hofer on 20.02.05.
@@ -25,10 +25,16 @@
 #import <CURLHandle/CURLHandle.h>
 #import <CURLHandle/CURLHandle+extras.h>
 
+#define ARTIST_SEARCH 1
+#define USER_TAGS_SEARCH 2
+#define USER_TAGS_ARTIST_SEARCH 3
+#define USER_TAGS_ALBUM_SEARCH 4
+#define USER_TAGS_TRACK_SEARCH 5
+
 /**
  * Communication class for performing station search queries.
  */
-@interface StationSearchService : NSObject<NSURLHandleClient> {
+@interface SearchService : NSObject<NSURLHandleClient> {
 
 	/**
      * The webservice server's hostname.
@@ -66,6 +72,11 @@
 	NSString *mainElementName;
     
     /**
+     *
+     */
+    NSString *checkElementName;
+    
+    /**
      * The data for the current parsing result entry.
      */
 	NSMutableDictionary *temp;
@@ -89,6 +100,21 @@
      * The CURL handle object.
      */
     CURLHandle *searchHandle;
+    
+    /**
+     * The delegate object.
+     */
+    id delegate;
+    
+    /**
+     * Only add search results that are streamable.
+     */ 
+    bool streamableCheck;
+    
+    /**
+     * The current type of the search service.
+     */
+    int type;
 	
 }
 
@@ -107,7 +133,45 @@
  * @param artist The artist search query.
  * @param owner The sending object.
  */
-- (void)searchSimilarArtist:(NSString *)artist withSender:(NSObject *)owner;
+- (void)searchSimilarArtist:(NSString *)artist;
+
+/**
+ * Perform a search for the tags of a certain user.
+ *
+ * @param user The username.
+ */
+- (void)searchUserTags:(NSString *)user;
+
+/**
+ * Perform a search for the tags of a certain user for a certain artist.
+ *
+ * @param user The username.
+ * @param artist The artist name.
+ */
+- (void)searchUserTags:(NSString *)user forArtist:(NSString *)artist;
+
+/**
+ * Perform a search for the tags of a certain user for a certain artist and album.
+ *
+ * @param user The username.
+ * @param artist The artist name.
+ * @param album The album name.
+ */
+- (void)searchUserTags:(NSString *)user forArtist:(NSString *)artist andAlbum:(NSString *)album;
+
+/**
+ * Perform a search for the tags of a certain user for a certain artist and track.
+ *
+ * @param user The username.
+ * @param artist The artist name.
+ * @param track The track name.
+ */
+- (void)searchUserTags:(NSString *)user forArtist:(NSString *)artist andTrack:(NSString *)track;
+
+/**
+ * Get the search type.
+ */
+- (int)getType;
 
 /**
  * Get the description of the main result.
@@ -128,16 +192,9 @@
 - (NSString *)getSearchResultWithIndex:(int)index;
 
 /**
- * Delegate of NSTableView.
+ * Get the whole search result.
  */
-- (id)tableView:(NSTableView *)aTableView
-    objectValueForTableColumn:(NSTableColumn *)aTableColumn
-    row:(int)rowIndex;
-
-/**
- * Delegate of NSTableView.
- */
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView;
+- (NSArray *)getSearchResult;
 
 /**
  * Parse the values out of the HTTP result and do necessary actions.
@@ -183,8 +240,29 @@
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string;
 
 /**
+ * Get the delegate.
+ *
+ * @return The delegate object.
+ */
+- (id)delegate;
+
+/**
+ * Set a delegate object.
+ *
+ * @param newDelegate The delegate object.
+ */
+- (void)setDelegate:(id)newDelegate;
+
+/**
  * Deconstructor.
  */
 - (void)dealloc;
+
+@end
+
+
+@interface NSObject (SearchServiceDelegate)
+
+- (void)searchFinished:(SearchService *)service;
 
 @end
