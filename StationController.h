@@ -22,7 +22,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "AmuaController.h"
-#import "StationSearchService.h"
+#import "SearchService.h"
 #import "RecentStations.h"
 
 @class AmuaController; // Forward declaration
@@ -127,7 +127,7 @@
 	/**
      * A reference to the station search service object.
      */
-	StationSearchService *searchService;
+	SearchService *searchService;
     
     /**
      * A reference to the application preferences object.
@@ -143,6 +143,8 @@
      * A reference to the recent stations object.
      */
 	RecentStations *recentStations;
+    
+    NSArray *searchResult;
 }
 
 /**
@@ -181,7 +183,7 @@
 /**
  * Display the search result.
  */
-- (void)searchFinished:(StationSearchService *)service;
+- (void)searchFinished:(SearchService *)service;
 
 /**
  * Set the application preferences  object.
@@ -197,5 +199,17 @@
  * Used in play method of AmuaController to know what station should be played.
  */
 - (NSString *)getStationURLFromSender:(id)sender;
+
+/**
+ * Delegate of NSTableView.
+ */
+- (id)tableView:(NSTableView *)aTableView
+    objectValueForTableColumn:(NSTableColumn *)aTableColumn
+            row:(int)rowIndex;
+
+/**
+ * Delegate of NSTableView.
+ */
+- (int)numberOfRowsInTableView:(NSTableView *)aTableView;
 
 @end

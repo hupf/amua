@@ -29,6 +29,7 @@
 #import "LastfmWebService.h"
 #import "SongInformationPanel.h"
 #import "StationController.h"
+#import "TagController.h"
 #import "RecentStations.h"
 #import "KeyChain.h"
 #import "Notification.h"
@@ -123,6 +124,11 @@ extern OSStatus _LSSetWeakBindingForType(OSType inType,
      * The "Play station..." window controller.
      */
 	IBOutlet StationController *stationController;
+    
+    /**
+     * The "Tag..." window controller
+     */ 
+    IBOutlet TagController *tagController;
 	
     /**
      * Manages the list of the recently played stations.

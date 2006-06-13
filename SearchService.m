@@ -1,5 +1,5 @@
 //
-//  StationSearchService.m
+//  SearchService.m
 //  Amua
 //
 //  Created by Mathis & Simon Hofer on 20.02.05.
@@ -20,9 +20,9 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //
 
-#import "StationSearchService.h"
+#import "SearchService.h"
 
-@implementation StationSearchService
+@implementation SearchService
 
 - (id)initWithWebServiceServer:(NSString *)webServiceServer
 			       asUserAgent:(NSString *)userAgentIdentifier
@@ -34,16 +34,14 @@
 }
 
 
-- (void)searchSimilarArtist:(NSString *)artist withSender:(NSObject *)anOwner
+- (void)searchSimilarArtist:(NSString *)artist
 {
+    type = ARTIST_SEARCH;
 	if (lastSearch != nil) {
 		[lastSearch release];
 	}
     if (searchHandle != nil) {
         [searchHandle release];
-    }
-    if (owner != nil) {
-        [owner release];
     }
     
     
@@ -54,11 +52,11 @@
     
 	increaserElementName = @"artist";
 	mainElementName = @"similarartists";
+    streamableCheck = YES;
     
     LOG(@"searching similar artist");
     LOG(lastSearch);
     
-    owner = [anOwner retain];
     searchHandle = [[CURLHandle alloc] initWithURL:[NSURL URLWithString:lastSearch]
                         cached:FALSE];
     [searchHandle setFailsOnError:YES];
@@ -69,9 +67,144 @@
 }
 
 
+- (void)searchUserTags:(NSString *)user
+{
+    type = USER_TAGS_SEARCH;
+	if (lastSearch != nil) {
+		[lastSearch release];
+	}
+    if (searchHandle != nil) {
+        [searchHandle release];
+    }
+    
+    
+	lastSearch = [[NSString stringWithFormat:@"http://%@/1.0/user/%@/tags.xml?debug=0",
+                        server, [user stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]] retain];
+    
+	increaserElementName = @"tag";
+	mainElementName = @"toptags";
+    streamableCheck = NO;
+    
+    LOG(@"searching user tags");
+    LOG(lastSearch);
+    
+    searchHandle = [[CURLHandle alloc] initWithURL:[NSURL URLWithString:lastSearch]
+                                            cached:FALSE];
+    [searchHandle setFailsOnError:YES];
+    [searchHandle setFollowsRedirects:YES];
+    [searchHandle setUserAgent:userAgent];
+	[searchHandle addClient:self];
+    [searchHandle loadInBackground];
+}
+
+
+- (void)searchUserTags:(NSString *)user forArtist:(NSString *)artist
+{
+    type = USER_TAGS_ARTIST_SEARCH;
+    if (lastSearch != nil) {
+		[lastSearch release];
+	}
+    if (searchHandle != nil) {
+        [searchHandle release];
+    }
+    
+    
+	lastSearch = [[NSString stringWithFormat:@"http://%@/1.0/user/%@/artisttags.xml?artist=%@&debug=0",
+        server, [user stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+        [artist stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]] retain];
+    
+	increaserElementName = @"tag";
+	mainElementName = @"artisttags";
+    streamableCheck = NO;
+    
+    LOG(@"searching user artist tags");
+    LOG(lastSearch);
+    
+    searchHandle = [[CURLHandle alloc] initWithURL:[NSURL URLWithString:lastSearch]
+                                            cached:FALSE];
+    [searchHandle setFailsOnError:YES];
+    [searchHandle setFollowsRedirects:YES];
+    [searchHandle setUserAgent:userAgent];
+	[searchHandle addClient:self];
+    [searchHandle loadInBackground];
+}
+
+
+- (void)searchUserTags:(NSString *)user forArtist:(NSString *)artist andAlbum:(NSString *)album
+{
+    type = USER_TAGS_ALBUM_SEARCH;
+    if (lastSearch != nil) {
+		[lastSearch release];
+	}
+    if (searchHandle != nil) {
+        [searchHandle release];
+    }
+    
+    
+	lastSearch = [[NSString stringWithFormat:@"http://%@/1.0/user/%@/albumtags.xml?artist=%@&album=%@&debug=0",
+        server, [user stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+        [artist stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+        [album stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]] retain];
+    
+	increaserElementName = @"tag";
+	mainElementName = @"albumtags";
+    streamableCheck = NO;
+    
+    LOG(@"searching user artist/album tags");
+    LOG(lastSearch);
+    
+    searchHandle = [[CURLHandle alloc] initWithURL:[NSURL URLWithString:lastSearch]
+                                            cached:FALSE];
+    [searchHandle setFailsOnError:YES];
+    [searchHandle setFollowsRedirects:YES];
+    [searchHandle setUserAgent:userAgent];
+	[searchHandle addClient:self];
+    [searchHandle loadInBackground];
+}
+
+
+- (void)searchUserTags:(NSString *)user forArtist:(NSString *)artist andTrack:(NSString *)track
+{
+    type = USER_TAGS_TRACK_SEARCH;
+    if (lastSearch != nil) {
+		[lastSearch release];
+	}
+    if (searchHandle != nil) {
+        [searchHandle release];
+    }
+    
+    
+	lastSearch = [[NSString stringWithFormat:@"http://%@/1.0/user/%@/tracktags.xml?artist=%@&track=%@&debug=0",
+        server, [user stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+        [artist stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+        [track stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]] retain];
+    
+	increaserElementName = @"tag";
+	mainElementName = @"tracktags";
+    streamableCheck = NO;
+    
+    LOG(@"searching user artist/track tags");
+    LOG(lastSearch);
+    
+    searchHandle = [[CURLHandle alloc] initWithURL:[NSURL URLWithString:lastSearch]
+                                            cached:FALSE];
+    [searchHandle setFailsOnError:YES];
+    [searchHandle setFollowsRedirects:YES];
+    [searchHandle setUserAgent:userAgent];
+	[searchHandle addClient:self];
+    [searchHandle loadInBackground];
+}
+
+
+- (int)getType
+{
+    return type;
+}
+
+
 - (NSString *)getMainResultText
 {
-	if (mainResultEntry != nil && [[mainResultEntry objectForKey:@"streamable"] isEqualToString:@"1"]) {
+	if (mainResultEntry != nil && (!streamableCheck || [[mainResultEntry objectForKey:@"streamable"] isEqualToString:@"1"])) {
 		return [mainResultEntry objectForKey:@"artist"];
 	} else {
 		return nil;
@@ -81,11 +214,17 @@
 
 - (NSString *)getSearchResultWithIndex:(int)index
 {
-	if (result != nil && [[[result objectAtIndex:index] objectForKey:@"streamable"] isEqualToString:@"1"]) {
+	if (result != nil && (!streamableCheck || [[[result objectAtIndex:index] objectForKey:@"streamable"] isEqualToString:@"1"])) {
 		return [[result objectAtIndex:index] objectForKey:@"name"];
 	} else {
 		return nil;
 	}
+}
+
+
+- (NSArray *)getSearchResult
+{
+    return result;
 }
 
 
@@ -98,23 +237,6 @@
 	}
 }
 
-
-- (id)tableView:(NSTableView *)aTableView
-    objectValueForTableColumn:(NSTableColumn *)aTableColumn
-    row:(int)rowIndex
-{
-	if (result != nil) {
-		return [[result objectAtIndex:rowIndex] objectForKey:@"name"];
-	} else {
-		return nil;
-	}
-}
-
-
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView
-{
-    return [result count];
-}
 
 - (void)URLHandleResourceDidFinishLoading:(NSURLHandle *)sender
 {
@@ -136,8 +258,12 @@
 	
 	// this special call is necessary to make sure the searchFinished method
 	// is called in the main thread (for drawing reasons)
-	[owner performSelectorOnMainThread:@selector(searchFinished:)
-                            withObject:self waitUntilDone:YES];
+    if ( [delegate respondsToSelector:@selector(searchFinished:)] ) {
+        [delegate performSelectorOnMainThread:@selector(searchFinished:)
+                                   withObject:self waitUntilDone:YES];
+    } else {
+        ERROR(@"delegate of SearchService doesn't react to the searchFinished method!");
+    }
     
     if (sender == searchHandle) {
         searchHandle = nil;
@@ -211,7 +337,7 @@
 {
 	if ([elementName isEqualToString:increaserElementName]) {
 		parsingData = NO;
-		if ([[temp objectForKey:@"streamable"] isEqualToString:@"1"]) {
+		if (!streamableCheck || [[temp objectForKey:@"streamable"] isEqualToString:@"1"]) {
 			[result addObject:[temp copy]];
 		}
 		[temp release];
@@ -245,6 +371,16 @@
 	if (parsingData == YES) {
 		tempValue = [[tempValue stringByAppendingString:string] retain];
 	}
+}
+
+
+- (id)delegate {
+    return delegate;
+}
+
+
+- (void)setDelegate:(id)newDelegate {
+    delegate = newDelegate;  
 }
 
 

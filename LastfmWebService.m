@@ -173,6 +173,32 @@
 }
 
 
+- (void)setTags:(NSString *)tags forData:(NSMutableDictionary *)data
+{
+    LOG([[NSString stringWithString:@"saving tags: "]
+		 stringByAppendingString: tags]);
+	
+	NSString *tagURL = [NSString stringWithFormat:@"http://%@/player/tag.php",
+        baseHost];
+	
+	tagsCURLHandle = [[CURLHandle alloc]
+    						initWithURL:[NSURL URLWithString:tagURL]
+                                 cached:FALSE];
+	
+    [data setObject:sessionID forKey:@"s"];
+    [data setObject:tags forKey:@"tag"];
+    
+	[tagsCURLHandle setFailsOnError:YES];
+    [tagsCURLHandle setFollowsRedirects:YES];
+    [tagsCURLHandle setPostDictionary:data];
+	
+    [tagsCURLHandle setUserAgent:userAgent];
+	
+	[tagsCURLHandle addClient:self];
+	[tagsCURLHandle loadInBackground];
+}
+
+
 - (void)setStationURL:(NSString *)url
 {
     stationUrl = [url retain];
@@ -440,6 +466,13 @@
 		
 		discoveryCURLHandle = nil;
 
+	} else if ([sender isEqual:tagsCURLHandle]) { // Response to changing discover setting
+		
+        LOG(@"tag set");
+		tagsCURLHandle = nil;
+        [[NSNotificationCenter defaultCenter]
+            	postNotificationName:@"TagSet" object:self];
+        
 	}
 	
     [parsedResult release];

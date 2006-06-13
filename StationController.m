@@ -153,15 +153,20 @@
 	if (searchService != nil) {
 		[searchService release];
 	}
-	searchService = [[StationSearchService alloc]
+	searchService = [[SearchService alloc]
 						initWithWebServiceServer:[preferences stringForKey:@"webServiceServer"]
 						asUserAgent:[preferences stringForKey:@"userAgent"]];
-	[searchService searchSimilarArtist:searchString withSender:self];
+    [searchService setDelegate:self];
+	[searchService searchSimilarArtist:searchString];
 }
 
 
-- (void)searchFinished:(StationSearchService *)service
+- (void)searchFinished:(SearchService *)service
 {
+    if (searchResult != nil) {
+        [searchResult release];
+    }
+    searchResult = [[service getSearchResult] retain];
 	NSString *mainResultText = [searchService getMainResultText];
 	if (mainResultText == nil) {
 		mainResultText = @"There is no exact match";
@@ -187,7 +192,7 @@
 	}
 	
 	[artistMainResultField setStringValue:mainResultText];
-	[artistSimilarResultList setDataSource:searchService];
+	[artistSimilarResultList setDataSource:self];
 	if ([searchService getMainResultText] == nil) {
 		[artistResultBox setHidden: true];
 		[artistNoResultBox setHidden: false];
@@ -261,6 +266,24 @@
     }
 	
 	return stationUrl;
+}
+
+
+- (id)tableView:(NSTableView *)aTableView
+    objectValueForTableColumn:(NSTableColumn *)aTableColumn
+            row:(int)rowIndex
+{
+	if (searchResult != nil) {
+		return [[searchResult objectAtIndex:rowIndex] objectForKey:@"name"];
+	} else {
+		return nil;
+	}
+}
+
+
+- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+{
+    return [searchResult count];
 }
 
 @end

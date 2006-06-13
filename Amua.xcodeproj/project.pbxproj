@@ -17,7 +17,7 @@
 		F40699640A1619530006D2B3 /* SongInformationPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = F4EF3CE307E1E6DC003BBC9F /* SongInformationPanel.m */; };
 		F40699650A1619530006D2B3 /* RecentStations.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C287793096EBB1B00BABB9E /* RecentStations.m */; };
 		F40699660A1619530006D2B3 /* StationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C287795096EBB1B00BABB9E /* StationController.m */; };
-		F40699670A1619530006D2B3 /* StationSearchService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C287797096EBB1B00BABB9E /* StationSearchService.m */; };
+		F40699670A1619530006D2B3 /* SearchService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C287797096EBB1B00BABB9E /* SearchService.m */; };
 		F40699680A1619530006D2B3 /* Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = F46D60FB099646B00023FC2F /* Notification.m */; };
 		F40699690A1619530006D2B3 /* FloatingTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = F47030DF09AF6D2100F420F5 /* FloatingTextField.m */; };
 		F4069A010A1619600006D2B3 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C287A6707C677F400AF7154 /* Cocoa.framework */; };
@@ -38,6 +38,8 @@
 		F4069A120A1619C30006D2B3 /* CURLHandle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F43EA11B097A8AE700C0FC11 /* CURLHandle.framework */; };
 		F445FF010A2C93DD00A9989C /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F445FF000A2C93DD00A9989C /* Growl.framework */; };
 		F445FF1C0A2C93FD00A9989C /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F445FF000A2C93DD00A9989C /* Growl.framework */; };
+		F48B8A8B0A3D98BB003C6FA7 /* TagController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F48B8A890A3D98BB003C6FA7 /* TagController.h */; };
+		F48B8A8C0A3D98BB003C6FA7 /* TagController.m in Sources */ = {isa = PBXBuildFile; fileRef = F48B8A8A0A3D98BB003C6FA7 /* TagController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildStyle section */
@@ -73,6 +75,7 @@
 			files = (
 				F4069A120A1619C30006D2B3 /* CURLHandle.framework in CopyFiles */,
 				F445FF1C0A2C93FD00A9989C /* Growl.framework in CopyFiles */,
+				F48B8A8B0A3D98BB003C6FA7 /* TagController.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,8 +89,8 @@
 		0C287793096EBB1B00BABB9E /* RecentStations.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = RecentStations.m; sourceTree = "<group>"; };
 		0C287794096EBB1B00BABB9E /* StationController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = StationController.h; sourceTree = "<group>"; };
 		0C287795096EBB1B00BABB9E /* StationController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = StationController.m; sourceTree = "<group>"; };
-		0C287796096EBB1B00BABB9E /* StationSearchService.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = StationSearchService.h; sourceTree = "<group>"; };
-		0C287797096EBB1B00BABB9E /* StationSearchService.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = StationSearchService.m; sourceTree = "<group>"; };
+		0C287796096EBB1B00BABB9E /* SearchService.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SearchService.h; sourceTree = "<group>"; };
+		0C287797096EBB1B00BABB9E /* SearchService.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SearchService.m; sourceTree = "<group>"; };
 		0C287798096EBB1B00BABB9E /* version.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = version.plist; sourceTree = "<group>"; };
 		0C287A6707C677F400AF7154 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		0C73309107CB340600D4A0AC /* Amua.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Amua.icns; sourceTree = "<group>"; };
@@ -121,6 +124,8 @@
 		F46D60FC099646B00023FC2F /* Notification.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = Notification.nib; sourceTree = "<group>"; };
 		F47030DE09AF6D2100F420F5 /* FloatingTextField.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FloatingTextField.h; sourceTree = "<group>"; };
 		F47030DF09AF6D2100F420F5 /* FloatingTextField.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FloatingTextField.m; sourceTree = "<group>"; };
+		F48B8A890A3D98BB003C6FA7 /* TagController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TagController.h; sourceTree = "<group>"; };
+		F48B8A8A0A3D98BB003C6FA7 /* TagController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TagController.m; sourceTree = "<group>"; };
 		F4DB25B8099CCB5500E52D60 /* Debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Debug.h; sourceTree = "<group>"; };
 		F4EF3CE207E1E6DC003BBC9F /* SongInformationPanel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SongInformationPanel.h; sourceTree = "<group>"; };
 		F4EF3CE307E1E6DC003BBC9F /* SongInformationPanel.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SongInformationPanel.m; sourceTree = "<group>"; };
@@ -148,17 +153,18 @@
 			isa = PBXGroup;
 			children = (
 				0C83A56007C4F734001A45EA /* AmuaController.m */,
-				0CB7A6D207C8AA9000E4342A /* LastfmWebService.m */,
+				0C287795096EBB1B00BABB9E /* StationController.m */,
+				F48B8A8A0A3D98BB003C6FA7 /* TagController.m */,
 				0C88FD5207C5449800221576 /* PreferencesController.m */,
+				0CB7A6D207C8AA9000E4342A /* LastfmWebService.m */,
+				0C287793096EBB1B00BABB9E /* RecentStations.m */,
+				F43B316807DB2D3300E14140 /* AmuaUpdater.m */,
+				0C287797096EBB1B00BABB9E /* SearchService.m */,
 				F4F3FEB907CB28C600ECE67F /* AmuaView.m */,
 				F4EF3CE307E1E6DC003BBC9F /* SongInformationPanel.m */,
-				F43B316807DB2D3300E14140 /* AmuaUpdater.m */,
-				0C994E0F07D13535005016EE /* KeyChain.m */,
-				0C287793096EBB1B00BABB9E /* RecentStations.m */,
-				0C287795096EBB1B00BABB9E /* StationController.m */,
-				0C287797096EBB1B00BABB9E /* StationSearchService.m */,
-				F46D60FB099646B00023FC2F /* Notification.m */,
 				F47030DF09AF6D2100F420F5 /* FloatingTextField.m */,
+				F46D60FB099646B00023FC2F /* Notification.m */,
+				0C994E0F07D13535005016EE /* KeyChain.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -246,18 +252,19 @@
 			isa = PBXGroup;
 			children = (
 				0C83A56107C4F734001A45EA /* AmuaController.h */,
-				0CB7A6D107C8AA9000E4342A /* LastfmWebService.h */,
+				0C287794096EBB1B00BABB9E /* StationController.h */,
+				F48B8A890A3D98BB003C6FA7 /* TagController.h */,
 				0C88FD5107C5449800221576 /* PreferencesController.h */,
+				0CB7A6D107C8AA9000E4342A /* LastfmWebService.h */,
+				0C287792096EBB1B00BABB9E /* RecentStations.h */,
+				F43B316707DB2D3300E14140 /* AmuaUpdater.h */,
+				0C287796096EBB1B00BABB9E /* SearchService.h */,
 				F4F3FEB807CB28C600ECE67F /* AmuaView.h */,
 				F4EF3CE207E1E6DC003BBC9F /* SongInformationPanel.h */,
-				F43B316707DB2D3300E14140 /* AmuaUpdater.h */,
-				0C994E0E07D13535005016EE /* KeyChain.h */,
-				0C287792096EBB1B00BABB9E /* RecentStations.h */,
-				0C287794096EBB1B00BABB9E /* StationController.h */,
-				0C287796096EBB1B00BABB9E /* StationSearchService.h */,
-				F46D60FA099646B00023FC2F /* Notification.h */,
-				F4DB25B8099CCB5500E52D60 /* Debug.h */,
 				F47030DE09AF6D2100F420F5 /* FloatingTextField.h */,
+				F46D60FA099646B00023FC2F /* Notification.h */,
+				0C994E0E07D13535005016EE /* KeyChain.h */,
+				F4DB25B8099CCB5500E52D60 /* Debug.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
@@ -383,9 +390,10 @@
 				F40699640A1619530006D2B3 /* SongInformationPanel.m in Sources */,
 				F40699650A1619530006D2B3 /* RecentStations.m in Sources */,
 				F40699660A1619530006D2B3 /* StationController.m in Sources */,
-				F40699670A1619530006D2B3 /* StationSearchService.m in Sources */,
+				F40699670A1619530006D2B3 /* SearchService.m in Sources */,
 				F40699680A1619530006D2B3 /* Notification.m in Sources */,
 				F40699690A1619530006D2B3 /* FloatingTextField.m in Sources */,
+				F48B8A8C0A3D98BB003C6FA7 /* TagController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
