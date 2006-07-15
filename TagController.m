@@ -26,8 +26,10 @@
 
 - (IBAction)showWindow:(id)sender
 {
-    [self changeRadioButton:[tagCombo selectedCell]];
-    [spinner setDisplayedWhenStopped:NO];
+    if (!isSaving) {
+        [self changeRadioButton:[radioButtons selectedCell]];
+        [spinner setDisplayedWhenStopped:NO];
+    }
     
 	[NSApp activateIgnoringOtherApps:YES];
 	[tagWindow makeKeyAndOrderFront:nil];
@@ -91,6 +93,11 @@
         [userTrackTags release];
         userTrackTags = nil;
     }
+    
+    if (currentTags != nil) {
+        [currentTags release];
+        currentTags = nil;
+    }
 }
 
 
@@ -106,15 +113,11 @@
 
 - (void)searchFinished:(SearchService *)service
 {
-    NSArray *result = [service getSearchResult];
-    NSMutableString *string = [[[NSMutableString alloc] init] autorelease];
-    
     int i;
-    for (i=0; i<[result count]; i++) {
-        [string appendString:[[result objectAtIndex:i] objectForKey:@"name"]];
-        if (i+1 < [result count]) {
-            [string appendString:@","];
-        }
+    NSArray *searchResult = [service getSearchResult];
+    NSMutableArray *result = [[[NSMutableArray alloc] init] autorelease];
+    for (i = 0; i < [searchResult count]; i++) {
+        [result addObject:[[searchResult objectAtIndex:i] objectForKey:@"name"]];
     }
     
     switch ([service getType]) {
@@ -126,21 +129,21 @@
             if (userArtistTags != nil) {
                 [userArtistTags release];
             }
-            userArtistTags = [string retain];
+            userArtistTags = [result retain];
             break;
         case USER_TAGS_ALBUM_SEARCH:
             [albumButton setEnabled:YES];
             if (userAlbumTags != nil) {
                 [userAlbumTags release];
             }
-            userAlbumTags = [string retain];
+            userAlbumTags = [result retain];
             break;
         case USER_TAGS_TRACK_SEARCH:
             [trackButton setEnabled:YES];
             if (userTrackTags != nil) {
                 [userTrackTags release];
             }
-            userTrackTags = [string retain];
+            userTrackTags = [result retain];
             break;
     }
     
@@ -151,13 +154,20 @@
 }
 
 
+- (void)searchFailed:(SearchService *)service
+{
+    [self changeRadioButton:nil];
+    [spinner stopAnimation:self];
+    [errorField setStringValue: @"Could not retrieve all the data."];
+}
+
+
 - (void)setNewTrack:(NSString *)inTrack fromAlbum:(NSString *)inAlbum andArtist:(NSString *)inArtist
 {
     track = [inTrack retain];
     album = [inAlbum retain];
     artist = [inArtist retain];
     [saveButton setEnabled:NO];
-    [tagCombo setEnabled:NO];
     if (userArtistTags != nil) {
         [userArtistTags release];
         userArtistTags = nil;
@@ -171,6 +181,10 @@
     if (userTrackTags != nil) {
         [userTrackTags release];
         userTrackTags = nil;
+    }
+    
+    if (currentTags != nil) {
+        [currentTags release];
     }
     
     if (!isSaving && artist != nil && ![artist isEqualToString:@""]) {
@@ -190,7 +204,7 @@
     }
     
     if ([tagWindow isVisible]) {
-        [self changeRadioButton:[tagCombo selectedCell]];
+        [self changeRadioButton:[radioButtons selectedCell]];
     }
 }
 
@@ -230,6 +244,28 @@
 }
 
 
+- (IBAction)addTag:(id)sender
+{
+    int i;
+    NSArray *tags = [[tagField stringValue] componentsSeparatedByString:@","];
+    for (i = 0; i < [tags count]; i++) {
+        [currentTags addObject:[[tags objectAtIndex:i] stringByTrimmingCharactersInSet:
+                                      [NSCharacterSet whitespaceCharacterSet]]];
+    }
+    [tagField setStringValue:@""];
+    [tagsTable reloadData];
+}
+
+
+- (IBAction)removeTag:(id)sender
+{
+    if (currentTags != nil && [tagsTable selectedRow] < [currentTags count] && [tagsTable selectedRow] >= 0) {
+        [currentTags removeObjectAtIndex:[tagsTable selectedRow]];
+        [tagsTable reloadData];
+    }
+}
+
+
 - (IBAction)saveTags:(id)sender
 {
     NSMutableDictionary *data = [[[NSMutableDictionary alloc] init] autorelease];
@@ -254,8 +290,13 @@
     [artistButton setEnabled:NO];
     [albumButton setEnabled:NO];
     [trackButton setEnabled:NO];
-    [tagCombo setEnabled:NO];
-    [webservice setTags:[tagCombo stringValue] forData:data];
+    [tagsTable setEnabled:NO];
+    [tagField setEnabled:NO];
+    [addButton setEnabled:NO];
+    [removeButton setEnabled:NO];
+    [errorField setStringValue:@""];
+    AmuaLog(LOG_MSG, [self convertArrayToString:currentTags]);
+    [webservice setTags:[self convertArrayToString:currentTags] forData:data];
 }
 
 
@@ -266,6 +307,20 @@
     [artistButton setEnabled:YES];
     [albumButton setEnabled:YES];
     [trackButton setEnabled:YES];
+    [errorField setStringValue:@""];
+    isSaving = NO;
+    [self setNewTrack:track fromAlbum:album andArtist:artist];
+}
+
+
+- (void)tagError:(id)sender
+{
+    [spinner stopAnimation:self];
+    
+    [artistButton setEnabled:YES];
+    [albumButton setEnabled:YES];
+    [trackButton setEnabled:YES];
+    [errorField setStringValue:@"An error occured while saving the tags"];
     isSaving = NO;
     [self setNewTrack:track fromAlbum:album andArtist:artist];
 }
@@ -274,40 +329,42 @@
 - (IBAction)changeRadioButton:(id)sender
 {
     NSButtonCell *selected = [radioButtons selectedCell];
+    BOOL enableGUI = YES;
     if (selected == artistButton) {
         if (userArtistTags != nil) {
-            [tagCombo setStringValue:userArtistTags];
-            [saveButton setEnabled:YES];
-            [tagCombo setEnabled:YES];
-            [spinner stopAnimation:self];
+            currentTags = [userArtistTags retain];
         } else {
-            [saveButton setEnabled:NO];
-            [tagCombo setEnabled:NO];
-            [tagCombo setStringValue:@""];
-            [self refreshTags];
+            enableGUI = NO;
         }
     } else if (selected == albumButton) {
         if (userAlbumTags != nil) {
-            [tagCombo setStringValue:userAlbumTags];
-            [saveButton setEnabled:YES];
-            [tagCombo setEnabled:YES];
-            [spinner stopAnimation:self];
+            currentTags = [userAlbumTags retain];
         } else {
-            [saveButton setEnabled:NO];
-            [tagCombo setEnabled:NO];
-            [tagCombo setStringValue:@""];
-            [self refreshTags];
+            enableGUI = NO;
         }
     } else if (selected == trackButton) {
         if (userTrackTags != nil) {
-            [tagCombo setStringValue:userTrackTags];
-            [saveButton setEnabled:YES];
-            [tagCombo setEnabled:YES];
-            [spinner stopAnimation:self];
+            currentTags = [userTrackTags retain];
         } else {
-            [saveButton setEnabled:NO];
-            [tagCombo setEnabled:NO];
-            [tagCombo setStringValue:@""];
+            enableGUI = NO;
+        }
+    }
+    
+    if (enableGUI) {
+        [saveButton setEnabled:YES];
+        [addButton setEnabled:YES];
+        [removeButton setEnabled:YES];
+        [tagsTable setEnabled:YES];
+        [tagsTable reloadData];
+        [tagField setEnabled:YES];
+        [spinner stopAnimation:self];
+    } else {
+        [saveButton setEnabled:NO];
+        [addButton setEnabled:NO];
+        [removeButton setEnabled:NO];
+        [tagsTable setEnabled:NO];
+        [tagField setEnabled:NO];
+        if (sender != nil) {
             [self refreshTags];
         }
     }
@@ -320,23 +377,26 @@
 }
 
 
-- (int)numberOfItemsInComboBox:(NSComboBox *)aComboBox
+- (id)tableView:(NSTableView *)aTableView
+    objectValueForTableColumn:(NSTableColumn *)aTableColumn
+            row:(int)rowIndex
 {
-    if (userTags != nil) {
-        return [userTags count];
-    } else {
+    return [currentTags objectAtIndex:rowIndex];
+}
+
+- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+{
+    if (currentTags == nil || [currentTags count] == 0) {
+        [removeButton setEnabled:NO];
         return 0;
+    } else {
+        [removeButton setEnabled:[tagsTable isEnabled]];
+        return [currentTags count];
     }
 }
 
 
-- (id)comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(int)index
-{
-    return [[userTags objectAtIndex:index] objectForKey:@"name"];
-}
-
-
-- (NSString *)comboBox:(NSComboBox *)aComboBox completedString:(NSString *)uncompletedString
+/*- (NSString *)comboBox:(NSComboBox *)aComboBox completedString:(NSString *)uncompletedString
 {
     int index = [uncompletedString length];
     bool commaFound = false;
@@ -362,6 +422,20 @@
     }
     
     return [[uncompletedString substringToIndex:index] stringByAppendingString:completion];
+}*/
+
+- (NSString *)convertArrayToString:(NSArray *)array
+{
+    int i;
+    NSMutableString *result = [[[NSMutableString alloc] init] autorelease];
+    for (i = 0; array != nil && i < [array count]; i++) {
+        [result appendString:(NSString *)[array objectAtIndex:i]];
+        if (i + 1 < [array count]) {
+            [result appendString:@","];
+        }
+    }
+         
+    return result;
 }
 
 

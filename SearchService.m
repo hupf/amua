@@ -54,8 +54,8 @@
 	mainElementName = @"similarartists";
     streamableCheck = YES;
     
-    LOG(@"searching similar artist");
-    LOG(lastSearch);
+    AmuaLog(LOG_MSG, @"searching similar artist");
+    AmuaLog(LOG_MSG, lastSearch);
     
     searchHandle = [[CURLHandle alloc] initWithURL:[NSURL URLWithString:lastSearch]
                         cached:FALSE];
@@ -85,8 +85,8 @@
 	mainElementName = @"toptags";
     streamableCheck = NO;
     
-    LOG(@"searching user tags");
-    LOG(lastSearch);
+    AmuaLog(LOG_MSG, @"searching user tags");
+    AmuaLog(LOG_MSG, lastSearch);
     
     searchHandle = [[CURLHandle alloc] initWithURL:[NSURL URLWithString:lastSearch]
                                             cached:FALSE];
@@ -117,8 +117,8 @@
 	mainElementName = @"artisttags";
     streamableCheck = NO;
     
-    LOG(@"searching user artist tags");
-    LOG(lastSearch);
+    AmuaLog(LOG_MSG, @"searching user artist tags");
+    AmuaLog(LOG_MSG, lastSearch);
     
     searchHandle = [[CURLHandle alloc] initWithURL:[NSURL URLWithString:lastSearch]
                                             cached:FALSE];
@@ -150,8 +150,8 @@
 	mainElementName = @"albumtags";
     streamableCheck = NO;
     
-    LOG(@"searching user artist/album tags");
-    LOG(lastSearch);
+    AmuaLog(LOG_MSG, @"searching user artist/album tags");
+    AmuaLog(LOG_MSG, lastSearch);
     
     searchHandle = [[CURLHandle alloc] initWithURL:[NSURL URLWithString:lastSearch]
                                             cached:FALSE];
@@ -183,8 +183,8 @@
 	mainElementName = @"tracktags";
     streamableCheck = NO;
     
-    LOG(@"searching user artist/track tags");
-    LOG(lastSearch);
+    AmuaLog(LOG_MSG, @"searching user artist/track tags");
+    AmuaLog(LOG_MSG, lastSearch);
     
     searchHandle = [[CURLHandle alloc] initWithURL:[NSURL URLWithString:lastSearch]
                                             cached:FALSE];
@@ -243,7 +243,7 @@
     NSString *data = [[[NSString alloc]
     	initWithData:[sender resourceData]
             encoding:NSUTF8StringEncoding] autorelease];
-    LOG(@"search finished");
+    AmuaLog(LOG_MSG, @"search finished");
     NSXMLParser *addressParser = [[NSXMLParser alloc] initWithData:
                                 [data dataUsingEncoding:NSUTF8StringEncoding]];
     [addressParser setDelegate:self];
@@ -251,9 +251,8 @@
 	
 	BOOL success = [addressParser parse];
     if (!success) {
-        ERROR([[NSString stringWithString: @"search: could not parse xml file: "]
-                        stringByAppendingString:
-            [[addressParser parserError] localizedDescription]]);
+        AmuaLog(LOG_ERROR, @"search: could not parse xml file: %@",
+            [[addressParser parserError] localizedDescription]);
     }
 	
 	// this special call is necessary to make sure the searchFinished method
@@ -262,7 +261,7 @@
         [delegate performSelectorOnMainThread:@selector(searchFinished:)
                                    withObject:self waitUntilDone:YES];
     } else {
-        ERROR(@"delegate of SearchService doesn't react to the searchFinished method!");
+        AmuaLog(LOG_ERROR, @"delegate of SearchService doesn't react to the searchFinished method!");
     }
     
     if (sender == searchHandle) {
@@ -280,8 +279,15 @@
 
 - (void)URLHandleResourceDidCancelLoading:(NSURLHandle *)sender
 {
+    AmuaLog(LOG_ERROR, @"search: could not load result");
     [sender removeClient:self];
-    ERROR(@"search: could not load result");
+    
+    if ([delegate respondsToSelector:@selector(searchFinished:)]) {
+        [delegate performSelectorOnMainThread:@selector(searchFailed:)
+                                   withObject:self waitUntilDone:YES];
+    } else {
+        AmuaLog(LOG_ERROR, @"delegate of SearchService doesn't react to the searchFailed method!");
+    }
 }
 
 
@@ -291,8 +297,15 @@
 
 - (void)URLHandle:(NSURLHandle *)sender resourceDidFailLoadingWithReason:(NSString *)reason
 {
+    AmuaLog(LOG_ERROR, @"search: an error occured during loading process");
     [sender removeClient:self];
-    ERROR(@"search: an error occured during loading process");
+
+    if ([delegate respondsToSelector:@selector(searchFinished:)]) {
+        [delegate performSelectorOnMainThread:@selector(searchFailed:)
+                                   withObject:self waitUntilDone:YES];
+    } else {
+        AmuaLog(LOG_ERROR, @"delegate of SearchService doesn't react to the searchFailed method!");
+    }
 }
 
 

@@ -43,7 +43,7 @@
 {
 	user = [username retain];
 	
-	LOG([[NSString stringWithString:@"handshake with username: "]
+	AmuaLog(LOG_MSG, [[NSString stringWithString:@"handshake with username: "]
 		 stringByAppendingString: user]);
 	
 	NSString *getSessionURL = [NSString stringWithFormat:
@@ -68,7 +68,7 @@
 
 - (void)updateNowPlayingInformation
 {
-	LOG(@"updating song information");
+	AmuaLog(LOG_MSG, @"updating song information");
 	NSString *nowPlayingURL = [NSString stringWithFormat:@"http://%@%@/np.php?session=%@&debug=0",
                                             baseHost, basePath, sessionID];
 
@@ -92,8 +92,7 @@
 		return;
     }
 	
-	LOG([[NSString stringWithString:@"executing command: "]
-		 stringByAppendingString: command]);
+	AmuaLog(LOG_MSG, @"Executing command: %@", command);
 	
 	NSString *controlURL = [NSString stringWithFormat:@"http://%@%@/control.php?session=%@&command=%@&debug=0",
                                          baseHost, basePath, sessionID, command];
@@ -122,8 +121,7 @@
 		return nil;
     }
 	
-	LOG([[NSString stringWithString:@"tuning to station: "]
-		 stringByAppendingString: url]);
+	AmuaLog(LOG_MSG, @"tuning to station: %@", url);
     
     NSString *genericURL = [NSString stringWithFormat:@"http://%@%@/adjust.php?session=%@&url=%@&debug=0",
                                          baseHost, basePath, sessionID, url];
@@ -148,7 +146,7 @@
     if(tuningCURLHandle) {
 		[tuningCURLHandle loadInBackground];
     } else {
-		ERROR(@"curl handle does not exist");
+		AmuaLog(LOG_ERROR, @"curl handle does not exist");
 		[[NSNotificationCenter defaultCenter]
         	postNotificationName:@"ConnectionError" object:self];
     }
@@ -162,11 +160,10 @@
         (state ? @"on" : @"off")]];
     
     if(discoveryCURLHandle) {
-		LOG([[NSString stringWithString:@"set discovery mode to: "]
-			stringByAppendingString:(state ? @"on" : @"off")]);
+		AmuaLog(LOG_MSG, @"set discovery mode to: %@", (state ? @"on" : @"off"));
 		[discoveryCURLHandle loadInBackground];
     } else {
-		ERROR(@"curl handle does not exist");
+		AmuaLog(LOG_ERROR, @"curl handle does not exist");
 		[[NSNotificationCenter defaultCenter]
         	postNotificationName:@"SetDiscoveryError" object:self];
     }
@@ -175,8 +172,7 @@
 
 - (void)setTags:(NSString *)tags forData:(NSMutableDictionary *)data
 {
-    LOG([[NSString stringWithString:@"saving tags: "]
-		 stringByAppendingString: tags]);
+    AmuaLog(LOG_MSG, @"saving tags: %@", tags);
 	
 	NSString *tagURL = [NSString stringWithFormat:@"http://%@/player/tag.php",
         baseHost];
@@ -393,7 +389,7 @@
         }
         
 		if ([[[parsedResult objectForKey:@"session"] lowercaseString] isEqualToString:@"failed"]) {
-			ERROR(@"handshake failed");
+			AmuaLog(LOG_ERROR, @"handshake failed");
             subscriber = NO;
 			getSessionCURLHandle = nil;
 			[[NSNotificationCenter defaultCenter]
@@ -405,7 +401,7 @@
 			basePath = [[parsedResult objectForKey:@"base_path"] retain];
             subscriber = (bool)[[parsedResult objectForKey:@"subscriber"] intValue]; 
 			getSessionCURLHandle = nil;
-			LOG([[NSString stringWithString:@"handshake done, sessionid: "]
+			AmuaLog(LOG_MSG, [[NSString stringWithString:@"handshake done, sessionid: "]
 				 stringByAppendingString:sessionID]);
             [[NSNotificationCenter defaultCenter]
             	postNotificationName:@"Handshake" object:self];
@@ -415,11 +411,11 @@
         int error = [[parsedResult objectForKey:@"error"] intValue];
         tuningCURLHandle = nil;
 		if (error == 0) {
-			LOG(@"station tuned");
+			AmuaLog(LOG_MSG, @"station tuned");
             [[NSNotificationCenter defaultCenter]
                 postNotificationName:@"StationTuned" object:self];
 		} else {
-			ERROR(@"station tuning error");
+			AmuaLog(LOG_ERROR, @"station tuning error");
             [[NSNotificationCenter defaultCenter]
                 postNotificationName:@"StationError" object:self];
 		}
@@ -444,13 +440,13 @@
             
             if (albumCover == nil) {
                 albumCover = [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForImageResource:@"nocover.png"]];
-                WARNING(@"no valid cover found");
+                AmuaLog(LOG_WARNING, @"no valid cover found");
             }
 			
-			LOG(@"song information received");			
+			AmuaLog(LOG_MSG, @"song information received");			
 		} else {
             nowPlayingInformation = nil;
-			ERROR(@"get song information: not streaming");
+			AmuaLog(LOG_ERROR, @"get song information: not streaming");
 		}
         
         [[NSNotificationCenter defaultCenter]
@@ -468,7 +464,7 @@
 
 	} else if ([sender isEqual:tagsCURLHandle]) { // Response to changing discover setting
 		
-        LOG(@"tag set");
+        AmuaLog(LOG_MSG, @"tag set");
 		tagsCURLHandle = nil;
         [[NSNotificationCenter defaultCenter]
             	postNotificationName:@"TagSet" object:self];
@@ -486,10 +482,13 @@
 
 - (void)URLHandleResourceDidCancelLoading:(NSURLHandle *)sender
 {
-	ERROR(@"handle did cancel loading");
+	AmuaLog(LOG_ERROR, @"handle did cancel loading");
 	if (sender == getSessionCURLHandle || sender == tuningCURLHandle) {
 		[[NSNotificationCenter defaultCenter]
         	postNotificationName:@"ConnectionError" object:self];
+    } else if (sender == tagsCURLHandle) {
+        [[NSNotificationCenter defaultCenter]
+        	postNotificationName:@"TagFailed" object:self];
 	} else {
         [self stopLoading];
     }
@@ -501,10 +500,13 @@
 
 - (void)URLHandle:(NSURLHandle *)sender resourceDidFailLoadingWithReason:(NSString *)reason
 {
-	ERROR(@"handle did fail loading");
+	AmuaLog(LOG_ERROR, @"handle did fail loading");
 	if (sender == getSessionCURLHandle || sender == tuningCURLHandle) {
 		[[NSNotificationCenter defaultCenter]
         	postNotificationName:@"ConnectionError" object:self];
+    } else if (sender == tagsCURLHandle) {
+        [[NSNotificationCenter defaultCenter]
+        	postNotificationName:@"TagFailed" object:self];
 	} else {
         [self stopLoading];
     }

@@ -67,9 +67,14 @@
     IBOutlet NSMatrix *radioButtons;
     
     /**
-     * The combobox which lets the user specify his tags.
+     * The table displaying the current tags.
      */
-    IBOutlet NSComboBox *tagCombo;
+    IBOutlet NSTableView *tagsTable;
+    
+    /**
+     * The textfield that lets the user add more tags.
+     */
+    IBOutlet NSTextField *tagField;
     
     /**
      * The tag window.
@@ -80,6 +85,21 @@
      * The spinner as progress indicator.
      */
     IBOutlet NSProgressIndicator *spinner;
+    
+    /**
+     * The textfield that is used to display errors.
+     */
+    IBOutlet NSTextField *errorField;
+    
+    /**
+     * The button that is used to add new tags.
+     */
+    IBOutlet NSButton *addButton;
+    
+    /**
+     * The button that is used to remove tags.
+     */
+    IBOutlet NSButton *removeButton;
     
     /**
      * The current artist.
@@ -104,17 +124,22 @@
     /**
      * A string containing the tags for the current artist.
      */
-    NSString *userArtistTags;
+    NSMutableArray *userArtistTags;
     
     /**
      * A string containing the tags for the current album.
      */
-    NSString *userAlbumTags;
+    NSMutableArray *userAlbumTags;
     
     /**
      * A string containing the tags for the current track.
      */
-    NSString *userTrackTags;
+    NSMutableArray *userTrackTags;
+    
+    /**
+     * The array that is currently being edited.
+     */
+    NSMutableArray *currentTags;
     
     /**
      * A reference to the application preferences object.
@@ -164,6 +189,11 @@
 - (void)searchFinished:(SearchService *)service;
 
 /**
+ * Display an error about a failed search.
+ */
+- (void)searchFailed:(SearchService *)service;
+
+/**
  * Update the track data.
  */
 - (void)setNewTrack:(NSString *)inTrack fromAlbum:(NSString *)inAlbum andArtist:(NSString *)inArtist;
@@ -172,6 +202,16 @@
  * Refresh the tags the user has set for the current data.
  */
 - (void)refreshTags;
+
+/**
+ * Add the tags specified.
+ */
+- (IBAction)addTag:(id)sender;
+
+/**
+ * Remove the selected tags.
+ */
+- (IBAction)removeTag:(id)sender;
 
 /**
  * Save the entered tags.
@@ -184,6 +224,11 @@
 - (void)tagSaved:(id)sender;
 
 /**
+ * There has been an error saving the tags.
+ */
+- (void)tagError:(id)sender;
+
+/**
  * Change the selected radio button.
  */
 - (IBAction)changeRadioButton:(id)sender;
@@ -194,18 +239,20 @@
 - (void)setPreferences:(NSUserDefaults *)prefs;
 
 /**
- * Delegate of the combobox datasource. Get the number of tags available.
+ * Get the item of a certain row.
  */
-- (int)numberOfItemsInComboBox:(NSComboBox *)aComboBox;
+- (id)tableView:(NSTableView *)aTableView
+    objectValueForTableColumn:(NSTableColumn *)aTableColumn
+            row:(int)rowIndex;
 
 /**
- * Delegate of the combobox datasource. Get the tag at a certain index.
+ * Get the number of rows.
  */
-- (id)comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(int)index;
+- (int)numberOfRowsInTableView:(NSTableView *)aTableView;
 
 /**
- * Delegate of the combobox datasource. Complete an entered string.
+ * Convert an array to a comma separated string.
  */
-- (NSString *)comboBox:(NSComboBox *)aComboBox completedString:(NSString *)uncompletedString;
+- (NSString *)convertArrayToString:(NSArray *)array;
 
 @end

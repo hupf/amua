@@ -123,6 +123,11 @@
      * The textfield for the URL of the custom URL station.
      */
 	IBOutlet NSTextField *customURLField;
+    
+    /**
+     * The textfield that displays a message about an empty search result or connection error.
+     */
+    IBOutlet NSTextField *messageField;
 	
 	/**
      * A reference to the station search service object.
@@ -184,6 +189,11 @@
  * Display the search result.
  */
 - (void)searchFinished:(SearchService *)service;
+
+/**
+ * The search failed.
+ */
+- (void)searchFailed:(SearchService *)service;
 
 /**
  * Set the application preferences  object.
