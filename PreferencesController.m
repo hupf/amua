@@ -67,6 +67,7 @@
     		     forKey:@"performDefaultPlayerCheck"];
     [preferences setBool:([updatesCheckBox state] == NSOnState)
     		     forKey:@"performUpdatesCheck"];
+    [preferences setInteger:[logLevel indexOfItem:[logLevel selectedItem]] forKey:@"logLevel"];
 	
 	[preferences synchronize];
 	
@@ -106,6 +107,8 @@
     } else {
     	[updatesCheckBox setState:NSOffState];
     }
+    
+    [logLevel selectItemAtIndex:1];
 }
 
 
@@ -126,6 +129,8 @@
     } else {
     	[updatesCheckBox setState:NSOffState];
     }
+    
+    [logLevel selectItemAtIndex:[preferences integerForKey:@"logLevel"]];
 }
 
 - (IBAction)checkForUpdates:(id)sender

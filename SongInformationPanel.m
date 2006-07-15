@@ -170,9 +170,9 @@
 	
 	visible = YES;
     if (newSongInformations) {
-        LOG(@"song information is new");
+        AmuaLog(LOG_MSG, @"song information is new");
     } else {
-        WARNING(@"song information is old");
+        AmuaLog(LOG_WARNING, @"song information is old");
     }
 }
 

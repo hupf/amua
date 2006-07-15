@@ -67,6 +67,7 @@
                 artistView = NSView; 
                 customURLField = NSTextField; 
                 customURLView = NSView; 
+                messageField = NSTextField; 
                 stationDialogPanel = NSPanel; 
                 stationType = NSPopUpButton; 
                 userCheckBox = NSButton; 
@@ -76,19 +77,23 @@
             SUPERCLASS = NSObject; 
         }, 
         {
-            ACTIONS = {changeRadioButton = id; saveTags = id; }; 
+            ACTIONS = {addTag = id; changeRadioButton = id; removeTag = id; saveTags = id; }; 
             CLASS = TagController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                addButton = NSButton; 
                 albumButton = NSButtonCell; 
                 albumLabel = NSTextField; 
                 artistButton = NSButtonCell; 
                 artistLabel = NSTextField; 
+                errorField = NSTextField; 
                 radioButtons = NSMatrix; 
+                removeButton = NSButton; 
                 saveButton = NSButton; 
                 spinner = NSProgressIndicator; 
-                tagCombo = NSComboBox; 
+                tagField = NSTextField; 
                 tagWindow = NSWindow; 
+                tagsTable = NSTableView; 
                 trackButton = NSButtonCell; 
                 trackLabel = NSTextField; 
             }; 

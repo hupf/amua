@@ -40,6 +40,9 @@
     
     <key>performUpdatesCheck</key>
 	<true/>
+    
+    <key>logLevel</key>
+    <integer>1</integer>
 
 </dict>
 </plist>

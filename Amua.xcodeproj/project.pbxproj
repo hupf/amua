@@ -36,6 +36,7 @@
 		F4069A0E0A1619880006D2B3 /* version.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0C287798096EBB1B00BABB9E /* version.plist */; };
 		F4069A0F0A1619880006D2B3 /* nocover.png in Resources */ = {isa = PBXBuildFile; fileRef = F429155609C1C8260088835A /* nocover.png */; };
 		F4069A120A1619C30006D2B3 /* CURLHandle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F43EA11B097A8AE700C0FC11 /* CURLHandle.framework */; };
+		F4190AA50A6282ED005D00C9 /* Debug.m in Sources */ = {isa = PBXBuildFile; fileRef = F4190AA40A6282ED005D00C9 /* Debug.m */; };
 		F445FF010A2C93DD00A9989C /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F445FF000A2C93DD00A9989C /* Growl.framework */; };
 		F445FF1C0A2C93FD00A9989C /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F445FF000A2C93DD00A9989C /* Growl.framework */; };
 		F48B8A8B0A3D98BB003C6FA7 /* TagController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F48B8A890A3D98BB003C6FA7 /* TagController.h */; };
@@ -113,6 +114,7 @@
 		32CA4F630368D1EE00C91783 /* Amua_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Amua_Prefix.pch; sourceTree = "<group>"; };
 		F40699560A1618A50006D2B3 /* Amua.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Amua.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F40699580A1618A50006D2B3 /* Amua-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Amua-Info.plist"; sourceTree = "<group>"; };
+		F4190AA40A6282ED005D00C9 /* Debug.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Debug.m; sourceTree = "<group>"; };
 		F429155609C1C8260088835A /* nocover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nocover.png; sourceTree = "<group>"; };
 		F43B316707DB2D3300E14140 /* AmuaUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AmuaUpdater.h; sourceTree = "<group>"; };
 		F43B316807DB2D3300E14140 /* AmuaUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AmuaUpdater.m; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 				F47030DF09AF6D2100F420F5 /* FloatingTextField.m */,
 				F46D60FB099646B00023FC2F /* Notification.m */,
 				0C994E0F07D13535005016EE /* KeyChain.m */,
+				F4190AA40A6282ED005D00C9 /* Debug.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -394,6 +397,7 @@
 				F40699680A1619530006D2B3 /* Notification.m in Sources */,
 				F40699690A1619530006D2B3 /* FloatingTextField.m in Sources */,
 				F48B8A8C0A3D98BB003C6FA7 /* TagController.m in Sources */,
+				F4190AA50A6282ED005D00C9 /* Debug.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -26,6 +26,8 @@
 
 - (id)init
 {
+    AmuaSetLogType(AMUA_MAX_LOG_LEVEL);
+    
     // Read in the XML file with the default preferences
 	NSString *file = [[NSBundle mainBundle]
         pathForResource:@"Defaults" ofType:@"plist"];
@@ -36,6 +38,7 @@
 	
 	preferences = [[NSUserDefaults standardUserDefaults] retain];
     [preferences registerDefaults:defaultPreferences];
+    AmuaSetLogType([preferences integerForKey:@"logLevel"]);
 	
 	// Register handle for requested menu updates from PreferencesController
 	[[NSNotificationCenter defaultCenter] addObserver:self
@@ -163,6 +166,9 @@
     [[NSNotificationCenter defaultCenter] addObserver:tagController
                                              selector:@selector(tagSaved:)
                                                  name:@"TagSet" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:tagController
+                                             selector:@selector(tagError:)
+                                                 name:@"TagFailed" object:nil];
 	
 	[self updateMenu];
     
@@ -774,6 +780,7 @@
 // Handlers
 - (void)handlePreferencesChanged:(NSNotification *)aNotification
 {
+    AmuaSetLogType([preferences integerForKey:@"logLevel"]);
     [self connectToServer];
 	[self updateMenu];
 }
@@ -897,7 +904,7 @@
         	[webService executeControl:([preferences boolForKey:@"recordToProfile"] ? @"rtp" : @"nortp")];
     	}
     } else {
-        WARNING(@"updating song information failed.");
+        AmuaLog(LOG_WARNING, @"updating song information failed.");
     }
 		
 	// show updated tooltip if necessary 
@@ -1006,7 +1013,7 @@
 		// CFBundleGetIdentifier is expected to return NULL only if the specified
 		// bundle doesn't have a bundle identifier in its plist. In this case, that
 		// means a failure, since our bundle does have an identifier.
-		ERROR(@"isDefaultLastfmPlayer: failure in plist");
+		AmuaLog(LOG_ERROR, @"isDefaultLastfmPlayer: failure in plist");
 	}
 
 	CFRetain(amuaID);

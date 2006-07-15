@@ -1,5 +1,5 @@
 //
-//  Debug.h
+//  Debug.m
 //  Amua
 //
 //  Created by Mathis & Simon Hofer on 10.02.06.
@@ -20,16 +20,33 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //
 
-#import <Cocoa/Cocoa.h>
+#import "Debug.h"
 
-#define AMUA_MAX_LOG_LEVEL 3
+static int AmuaLogType;
 
-// Log levels
-typedef enum {
-    LOG_ERROR = 0,
-    LOG_WARNING = 1,
-    LOG_MSG = 2
-} LogLevel;
+static NSString* const AmuaLogLevelString [] = {
+    @"Amua Error: %@",
+    @"Amua Warning: %@",
+    @"Amua Log: %@"
+};
 
-void AmuaSetLogType(int type);
-void AmuaLog(LogLevel level, NSString *fmt, ...);
+
+
+void AmuaSetLogType(int type) {
+    AmuaLogType = type;
+}
+
+void AmuaLog(LogLevel level, NSString *fmt, ...) {
+    NSString *msg;
+    va_list  args;
+    
+    if (level >= AmuaLogType) {
+        return;
+    }
+    
+    va_start(args, fmt);
+    msg = [[[NSString alloc] initWithFormat:fmt arguments:args] autorelease];
+    va_end(args);
+    
+    NSLog(AmuaLogLevelString[level], msg);
+}

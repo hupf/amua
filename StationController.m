@@ -194,15 +194,30 @@
 	[artistMainResultField setStringValue:mainResultText];
 	[artistSimilarResultList setDataSource:self];
 	if ([searchService getMainResultText] == nil) {
-		[artistResultBox setHidden: true];
-		[artistNoResultBox setHidden: false];
+        [messageField setStringValue:@"There were no matches"];
+		[artistResultBox setHidden: YES];
+		[artistNoResultBox setHidden: NO];
 	} else {
-		[artistResultBox setHidden: false];
-		[artistNoResultBox setHidden: true];
+		[artistResultBox setHidden: NO];
+		[artistNoResultBox setHidden: YES];
 	}
 	
-	[artistSearchButton setHidden:false];
-	[artistSearchIndicator setHidden:true];
+	[artistSearchButton setHidden:NO];
+	[artistSearchIndicator setHidden:YES];
+	[artistSearchIndicator stopAnimation:self];
+	[artistSearchField setEnabled:true];
+	[self stationTypeChanged:stationType];
+}
+
+- (void)searchFailed:(SearchService *)service
+{
+    [artistMainResultField setStringValue:@"Search failed."];
+    [artistSimilarResultList setDataSource:nil];
+    [messageField setStringValue:@"Connection error"];
+    [artistResultBox setHidden: YES];
+    [artistNoResultBox setHidden: NO];
+    [artistSearchButton setHidden:NO];
+	[artistSearchIndicator setHidden:YES];
 	[artistSearchIndicator stopAnimation:self];
 	[artistSearchField setEnabled:true];
 	[self stationTypeChanged:stationType];

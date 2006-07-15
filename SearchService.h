@@ -265,4 +265,6 @@
 
 - (void)searchFinished:(SearchService *)service;
 
+- (void)searchFailed:(SearchService *)service;
+
 @end

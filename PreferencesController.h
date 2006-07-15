@@ -61,6 +61,11 @@
      * Check if Amua is default player checkbox.
      */
     IBOutlet NSButton *defaultCheckBox;
+    
+    /**
+     * Select the log level.
+     */
+    IBOutlet NSPopUpButton *logLevel;
         
     /**
      * A reference to the application preferences object.
