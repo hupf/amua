@@ -44,6 +44,11 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self
 				selector:@selector(handlePreferencesChanged:)
 				name:@"PreferencesChanged" object:nil];
+    
+    // Register handle for force song information update
+	[[NSNotificationCenter defaultCenter] addObserver:self
+                selector:@selector(handleForceUpdateInformations:)
+                name:@"forcenewinformations" object:nil];
 	
     // Register handle for handshake notification from LastfmWebService
 	[[NSNotificationCenter defaultCenter] addObserver:self
@@ -752,7 +757,7 @@
 {
 	// Set the timer to fire after the currently playing song will be finished.
 	// If no song is playing or the song is almost finished, fire it in five seconds.
-	int remainingTime = [webService nowPlayingTrackDuration] - [webService nowPlayingTrackProgress];
+	int remainingTime = [webService nowPlayingTrackDuration] - [songInformationPanel trackProgress];
 	if (remainingTime < 5 || ![songInformationPanel hasNewSongInformations]) {
 		remainingTime = 5;
 	}
@@ -783,6 +788,19 @@
     AmuaSetLogType([preferences integerForKey:@"logLevel"]);
     [self connectToServer];
 	[self updateMenu];
+}
+
+
+- (void)handleForceUpdateInformations:(NSNotification *)aNotification
+{
+    if (timer != nil) {
+        [timer invalidate];
+        timer = nil;
+	}
+    if (playing || connecting) {
+		timer = [[NSTimer scheduledTimerWithTimeInterval:0 target:self
+                                                selector:@selector(fireTimer:) userInfo:nil repeats:NO] retain];
+    }
 }
 
 
@@ -875,7 +893,6 @@
         [songInformationPanel updateArtist:artist album:album track:title
                                 albumImage:image radioStation:radioStation
                           radioStationUser:[webService nowPlayingRadioStationProfile]
-                             trackPosition:[webService nowPlayingTrackProgress]
                              trackDuration:[webService nowPlayingTrackDuration]];
         if ([songInformationPanel hasNewSongInformations]) {
             NSString *growlDescription = [NSString stringWithFormat:NSLocalizedString(@"Track: %@\nAlbum: %@\nArtist: %@", ""),

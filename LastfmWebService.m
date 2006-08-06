@@ -295,16 +295,6 @@
 }
 
 
-- (int)nowPlayingTrackProgress
-{
-	if (nowPlayingInformation != nil) {
-		return [[nowPlayingInformation objectForKey:@"trackprogress"] intValue];
-	} else {
-		return -1;
-	}
-}
-
-
 - (NSString *)nowPlayingRadioStation
 {
 	if (nowPlayingInformation != nil) {
