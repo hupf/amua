@@ -105,7 +105,7 @@
 - (void)updateArtist:(NSString *)inArtist album:(NSString *)inAlbum track:(NSString *)inTrack
 		albumImage:(NSImage *)inImage radioStation:(NSString *)inRadioStation
         radioStationUser:(NSString *)inRadioStationUser
-		trackPosition:(int)inTrackPosition trackDuration:(int)inTrackDuration
+        trackDuration:(int)inTrackDuration
 {
     newSongInformations = YES;
     if (inArtist != nil) {
@@ -153,7 +153,9 @@
     
     [image setImage:inImage];
     
-    trackPosition = inTrackPosition >= 0 ? inTrackPosition-1 : 0;
+    if (newSongInformations) {
+        trackPosition = 0;
+    }
     trackDuration = inTrackDuration >= 0 ? inTrackDuration : 0;
     if (timer != nil) {
         [timer invalidate];
@@ -180,6 +182,12 @@
 - (BOOL)hasNewSongInformations
 {
     return newSongInformations;
+}
+
+
+- (int)trackProgress
+{
+    return trackPosition;
 }
 
 

@@ -289,16 +289,6 @@
 - (int)nowPlayingTrackDuration;
 
 /**
- * Get the already played time of the current track.
- * 
- * This information is only available after updateNowPlayingInformation has been
- * called. Otherwise -1 is returned.
- * 
- * @return The already played time of the current track in seconds.
- */
-- (int)nowPlayingTrackProgress;
-
-/**
  * Get the currently playing station name.
  * 
  * This information is only available after updateNowPlayingInformation has been

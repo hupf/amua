@@ -371,6 +371,11 @@ extern OSStatus _LSSetWeakBindingForType(OSType inType,
 - (void)handlePreferencesChanged:(NSNotification *)aNotification;
 
 /**
+ * Refresh (forced) the song informations.
+ */
+- (void)handleForceUpdateInformations:(NSNotification *)aNotification;
+
+/**
  * Notification about a successful handshake.
  */
 - (void)handleHandshake:(NSNotification *)aNotification;

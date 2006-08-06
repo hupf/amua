@@ -148,7 +148,7 @@
 - (void)updateArtist:(NSString *)inArtist album:(NSString *)inAlbum track:(NSString *)inTrack
 		albumImage:(NSImage *)inImage radioStation:(NSString *)inRadioStation
         radioStationUser:(NSString *)inRadioStationUser
-		trackPosition:(int)inTrackPosition trackDuration:(int)inTrackDuration;
+		trackDuration:(int)inTrackDuration;
 
 /**
  * Check whether the current song informations are new or have been set
@@ -157,6 +157,12 @@
  * @return True if the informations are new.
  */
 - (BOOL)hasNewSongInformations;
+
+/**
+ * Get the track progress.
+ * @return The track progress in seconds
+ */
+- (int)trackProgress;
 
 /**
  * Clean up the panel (for the stop state).

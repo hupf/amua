@@ -77,12 +77,16 @@
 
 - (void)mouseDown:(NSEvent *) theEvent
 {
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"mouseDown" object:self];
-	menuIsVisible = YES;
-	[self setNeedsDisplay:YES];
-	[statusItem popUpStatusItemMenu:menu];
-	menuIsVisible = NO;
-	[self setNeedsDisplay:YES];
+    if (([theEvent modifierFlags] & NSAlternateKeyMask) != 0) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"forcenewinformations" object:self];
+    } else {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"mouseDown" object:self];
+        menuIsVisible = YES;
+        [self setNeedsDisplay:YES];
+        [statusItem popUpStatusItemMenu:menu];
+        menuIsVisible = NO;
+        [self setNeedsDisplay:YES];
+    }
 }	
 
 
