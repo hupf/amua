@@ -7,23 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F406995D0A1619530006D2B3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
-		F406995E0A1619530006D2B3 /* AmuaController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C83A56007C4F734001A45EA /* AmuaController.m */; };
-		F406995F0A1619530006D2B3 /* AmuaUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = F43B316807DB2D3300E14140 /* AmuaUpdater.m */; };
-		F40699600A1619530006D2B3 /* PreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C88FD5207C5449800221576 /* PreferencesController.m */; };
-		F40699610A1619530006D2B3 /* LastfmWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CB7A6D207C8AA9000E4342A /* LastfmWebService.m */; };
-		F40699620A1619530006D2B3 /* AmuaView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4F3FEB907CB28C600ECE67F /* AmuaView.m */; };
-		F40699630A1619530006D2B3 /* KeyChain.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C994E0F07D13535005016EE /* KeyChain.m */; };
-		F40699640A1619530006D2B3 /* SongInformationPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = F4EF3CE307E1E6DC003BBC9F /* SongInformationPanel.m */; };
-		F40699650A1619530006D2B3 /* RecentStations.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C287793096EBB1B00BABB9E /* RecentStations.m */; };
-		F40699660A1619530006D2B3 /* StationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C287795096EBB1B00BABB9E /* StationController.m */; };
-		F40699670A1619530006D2B3 /* SearchService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C287797096EBB1B00BABB9E /* SearchService.m */; };
-		F40699680A1619530006D2B3 /* Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = F46D60FB099646B00023FC2F /* Notification.m */; };
-		F40699690A1619530006D2B3 /* FloatingTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = F47030DF09AF6D2100F420F5 /* FloatingTextField.m */; };
 		F4069A010A1619600006D2B3 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C287A6707C677F400AF7154 /* Cocoa.framework */; };
 		F4069A020A1619600006D2B3 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F45B8A7F07DB7231007383B1 /* Carbon.framework */; };
 		F4069A030A1619600006D2B3 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CB409E30972E5ED00E0C772 /* libcrypto.dylib */; };
-		F4069A040A1619600006D2B3 /* CURLHandle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F43EA11B097A8AE700C0FC11 /* CURLHandle.framework */; };
 		F4069A050A1619880006D2B3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		F4069A060A1619880006D2B3 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
 		F4069A070A1619880006D2B3 /* Preferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 0C83A58807C4FE47001A45EA /* Preferences.nib */; };
@@ -35,12 +21,57 @@
 		F4069A0D0A1619880006D2B3 /* README.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 0C287791096EBB1B00BABB9E /* README.rtf */; };
 		F4069A0E0A1619880006D2B3 /* version.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0C287798096EBB1B00BABB9E /* version.plist */; };
 		F4069A0F0A1619880006D2B3 /* nocover.png in Resources */ = {isa = PBXBuildFile; fileRef = F429155609C1C8260088835A /* nocover.png */; };
-		F4069A120A1619C30006D2B3 /* CURLHandle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F43EA11B097A8AE700C0FC11 /* CURLHandle.framework */; };
-		F4190AA50A6282ED005D00C9 /* Debug.m in Sources */ = {isa = PBXBuildFile; fileRef = F4190AA40A6282ED005D00C9 /* Debug.m */; };
+		F42D042E0B30B23200D14A2C /* Stations.nib in Resources */ = {isa = PBXBuildFile; fileRef = F42D042B0B30B23200D14A2C /* Stations.nib */; };
 		F445FF010A2C93DD00A9989C /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F445FF000A2C93DD00A9989C /* Growl.framework */; };
 		F445FF1C0A2C93FD00A9989C /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F445FF000A2C93DD00A9989C /* Growl.framework */; };
-		F48B8A8B0A3D98BB003C6FA7 /* TagController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F48B8A890A3D98BB003C6FA7 /* TagController.h */; };
-		F48B8A8C0A3D98BB003C6FA7 /* TagController.m in Sources */ = {isa = PBXBuildFile; fileRef = F48B8A8A0A3D98BB003C6FA7 /* TagController.m */; };
+		F4CFBDAC0B372B8F003C8C8D /* Tags.nib in Resources */ = {isa = PBXBuildFile; fileRef = F4CFBDAB0B372B8F003C8C8D /* Tags.nib */; };
+		F4CFBE840B373606003C8C8D /* AMController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F4CFBE610B373606003C8C8D /* AMController.h */; };
+		F4CFBE850B373606003C8C8D /* AMController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE620B373606003C8C8D /* AMController.m */; };
+		F4CFBE860B373606003C8C8D /* AMiTunesPlayback.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F4CFBE630B373606003C8C8D /* AMiTunesPlayback.h */; };
+		F4CFBE870B373606003C8C8D /* AMiTunesPlayback.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE640B373606003C8C8D /* AMiTunesPlayback.m */; };
+		F4CFBE880B373606003C8C8D /* AMPlayer.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F4CFBE650B373606003C8C8D /* AMPlayer.h */; };
+		F4CFBE890B373606003C8C8D /* AMPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE660B373606003C8C8D /* AMPlayer.m */; };
+		F4CFBE8A0B373606003C8C8D /* AMPreferencesController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F4CFBE670B373606003C8C8D /* AMPreferencesController.h */; };
+		F4CFBE8B0B373606003C8C8D /* AMPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE680B373606003C8C8D /* AMPreferencesController.m */; };
+		F4CFBE8C0B373606003C8C8D /* AMRecentStations.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F4CFBE690B373606003C8C8D /* AMRecentStations.h */; };
+		F4CFBE8D0B373606003C8C8D /* AMRecentStations.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE6A0B373606003C8C8D /* AMRecentStations.m */; };
+		F4CFBE8E0B373606003C8C8D /* AMSongInformation.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F4CFBE6B0B373606003C8C8D /* AMSongInformation.h */; };
+		F4CFBE8F0B373606003C8C8D /* AMSongInformation.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE6C0B373606003C8C8D /* AMSongInformation.m */; };
+		F4CFBE900B373606003C8C8D /* AMSongInformationPanel.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F4CFBE6D0B373606003C8C8D /* AMSongInformationPanel.h */; };
+		F4CFBE910B373606003C8C8D /* AMSongInformationPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE6E0B373606003C8C8D /* AMSongInformationPanel.m */; };
+		F4CFBE920B373606003C8C8D /* AMStationController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F4CFBE6F0B373606003C8C8D /* AMStationController.h */; };
+		F4CFBE930B373606003C8C8D /* AMStationController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE700B373606003C8C8D /* AMStationController.m */; };
+		F4CFBE940B373606003C8C8D /* AMStatusBarView.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F4CFBE710B373606003C8C8D /* AMStatusBarView.h */; };
+		F4CFBE950B373606003C8C8D /* AMStatusBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE720B373606003C8C8D /* AMStatusBarView.m */; };
+		F4CFBE960B373606003C8C8D /* AMTextField.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F4CFBE730B373606003C8C8D /* AMTextField.h */; };
+		F4CFBE970B373606003C8C8D /* AMTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE740B373606003C8C8D /* AMTextField.m */; };
+		F4CFBE980B373606003C8C8D /* AmuaUpdater.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F4CFBE750B373606003C8C8D /* AmuaUpdater.h */; };
+		F4CFBE990B373606003C8C8D /* AmuaUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE760B373606003C8C8D /* AmuaUpdater.m */; };
+		F4CFBE9A0B373606003C8C8D /* AMWebserviceClient.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F4CFBE770B373606003C8C8D /* AMWebserviceClient.h */; };
+		F4CFBE9B0B373606003C8C8D /* AMWebserviceClient.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE780B373606003C8C8D /* AMWebserviceClient.m */; };
+		F4CFBE9C0B373606003C8C8D /* AMWebserviceRequest.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F4CFBE790B373606003C8C8D /* AMWebserviceRequest.h */; };
+		F4CFBE9D0B373606003C8C8D /* AMWebserviceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE7A0B373606003C8C8D /* AMWebserviceRequest.m */; };
+		F4CFBE9E0B373606003C8C8D /* Debug.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F4CFBE7B0B373606003C8C8D /* Debug.h */; };
+		F4CFBE9F0B373606003C8C8D /* Debug.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE7C0B373606003C8C8D /* Debug.m */; };
+		F4CFBEA00B373606003C8C8D /* KeyChain.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F4CFBE7D0B373606003C8C8D /* KeyChain.h */; };
+		F4CFBEA10B373606003C8C8D /* KeyChain.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE7E0B373606003C8C8D /* KeyChain.m */; };
+		F4CFBEA20B373606003C8C8D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE7F0B373606003C8C8D /* main.m */; };
+		F4CFBEA30B373606003C8C8D /* AMNotification.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F4CFBE800B373606003C8C8D /* AMNotification.h */; };
+		F4CFBEA40B373606003C8C8D /* AMNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE810B373606003C8C8D /* AMNotification.m */; };
+		F4CFBEA50B373606003C8C8D /* AMTagController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F4CFBE820B373606003C8C8D /* AMTagController.h */; };
+		F4CFBEA60B373606003C8C8D /* AMTagController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE830B373606003C8C8D /* AMTagController.m */; };
+		F4CFBF5E0B374301003C8C8D /* AMXMLParser.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F4CFBF5C0B374301003C8C8D /* AMXMLParser.h */; };
+		F4CFBF5F0B374301003C8C8D /* AMXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBF5D0B374301003C8C8D /* AMXMLParser.m */; };
+		F4CFBF6C0B374416003C8C8D /* AMXMLResult.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F4CFBF6A0B374416003C8C8D /* AMXMLResult.h */; };
+		F4CFBF6D0B374416003C8C8D /* AMXMLResult.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBF6B0B374416003C8C8D /* AMXMLResult.m */; };
+		F4CFBF820B374BAB003C8C8D /* AMPlainTextParser.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F4CFBF800B374BAB003C8C8D /* AMPlainTextParser.h */; };
+		F4CFBF830B374BAB003C8C8D /* AMPlainTextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBF810B374BAB003C8C8D /* AMPlainTextParser.m */; };
+		F4CFC24D0B37E09E003C8C8D /* AMSimilarArtistsController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F4CFC24B0B37E09E003C8C8D /* AMSimilarArtistsController.h */; };
+		F4CFC24E0B37E09E003C8C8D /* AMSimilarArtistsController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFC24C0B37E09E003C8C8D /* AMSimilarArtistsController.m */; };
+		F4CFC3420B37E8F7003C8C8D /* AMGlobalTagsController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F4CFC3400B37E8F7003C8C8D /* AMGlobalTagsController.h */; };
+		F4CFC3430B37E8F7003C8C8D /* AMGlobalTagsController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFC3410B37E8F7003C8C8D /* AMGlobalTagsController.m */; };
+		F4CFC3760B37EC09003C8C8D /* AMCustomController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F4CFC3740B37EC09003C8C8D /* AMCustomController.h */; };
+		F4CFC3770B37EC09003C8C8D /* AMCustomController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFC3750B37EC09003C8C8D /* AMCustomController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildStyle section */
@@ -74,65 +105,105 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F4069A120A1619C30006D2B3 /* CURLHandle.framework in CopyFiles */,
 				F445FF1C0A2C93FD00A9989C /* Growl.framework in CopyFiles */,
-				F48B8A8B0A3D98BB003C6FA7 /* TagController.h in CopyFiles */,
+				F4CFBE840B373606003C8C8D /* AMController.h in CopyFiles */,
+				F4CFBE860B373606003C8C8D /* AMiTunesPlayback.h in CopyFiles */,
+				F4CFBE880B373606003C8C8D /* AMPlayer.h in CopyFiles */,
+				F4CFBE8A0B373606003C8C8D /* AMPreferencesController.h in CopyFiles */,
+				F4CFBE8C0B373606003C8C8D /* AMRecentStations.h in CopyFiles */,
+				F4CFBE8E0B373606003C8C8D /* AMSongInformation.h in CopyFiles */,
+				F4CFBE900B373606003C8C8D /* AMSongInformationPanel.h in CopyFiles */,
+				F4CFBE920B373606003C8C8D /* AMStationController.h in CopyFiles */,
+				F4CFBE940B373606003C8C8D /* AMStatusBarView.h in CopyFiles */,
+				F4CFBE960B373606003C8C8D /* AMTextField.h in CopyFiles */,
+				F4CFBE980B373606003C8C8D /* AmuaUpdater.h in CopyFiles */,
+				F4CFBE9A0B373606003C8C8D /* AMWebserviceClient.h in CopyFiles */,
+				F4CFBE9C0B373606003C8C8D /* AMWebserviceRequest.h in CopyFiles */,
+				F4CFBE9E0B373606003C8C8D /* Debug.h in CopyFiles */,
+				F4CFBEA00B373606003C8C8D /* KeyChain.h in CopyFiles */,
+				F4CFBEA30B373606003C8C8D /* AMNotification.h in CopyFiles */,
+				F4CFBEA50B373606003C8C8D /* AMTagController.h in CopyFiles */,
+				F4CFBF5E0B374301003C8C8D /* AMXMLParser.h in CopyFiles */,
+				F4CFBF6C0B374416003C8C8D /* AMXMLResult.h in CopyFiles */,
+				F4CFBF820B374BAB003C8C8D /* AMPlainTextParser.h in CopyFiles */,
+				F4CFC24D0B37E09E003C8C8D /* AMSimilarArtistsController.h in CopyFiles */,
+				F4CFC3420B37E8F7003C8C8D /* AMGlobalTagsController.h in CopyFiles */,
+				F4CFC3760B37EC09003C8C8D /* AMCustomController.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		089C165DFE840E0CC02AAC07 /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
 		0C287790096EBB1B00BABB9E /* COPYING.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = COPYING.txt; sourceTree = "<group>"; };
-		0C287791096EBB1B00BABB9E /* README.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = README.rtf; sourceTree = "<group>"; };
-		0C287792096EBB1B00BABB9E /* RecentStations.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = RecentStations.h; sourceTree = "<group>"; };
-		0C287793096EBB1B00BABB9E /* RecentStations.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = RecentStations.m; sourceTree = "<group>"; };
-		0C287794096EBB1B00BABB9E /* StationController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = StationController.h; sourceTree = "<group>"; };
-		0C287795096EBB1B00BABB9E /* StationController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = StationController.m; sourceTree = "<group>"; };
-		0C287796096EBB1B00BABB9E /* SearchService.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SearchService.h; sourceTree = "<group>"; };
-		0C287797096EBB1B00BABB9E /* SearchService.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SearchService.m; sourceTree = "<group>"; };
-		0C287798096EBB1B00BABB9E /* version.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = version.plist; sourceTree = "<group>"; };
+		0C287791096EBB1B00BABB9E /* README.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = README.rtf; path = Documentation/README.rtf; sourceTree = "<group>"; };
+		0C287798096EBB1B00BABB9E /* version.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = version.plist; path = Plists/version.plist; sourceTree = "<group>"; };
 		0C287A6707C677F400AF7154 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		0C73309107CB340600D4A0AC /* Amua.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Amua.icns; sourceTree = "<group>"; };
-		0C83A56007C4F734001A45EA /* AmuaController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AmuaController.m; sourceTree = "<group>"; };
-		0C83A56107C4F734001A45EA /* AmuaController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AmuaController.h; sourceTree = "<group>"; };
-		0C83A58807C4FE47001A45EA /* Preferences.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = Preferences.nib; sourceTree = "<group>"; };
-		0C88FCA507C53D6500221576 /* Defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Defaults.plist; sourceTree = "<group>"; };
-		0C88FD5107C5449800221576 /* PreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PreferencesController.h; sourceTree = "<group>"; };
-		0C88FD5207C5449800221576 /* PreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PreferencesController.m; sourceTree = "<group>"; };
-		0C994E0E07D13535005016EE /* KeyChain.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = KeyChain.h; sourceTree = "<group>"; };
-		0C994E0F07D13535005016EE /* KeyChain.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = KeyChain.m; sourceTree = "<group>"; };
+		0C73309107CB340600D4A0AC /* Amua.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Amua.icns; path = Resources/Amua.icns; sourceTree = "<group>"; };
+		0C83A58807C4FE47001A45EA /* Preferences.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Preferences.nib; path = Resources/English.lproj/Preferences.nib; sourceTree = "<group>"; };
+		0C88FCA507C53D6500221576 /* Defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Defaults.plist; path = Plists/Defaults.plist; sourceTree = "<group>"; };
 		0CB409E30972E5ED00E0C772 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = /usr/lib/libcrypto.dylib; sourceTree = "<absolute>"; };
-		0CB7A6D107C8AA9000E4342A /* LastfmWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LastfmWebService.h; sourceTree = "<group>"; };
-		0CB7A6D207C8AA9000E4342A /* LastfmWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LastfmWebService.m; sourceTree = "<group>"; };
-		0CB7AD0F07C92F1A00E4342A /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
-		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		0CB7AD0F07C92F1A00E4342A /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = Credits.html; path = Resources/Credits.html; sourceTree = "<group>"; };
+		29B97319FDCFA39411CA2CEA /* MainMenu.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = MainMenu.nib; path = Resources/English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* Amua_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Amua_Prefix.pch; sourceTree = "<group>"; };
 		F40699560A1618A50006D2B3 /* Amua.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Amua.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		F40699580A1618A50006D2B3 /* Amua-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Amua-Info.plist"; sourceTree = "<group>"; };
-		F4190AA40A6282ED005D00C9 /* Debug.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Debug.m; sourceTree = "<group>"; };
-		F429155609C1C8260088835A /* nocover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nocover.png; sourceTree = "<group>"; };
-		F43B316707DB2D3300E14140 /* AmuaUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AmuaUpdater.h; sourceTree = "<group>"; };
-		F43B316807DB2D3300E14140 /* AmuaUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AmuaUpdater.m; sourceTree = "<group>"; };
-		F43EA11B097A8AE700C0FC11 /* CURLHandle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CURLHandle.framework; sourceTree = "<group>"; };
-		F445FF000A2C93DD00A9989C /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
+		F40699580A1618A50006D2B3 /* Amua-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Amua-Info.plist"; path = "Plists/Amua-Info.plist"; sourceTree = "<group>"; };
+		F429155609C1C8260088835A /* nocover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = nocover.png; path = Resources/nocover.png; sourceTree = "<group>"; };
+		F42D042B0B30B23200D14A2C /* Stations.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Stations.nib; path = Resources/English.lproj/Stations.nib; sourceTree = "<group>"; };
+		F445FF000A2C93DD00A9989C /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Frameworks/Growl.framework; sourceTree = "<group>"; };
 		F45B8A7F07DB7231007383B1 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
-		F46D60FA099646B00023FC2F /* Notification.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Notification.h; sourceTree = "<group>"; };
-		F46D60FB099646B00023FC2F /* Notification.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Notification.m; sourceTree = "<group>"; };
-		F46D60FC099646B00023FC2F /* Notification.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = Notification.nib; sourceTree = "<group>"; };
-		F47030DE09AF6D2100F420F5 /* FloatingTextField.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FloatingTextField.h; sourceTree = "<group>"; };
-		F47030DF09AF6D2100F420F5 /* FloatingTextField.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FloatingTextField.m; sourceTree = "<group>"; };
-		F48B8A890A3D98BB003C6FA7 /* TagController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TagController.h; sourceTree = "<group>"; };
-		F48B8A8A0A3D98BB003C6FA7 /* TagController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TagController.m; sourceTree = "<group>"; };
-		F4DB25B8099CCB5500E52D60 /* Debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Debug.h; sourceTree = "<group>"; };
-		F4EF3CE207E1E6DC003BBC9F /* SongInformationPanel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SongInformationPanel.h; sourceTree = "<group>"; };
-		F4EF3CE307E1E6DC003BBC9F /* SongInformationPanel.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SongInformationPanel.m; sourceTree = "<group>"; };
-		F4F3FEB807CB28C600ECE67F /* AmuaView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AmuaView.h; sourceTree = "<group>"; };
-		F4F3FEB907CB28C600ECE67F /* AmuaView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AmuaView.m; sourceTree = "<group>"; };
+		F46D60FC099646B00023FC2F /* Notification.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Notification.nib; path = Resources/English.lproj/Notification.nib; sourceTree = "<group>"; };
+		F4CFBDAB0B372B8F003C8C8D /* Tags.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Tags.nib; path = Resources/English.lproj/Tags.nib; sourceTree = "<group>"; };
+		F4CFBE610B373606003C8C8D /* AMController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMController.h; path = Source/AMController.h; sourceTree = "<group>"; };
+		F4CFBE620B373606003C8C8D /* AMController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMController.m; path = Source/AMController.m; sourceTree = "<group>"; };
+		F4CFBE630B373606003C8C8D /* AMiTunesPlayback.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMiTunesPlayback.h; path = Source/AMiTunesPlayback.h; sourceTree = "<group>"; };
+		F4CFBE640B373606003C8C8D /* AMiTunesPlayback.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMiTunesPlayback.m; path = Source/AMiTunesPlayback.m; sourceTree = "<group>"; };
+		F4CFBE650B373606003C8C8D /* AMPlayer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMPlayer.h; path = Source/AMPlayer.h; sourceTree = "<group>"; };
+		F4CFBE660B373606003C8C8D /* AMPlayer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMPlayer.m; path = Source/AMPlayer.m; sourceTree = "<group>"; };
+		F4CFBE670B373606003C8C8D /* AMPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMPreferencesController.h; path = Source/AMPreferencesController.h; sourceTree = "<group>"; };
+		F4CFBE680B373606003C8C8D /* AMPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMPreferencesController.m; path = Source/AMPreferencesController.m; sourceTree = "<group>"; };
+		F4CFBE690B373606003C8C8D /* AMRecentStations.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMRecentStations.h; path = Source/AMRecentStations.h; sourceTree = "<group>"; };
+		F4CFBE6A0B373606003C8C8D /* AMRecentStations.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMRecentStations.m; path = Source/AMRecentStations.m; sourceTree = "<group>"; };
+		F4CFBE6B0B373606003C8C8D /* AMSongInformation.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMSongInformation.h; path = Source/AMSongInformation.h; sourceTree = "<group>"; };
+		F4CFBE6C0B373606003C8C8D /* AMSongInformation.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMSongInformation.m; path = Source/AMSongInformation.m; sourceTree = "<group>"; };
+		F4CFBE6D0B373606003C8C8D /* AMSongInformationPanel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMSongInformationPanel.h; path = Source/AMSongInformationPanel.h; sourceTree = "<group>"; };
+		F4CFBE6E0B373606003C8C8D /* AMSongInformationPanel.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMSongInformationPanel.m; path = Source/AMSongInformationPanel.m; sourceTree = "<group>"; };
+		F4CFBE6F0B373606003C8C8D /* AMStationController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMStationController.h; path = Source/AMStationController.h; sourceTree = "<group>"; };
+		F4CFBE700B373606003C8C8D /* AMStationController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMStationController.m; path = Source/AMStationController.m; sourceTree = "<group>"; };
+		F4CFBE710B373606003C8C8D /* AMStatusBarView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMStatusBarView.h; path = Source/AMStatusBarView.h; sourceTree = "<group>"; };
+		F4CFBE720B373606003C8C8D /* AMStatusBarView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMStatusBarView.m; path = Source/AMStatusBarView.m; sourceTree = "<group>"; };
+		F4CFBE730B373606003C8C8D /* AMTextField.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMTextField.h; path = Source/AMTextField.h; sourceTree = "<group>"; };
+		F4CFBE740B373606003C8C8D /* AMTextField.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMTextField.m; path = Source/AMTextField.m; sourceTree = "<group>"; };
+		F4CFBE750B373606003C8C8D /* AmuaUpdater.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AmuaUpdater.h; path = Source/AmuaUpdater.h; sourceTree = "<group>"; };
+		F4CFBE760B373606003C8C8D /* AmuaUpdater.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AmuaUpdater.m; path = Source/AmuaUpdater.m; sourceTree = "<group>"; };
+		F4CFBE770B373606003C8C8D /* AMWebserviceClient.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMWebserviceClient.h; path = Source/AMWebserviceClient.h; sourceTree = "<group>"; };
+		F4CFBE780B373606003C8C8D /* AMWebserviceClient.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMWebserviceClient.m; path = Source/AMWebserviceClient.m; sourceTree = "<group>"; };
+		F4CFBE790B373606003C8C8D /* AMWebserviceRequest.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMWebserviceRequest.h; path = Source/AMWebserviceRequest.h; sourceTree = "<group>"; };
+		F4CFBE7A0B373606003C8C8D /* AMWebserviceRequest.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMWebserviceRequest.m; path = Source/AMWebserviceRequest.m; sourceTree = "<group>"; };
+		F4CFBE7B0B373606003C8C8D /* Debug.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Debug.h; path = Source/Debug.h; sourceTree = "<group>"; };
+		F4CFBE7C0B373606003C8C8D /* Debug.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = Debug.m; path = Source/Debug.m; sourceTree = "<group>"; };
+		F4CFBE7D0B373606003C8C8D /* KeyChain.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = KeyChain.h; path = Source/KeyChain.h; sourceTree = "<group>"; };
+		F4CFBE7E0B373606003C8C8D /* KeyChain.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = KeyChain.m; path = Source/KeyChain.m; sourceTree = "<group>"; };
+		F4CFBE7F0B373606003C8C8D /* main.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Source/main.m; sourceTree = "<group>"; };
+		F4CFBE800B373606003C8C8D /* AMNotification.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMNotification.h; path = Source/AMNotification.h; sourceTree = "<group>"; };
+		F4CFBE810B373606003C8C8D /* AMNotification.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMNotification.m; path = Source/AMNotification.m; sourceTree = "<group>"; };
+		F4CFBE820B373606003C8C8D /* AMTagController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMTagController.h; path = Source/AMTagController.h; sourceTree = "<group>"; };
+		F4CFBE830B373606003C8C8D /* AMTagController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMTagController.m; path = Source/AMTagController.m; sourceTree = "<group>"; };
+		F4CFBF5C0B374301003C8C8D /* AMXMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMXMLParser.h; path = Source/AMXMLParser.h; sourceTree = "<group>"; };
+		F4CFBF5D0B374301003C8C8D /* AMXMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMXMLParser.m; path = Source/AMXMLParser.m; sourceTree = "<group>"; };
+		F4CFBF6A0B374416003C8C8D /* AMXMLResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMXMLResult.h; path = Source/AMXMLResult.h; sourceTree = "<group>"; };
+		F4CFBF6B0B374416003C8C8D /* AMXMLResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMXMLResult.m; path = Source/AMXMLResult.m; sourceTree = "<group>"; };
+		F4CFBF800B374BAB003C8C8D /* AMPlainTextParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMPlainTextParser.h; path = Source/AMPlainTextParser.h; sourceTree = "<group>"; };
+		F4CFBF810B374BAB003C8C8D /* AMPlainTextParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMPlainTextParser.m; path = Source/AMPlainTextParser.m; sourceTree = "<group>"; };
+		F4CFC24B0B37E09E003C8C8D /* AMSimilarArtistsController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMSimilarArtistsController.h; path = Source/AMSimilarArtistsController.h; sourceTree = "<group>"; };
+		F4CFC24C0B37E09E003C8C8D /* AMSimilarArtistsController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMSimilarArtistsController.m; path = Source/AMSimilarArtistsController.m; sourceTree = "<group>"; };
+		F4CFC3400B37E8F7003C8C8D /* AMGlobalTagsController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMGlobalTagsController.h; path = Source/AMGlobalTagsController.h; sourceTree = "<group>"; };
+		F4CFC3410B37E8F7003C8C8D /* AMGlobalTagsController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMGlobalTagsController.m; path = Source/AMGlobalTagsController.m; sourceTree = "<group>"; };
+		F4CFC3740B37EC09003C8C8D /* AMCustomController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMCustomController.h; path = Source/AMCustomController.h; sourceTree = "<group>"; };
+		F4CFC3750B37EC09003C8C8D /* AMCustomController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMCustomController.m; path = Source/AMCustomController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,7 +214,6 @@
 				F4069A010A1619600006D2B3 /* Cocoa.framework in Frameworks */,
 				F4069A020A1619600006D2B3 /* Carbon.framework in Frameworks */,
 				F4069A030A1619600006D2B3 /* libcrypto.dylib in Frameworks */,
-				F4069A040A1619600006D2B3 /* CURLHandle.framework in Frameworks */,
 				F445FF010A2C93DD00A9989C /* Growl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -151,31 +221,9 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		080E96DDFE201D6D7F000001 /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				0C83A56007C4F734001A45EA /* AmuaController.m */,
-				0C287795096EBB1B00BABB9E /* StationController.m */,
-				F48B8A8A0A3D98BB003C6FA7 /* TagController.m */,
-				0C88FD5207C5449800221576 /* PreferencesController.m */,
-				0CB7A6D207C8AA9000E4342A /* LastfmWebService.m */,
-				0C287793096EBB1B00BABB9E /* RecentStations.m */,
-				F43B316807DB2D3300E14140 /* AmuaUpdater.m */,
-				0C287797096EBB1B00BABB9E /* SearchService.m */,
-				F4F3FEB907CB28C600ECE67F /* AmuaView.m */,
-				F4EF3CE307E1E6DC003BBC9F /* SongInformationPanel.m */,
-				F47030DF09AF6D2100F420F5 /* FloatingTextField.m */,
-				F46D60FB099646B00023FC2F /* Notification.m */,
-				0C994E0F07D13535005016EE /* KeyChain.m */,
-				F4190AA40A6282ED005D00C9 /* Debug.m */,
-			);
-			name = Classes;
-			sourceTree = "<group>";
-		};
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F43EA11B097A8AE700C0FC11 /* CURLHandle.framework */,
 				0CB409E30972E5ED00E0C772 /* libcrypto.dylib */,
 				F45B8A7F07DB7231007383B1 /* Carbon.framework */,
 				0C287A6707C677F400AF7154 /* Cocoa.framework */,
@@ -204,10 +252,13 @@
 		29B97314FDCFA39411CA2CEA /* Amua */ = {
 			isa = PBXGroup;
 			children = (
-				F43B313507DA3E4200E14140 /* Headers */,
-				080E96DDFE201D6D7F000001 /* Classes */,
+				F4CFBF160B373A3B003C8C8D /* Controller */,
+				F4CFBF190B373A93003C8C8D /* View */,
+				F4CFBF170B373A58003C8C8D /* Player */,
+				F4CFBF180B373A79003C8C8D /* Webservice */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
+				F4CFBEBD0B3737BF003C8C8D /* NIB */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
@@ -217,8 +268,14 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				F4CFBE7F0B373606003C8C8D /* main.m */,
 				32CA4F630368D1EE00C91783 /* Amua_Prefix.pch */,
-				29B97316FDCFA39411CA2CEA /* main.m */,
+				F4CFBE750B373606003C8C8D /* AmuaUpdater.h */,
+				F4CFBE760B373606003C8C8D /* AmuaUpdater.m */,
+				F4CFBE7B0B373606003C8C8D /* Debug.h */,
+				F4CFBE7C0B373606003C8C8D /* Debug.m */,
+				F4CFBE7D0B373606003C8C8D /* KeyChain.h */,
+				F4CFBE7E0B373606003C8C8D /* KeyChain.m */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -235,9 +292,6 @@
 				0C73309107CB340600D4A0AC /* Amua.icns */,
 				F429155609C1C8260088835A /* nocover.png */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
-				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
-				0C83A58807C4FE47001A45EA /* Preferences.nib */,
-				F46D60FC099646B00023FC2F /* Notification.nib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -251,25 +305,84 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		F43B313507DA3E4200E14140 /* Headers */ = {
+		F4CFBEBD0B3737BF003C8C8D /* NIB */ = {
 			isa = PBXGroup;
 			children = (
-				0C83A56107C4F734001A45EA /* AmuaController.h */,
-				0C287794096EBB1B00BABB9E /* StationController.h */,
-				F48B8A890A3D98BB003C6FA7 /* TagController.h */,
-				0C88FD5107C5449800221576 /* PreferencesController.h */,
-				0CB7A6D107C8AA9000E4342A /* LastfmWebService.h */,
-				0C287792096EBB1B00BABB9E /* RecentStations.h */,
-				F43B316707DB2D3300E14140 /* AmuaUpdater.h */,
-				0C287796096EBB1B00BABB9E /* SearchService.h */,
-				F4F3FEB807CB28C600ECE67F /* AmuaView.h */,
-				F4EF3CE207E1E6DC003BBC9F /* SongInformationPanel.h */,
-				F47030DE09AF6D2100F420F5 /* FloatingTextField.h */,
-				F46D60FA099646B00023FC2F /* Notification.h */,
-				0C994E0E07D13535005016EE /* KeyChain.h */,
-				F4DB25B8099CCB5500E52D60 /* Debug.h */,
+				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
+				0C83A58807C4FE47001A45EA /* Preferences.nib */,
+				F42D042B0B30B23200D14A2C /* Stations.nib */,
+				F4CFBDAB0B372B8F003C8C8D /* Tags.nib */,
+				F46D60FC099646B00023FC2F /* Notification.nib */,
 			);
-			name = Headers;
+			name = NIB;
+			sourceTree = "<group>";
+		};
+		F4CFBF160B373A3B003C8C8D /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				F4CFBE610B373606003C8C8D /* AMController.h */,
+				F4CFBE620B373606003C8C8D /* AMController.m */,
+				F4CFBE670B373606003C8C8D /* AMPreferencesController.h */,
+				F4CFBE680B373606003C8C8D /* AMPreferencesController.m */,
+				F4CFBE6F0B373606003C8C8D /* AMStationController.h */,
+				F4CFBE700B373606003C8C8D /* AMStationController.m */,
+				F4CFC24B0B37E09E003C8C8D /* AMSimilarArtistsController.h */,
+				F4CFC24C0B37E09E003C8C8D /* AMSimilarArtistsController.m */,
+				F4CFC3400B37E8F7003C8C8D /* AMGlobalTagsController.h */,
+				F4CFC3410B37E8F7003C8C8D /* AMGlobalTagsController.m */,
+				F4CFC3740B37EC09003C8C8D /* AMCustomController.h */,
+				F4CFC3750B37EC09003C8C8D /* AMCustomController.m */,
+				F4CFBE820B373606003C8C8D /* AMTagController.h */,
+				F4CFBE830B373606003C8C8D /* AMTagController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		F4CFBF170B373A58003C8C8D /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				F4CFBE650B373606003C8C8D /* AMPlayer.h */,
+				F4CFBE660B373606003C8C8D /* AMPlayer.m */,
+				F4CFBE630B373606003C8C8D /* AMiTunesPlayback.h */,
+				F4CFBE640B373606003C8C8D /* AMiTunesPlayback.m */,
+				F4CFBE6B0B373606003C8C8D /* AMSongInformation.h */,
+				F4CFBE6C0B373606003C8C8D /* AMSongInformation.m */,
+				F4CFBE690B373606003C8C8D /* AMRecentStations.h */,
+				F4CFBE6A0B373606003C8C8D /* AMRecentStations.m */,
+			);
+			name = Player;
+			sourceTree = "<group>";
+		};
+		F4CFBF180B373A79003C8C8D /* Webservice */ = {
+			isa = PBXGroup;
+			children = (
+				F4CFBE770B373606003C8C8D /* AMWebserviceClient.h */,
+				F4CFBE780B373606003C8C8D /* AMWebserviceClient.m */,
+				F4CFBE790B373606003C8C8D /* AMWebserviceRequest.h */,
+				F4CFBE7A0B373606003C8C8D /* AMWebserviceRequest.m */,
+				F4CFBF800B374BAB003C8C8D /* AMPlainTextParser.h */,
+				F4CFBF810B374BAB003C8C8D /* AMPlainTextParser.m */,
+				F4CFBF5C0B374301003C8C8D /* AMXMLParser.h */,
+				F4CFBF5D0B374301003C8C8D /* AMXMLParser.m */,
+				F4CFBF6A0B374416003C8C8D /* AMXMLResult.h */,
+				F4CFBF6B0B374416003C8C8D /* AMXMLResult.m */,
+			);
+			name = Webservice;
+			sourceTree = "<group>";
+		};
+		F4CFBF190B373A93003C8C8D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F4CFBE710B373606003C8C8D /* AMStatusBarView.h */,
+				F4CFBE720B373606003C8C8D /* AMStatusBarView.m */,
+				F4CFBE6D0B373606003C8C8D /* AMSongInformationPanel.h */,
+				F4CFBE6E0B373606003C8C8D /* AMSongInformationPanel.m */,
+				F4CFBE730B373606003C8C8D /* AMTextField.h */,
+				F4CFBE740B373606003C8C8D /* AMTextField.m */,
+				F4CFBE800B373606003C8C8D /* AMNotification.h */,
+				F4CFBE810B373606003C8C8D /* AMNotification.m */,
+			);
+			name = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -373,6 +486,8 @@
 				F4069A0D0A1619880006D2B3 /* README.rtf in Resources */,
 				F4069A0E0A1619880006D2B3 /* version.plist in Resources */,
 				F4069A0F0A1619880006D2B3 /* nocover.png in Resources */,
+				F42D042E0B30B23200D14A2C /* Stations.nib in Resources */,
+				F4CFBDAC0B372B8F003C8C8D /* Tags.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -383,21 +498,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F406995D0A1619530006D2B3 /* main.m in Sources */,
-				F406995E0A1619530006D2B3 /* AmuaController.m in Sources */,
-				F406995F0A1619530006D2B3 /* AmuaUpdater.m in Sources */,
-				F40699600A1619530006D2B3 /* PreferencesController.m in Sources */,
-				F40699610A1619530006D2B3 /* LastfmWebService.m in Sources */,
-				F40699620A1619530006D2B3 /* AmuaView.m in Sources */,
-				F40699630A1619530006D2B3 /* KeyChain.m in Sources */,
-				F40699640A1619530006D2B3 /* SongInformationPanel.m in Sources */,
-				F40699650A1619530006D2B3 /* RecentStations.m in Sources */,
-				F40699660A1619530006D2B3 /* StationController.m in Sources */,
-				F40699670A1619530006D2B3 /* SearchService.m in Sources */,
-				F40699680A1619530006D2B3 /* Notification.m in Sources */,
-				F40699690A1619530006D2B3 /* FloatingTextField.m in Sources */,
-				F48B8A8C0A3D98BB003C6FA7 /* TagController.m in Sources */,
-				F4190AA50A6282ED005D00C9 /* Debug.m in Sources */,
+				F4CFBE850B373606003C8C8D /* AMController.m in Sources */,
+				F4CFBE870B373606003C8C8D /* AMiTunesPlayback.m in Sources */,
+				F4CFBE890B373606003C8C8D /* AMPlayer.m in Sources */,
+				F4CFBE8B0B373606003C8C8D /* AMPreferencesController.m in Sources */,
+				F4CFBE8D0B373606003C8C8D /* AMRecentStations.m in Sources */,
+				F4CFBE8F0B373606003C8C8D /* AMSongInformation.m in Sources */,
+				F4CFBE910B373606003C8C8D /* AMSongInformationPanel.m in Sources */,
+				F4CFBE930B373606003C8C8D /* AMStationController.m in Sources */,
+				F4CFBE950B373606003C8C8D /* AMStatusBarView.m in Sources */,
+				F4CFBE970B373606003C8C8D /* AMTextField.m in Sources */,
+				F4CFBE990B373606003C8C8D /* AmuaUpdater.m in Sources */,
+				F4CFBE9B0B373606003C8C8D /* AMWebserviceClient.m in Sources */,
+				F4CFBE9D0B373606003C8C8D /* AMWebserviceRequest.m in Sources */,
+				F4CFBE9F0B373606003C8C8D /* Debug.m in Sources */,
+				F4CFBEA10B373606003C8C8D /* KeyChain.m in Sources */,
+				F4CFBEA20B373606003C8C8D /* main.m in Sources */,
+				F4CFBEA40B373606003C8C8D /* AMNotification.m in Sources */,
+				F4CFBEA60B373606003C8C8D /* AMTagController.m in Sources */,
+				F4CFBF5F0B374301003C8C8D /* AMXMLParser.m in Sources */,
+				F4CFBF6D0B374416003C8C8D /* AMXMLResult.m in Sources */,
+				F4CFBF830B374BAB003C8C8D /* AMPlainTextParser.m in Sources */,
+				F4CFC24E0B37E09E003C8C8D /* AMSimilarArtistsController.m in Sources */,
+				F4CFC3430B37E8F7003C8C8D /* AMGlobalTagsController.m in Sources */,
+				F4CFC3770B37EC09003C8C8D /* AMCustomController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -407,15 +531,16 @@
 		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				089C165DFE840E0CC02AAC07 /* English */,
+				089C165DFE840E0CC02AAC07 /* InfoPlist.strings */,
 			);
 			name = InfoPlist.strings;
+			path = Resources/English.lproj;
 			sourceTree = "<group>";
 		};
 		29B97318FDCFA39411CA2CEA /* MainMenu.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				29B97319FDCFA39411CA2CEA /* English */,
+				29B97319FDCFA39411CA2CEA /* MainMenu.nib */,
 			);
 			name = MainMenu.nib;
 			sourceTree = "<group>";
@@ -429,7 +554,7 @@
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(FRAMEWORK_SEARCH_PATHS)",
-					"$(SRCROOT)",
+					"$(SRCROOT)/Frameworks",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -438,7 +563,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INFOPLIST_FILE = "Amua-Info.plist";
+				INFOPLIST_FILE = "Plists/Amua-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -463,14 +588,14 @@
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(FRAMEWORK_SEARCH_PATHS)",
-					"$(SRCROOT)",
+					"$(SRCROOT)/Frameworks",
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INFOPLIST_FILE = "Amua-Info.plist";
+				INFOPLIST_FILE = "Plists/Amua-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -490,13 +615,13 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(FRAMEWORK_SEARCH_PATHS)",
-					"$(SRCROOT)",
+					"$(SRCROOT)/Frameworks",
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INFOPLIST_FILE = "Amua-Info.plist";
+				INFOPLIST_FILE = "Plists/Amua-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -514,24 +639,32 @@
 		F43EA05D097A89BA00C0FC11 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DEBUGGING_SYMBOLS = full;
+				INFOPLIST_FILE = "Plists/Amua-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				USER_HEADER_SEARCH_PATHS = Source;
 			};
 			name = Development;
 		};
 		F43EA05E097A89BA00C0FC11 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				INFOPLIST_FILE = "Plists/Amua-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				USER_HEADER_SEARCH_PATHS = Source;
 			};
 			name = Deployment;
 		};
 		F43EA05F097A89BA00C0FC11 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				INFOPLIST_FILE = "Plists/Amua-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				USER_HEADER_SEARCH_PATHS = Source;
 			};
 			name = Default;
 		};
