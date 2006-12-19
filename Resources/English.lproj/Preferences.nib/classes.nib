@@ -1,0 +1,28 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                cancel = id; 
+                checkForUpdates = id; 
+                myAction = id; 
+                save = id; 
+                setDefaults = id; 
+                stationChanged = id; 
+                stationUserToggle = id; 
+            }; 
+            CLASS = PreferencesController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                defaultCheckBox = NSButton; 
+                logLevel = NSPopUpButton; 
+                password = NSTextField; 
+                updatesCheckBox = NSButton; 
+                username = NSTextField; 
+                webServiceServer = NSTextField; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

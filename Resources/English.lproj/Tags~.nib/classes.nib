@@ -1,0 +1,75 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {
+                banSong = id; 
+                changeDetachSongInfoSettings = id; 
+                changeDiscoverySettings = id; 
+                changeRecordToProfileSettings = id; 
+                changeTooltipSettings = id; 
+                clearRecentStations = id; 
+                defaultPlayerNotificationResult = id; 
+                loveSong = id; 
+                openAboutPanel = id; 
+                openAlbumPage = id; 
+                openLastfmHomepage = id; 
+                openPersonalPage = id; 
+                openPlayStationPanel = id; 
+                openPreferences = id; 
+                openTagAsPanel = id; 
+                playMostRecent = id; 
+                playRecentStation = id; 
+                skipSong = id; 
+                stop = id; 
+            }; 
+            CLASS = AMController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                application = NSApplication; 
+                songInfoPanel = AMSongInformationPanel; 
+                tagController = TagController; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {updateTime = id; }; 
+            CLASS = AMSongInformationPanel; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                album = AMTextField; 
+                artist = AMTextField; 
+                footer = AMTextField; 
+                image = NSImageView; 
+                time = NSTextField; 
+                track = AMTextField; 
+            }; 
+            SUPERCLASS = NSPanel; 
+        }, 
+        {CLASS = AMTextField; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {addTag = id; changeRadioButton = id; removeTag = id; saveTags = id; }; 
+            CLASS = TagController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                addButton = NSButton; 
+                albumButton = NSButtonCell; 
+                albumLabel = NSTextField; 
+                artistButton = NSButtonCell; 
+                artistLabel = NSTextField; 
+                errorField = NSTextField; 
+                radioButtons = NSMatrix; 
+                removeButton = NSButton; 
+                saveButton = NSButton; 
+                spinner = NSProgressIndicator; 
+                tagField = NSTextField; 
+                tagWindow = NSWindow; 
+                tagsTable = NSTableView; 
+                trackButton = NSButtonCell; 
+                trackLabel = NSTextField; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

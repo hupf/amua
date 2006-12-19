@@ -1,0 +1,52 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {
+                banSong = id; 
+                changeDetachSongInfoSettings = id; 
+                changeDiscoverySettings = id; 
+                changeRecordToProfileSettings = id; 
+                changeTooltipSettings = id; 
+                clearRecentStations = id; 
+                defaultPlayerNotificationResult = id; 
+                loveSong = id; 
+                openAboutPanel = id; 
+                openAlbumPage = id; 
+                openLastfmHomepage = id; 
+                openPersonalPage = id; 
+                openPlayStationPanel = id; 
+                openPreferences = id; 
+                openTagAsPanel = id; 
+                playMostRecent = id; 
+                playRecentStation = id; 
+                skipSong = id; 
+                stop = id; 
+            }; 
+            CLASS = AMController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                application = NSApplication; 
+                songInfoPanel = AMSongInformationPanel; 
+                tagController = TagController; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {updateTime = id; }; 
+            CLASS = AMSongInformationPanel; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                album = AMTextField; 
+                artist = AMTextField; 
+                footer = AMTextField; 
+                image = NSImageView; 
+                time = NSTextField; 
+                track = AMTextField; 
+            }; 
+            SUPERCLASS = NSPanel; 
+        }, 
+        {CLASS = AMTextField; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}
