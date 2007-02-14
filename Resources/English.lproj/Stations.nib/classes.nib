@@ -1,0 +1,46 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {searchWithSender = id; }; 
+            CLASS = AMCustomController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {customField = NSTextField; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {searchWithSender = id; }; 
+            CLASS = AMGlobalTagsController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {tagField = NSTextField; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {searchWithSender = id; }; 
+            CLASS = AMSimilarArtistsController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                imageView = NSImageView; 
+                mainLabel = NSTextField; 
+                playButton = NSButton; 
+                searchButton = NSButton; 
+                searchField = NSTextField; 
+                similarLabel = NSTextField; 
+                spinner = NSProgressIndicator; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {play = id; search = id; }; 
+            CLASS = AMStationController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                artistController = AMSimilarArtistsController; 
+                customController = AMCustomController; 
+                globalTagController = AMGlobalTagsController; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

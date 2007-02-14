@@ -1,0 +1,647 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F4069A010A1619600006D2B3 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C287A6707C677F400AF7154 /* Cocoa.framework */; };
+		F4069A020A1619600006D2B3 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F45B8A7F07DB7231007383B1 /* Carbon.framework */; };
+		F4069A030A1619600006D2B3 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CB409E30972E5ED00E0C772 /* libcrypto.dylib */; };
+		F4069A050A1619880006D2B3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
+		F4069A060A1619880006D2B3 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
+		F4069A070A1619880006D2B3 /* Preferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 0C83A58807C4FE47001A45EA /* Preferences.nib */; };
+		F4069A080A1619880006D2B3 /* Notification.nib in Resources */ = {isa = PBXBuildFile; fileRef = F46D60FC099646B00023FC2F /* Notification.nib */; };
+		F4069A090A1619880006D2B3 /* Defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0C88FCA507C53D6500221576 /* Defaults.plist */; };
+		F4069A0A0A1619880006D2B3 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 0CB7AD0F07C92F1A00E4342A /* Credits.html */; };
+		F4069A0B0A1619880006D2B3 /* Amua.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0C73309107CB340600D4A0AC /* Amua.icns */; };
+		F4069A0E0A1619880006D2B3 /* version.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0C287798096EBB1B00BABB9E /* version.plist */; };
+		F4069A0F0A1619880006D2B3 /* nocover.png in Resources */ = {isa = PBXBuildFile; fileRef = F429155609C1C8260088835A /* nocover.png */; };
+		F42D042E0B30B23200D14A2C /* Stations.nib in Resources */ = {isa = PBXBuildFile; fileRef = F42D042B0B30B23200D14A2C /* Stations.nib */; };
+		F445FF010A2C93DD00A9989C /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F445FF000A2C93DD00A9989C /* Growl.framework */; };
+		F445FF1C0A2C93FD00A9989C /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F445FF000A2C93DD00A9989C /* Growl.framework */; };
+		F4CFBDAC0B372B8F003C8C8D /* Tags.nib in Resources */ = {isa = PBXBuildFile; fileRef = F4CFBDAB0B372B8F003C8C8D /* Tags.nib */; };
+		F4CFBE850B373606003C8C8D /* AMController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE620B373606003C8C8D /* AMController.m */; };
+		F4CFBE870B373606003C8C8D /* AMiTunesPlayback.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE640B373606003C8C8D /* AMiTunesPlayback.m */; };
+		F4CFBE890B373606003C8C8D /* AMPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE660B373606003C8C8D /* AMPlayer.m */; };
+		F4CFBE8B0B373606003C8C8D /* AMPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE680B373606003C8C8D /* AMPreferencesController.m */; };
+		F4CFBE8D0B373606003C8C8D /* AMRecentStations.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE6A0B373606003C8C8D /* AMRecentStations.m */; };
+		F4CFBE8F0B373606003C8C8D /* AMSongInformation.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE6C0B373606003C8C8D /* AMSongInformation.m */; };
+		F4CFBE910B373606003C8C8D /* AMSongInformationPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE6E0B373606003C8C8D /* AMSongInformationPanel.m */; };
+		F4CFBE930B373606003C8C8D /* AMStationController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE700B373606003C8C8D /* AMStationController.m */; };
+		F4CFBE950B373606003C8C8D /* AMStatusBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE720B373606003C8C8D /* AMStatusBarView.m */; };
+		F4CFBE970B373606003C8C8D /* AMTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE740B373606003C8C8D /* AMTextField.m */; };
+		F4CFBE990B373606003C8C8D /* AmuaUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE760B373606003C8C8D /* AmuaUpdater.m */; };
+		F4CFBE9B0B373606003C8C8D /* AMWebserviceClient.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE780B373606003C8C8D /* AMWebserviceClient.m */; };
+		F4CFBE9D0B373606003C8C8D /* AMWebserviceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE7A0B373606003C8C8D /* AMWebserviceRequest.m */; };
+		F4CFBE9F0B373606003C8C8D /* Debug.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE7C0B373606003C8C8D /* Debug.m */; };
+		F4CFBEA10B373606003C8C8D /* KeyChain.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE7E0B373606003C8C8D /* KeyChain.m */; };
+		F4CFBEA20B373606003C8C8D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE7F0B373606003C8C8D /* main.m */; };
+		F4CFBEA40B373606003C8C8D /* AMNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE810B373606003C8C8D /* AMNotification.m */; };
+		F4CFBEA60B373606003C8C8D /* AMTagController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE830B373606003C8C8D /* AMTagController.m */; };
+		F4CFBF5F0B374301003C8C8D /* AMXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBF5D0B374301003C8C8D /* AMXMLParser.m */; };
+		F4CFBF6D0B374416003C8C8D /* AMXMLResult.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBF6B0B374416003C8C8D /* AMXMLResult.m */; };
+		F4CFBF830B374BAB003C8C8D /* AMPlainTextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBF810B374BAB003C8C8D /* AMPlainTextParser.m */; };
+		F4CFC24E0B37E09E003C8C8D /* AMSimilarArtistsController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFC24C0B37E09E003C8C8D /* AMSimilarArtistsController.m */; };
+		F4CFC3430B37E8F7003C8C8D /* AMGlobalTagsController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFC3410B37E8F7003C8C8D /* AMGlobalTagsController.m */; };
+		F4CFC3770B37EC09003C8C8D /* AMCustomController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFC3750B37EC09003C8C8D /* AMCustomController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+		4A9504CCFFE6A4B311CA0CBA /* Development */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		4A9504CDFFE6A4B311CA0CBA /* Deployment */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F4069A100A1619BA0006D2B3 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				F445FF1C0A2C93FD00A9989C /* Growl.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		089C165DFE840E0CC02AAC07 /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
+		0C287790096EBB1B00BABB9E /* COPYING.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = COPYING.txt; sourceTree = "<group>"; };
+		0C287791096EBB1B00BABB9E /* README.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = README.rtf; path = Documentation/README.rtf; sourceTree = "<group>"; };
+		0C287798096EBB1B00BABB9E /* version.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = version.plist; path = Plists/version.plist; sourceTree = "<group>"; };
+		0C287A6707C677F400AF7154 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		0C73309107CB340600D4A0AC /* Amua.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Amua.icns; path = Resources/Amua.icns; sourceTree = "<group>"; };
+		0C83A58807C4FE47001A45EA /* Preferences.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Preferences.nib; path = Resources/English.lproj/Preferences.nib; sourceTree = "<group>"; };
+		0C88FCA507C53D6500221576 /* Defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Defaults.plist; path = Plists/Defaults.plist; sourceTree = "<group>"; };
+		0CB409E30972E5ED00E0C772 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = /usr/lib/libcrypto.dylib; sourceTree = "<absolute>"; };
+		0CB7AD0F07C92F1A00E4342A /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = Credits.html; path = Resources/Credits.html; sourceTree = "<group>"; };
+		29B97319FDCFA39411CA2CEA /* MainMenu.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = MainMenu.nib; path = Resources/English.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		32CA4F630368D1EE00C91783 /* Amua_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Amua_Prefix.pch; sourceTree = "<group>"; };
+		F40699560A1618A50006D2B3 /* Amua.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Amua.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F40699580A1618A50006D2B3 /* Amua-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Amua-Info.plist"; path = "Plists/Amua-Info.plist"; sourceTree = "<group>"; };
+		F429155609C1C8260088835A /* nocover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = nocover.png; path = Resources/nocover.png; sourceTree = "<group>"; };
+		F42D042B0B30B23200D14A2C /* Stations.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Stations.nib; path = Resources/English.lproj/Stations.nib; sourceTree = "<group>"; };
+		F445FF000A2C93DD00A9989C /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Frameworks/Growl.framework; sourceTree = "<group>"; };
+		F45B8A7F07DB7231007383B1 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+		F46D60FC099646B00023FC2F /* Notification.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Notification.nib; path = Resources/English.lproj/Notification.nib; sourceTree = "<group>"; };
+		F4CFBDAB0B372B8F003C8C8D /* Tags.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Tags.nib; path = Resources/English.lproj/Tags.nib; sourceTree = "<group>"; };
+		F4CFBE610B373606003C8C8D /* AMController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMController.h; path = Source/AMController.h; sourceTree = "<group>"; };
+		F4CFBE620B373606003C8C8D /* AMController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMController.m; path = Source/AMController.m; sourceTree = "<group>"; };
+		F4CFBE630B373606003C8C8D /* AMiTunesPlayback.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMiTunesPlayback.h; path = Source/AMiTunesPlayback.h; sourceTree = "<group>"; };
+		F4CFBE640B373606003C8C8D /* AMiTunesPlayback.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMiTunesPlayback.m; path = Source/AMiTunesPlayback.m; sourceTree = "<group>"; };
+		F4CFBE650B373606003C8C8D /* AMPlayer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMPlayer.h; path = Source/AMPlayer.h; sourceTree = "<group>"; };
+		F4CFBE660B373606003C8C8D /* AMPlayer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMPlayer.m; path = Source/AMPlayer.m; sourceTree = "<group>"; };
+		F4CFBE670B373606003C8C8D /* AMPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMPreferencesController.h; path = Source/AMPreferencesController.h; sourceTree = "<group>"; };
+		F4CFBE680B373606003C8C8D /* AMPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMPreferencesController.m; path = Source/AMPreferencesController.m; sourceTree = "<group>"; };
+		F4CFBE690B373606003C8C8D /* AMRecentStations.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMRecentStations.h; path = Source/AMRecentStations.h; sourceTree = "<group>"; };
+		F4CFBE6A0B373606003C8C8D /* AMRecentStations.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMRecentStations.m; path = Source/AMRecentStations.m; sourceTree = "<group>"; };
+		F4CFBE6B0B373606003C8C8D /* AMSongInformation.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMSongInformation.h; path = Source/AMSongInformation.h; sourceTree = "<group>"; };
+		F4CFBE6C0B373606003C8C8D /* AMSongInformation.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMSongInformation.m; path = Source/AMSongInformation.m; sourceTree = "<group>"; };
+		F4CFBE6D0B373606003C8C8D /* AMSongInformationPanel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMSongInformationPanel.h; path = Source/AMSongInformationPanel.h; sourceTree = "<group>"; };
+		F4CFBE6E0B373606003C8C8D /* AMSongInformationPanel.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMSongInformationPanel.m; path = Source/AMSongInformationPanel.m; sourceTree = "<group>"; };
+		F4CFBE6F0B373606003C8C8D /* AMStationController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMStationController.h; path = Source/AMStationController.h; sourceTree = "<group>"; };
+		F4CFBE700B373606003C8C8D /* AMStationController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMStationController.m; path = Source/AMStationController.m; sourceTree = "<group>"; };
+		F4CFBE710B373606003C8C8D /* AMStatusBarView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMStatusBarView.h; path = Source/AMStatusBarView.h; sourceTree = "<group>"; };
+		F4CFBE720B373606003C8C8D /* AMStatusBarView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMStatusBarView.m; path = Source/AMStatusBarView.m; sourceTree = "<group>"; };
+		F4CFBE730B373606003C8C8D /* AMTextField.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMTextField.h; path = Source/AMTextField.h; sourceTree = "<group>"; };
+		F4CFBE740B373606003C8C8D /* AMTextField.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMTextField.m; path = Source/AMTextField.m; sourceTree = "<group>"; };
+		F4CFBE750B373606003C8C8D /* AmuaUpdater.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AmuaUpdater.h; path = Source/AmuaUpdater.h; sourceTree = "<group>"; };
+		F4CFBE760B373606003C8C8D /* AmuaUpdater.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AmuaUpdater.m; path = Source/AmuaUpdater.m; sourceTree = "<group>"; };
+		F4CFBE770B373606003C8C8D /* AMWebserviceClient.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMWebserviceClient.h; path = Source/AMWebserviceClient.h; sourceTree = "<group>"; };
+		F4CFBE780B373606003C8C8D /* AMWebserviceClient.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMWebserviceClient.m; path = Source/AMWebserviceClient.m; sourceTree = "<group>"; };
+		F4CFBE790B373606003C8C8D /* AMWebserviceRequest.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMWebserviceRequest.h; path = Source/AMWebserviceRequest.h; sourceTree = "<group>"; };
+		F4CFBE7A0B373606003C8C8D /* AMWebserviceRequest.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMWebserviceRequest.m; path = Source/AMWebserviceRequest.m; sourceTree = "<group>"; };
+		F4CFBE7B0B373606003C8C8D /* Debug.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Debug.h; path = Source/Debug.h; sourceTree = "<group>"; };
+		F4CFBE7C0B373606003C8C8D /* Debug.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = Debug.m; path = Source/Debug.m; sourceTree = "<group>"; };
+		F4CFBE7D0B373606003C8C8D /* KeyChain.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = KeyChain.h; path = Source/KeyChain.h; sourceTree = "<group>"; };
+		F4CFBE7E0B373606003C8C8D /* KeyChain.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = KeyChain.m; path = Source/KeyChain.m; sourceTree = "<group>"; };
+		F4CFBE7F0B373606003C8C8D /* main.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Source/main.m; sourceTree = "<group>"; };
+		F4CFBE800B373606003C8C8D /* AMNotification.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMNotification.h; path = Source/AMNotification.h; sourceTree = "<group>"; };
+		F4CFBE810B373606003C8C8D /* AMNotification.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMNotification.m; path = Source/AMNotification.m; sourceTree = "<group>"; };
+		F4CFBE820B373606003C8C8D /* AMTagController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMTagController.h; path = Source/AMTagController.h; sourceTree = "<group>"; };
+		F4CFBE830B373606003C8C8D /* AMTagController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMTagController.m; path = Source/AMTagController.m; sourceTree = "<group>"; };
+		F4CFBF5C0B374301003C8C8D /* AMXMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMXMLParser.h; path = Source/AMXMLParser.h; sourceTree = "<group>"; };
+		F4CFBF5D0B374301003C8C8D /* AMXMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMXMLParser.m; path = Source/AMXMLParser.m; sourceTree = "<group>"; };
+		F4CFBF6A0B374416003C8C8D /* AMXMLResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMXMLResult.h; path = Source/AMXMLResult.h; sourceTree = "<group>"; };
+		F4CFBF6B0B374416003C8C8D /* AMXMLResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMXMLResult.m; path = Source/AMXMLResult.m; sourceTree = "<group>"; };
+		F4CFBF800B374BAB003C8C8D /* AMPlainTextParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMPlainTextParser.h; path = Source/AMPlainTextParser.h; sourceTree = "<group>"; };
+		F4CFBF810B374BAB003C8C8D /* AMPlainTextParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMPlainTextParser.m; path = Source/AMPlainTextParser.m; sourceTree = "<group>"; };
+		F4CFC24B0B37E09E003C8C8D /* AMSimilarArtistsController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMSimilarArtistsController.h; path = Source/AMSimilarArtistsController.h; sourceTree = "<group>"; };
+		F4CFC24C0B37E09E003C8C8D /* AMSimilarArtistsController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMSimilarArtistsController.m; path = Source/AMSimilarArtistsController.m; sourceTree = "<group>"; };
+		F4CFC3400B37E8F7003C8C8D /* AMGlobalTagsController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMGlobalTagsController.h; path = Source/AMGlobalTagsController.h; sourceTree = "<group>"; };
+		F4CFC3410B37E8F7003C8C8D /* AMGlobalTagsController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMGlobalTagsController.m; path = Source/AMGlobalTagsController.m; sourceTree = "<group>"; };
+		F4CFC3740B37EC09003C8C8D /* AMCustomController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMCustomController.h; path = Source/AMCustomController.h; sourceTree = "<group>"; };
+		F4CFC3750B37EC09003C8C8D /* AMCustomController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMCustomController.m; path = Source/AMCustomController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F40699540A1618A50006D2B3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4069A010A1619600006D2B3 /* Cocoa.framework in Frameworks */,
+				F4069A020A1619600006D2B3 /* Carbon.framework in Frameworks */,
+				F4069A030A1619600006D2B3 /* libcrypto.dylib in Frameworks */,
+				F445FF010A2C93DD00A9989C /* Growl.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0CB409E30972E5ED00E0C772 /* libcrypto.dylib */,
+				F45B8A7F07DB7231007383B1 /* Carbon.framework */,
+				0C287A6707C677F400AF7154 /* Cocoa.framework */,
+				F445FF000A2C93DD00A9989C /* Growl.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F40699560A1618A50006D2B3 /* Amua.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* Amua */ = {
+			isa = PBXGroup;
+			children = (
+				F4CFBF160B373A3B003C8C8D /* Controller */,
+				F4CFBF190B373A93003C8C8D /* View */,
+				F4CFBF170B373A58003C8C8D /* Player */,
+				F4CFBF180B373A79003C8C8D /* Webservice */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				F4CFBEBD0B3737BF003C8C8D /* NIB */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = Amua;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				F4CFBE7F0B373606003C8C8D /* main.m */,
+				32CA4F630368D1EE00C91783 /* Amua_Prefix.pch */,
+				F4CFBE750B373606003C8C8D /* AmuaUpdater.h */,
+				F4CFBE760B373606003C8C8D /* AmuaUpdater.m */,
+				F4CFBE7B0B373606003C8C8D /* Debug.h */,
+				F4CFBE7C0B373606003C8C8D /* Debug.m */,
+				F4CFBE7D0B373606003C8C8D /* KeyChain.h */,
+				F4CFBE7E0B373606003C8C8D /* KeyChain.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F40699580A1618A50006D2B3 /* Amua-Info.plist */,
+				0CB7AD0F07C92F1A00E4342A /* Credits.html */,
+				0C88FCA507C53D6500221576 /* Defaults.plist */,
+				0C287798096EBB1B00BABB9E /* version.plist */,
+				0C287791096EBB1B00BABB9E /* README.rtf */,
+				0C287790096EBB1B00BABB9E /* COPYING.txt */,
+				0C73309107CB340600D4A0AC /* Amua.icns */,
+				F429155609C1C8260088835A /* nocover.png */,
+				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
+				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F4CFBEBD0B3737BF003C8C8D /* NIB */ = {
+			isa = PBXGroup;
+			children = (
+				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
+				0C83A58807C4FE47001A45EA /* Preferences.nib */,
+				F42D042B0B30B23200D14A2C /* Stations.nib */,
+				F4CFBDAB0B372B8F003C8C8D /* Tags.nib */,
+				F46D60FC099646B00023FC2F /* Notification.nib */,
+			);
+			name = NIB;
+			sourceTree = "<group>";
+		};
+		F4CFBF160B373A3B003C8C8D /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				F4CFBE610B373606003C8C8D /* AMController.h */,
+				F4CFBE620B373606003C8C8D /* AMController.m */,
+				F4CFBE670B373606003C8C8D /* AMPreferencesController.h */,
+				F4CFBE680B373606003C8C8D /* AMPreferencesController.m */,
+				F4CFBE6F0B373606003C8C8D /* AMStationController.h */,
+				F4CFBE700B373606003C8C8D /* AMStationController.m */,
+				F4CFC24B0B37E09E003C8C8D /* AMSimilarArtistsController.h */,
+				F4CFC24C0B37E09E003C8C8D /* AMSimilarArtistsController.m */,
+				F4CFC3400B37E8F7003C8C8D /* AMGlobalTagsController.h */,
+				F4CFC3410B37E8F7003C8C8D /* AMGlobalTagsController.m */,
+				F4CFC3740B37EC09003C8C8D /* AMCustomController.h */,
+				F4CFC3750B37EC09003C8C8D /* AMCustomController.m */,
+				F4CFBE820B373606003C8C8D /* AMTagController.h */,
+				F4CFBE830B373606003C8C8D /* AMTagController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		F4CFBF170B373A58003C8C8D /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				F4CFBE650B373606003C8C8D /* AMPlayer.h */,
+				F4CFBE660B373606003C8C8D /* AMPlayer.m */,
+				F4CFBE630B373606003C8C8D /* AMiTunesPlayback.h */,
+				F4CFBE640B373606003C8C8D /* AMiTunesPlayback.m */,
+				F4CFBE6B0B373606003C8C8D /* AMSongInformation.h */,
+				F4CFBE6C0B373606003C8C8D /* AMSongInformation.m */,
+				F4CFBE690B373606003C8C8D /* AMRecentStations.h */,
+				F4CFBE6A0B373606003C8C8D /* AMRecentStations.m */,
+			);
+			name = Player;
+			sourceTree = "<group>";
+		};
+		F4CFBF180B373A79003C8C8D /* Webservice */ = {
+			isa = PBXGroup;
+			children = (
+				F4CFBE770B373606003C8C8D /* AMWebserviceClient.h */,
+				F4CFBE780B373606003C8C8D /* AMWebserviceClient.m */,
+				F4CFBE790B373606003C8C8D /* AMWebserviceRequest.h */,
+				F4CFBE7A0B373606003C8C8D /* AMWebserviceRequest.m */,
+				F4CFBF800B374BAB003C8C8D /* AMPlainTextParser.h */,
+				F4CFBF810B374BAB003C8C8D /* AMPlainTextParser.m */,
+				F4CFBF5C0B374301003C8C8D /* AMXMLParser.h */,
+				F4CFBF5D0B374301003C8C8D /* AMXMLParser.m */,
+				F4CFBF6A0B374416003C8C8D /* AMXMLResult.h */,
+				F4CFBF6B0B374416003C8C8D /* AMXMLResult.m */,
+			);
+			name = Webservice;
+			sourceTree = "<group>";
+		};
+		F4CFBF190B373A93003C8C8D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F4CFBE710B373606003C8C8D /* AMStatusBarView.h */,
+				F4CFBE720B373606003C8C8D /* AMStatusBarView.m */,
+				F4CFBE6D0B373606003C8C8D /* AMSongInformationPanel.h */,
+				F4CFBE6E0B373606003C8C8D /* AMSongInformationPanel.m */,
+				F4CFBE730B373606003C8C8D /* AMTextField.h */,
+				F4CFBE740B373606003C8C8D /* AMTextField.m */,
+				F4CFBE800B373606003C8C8D /* AMNotification.h */,
+				F4CFBE810B373606003C8C8D /* AMNotification.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F40699550A1618A50006D2B3 /* Amua */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F40699590A1618A60006D2B3 /* Build configuration list for PBXNativeTarget "Amua" */;
+			buildPhases = (
+				F4069A100A1619BA0006D2B3 /* CopyFiles */,
+				F40699520A1618A50006D2B3 /* Resources */,
+				F40699530A1618A50006D2B3 /* Sources */,
+				F40699540A1618A50006D2B3 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "Amua-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = Amua;
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = YES;
+			};
+			dependencies = (
+			);
+			name = Amua;
+			productName = Amua;
+			productReference = F40699560A1618A50006D2B3 /* Amua.app */;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>${EXECUTABLE_NAME}</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.yourcompany.Amua</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+	<key>NSMainNibFile</key>
+	<string>MainMenu</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
+</dict>
+</plist>
+";
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = F43EA05C097A89BA00C0FC11 /* Build configuration list for PBXProject "Amua" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				4A9504CCFFE6A4B311CA0CBA /* Development */,
+				4A9504CDFFE6A4B311CA0CBA /* Deployment */,
+			);
+			hasScannedForEncodings = 1;
+			mainGroup = 29B97314FDCFA39411CA2CEA /* Amua */;
+			projectDirPath = "";
+			targets = (
+				F40699550A1618A50006D2B3 /* Amua */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F40699520A1618A50006D2B3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4069A050A1619880006D2B3 /* InfoPlist.strings in Resources */,
+				F4069A060A1619880006D2B3 /* MainMenu.nib in Resources */,
+				F4069A070A1619880006D2B3 /* Preferences.nib in Resources */,
+				F4069A080A1619880006D2B3 /* Notification.nib in Resources */,
+				F42D042E0B30B23200D14A2C /* Stations.nib in Resources */,
+				F4CFBDAC0B372B8F003C8C8D /* Tags.nib in Resources */,
+				F4069A090A1619880006D2B3 /* Defaults.plist in Resources */,
+				F4069A0E0A1619880006D2B3 /* version.plist in Resources */,
+				F4069A0A0A1619880006D2B3 /* Credits.html in Resources */,
+				F4069A0B0A1619880006D2B3 /* Amua.icns in Resources */,
+				F4069A0F0A1619880006D2B3 /* nocover.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F40699530A1618A50006D2B3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4CFBE850B373606003C8C8D /* AMController.m in Sources */,
+				F4CFBE870B373606003C8C8D /* AMiTunesPlayback.m in Sources */,
+				F4CFBE890B373606003C8C8D /* AMPlayer.m in Sources */,
+				F4CFBE8B0B373606003C8C8D /* AMPreferencesController.m in Sources */,
+				F4CFBE8D0B373606003C8C8D /* AMRecentStations.m in Sources */,
+				F4CFBE8F0B373606003C8C8D /* AMSongInformation.m in Sources */,
+				F4CFBE910B373606003C8C8D /* AMSongInformationPanel.m in Sources */,
+				F4CFBE930B373606003C8C8D /* AMStationController.m in Sources */,
+				F4CFBE950B373606003C8C8D /* AMStatusBarView.m in Sources */,
+				F4CFBE970B373606003C8C8D /* AMTextField.m in Sources */,
+				F4CFBE990B373606003C8C8D /* AmuaUpdater.m in Sources */,
+				F4CFBE9B0B373606003C8C8D /* AMWebserviceClient.m in Sources */,
+				F4CFBE9D0B373606003C8C8D /* AMWebserviceRequest.m in Sources */,
+				F4CFBE9F0B373606003C8C8D /* Debug.m in Sources */,
+				F4CFBEA10B373606003C8C8D /* KeyChain.m in Sources */,
+				F4CFBEA20B373606003C8C8D /* main.m in Sources */,
+				F4CFBEA40B373606003C8C8D /* AMNotification.m in Sources */,
+				F4CFBEA60B373606003C8C8D /* AMTagController.m in Sources */,
+				F4CFBF5F0B374301003C8C8D /* AMXMLParser.m in Sources */,
+				F4CFBF6D0B374416003C8C8D /* AMXMLResult.m in Sources */,
+				F4CFBF830B374BAB003C8C8D /* AMPlainTextParser.m in Sources */,
+				F4CFC24E0B37E09E003C8C8D /* AMSimilarArtistsController.m in Sources */,
+				F4CFC3430B37E8F7003C8C8D /* AMGlobalTagsController.m in Sources */,
+				F4CFC3770B37EC09003C8C8D /* AMCustomController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C165DFE840E0CC02AAC07 /* InfoPlist.strings */,
+			);
+			name = InfoPlist.strings;
+			path = Resources/English.lproj;
+			sourceTree = "<group>";
+		};
+		29B97318FDCFA39411CA2CEA /* MainMenu.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				29B97319FDCFA39411CA2CEA /* MainMenu.nib */,
+			);
+			name = MainMenu.nib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		F406995A0A1618A60006D2B3 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(FRAMEWORK_SEARCH_PATHS)",
+					"$(SRCROOT)/Frameworks",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "Plists/Amua-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = Amua;
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		F406995B0A1618A60006D2B3 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(FRAMEWORK_SEARCH_PATHS)",
+					"$(SRCROOT)/Frameworks",
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "Plists/Amua-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = Amua;
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		F406995C0A1618A60006D2B3 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(FRAMEWORK_SEARCH_PATHS)",
+					"$(SRCROOT)/Frameworks",
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "Plists/Amua-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = Amua;
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = YES;
+			};
+			name = Default;
+		};
+		F43EA05D097A89BA00C0FC11 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DEBUGGING_SYMBOLS = full;
+				INFOPLIST_FILE = "Plists/Amua-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				USER_HEADER_SEARCH_PATHS = Source;
+			};
+			name = Development;
+		};
+		F43EA05E097A89BA00C0FC11 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "Plists/Amua-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				USER_HEADER_SEARCH_PATHS = Source;
+			};
+			name = Deployment;
+		};
+		F43EA05F097A89BA00C0FC11 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "Plists/Amua-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				USER_HEADER_SEARCH_PATHS = Source;
+			};
+			name = Default;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F40699590A1618A60006D2B3 /* Build configuration list for PBXNativeTarget "Amua" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F406995A0A1618A60006D2B3 /* Development */,
+				F406995B0A1618A60006D2B3 /* Deployment */,
+				F406995C0A1618A60006D2B3 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Deployment;
+		};
+		F43EA05C097A89BA00C0FC11 /* Build configuration list for PBXProject "Amua" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F43EA05D097A89BA00C0FC11 /* Development */,
+				F43EA05E097A89BA00C0FC11 /* Deployment */,
+				F43EA05F097A89BA00C0FC11 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Deployment;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}
