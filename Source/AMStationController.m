@@ -57,22 +57,9 @@ enum {
     if (tabController != nil) {
         rect.size.height = [tabController windowHeight] + 20;
     }
-    /*switch (stationType) {
-        case SIMILAR_ARTISTS:
-            rect.size.height = 320 + 20;
-            break;
-        case GLOBAL_TAGS:
-            rect.size.height = 121 + 20;
-            break;
-        case USERS:
-            rect.size.height = 204 + 20;
-            break;
-        case CUSTOM:
-            rect.size.height = 121 + 20;
-            break;
-    }*/
+
     rect.origin.y -= rect.size.height - oldheight;
-        
+       
     [[self window] setFrame:rect display:YES animate:YES];
 }
 
@@ -88,23 +75,7 @@ enum {
 
 
 - (IBAction)play:(id)sender
-{
-    /*switch (stationType) {
-        case SIMILAR_ARTISTS:
-            [player start:[NSString stringWithFormat:@"lastfm://artist/%@/similarartists", 
-                 [[artistLabel stringValue] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
-            break;
-        case GLOBAL_TAGS:
-            [player start:[NSString stringWithFormat:@"lastfm://globaltags/%@", 
-                 [[tagField stringValue] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
-            break;
-        case USERS:
-            break;
-        case CUSTOM:
-            [player start:[customField stringValue]];
-            break;
-    }*/
-    
+{   
     if (tabController != nil) {
         [tabController startWithPlayer:player withSender:sender];
     }
@@ -133,6 +104,7 @@ enum {
             tabController = globalTagController;
             break;
         case USERS:
+            tabController = userController;
             break;
         case CUSTOM:
             tabController = customController;

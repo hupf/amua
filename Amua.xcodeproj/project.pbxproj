@@ -19,6 +19,8 @@
 		F4069A0B0A1619880006D2B3 /* Amua.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0C73309107CB340600D4A0AC /* Amua.icns */; };
 		F4069A0E0A1619880006D2B3 /* version.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0C287798096EBB1B00BABB9E /* version.plist */; };
 		F4069A0F0A1619880006D2B3 /* nocover.png in Resources */ = {isa = PBXBuildFile; fileRef = F429155609C1C8260088835A /* nocover.png */; };
+		F426F3D10B83253600179A42 /* AMUserController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F426F3CF0B83253600179A42 /* AMUserController.h */; };
+		F426F3D20B83253600179A42 /* AMUserController.m in Sources */ = {isa = PBXBuildFile; fileRef = F426F3D00B83253600179A42 /* AMUserController.m */; };
 		F42D042E0B30B23200D14A2C /* Stations.nib in Resources */ = {isa = PBXBuildFile; fileRef = F42D042B0B30B23200D14A2C /* Stations.nib */; };
 		F445FF010A2C93DD00A9989C /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F445FF000A2C93DD00A9989C /* Growl.framework */; };
 		F445FF1C0A2C93FD00A9989C /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F445FF000A2C93DD00A9989C /* Growl.framework */; };
@@ -81,6 +83,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				F445FF1C0A2C93FD00A9989C /* Growl.framework in CopyFiles */,
+				F426F3D10B83253600179A42 /* AMUserController.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -103,6 +106,8 @@
 		32CA4F630368D1EE00C91783 /* Amua_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Amua_Prefix.pch; sourceTree = "<group>"; };
 		F40699560A1618A50006D2B3 /* Amua.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Amua.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F40699580A1618A50006D2B3 /* Amua-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Amua-Info.plist"; path = "Plists/Amua-Info.plist"; sourceTree = "<group>"; };
+		F426F3CF0B83253600179A42 /* AMUserController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMUserController.h; path = Source/AMUserController.h; sourceTree = "<group>"; };
+		F426F3D00B83253600179A42 /* AMUserController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMUserController.m; path = Source/AMUserController.m; sourceTree = "<group>"; };
 		F429155609C1C8260088835A /* nocover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = nocover.png; path = Resources/nocover.png; sourceTree = "<group>"; };
 		F42D042B0B30B23200D14A2C /* Stations.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Stations.nib; path = Resources/English.lproj/Stations.nib; sourceTree = "<group>"; };
 		F445FF000A2C93DD00A9989C /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Frameworks/Growl.framework; sourceTree = "<group>"; };
@@ -257,6 +262,23 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		F405A0C60B84553A0083BA4E /* Station Controller */ = {
+			isa = PBXGroup;
+			children = (
+				F4CFBE6F0B373606003C8C8D /* AMStationController.h */,
+				F4CFBE700B373606003C8C8D /* AMStationController.m */,
+				F4CFC24B0B37E09E003C8C8D /* AMSimilarArtistsController.h */,
+				F4CFC24C0B37E09E003C8C8D /* AMSimilarArtistsController.m */,
+				F4CFC3400B37E8F7003C8C8D /* AMGlobalTagsController.h */,
+				F4CFC3410B37E8F7003C8C8D /* AMGlobalTagsController.m */,
+				F426F3CF0B83253600179A42 /* AMUserController.h */,
+				F426F3D00B83253600179A42 /* AMUserController.m */,
+				F4CFC3740B37EC09003C8C8D /* AMCustomController.h */,
+				F4CFC3750B37EC09003C8C8D /* AMCustomController.m */,
+			);
+			name = "Station Controller";
+			sourceTree = "<group>";
+		};
 		F4CFBEBD0B3737BF003C8C8D /* NIB */ = {
 			isa = PBXGroup;
 			children = (
@@ -276,14 +298,7 @@
 				F4CFBE620B373606003C8C8D /* AMController.m */,
 				F4CFBE670B373606003C8C8D /* AMPreferencesController.h */,
 				F4CFBE680B373606003C8C8D /* AMPreferencesController.m */,
-				F4CFBE6F0B373606003C8C8D /* AMStationController.h */,
-				F4CFBE700B373606003C8C8D /* AMStationController.m */,
-				F4CFC24B0B37E09E003C8C8D /* AMSimilarArtistsController.h */,
-				F4CFC24C0B37E09E003C8C8D /* AMSimilarArtistsController.m */,
-				F4CFC3400B37E8F7003C8C8D /* AMGlobalTagsController.h */,
-				F4CFC3410B37E8F7003C8C8D /* AMGlobalTagsController.m */,
-				F4CFC3740B37EC09003C8C8D /* AMCustomController.h */,
-				F4CFC3750B37EC09003C8C8D /* AMCustomController.m */,
+				F405A0C60B84553A0083BA4E /* Station Controller */,
 				F4CFBE820B373606003C8C8D /* AMTagController.h */,
 				F4CFBE830B373606003C8C8D /* AMTagController.m */,
 			);
@@ -472,6 +487,7 @@
 				F4CFC24E0B37E09E003C8C8D /* AMSimilarArtistsController.m in Sources */,
 				F4CFC3430B37E8F7003C8C8D /* AMGlobalTagsController.m in Sources */,
 				F4CFC3770B37EC09003C8C8D /* AMCustomController.m in Sources */,
+				F426F3D20B83253600179A42 /* AMUserController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

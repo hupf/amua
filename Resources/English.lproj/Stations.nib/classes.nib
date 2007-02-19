@@ -11,7 +11,13 @@
             ACTIONS = {searchWithSender = id; }; 
             CLASS = AMGlobalTagsController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {tagField = NSTextField; }; 
+            OUTLETS = {
+                playButton = NSButton; 
+                searchButton = NSButton; 
+                searchField = NSTextField; 
+                searchResultView = NSTableView; 
+                spinner = NSProgressIndicator; 
+            }; 
             SUPERCLASS = NSObject; 
         }, 
         {
@@ -37,8 +43,18 @@
                 artistController = AMSimilarArtistsController; 
                 customController = AMCustomController; 
                 globalTagController = AMGlobalTagsController; 
+                stationTabView = NSTabView; 
+                tabController = id; 
+                userController = AMUserController; 
             }; 
             SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {searchWithSender = id; }; 
+            CLASS = AMUserController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {stationTypePopUp = NSPopUpButton; userField = NSTextField; }; 
+            SUPERCLASS = NSObject; 
         }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
     ); 

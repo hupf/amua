@@ -69,11 +69,6 @@
 }
 
 
-- (void)search
-{
-}
-
-
 - (int)windowHeight
 {
     return windowHeight;
