@@ -293,8 +293,8 @@
                         withRecordToProfileMode:(bool)recordToProfile;
 {
     busyState = NO;
-    bool isNew = NO;
-    if (playerSongInfo == nil || ![playerSongInfo isEqualToSongInformation:songInfo]) {
+    bool isNew = playerSongInfo == nil || ![playerSongInfo isEqualToSongInformation:songInfo];
+    if (isNew) {
         if (playerSongInfo != nil) {
             [playerSongInfo release];
             playerSongInfo = nil;
@@ -306,12 +306,11 @@
         } else {
             AmuaLog(LOG_WARNING, @"invalid song information");
         }
-        isNew = YES;
     } else {
         AmuaLog(LOG_WARNING, @"old song information");
     }
     
-    int remainingTime = [playerSongInfo length] - [playerSongInfo progress];
+    int remainingTime = [playerSongInfo length] - [playerSongInfo progress] - 5;
     if (remainingTime < 5) {
         remainingTime = 5;
     }

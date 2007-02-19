@@ -25,11 +25,12 @@
 #import "AMWebserviceRequest.h"
 #import "AMSimilarArtistsController.h"
 #import "AMGlobalTagsController.h"
+#import "AMUserController.h"
 #import "AMCustomController.h"
 
 @protocol AMStationTabController;
 
-@class AMSimilarArtistsController, AMGlobalTagsController, AMCustomController;
+@class AMSimilarArtistsController, AMGlobalTagsController, AMUserController, AMCustomController;
 
 
 @interface AMStationController : NSWindowController
@@ -39,8 +40,10 @@
     AMPlayer *player;
     id<AMStationTabController> tabController;
     
+    IBOutlet NSTabView *stationTabView;
     IBOutlet AMSimilarArtistsController *artistController;
     IBOutlet AMGlobalTagsController *globalTagController;
+    IBOutlet AMUserController *userController;
     IBOutlet AMCustomController *customController;
     
 }

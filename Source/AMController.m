@@ -200,23 +200,6 @@
     }
     
     if ([player isPlaying]) {
-        // Song Info menu item
-        AMSongInformation *songInfo = [player songInformation];
-        if (songInfo != nil) {
-            item = [[[NSMenuItem alloc] initWithTitle:[songInfo shortString]
-                          action:@selector(openAlbumPage:) keyEquivalent:@""] autorelease];
-            if ([songInfo hasURL]) {
-                [item setTarget:self];
-                [item setEnabled:YES];
-            } else {
-                [item setAction:nil];
-                [item setEnabled:NO];
-            }
-            [menu addItem:item];
-            
-            // separator menu item
-            [menu addItem:[NSMenuItem separatorItem]];
-        }
         
         // Tag As... menu item
         /*item = [[[NSMenuItem alloc] initWithTitle:@"Tag As..."

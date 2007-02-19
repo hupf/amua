@@ -1,8 +1,8 @@
 //
-//  AMGlobalTagsController.h
+//  AMUserController.h
 //  Amua
 //
-//  Created by Mathis & Simon Hofer on 19.12.06.
+//  Created by Mathis & Simon Hofer on 14.02.07.
 //  Copyright 2005-2006 Mathis & Simon Hofer.
 //
 //  This program is free software; you can redistribute it and/or modify
@@ -26,27 +26,17 @@
 
 @protocol AMStationTabController;
 
-@interface AMGlobalTagsController : NSObject<AMStationTabController, AMWebserviceRequestDelegate>
+@interface AMUserController : NSObject<AMStationTabController>
 {
-    AMWebserviceRequest *searchRequest;
-    int windowHeight;
-    NSMutableArray *searchResult;
     
-    IBOutlet NSButton *playButton;
-    IBOutlet NSButton *searchButton;
-    IBOutlet NSTextField *searchField;
-    IBOutlet NSTableView *searchResultView;
-    IBOutlet NSProgressIndicator *spinner;
+    IBOutlet NSTextField *userField;
+    IBOutlet NSPopUpButton *stationTypePopUp;
+    
 }
 
 - (void)awakeFromNib;
 - (void)startWithPlayer:(AMPlayer *)player withSender:(id)sender;
 - (void)searchWithSender:(id)sender;
 - (int)windowHeight;
-
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView;
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex;
-
-- (IBOutlet)play:(id)sender;
 
 @end
