@@ -2,8 +2,8 @@
 //  AMXMLParser.h
 //  Amua
 //
-//  Created by Mathis & Simon Hofer on 18.02.05.
-//  Copyright 2005-2006 Mathis & Simon Hofer.
+//  Created by Mathis & Simon Hofer on 18.12.06.
+//  Copyright 2005-2007 Mathis & Simon Hofer.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,15 +22,20 @@
 
 #import <Cocoa/Cocoa.h>
 #import "AMWebserviceRequest.h"
-#import "AMXMLResult.h"
+#import "AMXMLNode.h"
 #import "Debug.h"
 
 @protocol AMWebserviceRequestParser;
 
+/**
+ * AMPlainTextParser represents an AMWebserviceRequestParser that parses result
+ * in XML format and returns an AMXMLNode.
+ * @ingroup Webservice
+ */
 @interface AMXMLParser : NSObject<AMWebserviceRequestParser> {
 
-    AMXMLResult *rootElement;
-    AMXMLResult *tempElement;
+    AMXMLNode *rootElement;
+    AMXMLNode *tempElement;
     NSMutableString *temp;
     NSMutableArray *elements;
     
@@ -38,6 +43,8 @@
 
 - (NSObject *)parseData:(NSData *)data;
 - (void)dealloc;
+
+// NSXMLParser delegate implementation
 
 - (void)parserDidStartDocument:(NSXMLParser *)parser;
 - (void)parserDidEndDocument:(NSXMLParser *)parser;

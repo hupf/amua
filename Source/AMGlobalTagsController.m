@@ -3,7 +3,7 @@
 //  Amua
 //
 //  Created by Mathis & Simon Hofer on 19.12.06.
-//  Copyright 2005-2006 Mathis & Simon Hofer.
+//  Copyright 2005-2007 Mathis & Simon Hofer.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -73,7 +73,7 @@
         searchResult = nil;
     }
     
-    AMXMLResult *xml = (AMXMLResult *)data;
+    AMXMLNode *xml = (AMXMLNode *)data;
     
     if (xml && [xml childElementsCount] > 0) {
         searchResult = [[NSMutableArray alloc] init];

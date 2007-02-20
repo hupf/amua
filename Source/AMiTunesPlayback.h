@@ -2,8 +2,8 @@
 //  AMiTunesPlayback.h
 //  Amua
 //
-//  Created by Mathis & Simon Hofer on 12.12.05.
-//  Copyright 2005-2006 Mathis & Simon Hofer.
+//  Created by Mathis & Simon Hofer on 12.12.06.
+//  Copyright 2005-2007 Mathis & Simon Hofer.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -25,6 +25,11 @@
 
 @protocol AMPlayback;
 
+/**
+ * AMiTunesPlayback represents an AMPlayback that starts the stream in iTunes using 
+ * AppleScript.
+ * @ingroup Player
+ */
 @interface AMiTunesPlayback : NSObject<AMPlayback> {
     
     bool playingState;
