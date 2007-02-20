@@ -3,7 +3,7 @@
 //  Amua
 //
 //  Created by Mathis & Simon Hofer on 19.12.06.
-//  Copyright 2005-2006 Mathis & Simon Hofer.
+//  Copyright 2005-2007 Mathis & Simon Hofer.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -77,7 +77,7 @@
 
 - (void)requestHasFinished:(AMWebserviceRequest *)request withData:(NSObject *)data
 {
-    AMXMLResult *xml = (AMXMLResult *)data;
+    AMXMLNode *xml = (AMXMLNode *)data;
     
     if (xml) {
         // main result
@@ -106,7 +106,7 @@
             if (i>0) {
                 [similar appendString:@", "];
             }
-            AMXMLResult *node = [xml childElementAtIndex:i];
+            AMXMLNode *node = [xml childElementAtIndex:i];
             if (node != nil && [node childElementAtIndex:0] != nil) {
                 [similar appendString:[[node childElementAtIndex:0] content]];
             }

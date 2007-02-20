@@ -3,7 +3,7 @@
 //  Amua
 //
 //  Created by Mathis & Simon Hofer on 11.03.05.
-//  Copyright 2005-2006 Mathis & Simon Hofer.
+//  Copyright 2005-2007 Mathis & Simon Hofer.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -100,12 +100,6 @@
 }
 
 
-- (BOOL)stationsAvailable
-{
-	return [recentStations count] > 0;
-}
-
-
 - (NSString *)mostRecentStationURL
 {
 	return [[recentStations lastObject] objectForKey:@"url"];
@@ -134,17 +128,6 @@
 - (int)count
 {
 	return [recentStations count];
-}
-
-
-- (void)moveToFront:(int)index
-{
-	if (index > 0) {
-		NSDictionary *temp = [[[recentStations objectAtIndex:[recentStations count]-1-index] retain] autorelease];
-		[recentStations removeObjectAtIndex:[recentStations count]-1-index];
-		[recentStations addObject:temp];
-	    [self store];
-    }
 }
 
 

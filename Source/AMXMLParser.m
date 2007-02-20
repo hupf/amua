@@ -2,8 +2,8 @@
 //  AMXMLParser.m
 //  Amua
 //
-//  Created by Mathis & Simon Hofer on 18.02.05.
-//  Copyright 2005-2006 Mathis & Simon Hofer.
+//  Created by Mathis & Simon Hofer on 18.12.06.
+//  Copyright 2005-2007 Mathis & Simon Hofer.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -105,7 +105,7 @@
                                      qualifiedName:(NSString *)qualifiedName
                                      attributes:(NSDictionary *)attributeDict
 {
-    AMXMLResult *element = [[[AMXMLResult alloc] initWithName:elementName] autorelease];
+    AMXMLNode *element = [[[AMXMLNode alloc] initWithName:elementName] autorelease];
     [element setAttributes:attributeDict];
     if (tempElement != nil) {
         [tempElement addChild:element];

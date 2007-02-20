@@ -3,7 +3,7 @@
 //  Amua
 //
 //  Created by Mathis & Simon Hofer on 11.03.05.
-//  Copyright 2005-2006 Mathis & Simon Hofer.
+//  Copyright 2005-2007 Mathis & Simon Hofer.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -25,88 +25,73 @@
 #define LIMIT 10
 
 /**
- * Class to handle the recently played station list.
+ * AMRecentStations is used to store recent stations.
+ * @ingroup Player
  */
 @interface AMRecentStations : NSObject {
 	
-    /**
-     * An array that contains the list of the recent stations.
-     */
 	NSMutableArray *recentStations;
-    
-    /**
-     * A reference to the application preferences object.
-     */
     NSUserDefaults *preferences;
 
 }
 
 /**
- * Constructor.
- * 
- * @param prefs The application preferences object.
+ * Return an initialized AMRecentStations object.
+ * @param prefs The user preferences storing the recent stations.
  */
 - (id)initWithPreferences:(NSUserDefaults *)prefs;
 
 /**
- * Add a station to the list of the recently played stations.
- * 
+ * Add a station to the recent stations.
+ *
+ * If the station is already in the list, it is moved to the front. Otherwise
+ * it is inserted at the front of the list.
+ * This method already updates the user preferences.
  * @param stationUrl The URL of the station.
  */
 - (void)addStation:(NSString *)stationUrl;
 
 /**
- * Get the URL of the most recent station.
- * 
+ * Return the URL of the most recent station.
  * @return The URL of the most recent station.
  */
 - (NSString *)mostRecentStationURL;
 
 /**
- * Get a station by list index.
+ * Return a station at a specific index.
  * 
- * @param index The index of the station to get.
+ * If the index is out of bounds an NSRangeException is thrown.
+ * @param index The index of the station.
  * @return A string identifying the station at position index.
  */
 - (NSString *)stationByIndex:(int)index;
 
 /**
- * Get a station URL by list index
+ * Return a station URL at a specific index.
  * 
- * @param index The index of the station to get.
- * @return The URL of the station.
+ * @param index The index of the station.
+ * @return The station URL.
  */
 - (NSString *)stationURLByIndex:(int)index;
 
 /**
- * Get the amount of stations in the recent stations list.
- * 
- * @return The amount of stations in the recent stations list.
+ * Return the number of stations available.
+ * @return The number of stations in the recent stations list.
  */
 - (int)count;
 
 /**
- * Move the station on a given index to the top of the list.
- * 
- * @param index  The index of the station to move to the top of the list.
- */
-- (void)moveToFront:(int)index;
-
-/**
- * Store the list of the recently played station to the application preferences file.
+ * Store the stations to the user preferences.
  */
 - (void)store;
 
 /**
- * Clear the list of the recently played stations.
+ * Remove all stations.
+ *
+ * This method already updates the user preferences.
  */
 - (void)clear;
 
-/**
- * Check if stations are in the list.
- * 
- * @return YES if there are station in the list, NO otherwise.
- */
-- (BOOL)stationsAvailable;
+- (void)dealloc;
 
 @end

@@ -3,7 +3,7 @@
 //  Amua
 //
 //  Created by Mathis & Simon Hofer on 06.03.05.
-//  Copyright 2005-2006 Mathis & Simon Hofer.
+//  Copyright 2005-2007 Mathis & Simon Hofer.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -154,6 +154,7 @@
 		[preferences synchronize];
 	}
     
+    // Upgrade from version 0.5.6 to 0.5.7
     if ([[preferences objectForKey:@"version"] isEqualToString:@"0.5.6"]) {
         // no changes
         

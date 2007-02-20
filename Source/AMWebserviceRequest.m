@@ -2,8 +2,8 @@
 //  AMWebserviceRequest.m
 //  Amua
 //
-//  Created by Mathis & Simon Hofer on 17.02.05.
-//  Copyright 2005-2006 Mathis & Simon Hofer.
+//  Created by Mathis & Simon Hofer on 30.11.06.
+//  Copyright 2005-2007 Mathis & Simon Hofer.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,11 +22,13 @@
 
 #import "AMWebserviceRequest.h"
 
+/// @cond PRIVATE_DECLARATION
 @interface AMWebserviceRequest (PRIVATE)
 
 - (void)startWithRequest:(NSURLRequest *)request;
 
 @end
+/// @endcond
 
 
 @implementation AMWebserviceRequest

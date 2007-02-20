@@ -44,7 +44,7 @@
 		F4CFBEA40B373606003C8C8D /* AMNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE810B373606003C8C8D /* AMNotification.m */; };
 		F4CFBEA60B373606003C8C8D /* AMTagController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE830B373606003C8C8D /* AMTagController.m */; };
 		F4CFBF5F0B374301003C8C8D /* AMXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBF5D0B374301003C8C8D /* AMXMLParser.m */; };
-		F4CFBF6D0B374416003C8C8D /* AMXMLResult.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBF6B0B374416003C8C8D /* AMXMLResult.m */; };
+		F4CFBF6D0B374416003C8C8D /* AMXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBF6B0B374416003C8C8D /* AMXMLNode.m */; };
 		F4CFBF830B374BAB003C8C8D /* AMPlainTextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBF810B374BAB003C8C8D /* AMPlainTextParser.m */; };
 		F4CFC24E0B37E09E003C8C8D /* AMSimilarArtistsController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFC24C0B37E09E003C8C8D /* AMSimilarArtistsController.m */; };
 		F4CFC3430B37E8F7003C8C8D /* AMGlobalTagsController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFC3410B37E8F7003C8C8D /* AMGlobalTagsController.m */; };
@@ -151,8 +151,8 @@
 		F4CFBE830B373606003C8C8D /* AMTagController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMTagController.m; path = Source/AMTagController.m; sourceTree = "<group>"; };
 		F4CFBF5C0B374301003C8C8D /* AMXMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMXMLParser.h; path = Source/AMXMLParser.h; sourceTree = "<group>"; };
 		F4CFBF5D0B374301003C8C8D /* AMXMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMXMLParser.m; path = Source/AMXMLParser.m; sourceTree = "<group>"; };
-		F4CFBF6A0B374416003C8C8D /* AMXMLResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMXMLResult.h; path = Source/AMXMLResult.h; sourceTree = "<group>"; };
-		F4CFBF6B0B374416003C8C8D /* AMXMLResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMXMLResult.m; path = Source/AMXMLResult.m; sourceTree = "<group>"; };
+		F4CFBF6A0B374416003C8C8D /* AMXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMXMLNode.h; path = Source/AMXMLNode.h; sourceTree = "<group>"; };
+		F4CFBF6B0B374416003C8C8D /* AMXMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMXMLNode.m; path = Source/AMXMLNode.m; sourceTree = "<group>"; };
 		F4CFBF800B374BAB003C8C8D /* AMPlainTextParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMPlainTextParser.h; path = Source/AMPlainTextParser.h; sourceTree = "<group>"; };
 		F4CFBF810B374BAB003C8C8D /* AMPlainTextParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMPlainTextParser.m; path = Source/AMPlainTextParser.m; sourceTree = "<group>"; };
 		F4CFC24B0B37E09E003C8C8D /* AMSimilarArtistsController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMSimilarArtistsController.h; path = Source/AMSimilarArtistsController.h; sourceTree = "<group>"; };
@@ -331,8 +331,8 @@
 				F4CFBF810B374BAB003C8C8D /* AMPlainTextParser.m */,
 				F4CFBF5C0B374301003C8C8D /* AMXMLParser.h */,
 				F4CFBF5D0B374301003C8C8D /* AMXMLParser.m */,
-				F4CFBF6A0B374416003C8C8D /* AMXMLResult.h */,
-				F4CFBF6B0B374416003C8C8D /* AMXMLResult.m */,
+				F4CFBF6A0B374416003C8C8D /* AMXMLNode.h */,
+				F4CFBF6B0B374416003C8C8D /* AMXMLNode.m */,
 			);
 			name = Webservice;
 			sourceTree = "<group>";
@@ -482,7 +482,7 @@
 				F4CFBEA40B373606003C8C8D /* AMNotification.m in Sources */,
 				F4CFBEA60B373606003C8C8D /* AMTagController.m in Sources */,
 				F4CFBF5F0B374301003C8C8D /* AMXMLParser.m in Sources */,
-				F4CFBF6D0B374416003C8C8D /* AMXMLResult.m in Sources */,
+				F4CFBF6D0B374416003C8C8D /* AMXMLNode.m in Sources */,
 				F4CFBF830B374BAB003C8C8D /* AMPlainTextParser.m in Sources */,
 				F4CFC24E0B37E09E003C8C8D /* AMSimilarArtistsController.m in Sources */,
 				F4CFC3430B37E8F7003C8C8D /* AMGlobalTagsController.m in Sources */,

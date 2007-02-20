@@ -2,8 +2,8 @@
 //  AMWebserviceRequest.h
 //  Amua
 //
-//  Created by Mathis & Simon Hofer on 17.02.05.
-//  Copyright 2005-2006 Mathis & Simon Hofer.
+//  Created by Mathis & Simon Hofer on 30.11.06.
+//  Copyright 2005-2007 Mathis & Simon Hofer.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -24,8 +24,14 @@
 #import "AMPlainTextParser.h"
 #import "AMXMLParser.h"
 
+/// @cond FORWARD_DECLARATION
 @protocol AMWebserviceRequestDelegate, AMWebserviceRequestParser;
+/// @endcond
 
+/**
+ * AMWebserviceRequest represents a specific webservice request.
+ * @ingroup Webservice
+ */
 @interface AMWebserviceRequest : NSObject {
     
     NSURLConnection *connection;
@@ -35,14 +41,55 @@
     
 }
 
+/**
+ * Create a AMWebserviceRequest object using a plain text result parser.
+ * @param delegate The request delegate that is notified about the request result.
+ * @see AMPlainTextParser
+ */
 + (id)plainRequestWithDelegate:(id<AMWebserviceRequestDelegate>)delegate;
+
+/**
+ * Create a AMWebserviceRequest object using a xml result parser.
+ * @param delegate The request delegate that is notified about the request result.
+ * @see AMXMLParser
+ */
 + (id)xmlRequestWithDelegate:(id<AMWebserviceRequestDelegate>)delegate;
+
+/**
+ * Initialize a AMWebserviceRequest with a delegate and a result parser.
+ * @param delegate The request delegate that is notified about the request result.
+ * @param resultParser A parser that is used to parse the request result.
+ */
 - (id)initWithDelegate:(id<AMWebserviceRequestDelegate>)delegate andParser:(NSObject<AMWebserviceRequestParser> *)resultParser;
+
+/**
+ * Start a POST HTTP request.
+ * @param url The request url.
+ * @param data The POST data.
+ */
 - (void)startWithURL:(NSURL *)url andData:(NSDictionary *)data;
+
+/**
+ * Start a GET HTTP requeset.
+ * @param url The request url.
+ */
 - (void)startWithURL:(NSURL *)url;
+
+/**
+ * Cancel the request.
+ */
 - (void)cancel;
+
+/**
+ * Check if the request is in process.
+ * @return if the request is in process.
+ */
 - (bool)isProcessing;
 - (void)dealloc;
+
+
+// NSURLConnection delegate implementation
+
 
 - (void)connection:(NSURLConnection *)connection didCancelAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge;
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error;
@@ -55,15 +102,41 @@
 
 @end
 
+
+/**
+ * AMWebserviceRequestDelegate is a protocol for classes that are can be notified
+ * about request results.
+ * @ingroup Webservice
+ */
 @protocol AMWebserviceRequestDelegate
 
+/**
+ * Notification about a request result.
+ * @param request The notifier request.
+ * @param data The parsed result data.
+ */
 - (void)requestHasFinished:(AMWebserviceRequest *)request withData:(NSObject *)data;
+
+/**
+ * Notification about a request failure.
+ * @param request The notifier request.
+ */
 - (void)requestHasFailed:(AMWebserviceRequest *)request;
 
 @end
 
+
+/**
+ * AMWebserviceRequestParser is a protocol for classes that are able to parse
+ * a webservice request.
+ * @ingroup Webservice
+ */
 @protocol AMWebserviceRequestParser
 
+/**
+ * Parse request result data.
+ * @param data The data which should be parsed.
+ */
 - (NSObject *)parseData:(NSData *)data;
 
 @end

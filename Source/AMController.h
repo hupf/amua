@@ -3,7 +3,7 @@
 //  Amua
 //
 //  Created by Mathis & Simon Hofer on 17.02.05.
-//  Copyright 2005-2006 Mathis & Simon Hofer.
+//  Copyright 2005-2007 Mathis & Simon Hofer.
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -19,6 +19,14 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //
+
+/**
+ * @mainpage Amua Code Documentation
+ *
+ * @image html Amua.png
+ *
+ * <center>http://amua.sourceforge.net</center>
+ */
 
 #import <Cocoa/Cocoa.h>
 #import <Growl/Growl.h>
