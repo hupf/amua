@@ -22,14 +22,14 @@
 
 #import "AMController.h"
 
-/// @cond PRIVATE_DECLARATION
+// @cond PRIVATE_DECLARATION
 @interface AMController (PRIVATE)
 
 - (void)addMenuItems;
 - (void)addRecentStationMenuItems:(NSMenuItem *)superItem;
 
 @end
-/// @endcond
+// @endcond
 
 @implementation AMController
 
@@ -198,6 +198,18 @@
             [menu addItem:item];
             [menu addItem:[NSMenuItem separatorItem]];
         }
+    } else if ([player isPlaying]) {
+        // Album Details menu item
+        item = [[[NSMenuItem alloc] initWithTitle:@"Album Details"
+                                           action:@selector(openAlbumPage:) keyEquivalent:@""] autorelease];
+        [item setTarget:self];
+        if ([[player songInformation] hasURL]) {
+            [item setEnabled:YES];
+        } else {
+            [item setAction:nil];
+            [item setEnabled:NO];
+        }
+        [menu addItem:item];
     }
     
     if ([player isPlaying]) {
@@ -211,6 +223,10 @@
         
         // separator menu item
         [menu addItem:[NSMenuItem separatorItem]];*/
+        
+        
+        // separator menu item
+        [menu addItem:[NSMenuItem separatorItem]];
         
         
         // Love menu item
@@ -510,7 +526,7 @@
 
 - (void)defaultPlayerNotificationResult:(id)sender
 {
-	/* TODO if (sender == defaultPlayerNotification) {
+	if (sender == defaultPlayerNotification) {
     	if ([defaultPlayerNotification clickedButton] == YES_BUTTON_CLICKED) {
         	[self setDefaultLastfmPlayer];
         }
@@ -518,7 +534,7 @@
         [preferences setBool:[defaultPlayerNotification dismissState]
                       forKey:@"performDefaultPlayerCheck"];
         [preferences synchronize];
-    }*/
+    }
     
     [sender release];
 }

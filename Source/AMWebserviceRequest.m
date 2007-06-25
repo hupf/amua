@@ -22,13 +22,13 @@
 
 #import "AMWebserviceRequest.h"
 
-/// @cond PRIVATE_DECLARATION
+// @cond PRIVATE_DECLARATION
 @interface AMWebserviceRequest (PRIVATE)
 
 - (void)startWithRequest:(NSURLRequest *)request;
 
 @end
-/// @endcond
+// @endcond
 
 
 @implementation AMWebserviceRequest

@@ -59,7 +59,18 @@ extern OSStatus _LSSetWeakBindingForType(OSType inType,
                                          LSRolesMask inRoleMask,
                                          const FSRef *inBindingRef);
 
+/**
+ * @defgroup Controller
+ * Classes refering to controllers.
+ *
+ * Controllers are used as a connection between the graphical components
+ * and the application logic.
+ */
 
+/**
+ * AMController represents the main application controller.
+ * @ingroup Controller
+ */
 @interface AMController : NSObject<AMPlayerDelegate, GrowlApplicationBridgeDelegate> {
     
     AMPlayer *player;
@@ -83,11 +94,22 @@ extern OSStatus _LSSetWeakBindingForType(OSType inType,
 - (id)init;
 - (void)awakeFromNib;
 - (void)applicationWillTerminate:(NSNotification *)aNotification;
+
+/**
+ * Update the status bar menu.
+ */
 - (void)updateMenu;
+
 - (bool)isDefaultLastfmPlayer;
 - (void)setDefaultLastfmPlayer;
 - (void)defaultPlayerNotificationResult:(id)sender;
 - (NSDictionary *)registrationDictionaryForGrowl;
+
+/**
+ * Compute an MD5 hash of a string.
+ * @param input The input string.
+ * @return The hash as string.
+ */
 - (NSString *)md5:(NSString *)input;
 
 - (void)handleOpenUrl:(NSAppleEventDescriptor *)event

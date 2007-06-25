@@ -33,6 +33,7 @@
     timer = nil;
     service = [[AMWebserviceClient alloc] init:self];
     playback = [audioPlayback retain];
+    forceSongInfoUpdate = NO;
     
     return self;
 }
@@ -300,6 +301,7 @@
             playerSongInfo = nil;
         }
         if ([songInfo isValid]) {
+            forceSongInfoUpdate = NO;
             playerSongInfo = [songInfo retain];
             recordToProfileMode = recordToProfile;
             discoveryMode = discovery;
@@ -311,7 +313,7 @@
     }
     
     int remainingTime = [playerSongInfo length] - [playerSongInfo progress] - 5;
-    if (remainingTime < 5) {
+    if (remainingTime < 5 || forceSongInfoUpdate) {
         remainingTime = 5;
     }
 	
@@ -342,6 +344,7 @@
 - (void)webserviceCommandExecutionFinished
 {
     if (![command isEqualToString:@"love"]) {
+        forceSongInfoUpdate = YES;
         [self refreshSongInformation];
     }
 }
@@ -359,6 +362,7 @@
         [playerDelegate player:self hasNewStation:stationURL];
     }
     
+    forceSongInfoUpdate = YES;
     [self refreshSongInformation];
 }
 

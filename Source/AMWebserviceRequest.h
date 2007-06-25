@@ -24,9 +24,9 @@
 #import "AMPlainTextParser.h"
 #import "AMXMLParser.h"
 
-/// @cond FORWARD_DECLARATION
+// @cond FORWARD_DECLARATION
 @protocol AMWebserviceRequestDelegate, AMWebserviceRequestParser;
-/// @endcond
+// @endcond
 
 /**
  * AMWebserviceRequest represents a specific webservice request.
@@ -104,8 +104,8 @@
 
 
 /**
- * AMWebserviceRequestDelegate is a protocol for classes that are can be notified
- * about request results.
+ * AMWebserviceRequestDelegate is a protocol for classes that can be notified
+ * about AMWebserviceRequest results.
  * @ingroup Webservice
  */
 @protocol AMWebserviceRequestDelegate
@@ -128,7 +128,7 @@
 
 /**
  * AMWebserviceRequestParser is a protocol for classes that are able to parse
- * a webservice request.
+ * a AMWebservicRequest result.
  * @ingroup Webservice
  */
 @protocol AMWebserviceRequestParser

@@ -36,7 +36,6 @@
     self = [super init];
     delegate = webserviceDelegate;
     requestPool = [[NSMutableDictionary alloc] init];
-    songInfo = nil;
     return self;
 }
 
@@ -156,9 +155,6 @@
     }
     if (sessionID != nil) {
         [sessionID release];
-    }
-    if (songInfo != nil) {
-        [songInfo release];
     }
     if (requestPool != nil) {
         [requestPool release];
