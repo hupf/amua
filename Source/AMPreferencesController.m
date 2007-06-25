@@ -52,6 +52,36 @@
 }
 
 
+- (void)updateFields
+{
+	// Fill the fields with the saved content from the harddisk
+	[username setStringValue:[preferences stringForKey:@"username"]];
+	[password setStringValue:[keyChain genericPasswordForService:@"Amua"
+                                                         account:[preferences stringForKey:@"username"]]];
+	[webServiceServer setStringValue:[preferences stringForKey:@"webServiceServer"]];
+    if ([preferences boolForKey:@"performDefaultPlayerCheck"]) {
+    	[defaultCheckBox setState:NSOnState];
+    } else {
+    	[defaultCheckBox setState:NSOffState];
+    }
+    if ([preferences boolForKey:@"performUpdatesCheck"]) {
+    	[updatesCheckBox setState:NSOnState];
+    } else {
+    	[updatesCheckBox setState:NSOffState];
+    }
+    
+    [logLevel selectItemAtIndex:[preferences integerForKey:@"logLevel"]];
+}
+
+
+- (void)dealloc
+{
+    [preferences release];
+    [keyChain release];
+    [super dealloc];
+}
+
+
 - (IBAction)cancel:(id)sender
 {
 	[[self window] performClose:nil];
@@ -112,40 +142,11 @@
 }
 
 
-- (void)updateFields
-{
-	// Fill the fields with the saved content from the harddisk
-	[username setStringValue:[preferences stringForKey:@"username"]];
-	[password setStringValue:[keyChain genericPasswordForService:@"Amua"
-                                       account:[preferences stringForKey:@"username"]]];
-	[webServiceServer setStringValue:[preferences stringForKey:@"webServiceServer"]];
-    if ([preferences boolForKey:@"performDefaultPlayerCheck"]) {
-    	[defaultCheckBox setState:NSOnState];
-    } else {
-    	[defaultCheckBox setState:NSOffState];
-    }
-    if ([preferences boolForKey:@"performUpdatesCheck"]) {
-    	[updatesCheckBox setState:NSOnState];
-    } else {
-    	[updatesCheckBox setState:NSOffState];
-    }
-    
-    [logLevel selectItemAtIndex:[preferences integerForKey:@"logLevel"]];
-}
-
 - (IBAction)checkForUpdates:(id)sender
 {
 	AmuaUpdater *updater = [[[AmuaUpdater alloc] init] autorelease];
     [updater setVerbose:YES];
 	[updater checkForUpdates];
-}
-
-
-- (void)dealloc
-{
-    [preferences release];
-    [keyChain release];
-    [super dealloc];
 }
 
 @end

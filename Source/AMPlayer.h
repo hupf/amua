@@ -26,9 +26,9 @@
 #import "AMSongInformation.h"
 #import "AMiTunesPlayback.h"
 
-/// @cond FORWARD_DECLARATION
+// @cond FORWARD_DECLARATION
 @protocol AMPlayerDelegate, AMPlayback;
-/// @endcond
+// @endcond
 
 /**
  * @defgroup Player 
@@ -51,6 +51,7 @@
     bool recordToProfileMode;
     bool subscriberMode;
     bool discoveryMode;
+    bool forceSongInfoUpdate;
     
     AMWebserviceClient *service;
     AMSongInformation *playerSongInfo;
@@ -270,7 +271,7 @@
 
 
 /**
- * AMPlayback is the protocol for classes that can stream control audio streams.
+ * AMPlayback is the protocol for classes that can play audio streams.
  * @ingroup Player
  */
 @protocol AMPlayback

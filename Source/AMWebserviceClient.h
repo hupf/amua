@@ -42,7 +42,6 @@
     NSString *baseURL;
 	NSString *basePath;
     NSString *sessionID;
-    AMSongInformation *songInfo;
     NSMutableDictionary *requestPool;
     id<AMWebserviceClientDelegate> delegate;
 
@@ -109,8 +108,8 @@
 
 
 /**
- * AMWebserviceClientDelegate is a protocol for classes that can start register
- * for AMWebserviceClient result events.
+ * AMWebserviceClientDelegate is a protocol for classes that can register
+ * for AMWebserviceClient events.
  * @ingroup Webservice
  */
 @protocol AMWebserviceClientDelegate
