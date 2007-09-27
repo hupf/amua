@@ -115,7 +115,6 @@ extern OSStatus _LSSetWeakBindingForType(OSType inType,
 - (void)handleOpenUrl:(NSAppleEventDescriptor *)event
        withReplyEvent:(NSAppleEventDescriptor *)replyEvent;
 - (void)handlePreferencesChanged:(NSNotification *)notification;
-- (void)handleForceSongInformationUpdate:(NSNotification *)notification;
 - (void)handleMouseEntered:(NSNotification *)notification;
 - (void)handleMouseExited:(NSNotification *)notification;
 - (void)handleMouseDown:(NSNotification *)notification;
@@ -137,7 +136,6 @@ extern OSStatus _LSSetWeakBindingForType(OSType inType,
 - (IBAction)skip:(id)sender;
 - (IBAction)ban:(id)sender;
 - (IBAction)changeDiscoverySettings:(id)sender;
-- (IBAction)changeRecordToProfileSettings:(id)sender;
 - (IBAction)changeDetachSongInfoSettings:(id)sender;
 - (IBAction)openLastfmHomepage:(id)sender;
 - (IBAction)openPersonalPage:(id)sender;

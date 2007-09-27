@@ -29,24 +29,30 @@
 - (id)initWithDictionary:(NSDictionary *)data
 {
     self = [super init];
-    artistName = [[NSString alloc] initWithString:([data objectForKey:@"artist"] != nil ? [data objectForKey:@"artist"] : @"")];
+    artistName = [[NSString alloc] initWithString:([data objectForKey:@"creator"] != nil ? [data objectForKey:@"creator"] : @"")];
     albumName = [[NSString alloc] initWithString:([data objectForKey:@"album"] != nil ? [data objectForKey:@"album"] : @"")];
-    trackName = [[NSString alloc] initWithString:([data objectForKey:@"track"] != nil ? [data objectForKey:@"track"] : @"")];
-    if ([data objectForKey:@"trackduration"] != nil) {
-        trackLength = [[data objectForKey:@"trackduration"] intValue];
+    trackName = [[NSString alloc] initWithString:([data objectForKey:@"title"] != nil ? [data objectForKey:@"title"] : @"")];
+    if ([data objectForKey:@"duration"] != nil) {
+        trackLength = [[data objectForKey:@"duration"] intValue] / 1000;
     } else {
         trackLength = -1;
     }
     radioStation = [[NSString alloc] initWithString:([data objectForKey:@"station"] != nil ? [data objectForKey:@"station"] : @"")];
-    radioStationFeed = [[NSString alloc] initWithString:([data objectForKey:@"stationfeed"] != nil ? [data objectForKey:@"stationfeed"] : @"")];
-    coverImage = [data objectForKey:@"albumcover_small"] != nil ? [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[data objectForKey:@"albumcover_small"]]] : nil;
+    location = [[NSString alloc] initWithString:([data objectForKey:@"location"] != nil ? [data objectForKey:@"location"] : @"")];
+    coverImage = [data objectForKey:@"image"] != nil ? [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:[data objectForKey:@"image"]]] : nil;
     if (coverImage == nil) {
         coverImage = [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForImageResource:@"nocover.png"]];
         AmuaLog(LOG_WARNING, @"no valid cover found");
     }
-    creationDate = [[NSDate date] retain];
+    creationStamp = AbsoluteToDuration(UpTime());
     
     return self;
+}
+
+
+- (void)setProgress:(int)progress
+{
+    creationStamp = AbsoluteToDuration(UpTime()) - progress*1000;
 }
 
 
@@ -82,7 +88,8 @@
 
 - (int)progress
 {
-    int seconds = (int)[creationDate timeIntervalSinceNow];
+    Duration stamp = AbsoluteToDuration(UpTime());
+    int seconds = (stamp - creationStamp)/1000;
     seconds = seconds < 0 ? -seconds : seconds;
     return seconds > trackLength ? trackLength : seconds;
 }
@@ -94,9 +101,9 @@
 }
 
 
-- (NSString *)stationFeed
+- (NSString *)location
 {
-    return radioStationFeed;
+    return location;
 }
 
 
@@ -131,8 +138,7 @@
     return [artistName isEqualToString:[songInfo artist]] &&
            [albumName isEqualToString:[songInfo album]] &&
            [trackName isEqualToString:[songInfo track]] &&
-           [radioStation isEqualToString:[songInfo station]] &&
-           [radioStationFeed isEqualToString:[songInfo stationFeed]] && 
+           [radioStation isEqualToString:[songInfo station]] && 
            trackLength == [songInfo length];
 }
 
@@ -161,11 +167,8 @@
     if (radioStation != nil) {
         [radioStation release];
     }
-    if (radioStationFeed != nil) {
-        [radioStationFeed release];
-    }
-    if (creationDate != nil) {
-        [creationDate release];
+    if (location != nil) {
+        [location release];
     }
     [super dealloc];   
 }

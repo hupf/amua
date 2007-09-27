@@ -59,7 +59,7 @@
     }
     NSString *searchTerm =  [[searchField stringValue] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSURL *requestURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://ws.audioscrobbler.com/1.0/artist/%@/similar.xml", searchTerm]];
-    NSLog(@"%@", [NSString stringWithFormat:@"http://ws.audioscrobbler.com/1.0/artist/%@/similar.xml", searchTerm]);
+    AmuaLogf(LOG_MSG, @"%@", [NSString stringWithFormat:@"http://ws.audioscrobbler.com/1.0/artist/%@/similar.xml", searchTerm]);
     searchRequest = [[AMWebserviceRequest xmlRequestWithDelegate:self] retain];
     [spinner startAnimation:self];
     [spinner setHidden:NO];

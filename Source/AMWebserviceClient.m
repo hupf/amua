@@ -22,10 +22,14 @@
 
 #import "AMWebserviceClient.h"
 
+#define CLIENT_VERSION @"1.3.2.13"
+#define CLIENT_PLATFORM @"mac"
+#define CLIENT_LANGUAGE @"en"
+
 #define HANDSHAKE_REQUEST @"handshake_request"
-#define SONG_INFORMATION_REQUEST @"song_information_request"
 #define COMMAND_REQUEST @"command_request"
 #define STATION_TUNING_REQUEST @"station_tuning_request"
+#define UPDATE_PLAYLIST_REQUEST @"update_playlist_request"
 #define DISCOVERY_MODE_REQUEST @"discovery_mode_request"
 #define RECORD_TO_PROFILE_REQUEST @"record_to_profile_request"
 
@@ -55,28 +59,9 @@
         
 	AmuaLog(LOG_MSG, [[NSString stringWithString:@"handshake with username: "]
 		 stringByAppendingString: username]);
-	NSString *sessionURL = [NSString stringWithFormat:@"http://%@/radio/handshake.php?version=1.1.4&platform=mac&debug=0&username=%@&passwordmd5=%@",
-                                  server, [username stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding], passwordMD5];
+	NSString *sessionURL = [NSString stringWithFormat:@"http://%@/radio/handshake.php?version=%@&platform=%@&username=%@&passwordmd5=%@&language=%@",
+                                  server, CLIENT_VERSION, CLIENT_PLATFORM, [username stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding], passwordMD5, CLIENT_LANGUAGE];
     [request startWithURL:[NSURL URLWithString:sessionURL]];
-}
-
-
-- (void)updateSongInformation
-{
-    AMWebserviceRequest *request = [requestPool objectForKey:SONG_INFORMATION_REQUEST];
-    if (!request) {
-        request = [AMWebserviceRequest plainRequestWithDelegate:self];
-        [requestPool setObject:request forKey:SONG_INFORMATION_REQUEST];
-    }
-
-    if ([request isProcessing]) {
-        [request cancel];
-    }
-    
-    AmuaLog(LOG_MSG, @"updating song information");
-	NSString *songInformationURL = [NSString stringWithFormat:@"http://%@%@/np.php?session=%@&debug=0",
-        baseURL, basePath, sessionID];
-	[request startWithURL:[NSURL URLWithString:songInformationURL]];
 }
 
 
@@ -93,7 +78,7 @@
     }
     
     AmuaLogf(LOG_MSG, @"executing command: %@", command);
-	NSString *commandURL = [NSString stringWithFormat:@"http://%@%@/control.php?session=%@&command=%@&debug=0",
+	NSString *commandURL = [NSString stringWithFormat:@"http://%@%@/control.php?session=%@&command=%@",
         baseURL, basePath, sessionID, command];
     [request startWithURL:[NSURL URLWithString:commandURL]];
 }
@@ -112,21 +97,28 @@
     }
     
     AmuaLogf(LOG_MSG, @"tuning to station: %@", stationURL);
-    NSString *url = [NSString stringWithFormat:@"http://%@%@/adjust.php?session=%@&url=%@&debug=0",
-        baseURL, basePath, sessionID, stationURL];
+    NSString *url = [NSString stringWithFormat:@"http://%@%@/adjust.php?session=%@&url=%@&lang=%@",
+        baseURL, basePath, sessionID, stationURL, CLIENT_LANGUAGE];
     [request startWithURL:[NSURL URLWithString:url]];
 }
 
 
-- (void)setDiscoveryMode:(bool)state
+- (void)updatePlaylist:(BOOL)discoveryMode
 {
-    [self tuneToStation:[NSString stringWithFormat:@"lastfm://settings/discovery/%@", (state ? @"on" : @"off")]];
-}
-
-
-- (void)setRecordToProfileMode:(bool)state
-{
-    [self executeCommand:state ? @"rtp" : @"nortp"];
+    AMWebserviceRequest *request = [requestPool objectForKey:UPDATE_PLAYLIST_REQUEST];
+    if (!request) {
+        request = [AMWebserviceRequest xmlRequestWithDelegate:self];
+        [requestPool setObject:request forKey:UPDATE_PLAYLIST_REQUEST];
+    }
+    
+    if ([request isProcessing]) {
+        [request cancel];
+    }
+    
+    AmuaLog(LOG_MSG, @"updating playlist");
+    NSString *url = [NSString stringWithFormat:@"http://%@%@/xspf.php?sk=%@&discovery=%@&desktop=%@",
+        baseURL, basePath, sessionID, discoveryMode ? @"1" : @"0", CLIENT_VERSION];
+    [request startWithURL:[NSURL URLWithString:url]];
 }
 
 
@@ -198,25 +190,6 @@
 		}
         
         
-    } else if (request == [requestPool objectForKey:SONG_INFORMATION_REQUEST]) {
-        // song information update finished
-        [requestPool removeObjectForKey:SONG_INFORMATION_REQUEST];
-        if ([[[data objectForKey:@"streaming"] lowercaseString] isEqual:@"true"]) {
-            AMSongInformation *songInformation = [[[AMSongInformation alloc] initWithDictionary:data] autorelease];
-			AmuaLog(LOG_MSG, @"song information received");
-            if (delegate) {
-                [delegate webserviceSongInformationUpdateFinished:songInformation 
-                          withDiscoveryMode:(bool)[[data objectForKey:@"discovery"] intValue] 
-                          withRecordToProfileMode:(bool)[[data objectForKey:@"recordtoprofile"] intValue]];
-            }
-		} else {
-			AmuaLog(LOG_ERROR, @"song information: not streaming");
-            if (delegate) {
-                [delegate webserviceSongInformationUpdateFailed];
-            }
-		}
-        
-        
     } else if (request == [requestPool objectForKey:COMMAND_REQUEST]) {
         // command execution finished
         [requestPool removeObjectForKey:COMMAND_REQUEST];
@@ -240,11 +213,56 @@
                 [delegate webserviceStationTuningFailed];
             }
 		}
+        
+        
+    } else if (request == [requestPool objectForKey:UPDATE_PLAYLIST_REQUEST]) {
+        // playlist update finished
+        [requestPool removeObjectForKey:UPDATE_PLAYLIST_REQUEST];
+        AMXMLNode *xml = (AMXMLNode *)data;
+        if ([xml childElementsCount] > 0) {
+            AMXMLNode *trackListNode = [xml childWithName:@"tracklist"];
+            AMXMLNode *titleNode = [xml childWithName:@"title"];
+            NSString *station = [titleNode content];
+            if (trackListNode != nil && [trackListNode childElementsCount] > 0) {
+                NSMutableArray *songs = [NSMutableArray arrayWithCapacity:[trackListNode childElementsCount]];
+                int i;
+                for (i=0; i<[trackListNode childElementsCount]; ++i) {
+                    AMXMLNode *node = [trackListNode childElementAtIndex:i];
+                    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+                    int j;
+                    for (j=0; j<[node childElementsCount]; ++j) {
+                        AMXMLNode *nodeChild = [node childElementAtIndex:j];
+                        if ([nodeChild content] != nil) {
+                            [dict setObject:[nodeChild content] forKey:[nodeChild name]];
+                        }
+                    }
+                    
+                    if (station != nil) {
+                        NSMutableString *mutableStation = [station mutableCopy];
+                        [mutableStation replaceOccurrencesOfString:@"+"
+                                        withString:@" " options:NSLiteralSearch
+                                        range:NSMakeRange(0, [mutableStation length])];
+                        [dict setObject:[mutableStation stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding] forKey:@"station"];
+                    }
+                    AMSongInformation *songInfo = [[AMSongInformation alloc] initWithDictionary:dict];
+                    [songs addObject:songInfo];
+                    [songInfo release];
+                }
+                
+                AmuaLog(LOG_MSG, @"playlist updated");
+                [delegate webservicePlaylistUpdateFinished:songs];
+                return;
+            }
+        }
+        
+        AmuaLog(LOG_ERROR, @"playlist update failed");
+        [delegate webservicePlaylistUpdateFailed];
     }
+    
 }
 
 
-- (void)requestHasFailed: (AMWebserviceRequest *)request
+- (void)requestHasFailed:(AMWebserviceRequest *)request
 {
     AmuaLog(LOG_ERROR, @"connection error");
     if (delegate) {

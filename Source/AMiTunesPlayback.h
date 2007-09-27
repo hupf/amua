@@ -33,11 +33,14 @@
 @interface AMiTunesPlayback : NSObject<AMPlayback> {
     
     bool playingState;
+    NSString *streamURL;
     
 }
 
 - (void)startWithStreamURL:(NSString *)url;
 - (void)stop;
+- (int)progress;
 - (bool)isPlaying;
+- (void)dealloc;
 
 @end

@@ -24,16 +24,16 @@
 
 @implementation AMPlayer
 
-- (id)initWithPlayback:(NSObject<AMPlayback> *)audioPlayback
+- (id)initWithPlayback:(NSObject<AMPlayback> *)audioPlayback discoveryMode:(BOOL)mode
 {
     self = [super init];
     loginState = NO;
     busyState = NO;
     errorState = NO;
+    discoveryMode = mode;
     timer = nil;
     service = [[AMWebserviceClient alloc] init:self];
     playback = [audioPlayback retain];
-    forceSongInfoUpdate = NO;
     
     return self;
 }
@@ -89,6 +89,10 @@
         [playerSongInfo release];
         playerSongInfo = nil;
     }
+    if (playlist != nil) {
+        [playlist release];
+        playlist = nil;
+    }
     
     [playback stop];
 }
@@ -109,11 +113,7 @@
 - (void)skip
 {
     if ([playback isPlaying]) {
-        if (command != nil) {
-            [command release];
-        }
-        command = [[NSString alloc] initWithString:@"skip"];
-        [service executeCommand:@"skip"];
+        [self updateSong:YES];
     }
 }
 
@@ -130,11 +130,34 @@
 }
 
 
-- (void)refreshSongInformation
+- (void)updateSong:(BOOL)forceNext
 {
-    if ([playback isPlaying]) {
-        busyState = YES;
-        [service updateSongInformation];
+    if ([playlist count] == 0) {
+        skipSong = forceNext;
+        [service updatePlaylist:discoveryMode];
+    } else {
+        int progress = [playback progress];
+        if (forceNext || playerSongInfo == nil || progress < 0 || progress >= [playerSongInfo length]) {
+            if (playerSongInfo != nil) {
+                [playerSongInfo release];
+            }
+            playerSongInfo = [[playlist objectAtIndex:0] retain];
+            [playlist removeObjectAtIndex:0];
+            [playback startWithStreamURL:[playerSongInfo location]];
+            [playerSongInfo setProgress:0];
+            [playerDelegate player:self hasNewSongInformation:playerSongInfo];
+        } else {
+            [playerSongInfo setProgress:progress];
+        }
+        
+        if (timer != nil) {
+            [timer invalidate];
+            timer = nil;
+        }
+        
+        int remainingTime = [playerSongInfo length] - [playerSongInfo progress]+1;
+        timer = [[NSTimer scheduledTimerWithTimeInterval:(remainingTime) target:self
+                          selector:@selector(fireTimer:) userInfo:nil repeats:NO] retain];
     }
 }
 
@@ -143,17 +166,11 @@
 {
     if (subscriberMode) {
         discoveryMode = mode;
-        [service setDiscoveryMode:discoveryMode];
+        skipSong = YES;
+        [service updatePlaylist:mode];
     } else {
         discoveryMode = NO;
     }
-}
-
-
-- (void)setRecordToProfileMode:(bool)mode
-{
-    recordToProfileMode = mode;
-    [service setRecordToProfileMode:recordToProfileMode];
 }
 
 
@@ -184,12 +201,6 @@
 - (bool)isInDiscoveryMode
 {
     return discoveryMode;
-}
-
-
-- (bool)isRecordingToProfile
-{
-    return recordToProfileMode;
 }
 
 
@@ -224,6 +235,9 @@
     }
     if (playerSongInfo != nil) {
         [playerSongInfo release];
+    }
+    if (playlist != nil) {
+        [playlist release];
     }
     if (playback != nil) {
         [playback release];
@@ -289,63 +303,10 @@
 }
 
 
-- (void)webserviceSongInformationUpdateFinished:(AMSongInformation *)songInfo
-                              withDiscoveryMode:(bool)discovery
-                        withRecordToProfileMode:(bool)recordToProfile;
-{
-    busyState = NO;
-    bool isNew = playerSongInfo == nil || ![playerSongInfo isEqualToSongInformation:songInfo];
-    if (isNew) {
-        if (playerSongInfo != nil) {
-            [playerSongInfo release];
-            playerSongInfo = nil;
-        }
-        if ([songInfo isValid]) {
-            forceSongInfoUpdate = NO;
-            playerSongInfo = [songInfo retain];
-            recordToProfileMode = recordToProfile;
-            discoveryMode = discovery;
-        } else {
-            AmuaLog(LOG_WARNING, @"invalid song information");
-        }
-    } else {
-        AmuaLog(LOG_WARNING, @"old song information");
-    }
-    
-    int remainingTime = [playerSongInfo length] - [playerSongInfo progress] - 5;
-    if (remainingTime < 5 || forceSongInfoUpdate) {
-        remainingTime = 5;
-    }
-	
-	if (timer != nil) {
-        [timer invalidate];
-        timer = nil;
-	}
-    timer = [[NSTimer scheduledTimerWithTimeInterval:(remainingTime) target:self
-                  selector:@selector(fireTimer:) userInfo:nil repeats:NO] retain];
-    
-    if (isNew && playerDelegate != nil) {
-        [playerDelegate player:self hasNewSongInformation:playerSongInfo];
-    }
-}
-
-
-- (void)webserviceSongInformationUpdateFailed
-{
-    if (timer != nil) {
-        [timer invalidate];
-        timer = nil;
-	}
-    timer = [[NSTimer scheduledTimerWithTimeInterval:(5) target:self
-                  selector:@selector(fireTimer:) userInfo:nil repeats:NO] retain];
-}
-
-
 - (void)webserviceCommandExecutionFinished
 {
     if (![command isEqualToString:@"love"]) {
-        forceSongInfoUpdate = YES;
-        [self refreshSongInformation];
+        [self updateSong:YES];
     }
 }
 
@@ -353,17 +314,9 @@
 - (void)webserviceStationTuningFinished
 {
     errorState = NO;
-    
-    if (![playback isPlaying]) {
-        [playback startWithStreamURL:playerStreamingURL];
-    }
-    
-    if (playerDelegate != nil) {
-        [playerDelegate player:self hasNewStation:stationURL];
-    }
-    
-    forceSongInfoUpdate = YES;
-    [self refreshSongInformation];
+    [playerDelegate player:self hasNewStation:stationURL];
+    skipSong = YES;
+    [service updatePlaylist:discoveryMode];
 }
 
 
@@ -378,6 +331,36 @@
         [errorMessage release];
     }
     errorMessage = [[NSString alloc] initWithString:@"Station Not Streamable"];
+    
+    if (playerDelegate != nil) {
+        [playerDelegate player:self hasError:errorMessage];
+    }
+}
+
+
+- (void)webservicePlaylistUpdateFinished:(NSArray *)songs
+{
+    busyState = NO;
+    if (playlist != nil) {
+        [playlist release];
+    }
+    playlist = [[NSMutableArray alloc] initWithArray:songs];
+    [self updateSong:skipSong];
+    skipSong = NO;
+}
+
+
+- (void)webservicePlaylistUpdateFailed
+{
+    busyState = NO;
+    if ([playback isPlaying]) {
+        [self stop];
+    }
+    errorState = YES;
+    if (errorMessage != nil) {
+        [errorMessage release];
+    }
+    errorMessage = [[NSString alloc] initWithString:@"Playlist Update Failed"];
     
     if (playerDelegate != nil) {
         [playerDelegate player:self hasError:errorMessage];
@@ -406,7 +389,7 @@
 
 - (void)fireTimer:(id)sender
 {
-    [self refreshSongInformation];
+    [self updateSong:NO];
 }
 
 @end

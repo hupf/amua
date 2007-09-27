@@ -49,7 +49,7 @@
     }
     NSString *searchTerm = [[searchField stringValue] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSURL *requestURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://ws.audioscrobbler.com/1.0/tag/%@/search.xml?showtop10=1", searchTerm]];
-    NSLog(@"%@", [NSString stringWithFormat:@"http://ws.audioscrobbler.com/1.0/tag/%@/search.xml?showtop10=1", searchTerm]);
+    AmuaLogf(LOG_MSG, @"%@", [NSString stringWithFormat:@"http://ws.audioscrobbler.com/1.0/tag/%@/search.xml?showtop10=1", searchTerm]);
     searchRequest = [[AMWebserviceRequest xmlRequestWithDelegate:self] retain];
     [spinner startAnimation:self];
     [spinner setHidden:NO];
@@ -84,6 +84,7 @@
         [playButton setEnabled:YES];
         [searchResultView setEnabled:YES];
     } else {
+        searchResult = [[NSMutableArray alloc] initWithObjects:@"No Result", nil];
         [playButton setEnabled:NO];
         [searchResultView setEnabled:NO];
     }
@@ -103,9 +104,13 @@
 
 - (void)requestHasFailed:(AMWebserviceRequest *)request
 {
+    searchResult = [[NSMutableArray alloc] initWithObjects:@"Connection Error", nil];
+    [searchButton setEnabled: YES];
     [spinner stopAnimation:self];
     [spinner setHidden:YES];
     [playButton setEnabled:NO];
+    [searchResultView setHidden:NO];
+    [searchResultView reloadData];
     if (searchRequest != nil) {
         [searchRequest release];
         searchRequest = nil;
