@@ -80,6 +80,13 @@
  */
 - (AMXMLNode *)childElementAtIndex:(int)index;
 
+/**
+ * Return a child with a certain name.
+ * @param name The name of the element.
+ * @return The element or nil if not available.
+ */
+- (AMXMLNode *)childWithName:(NSString *)name;
+
 /** 
  * Return the number of child nodes.
  * @return The number of child nodes.
@@ -91,6 +98,12 @@
  * @return The node content as string.
  */
 - (NSString *)content;
+
+/**
+ * Get the name of the xml element.
+ * @return The name of the element.
+ */
+- (NSString *)name;
 
 - (void)dealloc;
 

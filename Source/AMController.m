@@ -54,11 +54,6 @@
                                              selector:@selector(handlePreferencesChanged:)
                                                  name:@"AmuaPreferencesChanged" object:nil];
     
-    // Register handle for force song information update
-	[[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleForceSongInformationUpdate:)
-                                                 name:@"AmuaStatusItemAltMouseDown" object:nil];
-    
 	// Register handle for mousentered event
 	[[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleMouseEntered:)
@@ -75,7 +70,8 @@
                                                  name:@"AmuaStatusItemMouseDown" object:nil];
     
     // start handshake with webservice
-    player = [[AMPlayer alloc] initWithPlayback:[[[AMiTunesPlayback alloc] init] autorelease]];
+    player = [[AMPlayer alloc] initWithPlayback:[[[AMiTunesPlayback alloc] init] autorelease]
+                                  discoveryMode:[preferences boolForKey:@"discoveryMode"]];
     [player setDelegate:self];
     [player connectToServer:[preferences stringForKey:@"webServiceServer"] 
          withUser:[preferences stringForKey:@"username"] 
@@ -125,10 +121,7 @@
         }
         [songInfoPanel setFrameOrigin:point];
     }
-	
-	// TODO [discoveryMenuItem setState:[preferences boolForKey:@"discoveryMode"]];
-	// TODO [recordtoprofileMenuItem setState:[preferences boolForKey:@"recordToProfile"]];
-	
+		
 	recentStations = [[AMRecentStations alloc] initWithPreferences:preferences];
     
     if ([[preferences stringForKey:@"username"] isEqualToString:@""] ||
@@ -210,6 +203,7 @@
             [item setEnabled:NO];
         }
         [menu addItem:item];
+        [menu addItem:[NSMenuItem separatorItem]];
     }
     
     if ([player isPlaying]) {
@@ -223,10 +217,6 @@
         
         // separator menu item
         [menu addItem:[NSMenuItem separatorItem]];*/
-        
-        
-        // separator menu item
-        [menu addItem:[NSMenuItem separatorItem]];
         
         
         // Love menu item
@@ -323,19 +313,6 @@
         [item setState:[player isInDiscoveryMode] ? NSOnState : NSOffState];
         [menu addItem:item];
     }
-    
-    // Record to Profile menu item
-    item = [[[NSMenuItem alloc] initWithTitle:@"Record to Profile"
-                  action:@selector(changeRecordToProfileSettings:) keyEquivalent:@""] autorelease];
-    if ([player isLoggedIn]) {
-        [item setTarget:self];
-        [item setEnabled:YES];
-    } else {
-        [item setAction:nil];
-        [item setEnabled:NO];
-    }
-    [item setState:[player isRecordingToProfile] ? NSOnState : NSOffState];
-    [menu addItem:item];
     
     // Detach Song Info menu item
     item = [[[NSMenuItem alloc] initWithTitle:@"Detach Song Info"
@@ -595,12 +572,6 @@
 }
 
 
-- (void)handleForceSongInformationUpdate:(NSNotification *)notification
-{
-    [player refreshSongInformation];
-}
-
-
 - (void)handleMouseEntered:(NSNotification *)notification
 {
     [self showSongInfoPanel];
@@ -761,16 +732,10 @@
 - (IBAction)changeDiscoverySettings:(id)sender
 {
     NSMenuItem *item = (NSMenuItem *)sender;
-    [item setState:[item state] == NSOnState ? NSOffState : NSOnState];
-    [player setDiscoveryMode:[item state] == NSOnState];
-}
-
-
-- (IBAction)changeRecordToProfileSettings:(id)sender
-{
-    NSMenuItem *item = (NSMenuItem *)sender;
-    [item setState:[item state] == NSOnState ? NSOffState : NSOnState];
-    [player setRecordToProfileMode:[item state] == NSOnState];
+    BOOL discoveryMode = [item state] == NSOnState;
+    [item setState:discoveryMode ? NSOffState : NSOnState];
+    [player setDiscoveryMode:discoveryMode];
+    [preferences setBool:discoveryMode forKey:@"discoveryMode"];
 }
 
 

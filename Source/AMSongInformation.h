@@ -35,8 +35,8 @@
     NSImage *coverImage;
     int trackLength;
     NSString *radioStation;
-    NSString *radioStationFeed;
-    NSDate *creationDate;
+    NSString *location;
+    Duration creationStamp;
 
 }
 
@@ -54,6 +54,11 @@
  * @param data The song data as dictionary.
  */
 - (id)initWithDictionary:(NSDictionary *)data;
+
+/**
+ * Set the song progress in seconds.
+ */
+- (void)setProgress:(int)progress;
 
 /**
  * Return the artist name.
@@ -98,10 +103,9 @@
 - (NSString *)station;
 
 /**
- * Return the station feed details.
- * @return The station feed details.
+ * Return the location of the mp3 file.
  */
-- (NSString *)stationFeed;
+- (NSString *)location;
 
 /**
  * Return a short string representing the song information.

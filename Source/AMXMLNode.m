@@ -69,6 +69,20 @@
 }
 
 
+- (AMXMLNode *)childWithName:(NSString *)name
+{
+    int i;
+    for (i=0; i<[childs count]; ++i) {
+        AMXMLNode *child = [childs objectAtIndex:i];
+        if ([[[child name] lowercaseString] isEqualToString:[name lowercaseString]]) {
+            return child;
+        }
+    }
+
+    return nil;
+}
+
+
 - (int)childElementsCount
 {
     return [childs count];
@@ -78,6 +92,12 @@
 - (NSString *)content
 {
     return content;
+}
+
+
+- (NSString *)name
+{
+    return elementName;
 }
 
 

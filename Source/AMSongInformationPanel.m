@@ -116,10 +116,7 @@
     [track setMaxSize:MAX_TEXTFIELD_SIZE-[track frame].origin.x];
     
     NSString *footerTitle = @"";
-    if (![[info station] isEqualToString:@""]  && ![[info stationFeed] isEqualToString:@""]) {
-        footerTitle = [NSString stringWithFormat:@"%@ feeding from %@", [info station], 
-                           [info stationFeed]];
-    } else if (![[info station] isEqualToString:@""]) {
+    if (![[info station] isEqualToString:@""]) {
         footerTitle = [info station];
     }
     [footer setStringValue:footerTitle];

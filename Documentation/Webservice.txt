@@ -1,0 +1,75 @@
+Version: 1.3.2.13
+Platform: mac
+
+
+Handshake:
+  URL: http://{server}/radio/handshake.php
+  GET:
+    version         Client version
+    platform        Client platform
+    username        Username
+    passwordmd5     MD5 hash of the password
+    language        The language code (2-char)
+  Result: Plain (response, session, base_url, subscriber, stream_url)
+
+Station Tuning:
+  URL: http://{server}{base_url}/adjust.php
+  GET:
+    session         The session id
+    url             The station URL
+    lang            The language code (2-char)
+  Result: Plain (response, url, stationname, discovery)
+
+Playlist:
+  URL: http://{server}{base_url}/xspf.php
+  GET:
+    sk              The session id
+    discovery       The discovery mode (0=off, 1=on)
+    desktop         The client version
+  Result: XML
+    <!ELEMENT playlist (title, creator, link, tracklist)>
+    <!ATTLIST playlist version NMTOKEN>
+    <!ATTLIST link NMTOKEN>
+    <!ELEMENT tracklist (track*)>
+    <!ELEMENT track (location, title, id, album, creator, 
+                     duration, image, lastfm:trackauth, 
+                     lastfm:albumid, lastfm:artistid, link*)>
+ 
+Track Metadata:
+  URL: http://{server}/1.0/rw/xmlrpc.php
+  XMLRPC (POST): trackMetadata(artist, album, track, lang)
+  Result: struct {
+    string artistName;
+    string trackTitle;
+    string albumName;
+    string[] trackTags;
+    string albumCover;
+    string albumUrl;
+    string trackUrl;
+    string downloadUrl;
+    string albumReleaseDate;
+    string albumLabel;
+    string albumLabelUrl;
+    string albumNumTracks;
+    string buyTrackUrl;
+    string trackBuyUrl;
+    string buyTrackString;
+    string buyAlbumUrl;
+    string buyAlbumString
+  }
+
+Artist Metadata:
+  URL: http://{server}/1.0/rw/xmlrpc.php
+  XMLRPC (POST): artistMetadata(artist, lang)
+  Result: struct {
+    string artistName;
+    string artistPageUrl;
+    string[] similar;
+    string wikiText;
+    string wikiLang;
+    string wikiPageUrl;
+    string picture;
+    string[] artistTags;
+    string numListeners;
+    string numPlays;
+  }

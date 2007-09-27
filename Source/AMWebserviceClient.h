@@ -62,11 +62,6 @@
 - (void)handshake:(NSString *)server withUser:(NSString *)username withPasswordHash:(NSString *)passwordMD5;
 
 /**
- * Start a song information update.
- */
-- (void)updateSongInformation;
-
-/**
  * Start a command execution.
  * @param command A command (e.g. love, skip, ban)
  */
@@ -79,16 +74,10 @@
 - (void)tuneToStation:(NSString *)stationURL;
 
 /**
- * Initiate a discovery mode setting change.
- * @param state YES = discovery mode on, NO = off.
+ * Fetch the next few tracks for the playlist.
+ * @param discoveryMode The discovery mode setting.
  */
-- (void)setDiscoveryMode:(bool)state;
-
-/**
- * Initiate a record to profile mode setting change.
- * @param state YES = record to profile mode on, NO = off.
- */
-- (void)setRecordToProfileMode:(bool)state;
+- (void)updatePlaylist:(BOOL)discoveryMode;
 
 /**
  * Cancel all unfinished requests.
@@ -127,21 +116,6 @@
 - (void)webserviceHandshakeFailed;
 
 /**
- * Notification about a completed song information update request.
- * @param songInfo The new song information.
- * @param discovery A flag indicating the server state of the discovery mode.
- * @param recordToProfile A flag indicating the server state of the record to profile mode.
- */
-- (void)webserviceSongInformationUpdateFinished:(AMSongInformation *)songInfo
-                              withDiscoveryMode:(bool)discovery
-                        withRecordToProfileMode:(bool)recordToProfile;
-
-/**
- * Notification about a song information update request failure.
- */
-- (void)webserviceSongInformationUpdateFailed;
-
-/**
  * Notification about a completed command execution.
  */
 - (void)webserviceCommandExecutionFinished;
@@ -155,6 +129,17 @@
  * Notification about a station tuning request failure.
  */
 - (void)webserviceStationTuningFailed;
+
+/**
+ * Notification about a completed playlist update request.
+ * @param songs The song info objects of the playlist songs.
+ */
+- (void)webservicePlaylistUpdateFinished:(NSArray *)songs;
+
+/**
+ * Notification about a playlist update failure.
+ */
+- (void)webservicePlaylistUpdateFailed;
 
 /**
  * Notification about a connection error during a request.

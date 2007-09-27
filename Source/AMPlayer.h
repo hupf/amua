@@ -48,13 +48,13 @@
     bool playingState;
     bool busyState;
     bool errorState;
-    bool recordToProfileMode;
+    bool skipSong;
     bool subscriberMode;
     bool discoveryMode;
-    bool forceSongInfoUpdate;
     
     AMWebserviceClient *service;
     AMSongInformation *playerSongInfo;
+    NSMutableArray *playlist;
     NSObject<AMPlayback> *playback;
     NSString *playerStreamingURL;
     NSTimer *timer;
@@ -68,9 +68,10 @@
 /**
  * Return an AMPlayer object initialized with an audio playback.
  * @param audioPlayback The audio playback used to play the audo stream.
+ * @param mode The initial discovery mode setting.
  * @return The initialized AMPlayer.
  */
-- (id)initWithPlayback:(NSObject<AMPlayback> *)audioPlayback;
+- (id)initWithPlayback:(NSObject<AMPlayback> *)audioPlayback discoveryMode:(BOOL)mode;
 
 /**
  * Set the delegate which is notified on player events.
@@ -128,23 +129,16 @@
 - (void)ban;
 
 /**
- * Refresh the song information.
- *
- * This method should only be called if the player is playing.
+ * Update the current song.
+ * @param forceNext Force playback of the next song.
  */
-- (void)refreshSongInformation;
+- (void)updateSong:(BOOL)forceNext;
 
 /**
  * Set the discovery mode setting.
  * @param mode YES = discovery mode on, NO = off.
  */
 - (void)setDiscoveryMode:(bool)mode;
-
-/**
- * Set the record to profile setting.
- * @param mode YES = record to profile mode on, NO = off.
- */
-- (void)setRecordToProfileMode:(bool)mode;
 
 /**
  * Get the current song information.
@@ -180,13 +174,6 @@
 - (bool)isInDiscoveryMode;
 
 /**
- * Check if the player is in record to profile mode.
- * @return Record to profile mode setting if the player is logged in.
- * @see isLoggedIn
- */
-- (bool)isRecordingToProfile;
-
-/**
  * Check if the player is logged in to the server.
  * @return YES if the player is logged in else NO.
  */
@@ -218,10 +205,6 @@
 
 - (void)webserviceHandshakeFinishedWithURL:(NSString *)streamingURL subscriberMode:(bool)isSubscriber;
 - (void)webserviceHandshakeFailed;
-- (void)webserviceSongInformationUpdateFinished:(AMSongInformation *)songInfo
-                              withDiscoveryMode:(bool)discovery
-                        withRecordToProfileMode:(bool)recordToProfile;
-- (void)webserviceSongInformationUpdateFailed;
 - (void)webserviceCommandExecutionFinished;
 - (void)webserviceStationTuningFinished;
 - (void)webserviceStationTuningFailed;
@@ -286,6 +269,12 @@
  * Stop the audio stream.
  */
 - (void)stop;
+
+/**
+ * Return the progress of the playback for the current song.
+ * @return The track progress in seconds.
+ */
+- (int)progress;
 
 /**
  * Check if the audio playback is playing.
