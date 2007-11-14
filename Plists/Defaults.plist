@@ -32,7 +32,7 @@
     <key>discoveryMode</key>
 	<false/>
     
-    <key>recordToProfile</key>
+    <key>scrobbleMode</key>
 	<true/>
     
     <key>performDefaultPlayerCheck</key>

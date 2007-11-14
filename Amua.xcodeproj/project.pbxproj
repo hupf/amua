@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F40397A50CB43E4800CDA764 /* AMUtil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F40397A40CB43E4800CDA764 /* AMUtil.h */; };
+		F403989F0CB4477E00CDA764 /* AMUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = F403989E0CB4477E00CDA764 /* AMUtil.m */; };
+		F40398DE0CB44BF100CDA764 /* AMLineTextParser.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F40398DC0CB44BF100CDA764 /* AMLineTextParser.h */; };
+		F40398DF0CB44BF100CDA764 /* AMLineTextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = F40398DD0CB44BF100CDA764 /* AMLineTextParser.m */; };
 		F4069A010A1619600006D2B3 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C287A6707C677F400AF7154 /* Cocoa.framework */; };
 		F4069A020A1619600006D2B3 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F45B8A7F07DB7231007383B1 /* Carbon.framework */; };
 		F4069A030A1619600006D2B3 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CB409E30972E5ED00E0C772 /* libcrypto.dylib */; };
@@ -24,6 +28,8 @@
 		F42D042E0B30B23200D14A2C /* Stations.nib in Resources */ = {isa = PBXBuildFile; fileRef = F42D042B0B30B23200D14A2C /* Stations.nib */; };
 		F445FF010A2C93DD00A9989C /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F445FF000A2C93DD00A9989C /* Growl.framework */; };
 		F445FF1C0A2C93FD00A9989C /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F445FF000A2C93DD00A9989C /* Growl.framework */; };
+		F4531BAB0CBEA86B002D67F4 /* AMScrobbler.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F4531BA90CBEA86B002D67F4 /* AMScrobbler.h */; };
+		F4531BAC0CBEA86B002D67F4 /* AMScrobbler.m in Sources */ = {isa = PBXBuildFile; fileRef = F4531BAA0CBEA86B002D67F4 /* AMScrobbler.m */; };
 		F4CFBDAC0B372B8F003C8C8D /* Tags.nib in Resources */ = {isa = PBXBuildFile; fileRef = F4CFBDAB0B372B8F003C8C8D /* Tags.nib */; };
 		F4CFBE850B373606003C8C8D /* AMController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE620B373606003C8C8D /* AMController.m */; };
 		F4CFBE870B373606003C8C8D /* AMiTunesPlayback.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE640B373606003C8C8D /* AMiTunesPlayback.m */; };
@@ -84,6 +90,9 @@
 			files = (
 				F445FF1C0A2C93FD00A9989C /* Growl.framework in CopyFiles */,
 				F426F3D10B83253600179A42 /* AMUserController.h in CopyFiles */,
+				F40397A50CB43E4800CDA764 /* AMUtil.h in CopyFiles */,
+				F40398DE0CB44BF100CDA764 /* AMLineTextParser.h in CopyFiles */,
+				F4531BAB0CBEA86B002D67F4 /* AMScrobbler.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,6 +113,10 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* Amua_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Amua_Prefix.pch; sourceTree = "<group>"; };
+		F40397A40CB43E4800CDA764 /* AMUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMUtil.h; sourceTree = "<group>"; };
+		F403989E0CB4477E00CDA764 /* AMUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMUtil.m; sourceTree = "<group>"; };
+		F40398DC0CB44BF100CDA764 /* AMLineTextParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMLineTextParser.h; sourceTree = "<group>"; };
+		F40398DD0CB44BF100CDA764 /* AMLineTextParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMLineTextParser.m; sourceTree = "<group>"; };
 		F40699560A1618A50006D2B3 /* Amua.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Amua.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F40699580A1618A50006D2B3 /* Amua-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Amua-Info.plist"; path = "Plists/Amua-Info.plist"; sourceTree = "<group>"; };
 		F426F3CF0B83253600179A42 /* AMUserController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMUserController.h; path = Source/AMUserController.h; sourceTree = "<group>"; };
@@ -111,6 +124,8 @@
 		F429155609C1C8260088835A /* nocover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = nocover.png; path = Resources/nocover.png; sourceTree = "<group>"; };
 		F42D042B0B30B23200D14A2C /* Stations.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Stations.nib; path = Resources/English.lproj/Stations.nib; sourceTree = "<group>"; };
 		F445FF000A2C93DD00A9989C /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Frameworks/Growl.framework; sourceTree = "<group>"; };
+		F4531BA90CBEA86B002D67F4 /* AMScrobbler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMScrobbler.h; sourceTree = "<group>"; };
+		F4531BAA0CBEA86B002D67F4 /* AMScrobbler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMScrobbler.m; sourceTree = "<group>"; };
 		F45B8A7F07DB7231007383B1 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		F46D60FC099646B00023FC2F /* Notification.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Notification.nib; path = Resources/English.lproj/Notification.nib; sourceTree = "<group>"; };
 		F4CFBDAB0B372B8F003C8C8D /* Tags.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Tags.nib; path = Resources/English.lproj/Tags.nib; sourceTree = "<group>"; };
@@ -325,14 +340,20 @@
 			children = (
 				F4CFBE770B373606003C8C8D /* AMWebserviceClient.h */,
 				F4CFBE780B373606003C8C8D /* AMWebserviceClient.m */,
+				F4531BA90CBEA86B002D67F4 /* AMScrobbler.h */,
+				F4531BAA0CBEA86B002D67F4 /* AMScrobbler.m */,
 				F4CFBE790B373606003C8C8D /* AMWebserviceRequest.h */,
 				F4CFBE7A0B373606003C8C8D /* AMWebserviceRequest.m */,
 				F4CFBF800B374BAB003C8C8D /* AMPlainTextParser.h */,
 				F4CFBF810B374BAB003C8C8D /* AMPlainTextParser.m */,
+				F40398DC0CB44BF100CDA764 /* AMLineTextParser.h */,
+				F40398DD0CB44BF100CDA764 /* AMLineTextParser.m */,
 				F4CFBF5C0B374301003C8C8D /* AMXMLParser.h */,
 				F4CFBF5D0B374301003C8C8D /* AMXMLParser.m */,
 				F4CFBF6A0B374416003C8C8D /* AMXMLNode.h */,
 				F4CFBF6B0B374416003C8C8D /* AMXMLNode.m */,
+				F40397A40CB43E4800CDA764 /* AMUtil.h */,
+				F403989E0CB4477E00CDA764 /* AMUtil.m */,
 			);
 			name = Webservice;
 			sourceTree = "<group>";
@@ -488,6 +509,9 @@
 				F4CFC3430B37E8F7003C8C8D /* AMGlobalTagsController.m in Sources */,
 				F4CFC3770B37EC09003C8C8D /* AMCustomController.m in Sources */,
 				F426F3D20B83253600179A42 /* AMUserController.m in Sources */,
+				F403989F0CB4477E00CDA764 /* AMUtil.m in Sources */,
+				F40398DF0CB44BF100CDA764 /* AMLineTextParser.m in Sources */,
+				F4531BAC0CBEA86B002D67F4 /* AMScrobbler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -24,6 +24,8 @@
 #import <Cocoa/Cocoa.h>
 #import "AMWebserviceRequest.h"
 #import "AMSongInformation.h"
+#import "AMLineTextParser.h"
+#import "AMUtil.h"
 #import "Debug.h"
 
 @protocol AMWebserviceClientDelegate;

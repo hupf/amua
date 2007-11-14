@@ -22,6 +22,13 @@
 
 #import <Cocoa/Cocoa.h>
 
+enum AMSongAction {
+    AMNoAction = 1,
+    AMLoveAction = 2,
+    AMSkipAction = 3,
+    AMBanAction = 4
+};
+
 /**
  * AMSongInformation represents the information that can be retreived
  * from the webservice for the playing song.
@@ -32,7 +39,9 @@
     NSString *artistName;
     NSString *albumName;
     NSString *trackName;
+    NSString *trackAuth;
     NSImage *coverImage;
+    enum AMSongAction songAction;
     int trackLength;
     NSString *radioStation;
     NSString *location;
@@ -54,6 +63,12 @@
  * @param data The song data as dictionary.
  */
 - (id)initWithDictionary:(NSDictionary *)data;
+
+/**
+ * Set the action.
+ * @param
+ */
+- (void)setAction:(enum AMSongAction)action;
 
 /**
  * Set the song progress in seconds.
@@ -83,6 +98,18 @@
  * @return The image cover as NSImage.
  */
 - (NSImage *)cover;
+
+/**
+ * Return the track auth id.
+ * @return The track auth id.
+ */
+- (NSString *)trackAuth;
+
+/**
+ * Return the action which belongs to the song.
+ * @return The action
+ */
+- (enum AMSongAction)action;
 
 /**
  * Return the track length.

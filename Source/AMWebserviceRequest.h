@@ -65,9 +65,9 @@
 /**
  * Start a POST HTTP request.
  * @param url The request url.
- * @param data The POST data.
+ * @param data The data (concatenated with &).
  */
-- (void)startWithURL:(NSURL *)url andData:(NSDictionary *)data;
+- (void)startWithURL:(NSURL *)url withData:(NSString *)data;
 
 /**
  * Start a GET HTTP requeset.

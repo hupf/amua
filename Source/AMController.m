@@ -71,12 +71,14 @@
     
     // start handshake with webservice
     player = [[AMPlayer alloc] initWithPlayback:[[[AMiTunesPlayback alloc] init] autorelease]
-                                  discoveryMode:[preferences boolForKey:@"discoveryMode"]];
+                                  discoveryMode:[preferences boolForKey:@"discoveryMode"]
+                                   scrobbleMode:[preferences boolForKey:@"scrobbleMode"]];
+    
     [player setDelegate:self];
     [player connectToServer:[preferences stringForKey:@"webServiceServer"] 
          withUser:[preferences stringForKey:@"username"] 
-         withPasswordHash:[self md5:[keyChain genericPasswordForService:@"Amua" 
-                                         account:[preferences stringForKey:@"username"]]]];
+         withPasswordHash:md5hash([keyChain genericPasswordForService:@"Amua" 
+                                         account:[preferences stringForKey:@"username"]])];
 	
 	return self;
 }
@@ -298,6 +300,15 @@
     // separator
     [menu addItem:[NSMenuItem separatorItem]];
     
+    // Scrobble Mode menu item
+    if ([player isLoggedIn]) {
+        item = [[[NSMenuItem alloc] initWithTitle:@"Scrobbling"
+                                           action:@selector(changeScrobbleSettings:) keyEquivalent:@""] autorelease];
+        [item setTarget:self];
+        [item setEnabled:YES];
+        [item setState:[player isScrobbling] ? NSOnState : NSOffState];
+        [menu addItem:item];
+    }
     
     // Discovery Mode menu item
     if ([player isLoggedIn] && [player isInSubscriberMode]) {
@@ -526,22 +537,6 @@
 }
 
 
-- (NSString *)md5:(NSString *)input
-{
-    unsigned char *hash = MD5((unsigned char*)[input cString], [input cStringLength], NULL);
-	int i;
-    
-	NSMutableString *hashString = [NSMutableString string];
-	
-    // Convert the binary hash into a string
-    for (i = 0; i < MD5_DIGEST_LENGTH; i++) {
-		[hashString appendFormat:@"%02x", *hash++];
-	}
-    
-    return hashString;
-}
-
-
 - (void)handleOpenUrl:(NSAppleEventDescriptor *)event
        withReplyEvent:(NSAppleEventDescriptor *)replyEvent
 {
@@ -566,8 +561,8 @@
     AmuaSetLogType([preferences integerForKey:@"logLevel"]);
     [player connectToServer:[preferences stringForKey:@"webServiceServer"] 
          withUser:[preferences stringForKey:@"username"] 
-         withPasswordHash:[self md5:[keyChain genericPasswordForService:@"Amua" 
-                                         account:[preferences stringForKey:@"username"]]]];
+         withPasswordHash:md5hash([keyChain genericPasswordForService:@"Amua" 
+                                         account:[preferences stringForKey:@"username"]])];
     [self updateMenu];
 }
 
@@ -658,8 +653,8 @@
 {
     [player connectToServer:[preferences stringForKey:@"webServiceServer"] 
          withUser:[preferences stringForKey:@"username"] 
-         withPasswordHash:[self md5:[keyChain genericPasswordForService:@"Amua" 
-                                         account:[preferences stringForKey:@"username"]]]];
+         withPasswordHash:md5hash([keyChain genericPasswordForService:@"Amua" 
+                                         account:[preferences stringForKey:@"username"]])];
     [self updateMenu];
 }
 
@@ -732,10 +727,20 @@
 - (IBAction)changeDiscoverySettings:(id)sender
 {
     NSMenuItem *item = (NSMenuItem *)sender;
-    BOOL discoveryMode = [item state] == NSOnState;
-    [item setState:discoveryMode ? NSOffState : NSOnState];
+    BOOL discoveryMode = [item state] != NSOnState;
+    [item setState:discoveryMode ? NSOnState : NSOffState];
     [player setDiscoveryMode:discoveryMode];
     [preferences setBool:discoveryMode forKey:@"discoveryMode"];
+}
+
+
+- (IBAction)changeScrobbleSettings:(id)sender
+{
+    NSMenuItem *item = (NSMenuItem *)sender;
+    BOOL scrobbleMode = [item state] != NSOnState;
+    [item setState:scrobbleMode ? NSOnState : NSOffState];
+    [player setScrobbleMode:scrobbleMode];
+    [preferences setBool:scrobbleMode forKey:@"scrobbleMode"];
 }
 
 

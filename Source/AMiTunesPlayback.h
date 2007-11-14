@@ -21,6 +21,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "AMSongInformation.h"
 #import "AMPlayer.h"
 
 @protocol AMPlayback;
@@ -37,7 +38,7 @@
     
 }
 
-- (void)startWithStreamURL:(NSString *)url;
+- (void)playSong:(AMSongInformation *)songInfo;
 - (void)stop;
 - (int)progress;
 - (bool)isPlaying;

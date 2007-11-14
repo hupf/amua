@@ -32,6 +32,7 @@
     artistName = [[NSString alloc] initWithString:([data objectForKey:@"creator"] != nil ? [data objectForKey:@"creator"] : @"")];
     albumName = [[NSString alloc] initWithString:([data objectForKey:@"album"] != nil ? [data objectForKey:@"album"] : @"")];
     trackName = [[NSString alloc] initWithString:([data objectForKey:@"title"] != nil ? [data objectForKey:@"title"] : @"")];
+    trackAuth = [[NSString alloc] initWithString:([data objectForKey:@"lastfm:trackauth"] != nil ? [data objectForKey:@"lastfm:trackauth"] : @"")];
     if ([data objectForKey:@"duration"] != nil) {
         trackLength = [[data objectForKey:@"duration"] intValue] / 1000;
     } else {
@@ -45,6 +46,7 @@
         AmuaLog(LOG_WARNING, @"no valid cover found");
     }
     creationStamp = AbsoluteToDuration(UpTime());
+    songAction = AMNoAction;
     
     return self;
 }
@@ -53,6 +55,12 @@
 - (void)setProgress:(int)progress
 {
     creationStamp = AbsoluteToDuration(UpTime()) - progress*1000;
+}
+
+
+- (void)setAction:(enum AMSongAction)action
+{
+    songAction = action;
 }
 
 
@@ -77,6 +85,18 @@
 - (NSImage *)cover
 {
     return coverImage;
+}
+
+
+- (NSString *)trackAuth
+{
+    return trackAuth;
+}
+
+
+- (enum AMSongAction)action
+{
+    return songAction;
 }
 
 
@@ -160,6 +180,9 @@
     }
     if (trackName != nil) {
         [trackName release];
+    }
+    if (trackAuth != nil) {
+        [trackAuth release];
     }
     if (coverImage != nil) {
         [coverImage release];

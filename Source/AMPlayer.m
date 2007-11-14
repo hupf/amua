@@ -24,15 +24,17 @@
 
 @implementation AMPlayer
 
-- (id)initWithPlayback:(NSObject<AMPlayback> *)audioPlayback discoveryMode:(BOOL)mode
+- (id)initWithPlayback:(NSObject<AMPlayback> *)audioPlayback discoveryMode:(BOOL)discovery scrobbleMode:(BOOL)scrobble
 {
     self = [super init];
     loginState = NO;
     busyState = NO;
     errorState = NO;
-    discoveryMode = mode;
+    discoveryMode = discovery;
+    scrobbleMode = scrobble;
     timer = nil;
     service = [[AMWebserviceClient alloc] init:self];
+    scrobbler = [[AMScrobbler alloc] init];
     playback = [audioPlayback retain];
     
     return self;
@@ -57,6 +59,7 @@
 - (void)connectToServer:(NSString *)server withUser:(NSString *)user withPasswordHash:(NSString *)passwordHash;
 {
     [service cancelAllRequests];
+    [scrobbler cancelAllRequests];
     if ([playback isPlaying]) {
         [playback stop];
     }
@@ -64,6 +67,7 @@
     busyState = YES;
     errorState = NO;
     [service handshake:server withUser:user withPasswordHash:passwordHash];
+    [scrobbler handshakeWithUser:user withPasswordHash:passwordHash];
 }
 
 
@@ -106,6 +110,7 @@
         }
         command = [[NSString alloc] initWithString:@"love"];
         [service executeCommand:@"love"];
+        [playerSongInfo setAction:AMLoveAction];
     }
 }
 
@@ -113,6 +118,7 @@
 - (void)skip
 {
     if ([playback isPlaying]) {
+        [playerSongInfo setAction:AMSkipAction];
         [self updateSong:YES];
     }
 }
@@ -125,6 +131,7 @@
             [command release];
         }
         command = [[NSString alloc] initWithString:@"ban"];
+        [playerSongInfo setAction:AMBanAction];
         [service executeCommand:@"ban"];
     }
 }
@@ -139,13 +146,19 @@
         int progress = [playback progress];
         if (forceNext || playerSongInfo == nil || progress < 0 || progress >= [playerSongInfo length]) {
             if (playerSongInfo != nil) {
+                if (scrobbleMode) {
+                    [scrobbler scrobbleSongInfo:playerSongInfo];
+                }
                 [playerSongInfo release];
             }
             playerSongInfo = [[playlist objectAtIndex:0] retain];
             [playlist removeObjectAtIndex:0];
-            [playback startWithStreamURL:[playerSongInfo location]];
+            [playback playSong:playerSongInfo];
             [playerSongInfo setProgress:0];
             [playerDelegate player:self hasNewSongInformation:playerSongInfo];
+            if (scrobbleMode) {
+                [scrobbler announceSongInfo:playerSongInfo];
+            }
         } else {
             [playerSongInfo setProgress:progress];
         }
@@ -156,6 +169,9 @@
         }
         
         int remainingTime = [playerSongInfo length] - [playerSongInfo progress]+1;
+        if (remainingTime < 5) {
+            remainingTime = 5;
+        }
         timer = [[NSTimer scheduledTimerWithTimeInterval:(remainingTime) target:self
                           selector:@selector(fireTimer:) userInfo:nil repeats:NO] retain];
     }
@@ -171,6 +187,12 @@
     } else {
         discoveryMode = NO;
     }
+}
+
+
+- (void)setScrobbleMode:(bool)scrobble
+{
+    scrobbleMode = scrobble;
 }
 
 
@@ -204,6 +226,12 @@
 }
 
 
+- (bool)isScrobbling
+{
+    return scrobbleMode;
+}
+
+
 - (bool)isLoggedIn
 {
     return loginState;
@@ -232,6 +260,9 @@
 {
     if (service != nil) {
         [service release];
+    }
+    if (scrobbler != nil) {
+        [scrobbler release];
     }
     if (playerSongInfo != nil) {
         [playerSongInfo release];
@@ -316,6 +347,10 @@
     errorState = NO;
     [playerDelegate player:self hasNewStation:stationURL];
     skipSong = YES;
+    if (playerSongInfo != nil) {
+        [playerSongInfo release];
+        playerSongInfo = nil;
+    }
     [service updatePlaylist:discoveryMode];
 }
 
