@@ -30,13 +30,13 @@
 
 #import <Cocoa/Cocoa.h>
 #import <Growl/Growl.h>
-#import <openssl/md5.h>
 #import "AMPlayer.h"
 #import "AMRecentStations.h"
 #import "AMStatusBarView.h"
 #import "AMSongInformationPanel.h"
 #import "AMPreferencesController.h"
 #import "AMStationController.h"
+#import "AMUtil.h"
 #import "KeyChain.h"
 
 #define GROWL_NOTIFICATION_TRACK_CHANGE @"Track Change"
@@ -105,13 +105,6 @@ extern OSStatus _LSSetWeakBindingForType(OSType inType,
 - (void)defaultPlayerNotificationResult:(id)sender;
 - (NSDictionary *)registrationDictionaryForGrowl;
 
-/**
- * Compute an MD5 hash of a string.
- * @param input The input string.
- * @return The hash as string.
- */
-- (NSString *)md5:(NSString *)input;
-
 - (void)handleOpenUrl:(NSAppleEventDescriptor *)event
        withReplyEvent:(NSAppleEventDescriptor *)replyEvent;
 - (void)handlePreferencesChanged:(NSNotification *)notification;
@@ -136,6 +129,7 @@ extern OSStatus _LSSetWeakBindingForType(OSType inType,
 - (IBAction)skip:(id)sender;
 - (IBAction)ban:(id)sender;
 - (IBAction)changeDiscoverySettings:(id)sender;
+- (IBAction)changeScrobbleSettings:(id)sender;
 - (IBAction)changeDetachSongInfoSettings:(id)sender;
 - (IBAction)openLastfmHomepage:(id)sender;
 - (IBAction)openPersonalPage:(id)sender;

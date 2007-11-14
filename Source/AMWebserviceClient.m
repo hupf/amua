@@ -22,6 +22,7 @@
 
 #import "AMWebserviceClient.h"
 
+#define CLIENT @"Amua"
 #define CLIENT_VERSION @"1.3.2.13"
 #define CLIENT_PLATFORM @"mac"
 #define CLIENT_LANGUAGE @"en"
@@ -51,16 +52,15 @@
     if (!request) {
         request = [AMWebserviceRequest plainRequestWithDelegate:self];
         [requestPool setObject:request forKey:HANDSHAKE_REQUEST];
-    }
-
-    if ([request isProcessing]) {
+    } else if ([request isProcessing]) {
         [request cancel];
     }
         
 	AmuaLog(LOG_MSG, [[NSString stringWithString:@"handshake with username: "]
 		 stringByAppendingString: username]);
+    NSString *user = [username stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 	NSString *sessionURL = [NSString stringWithFormat:@"http://%@/radio/handshake.php?version=%@&platform=%@&username=%@&passwordmd5=%@&language=%@",
-                                  server, CLIENT_VERSION, CLIENT_PLATFORM, [username stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding], passwordMD5, CLIENT_LANGUAGE];
+                                  server, CLIENT_VERSION, CLIENT_PLATFORM, user, passwordMD5, CLIENT_LANGUAGE];
     [request startWithURL:[NSURL URLWithString:sessionURL]];
 }
 
@@ -71,9 +71,7 @@
     if (!request) {
         request = [AMWebserviceRequest plainRequestWithDelegate:self];
         [requestPool setObject:request forKey:COMMAND_REQUEST];
-    }
-    
-    if ([request isProcessing]) {
+    } else if ([request isProcessing]) {
         [request cancel];
     }
     
@@ -90,9 +88,7 @@
     if (!request) {
         request = [AMWebserviceRequest plainRequestWithDelegate:self];
         [requestPool setObject:request forKey:STATION_TUNING_REQUEST];
-    }
-    
-    if ([request isProcessing]) {
+    } else if ([request isProcessing]) {
         [request cancel];
     }
     
@@ -109,9 +105,7 @@
     if (!request) {
         request = [AMWebserviceRequest xmlRequestWithDelegate:self];
         [requestPool setObject:request forKey:UPDATE_PLAYLIST_REQUEST];
-    }
-    
-    if ([request isProcessing]) {
+    } else if ([request isProcessing]) {
         [request cancel];
     }
     
@@ -238,7 +232,7 @@
                     }
                     
                     if (station != nil) {
-                        NSMutableString *mutableStation = [station mutableCopy];
+                        NSMutableString *mutableStation = [[station mutableCopy] autorelease];
                         [mutableStation replaceOccurrencesOfString:@"+"
                                         withString:@" " options:NSLiteralSearch
                                         range:NSMakeRange(0, [mutableStation length])];

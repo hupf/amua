@@ -22,6 +22,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "AMWebserviceClient.h"
+#import "AMScrobbler.h"
 #import "AMRecentStations.h"
 #import "AMSongInformation.h"
 #import "AMiTunesPlayback.h"
@@ -51,8 +52,10 @@
     bool skipSong;
     bool subscriberMode;
     bool discoveryMode;
+    bool scrobbleMode;
     
     AMWebserviceClient *service;
+    AMScrobbler *scrobbler;
     AMSongInformation *playerSongInfo;
     NSMutableArray *playlist;
     NSObject<AMPlayback> *playback;
@@ -68,10 +71,11 @@
 /**
  * Return an AMPlayer object initialized with an audio playback.
  * @param audioPlayback The audio playback used to play the audo stream.
- * @param mode The initial discovery mode setting.
+ * @param discovery The initial discovery mode setting.
+ * @param scrobble The initial scrobble mode setting.
  * @return The initialized AMPlayer.
  */
-- (id)initWithPlayback:(NSObject<AMPlayback> *)audioPlayback discoveryMode:(BOOL)mode;
+- (id)initWithPlayback:(NSObject<AMPlayback> *)audioPlayback discoveryMode:(BOOL)discovery scrobbleMode:(BOOL)scrobble;
 
 /**
  * Set the delegate which is notified on player events.
@@ -141,6 +145,12 @@
 - (void)setDiscoveryMode:(bool)mode;
 
 /**
+ * Set the scrobble mode setting.
+ * @param scrobble YES = on, NO = off.
+ */
+- (void)setScrobbleMode:(bool)scrobble;
+
+/**
  * Get the current song information.
  * @return The current song information or nil if none available.
  */
@@ -172,6 +182,12 @@
  * @see isLoggedIn
  */
 - (bool)isInDiscoveryMode;
+
+/**
+ * Check if the player is scrobbling.
+ * @return The scrobble mode setting.
+ */
+- (bool)isScrobbling;
 
 /**
  * Check if the player is logged in to the server.
@@ -263,7 +279,7 @@
  * Start an audio stream.
  * @param url The url of the audio stream.
  */
-- (void)startWithStreamURL:(NSString *)url;
+- (void)playSong:(AMSongInformation *)songInfo;
 
 /**
  * Stop the audio stream.

@@ -22,17 +22,55 @@
 
 #import "AMiTunesPlayback.h"
 
-// script which removes the old stream
-#define REMOVE_SCRIPT @"try \n set t to (some URL track of library playlist 1 whose address is \"%@\") \n delete t \n end try"
-
 // script which reads the track progress
-#define PROGRESS_SCRIPT @"tell application \"iTunes\" \n try \n set t to (some URL track of library playlist 1 whose address is \"%@\") \n if (player state is playing) and (database ID of t is database ID of current track) then \n player position \n else \n -1 \n end if \n on error \n -1 \n end try \n end tell"
+#define PROGRESS_SCRIPT \
+@"tell application \"iTunes\"\n\
+    try\n\
+        set t to (some URL track of library playlist 1 whose address is \"%@\")\n\
+        if (player state is playing) and (database ID of t is database ID of current track) then\n\
+            player position\n\
+        else\n\
+            -1\n\
+        end if\n\
+    on error\n\
+        -1\n\
+    end try\n\
+end tell"
 
-// scripts which starts the playback
-#define START_SCRIPT @"tell application \"iTunes\" \n %@ \n open location \"%@\" \n end tell"
+// script which removes the old track
+#define REMOVE_SCRIPT \
+@"try\n\
+    set t to (some URL track of library playlist 1 whose address is \"%@\")\n\
+    delete t\n\
+end try"
+
+// script which starts the playback
+#define START_SCRIPT \
+@"tell application \"iTunes\"\n\
+    %@\n\
+    set songURL to \"%@\"\n\
+    open location songURL\n\
+    try\n\
+        set t to (some URL track of library playlist 1 whose address is songURL)\n\
+        if (player state is playing) and (database ID of t is database ID of current track) then\n\
+            set t's name to \"%@\"\n\
+            set t's artist to \"%@\"\n\
+            set t's album to \"%@\"\n\
+            set t's genre to \" Last.fm: %@\"\n\
+        end if\n\
+    end try\n\
+end tell"
 
 // script which stops the playback
-#define STOP_SCRIPT @"tell application \"Finder\"\n if (get name of every process) contains \"iTunes\" then \n tell application \"iTunes\" \n %@ \n stop \n end tell \n end if\n end tell"
+#define STOP_SCRIPT \
+@"tell application \"Finder\"\n\
+    if (get name of every process) contains \"iTunes\" then\n\
+        tell application \"iTunes\"\n\
+            %@\n\
+            stop\n\
+        end tell\n\
+    end if\n\
+end tell"
 
 
 @implementation AMiTunesPlayback
@@ -45,19 +83,18 @@
 }    
 
 
-- (void)startWithStreamURL:(NSString *)url
+- (void)playSong:(AMSongInformation *)songInfo
 {
-    AmuaLogf(LOG_MSG, @"starting stream: %@", url);
+    AmuaLogf(LOG_MSG, @"starting stream: %@", [songInfo location]);
     NSString *remove = streamURL != nil ? [NSString stringWithFormat:REMOVE_SCRIPT, streamURL] : @"";
-    NSString *scriptSource = [NSString stringWithFormat:START_SCRIPT, remove, url];
-    NSAppleScript *script = [[[NSAppleScript alloc] initWithSource:scriptSource] autorelease];
-    [script executeAndReturnError:nil];
-    playingState = YES;
-    
     if (streamURL != nil) {
         [streamURL release];
     }
-    streamURL = [url copy];
+    streamURL = [[songInfo location] copy];
+    NSString *scriptSource = [NSString stringWithFormat:START_SCRIPT, remove, streamURL, [songInfo track], [songInfo artist], [songInfo album], [songInfo station]];
+    NSAppleScript *script = [[[NSAppleScript alloc] initWithSource:scriptSource] autorelease];
+    [script executeAndReturnError:nil];
+    playingState = YES;
 }
 
 

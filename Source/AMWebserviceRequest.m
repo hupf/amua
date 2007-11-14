@@ -55,24 +55,11 @@
 }
 
 
-- (void)startWithURL:(NSURL *)url andData:(NSDictionary *)data
+- (void)startWithURL:(NSURL *)url withData:(NSString *)data
 {
-    NSMutableString *string = [NSMutableString stringWithString:@""];
-    NSString *temp;
-    NSEnumerator *en = [data keyEnumerator];
-    bool prependAnd = NO;
-    while (temp = [en nextObject]) {
-        if (prependAnd) {
-            [string appendString:@"&"];
-        }
-        [string appendString:[temp stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-        [string appendString:@"="];
-        [string appendString:[[data valueForKey:temp] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-        prependAnd = YES;
-    }
     NSMutableURLRequest* post = [NSMutableURLRequest requestWithURL:url];
     [post setHTTPMethod:@"POST"];
-    [post setHTTPBody:[string dataUsingEncoding:NSUTF8StringEncoding]];
+    [post setHTTPBody:[data dataUsingEncoding:NSUTF8StringEncoding]];
     [self startWithRequest:post];
 }
 
