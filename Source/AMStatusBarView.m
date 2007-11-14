@@ -29,7 +29,7 @@
 {
     statusItem = [[[NSStatusBar systemStatusBar]
 					    statusItemWithLength:NSSquareStatusItemLength] retain];
-    self = [super initWithFrame:[[statusItem view] frame]];
+    self = [super initWithFrame:NSMakeRect(0.0f,0.0f,0.0f,0.0f)];
     
 	if (self) {
 		menu = [myMenu retain];
