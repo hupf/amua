@@ -83,6 +83,9 @@
     
     receivedData = [[NSMutableData data] retain];
     connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    if (connection == nil) {
+        AmuaLog(LOG_ERROR, @"Failed to initialize connection");
+    }
 }
 
 
@@ -163,7 +166,7 @@
 
 - (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse
 {
-    return nil;
+    return request;
 }
 
 

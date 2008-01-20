@@ -7,9 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F40397A50CB43E4800CDA764 /* AMUtil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F40397A40CB43E4800CDA764 /* AMUtil.h */; };
 		F403989F0CB4477E00CDA764 /* AMUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = F403989E0CB4477E00CDA764 /* AMUtil.m */; };
-		F40398DE0CB44BF100CDA764 /* AMLineTextParser.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F40398DC0CB44BF100CDA764 /* AMLineTextParser.h */; };
 		F40398DF0CB44BF100CDA764 /* AMLineTextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = F40398DD0CB44BF100CDA764 /* AMLineTextParser.m */; };
 		F4069A010A1619600006D2B3 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C287A6707C677F400AF7154 /* Cocoa.framework */; };
 		F4069A020A1619600006D2B3 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F45B8A7F07DB7231007383B1 /* Carbon.framework */; };
@@ -23,13 +21,11 @@
 		F4069A0B0A1619880006D2B3 /* Amua.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0C73309107CB340600D4A0AC /* Amua.icns */; };
 		F4069A0E0A1619880006D2B3 /* version.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0C287798096EBB1B00BABB9E /* version.plist */; };
 		F4069A0F0A1619880006D2B3 /* nocover.png in Resources */ = {isa = PBXBuildFile; fileRef = F429155609C1C8260088835A /* nocover.png */; };
-		F426F3D10B83253600179A42 /* AMUserController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F426F3CF0B83253600179A42 /* AMUserController.h */; };
 		F426F3D20B83253600179A42 /* AMUserController.m in Sources */ = {isa = PBXBuildFile; fileRef = F426F3D00B83253600179A42 /* AMUserController.m */; };
 		F42D042E0B30B23200D14A2C /* Stations.nib in Resources */ = {isa = PBXBuildFile; fileRef = F42D042B0B30B23200D14A2C /* Stations.nib */; };
-		F445FF010A2C93DD00A9989C /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F445FF000A2C93DD00A9989C /* Growl.framework */; };
-		F445FF1C0A2C93FD00A9989C /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F445FF000A2C93DD00A9989C /* Growl.framework */; };
-		F4531BAB0CBEA86B002D67F4 /* AMScrobbler.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F4531BA90CBEA86B002D67F4 /* AMScrobbler.h */; };
 		F4531BAC0CBEA86B002D67F4 /* AMScrobbler.m in Sources */ = {isa = PBXBuildFile; fileRef = F4531BAA0CBEA86B002D67F4 /* AMScrobbler.m */; };
+		F457A2660CEB83110073A615 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F457A2650CEB83110073A615 /* Growl.framework */; };
+		F457A2690CEB83140073A615 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F457A2650CEB83110073A615 /* Growl.framework */; };
 		F4CFBDAC0B372B8F003C8C8D /* Tags.nib in Resources */ = {isa = PBXBuildFile; fileRef = F4CFBDAB0B372B8F003C8C8D /* Tags.nib */; };
 		F4CFBE850B373606003C8C8D /* AMController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE620B373606003C8C8D /* AMController.m */; };
 		F4CFBE870B373606003C8C8D /* AMiTunesPlayback.m in Sources */ = {isa = PBXBuildFile; fileRef = F4CFBE640B373606003C8C8D /* AMiTunesPlayback.m */; };
@@ -82,17 +78,13 @@
 /* End PBXBuildStyle section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		F4069A100A1619BA0006D2B3 /* CopyFiles */ = {
+		F457A2200CEB69230073A615 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F445FF1C0A2C93FD00A9989C /* Growl.framework in CopyFiles */,
-				F426F3D10B83253600179A42 /* AMUserController.h in CopyFiles */,
-				F40397A50CB43E4800CDA764 /* AMUtil.h in CopyFiles */,
-				F40398DE0CB44BF100CDA764 /* AMLineTextParser.h in CopyFiles */,
-				F4531BAB0CBEA86B002D67F4 /* AMScrobbler.h in CopyFiles */,
+				F457A2690CEB83140073A615 /* Growl.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -123,9 +115,9 @@
 		F426F3D00B83253600179A42 /* AMUserController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMUserController.m; path = Source/AMUserController.m; sourceTree = "<group>"; };
 		F429155609C1C8260088835A /* nocover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = nocover.png; path = Resources/nocover.png; sourceTree = "<group>"; };
 		F42D042B0B30B23200D14A2C /* Stations.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Stations.nib; path = Resources/English.lproj/Stations.nib; sourceTree = "<group>"; };
-		F445FF000A2C93DD00A9989C /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Frameworks/Growl.framework; sourceTree = "<group>"; };
 		F4531BA90CBEA86B002D67F4 /* AMScrobbler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMScrobbler.h; sourceTree = "<group>"; };
 		F4531BAA0CBEA86B002D67F4 /* AMScrobbler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMScrobbler.m; sourceTree = "<group>"; };
+		F457A2650CEB83110073A615 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Frameworks/Growl.framework; sourceTree = "<group>"; };
 		F45B8A7F07DB7231007383B1 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		F46D60FC099646B00023FC2F /* Notification.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Notification.nib; path = Resources/English.lproj/Notification.nib; sourceTree = "<group>"; };
 		F4CFBDAB0B372B8F003C8C8D /* Tags.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Tags.nib; path = Resources/English.lproj/Tags.nib; sourceTree = "<group>"; };
@@ -186,7 +178,7 @@
 				F4069A010A1619600006D2B3 /* Cocoa.framework in Frameworks */,
 				F4069A020A1619600006D2B3 /* Carbon.framework in Frameworks */,
 				F4069A030A1619600006D2B3 /* libcrypto.dylib in Frameworks */,
-				F445FF010A2C93DD00A9989C /* Growl.framework in Frameworks */,
+				F457A2660CEB83110073A615 /* Growl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -196,10 +188,10 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F457A2650CEB83110073A615 /* Growl.framework */,
 				0CB409E30972E5ED00E0C772 /* libcrypto.dylib */,
 				F45B8A7F07DB7231007383B1 /* Carbon.framework */,
 				0C287A6707C677F400AF7154 /* Cocoa.framework */,
-				F445FF000A2C93DD00A9989C /* Growl.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
@@ -380,9 +372,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F40699590A1618A60006D2B3 /* Build configuration list for PBXNativeTarget "Amua" */;
 			buildPhases = (
-				F4069A100A1619BA0006D2B3 /* CopyFiles */,
-				F40699520A1618A50006D2B3 /* Resources */,
+				F457A2200CEB69230073A615 /* CopyFiles */,
 				F40699530A1618A50006D2B3 /* Sources */,
+				F40699520A1618A50006D2B3 /* Resources */,
 				F40699540A1618A50006D2B3 /* Frameworks */,
 			);
 			buildRules = (
