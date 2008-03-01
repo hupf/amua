@@ -91,6 +91,8 @@ extern OSStatus _LSSetWeakBindingForType(OSType inType,
 
 }
 
++ (AMController *)sharedController;
+
 - (id)init;
 - (void)awakeFromNib;
 - (void)applicationWillTerminate:(NSNotification *)aNotification;
@@ -116,6 +118,9 @@ extern OSStatus _LSSetWeakBindingForType(OSType inType,
 - (void)player:(AMPlayer *)player hasNewSongInformation:(AMSongInformation *)songInfo;
 - (void)player:(AMPlayer *)player hasFinishedHandshakeWithStreamingURL:(NSString *)streamingURL;
 - (void)player:(AMPlayer *)player hasError:(NSString *)message;
+
+- (BOOL)isPlaying;
+- (void)displaySongInformation;
 
 - (IBAction)openAlbumPage:(id)sender;
 - (IBAction)tryAgain:(id)sender;

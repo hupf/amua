@@ -33,6 +33,11 @@
 
 @implementation AMController
 
++ (AMController *)sharedController
+{
+    return (AMController *)[NSApp delegate];
+}
+
 - (id)init
 {
     AmuaSetLogType(AMUA_MAX_LOG_LEVEL);
@@ -585,6 +590,27 @@
 }
 
 
+// Song information implementation
+
+- (BOOL)isPlaying
+{
+    return [player isPlaying];
+}
+
+- (void)displaySongInformation
+{
+    if (![player isPlaying])
+	return;
+    
+    AMSongInformation *songInfo = [player songInformation];
+    
+    NSString *growlDescription = [NSString stringWithFormat:@"%@\n%@", [songInfo album], [songInfo artist]];
+    [GrowlApplicationBridge notifyWithTitle:[songInfo track] description:growlDescription
+			   notificationName:GROWL_NOTIFICATION_TRACK_CHANGE
+				   iconData:[[songInfo cover] TIFFRepresentation] priority:0.0 isSticky:NO
+			       clickContext:nil];
+}
+
 // AMPlayerDelegate implementation
 
 
@@ -601,12 +627,7 @@
     [view displayError:NO];
     [songInfoPanel updateWithSongInformation:songInfo];
     
-    NSString *growlDescription = [NSString stringWithFormat:NSLocalizedString(@"Track: %@\nAlbum: %@\nArtist: %@", ""),
-                                      [songInfo track], [songInfo album], [songInfo artist]];
-    [GrowlApplicationBridge notifyWithTitle:@"Now Playing..." description:growlDescription
-         notificationName:GROWL_NOTIFICATION_TRACK_CHANGE
-         iconData:[[songInfo cover] TIFFRepresentation] priority:0.0 isSticky:NO
-         clickContext:nil];
+    [self displaySongInformation];
     [self updateMenu];
     
     if ((![view isMenuVisible] && [view isMouseOver]) || alwaysDisplayTooltip) {
