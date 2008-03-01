@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E1021F1C0D736CCB0064C1A3 /* AMDisplaySongInformationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = E1021F1B0D736CCB0064C1A3 /* AMDisplaySongInformationCommand.m */; };
+		E1021FC60D7375EE0064C1A3 /* AMStopCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = E1021FC50D7375EE0064C1A3 /* AMStopCommand.m */; };
+		E102200B0D73777B0064C1A3 /* AMBanSongCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = E10220040D73777B0064C1A3 /* AMBanSongCommand.m */; };
+		E102200C0D73777B0064C1A3 /* AMSkipSongCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = E10220060D73777B0064C1A3 /* AMSkipSongCommand.m */; };
+		E102200D0D73777B0064C1A3 /* AMDisplayAlbumDetailsCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = E10220070D73777B0064C1A3 /* AMDisplayAlbumDetailsCommand.m */; };
+		E102200E0D73777B0064C1A3 /* AMLoveSongCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = E10220080D73777B0064C1A3 /* AMLoveSongCommand.m */; };
+		E10220480D73810A0064C1A3 /* AMIsPlayingCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = E10220460D73810A0064C1A3 /* AMIsPlayingCommand.m */; };
+		E19868680D736B45003CCA1C /* Amua.sdef in Resources */ = {isa = PBXBuildFile; fileRef = E19868670D736B45003CCA1C /* Amua.sdef */; };
 		F403989F0CB4477E00CDA764 /* AMUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = F403989E0CB4477E00CDA764 /* AMUtil.m */; };
 		F40398DF0CB44BF100CDA764 /* AMLineTextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = F40398DD0CB44BF100CDA764 /* AMLineTextParser.m */; };
 		F4069A010A1619600006D2B3 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C287A6707C677F400AF7154 /* Cocoa.framework */; };
@@ -23,7 +31,8 @@
 		F4069A0F0A1619880006D2B3 /* nocover.png in Resources */ = {isa = PBXBuildFile; fileRef = F429155609C1C8260088835A /* nocover.png */; };
 		F426F3D20B83253600179A42 /* AMUserController.m in Sources */ = {isa = PBXBuildFile; fileRef = F426F3D00B83253600179A42 /* AMUserController.m */; };
 		F42D042E0B30B23200D14A2C /* Stations.nib in Resources */ = {isa = PBXBuildFile; fileRef = F42D042B0B30B23200D14A2C /* Stations.nib */; };
-		F4531BAC0CBEA86B002D67F4 /* AMScrobbler.m in Sources */ = {isa = PBXBuildFile; fileRef = F4531BAA0CBEA86B002D67F4 /* AMScrobbler.m */; };
+		F4364F670D796542009A7F8D /* AMScrobbler.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F4364F650D796542009A7F8D /* AMScrobbler.h */; };
+		F4364F680D796542009A7F8D /* AMScrobbler.m in Sources */ = {isa = PBXBuildFile; fileRef = F4364F660D796542009A7F8D /* AMScrobbler.m */; };
 		F457A2660CEB83110073A615 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F457A2650CEB83110073A615 /* Growl.framework */; };
 		F457A2690CEB83140073A615 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F457A2650CEB83110073A615 /* Growl.framework */; };
 		F4CFBDAC0B372B8F003C8C8D /* Tags.nib in Resources */ = {isa = PBXBuildFile; fileRef = F4CFBDAB0B372B8F003C8C8D /* Tags.nib */; };
@@ -54,24 +63,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildStyle section */
-		4A9504CCFFE6A4B311CA0CBA /* Development */ = {
+		F4F558430D7964AB00C5B1AE /* Development */ = {
 			isa = PBXBuildStyle;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				ZERO_LINK = YES;
 			};
 			name = Development;
 		};
-		4A9504CDFFE6A4B311CA0CBA /* Deployment */ = {
+		F4F558440D7964AB00C5B1AE /* Deployment */ = {
 			isa = PBXBuildStyle;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				ZERO_LINK = NO;
 			};
 			name = Deployment;
 		};
@@ -85,6 +87,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				F457A2690CEB83140073A615 /* Growl.framework in CopyFiles */,
+				F4364F670D796542009A7F8D /* AMScrobbler.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,18 +108,33 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* Amua_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Amua_Prefix.pch; sourceTree = "<group>"; };
-		F40397A40CB43E4800CDA764 /* AMUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMUtil.h; sourceTree = "<group>"; };
-		F403989E0CB4477E00CDA764 /* AMUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMUtil.m; sourceTree = "<group>"; };
-		F40398DC0CB44BF100CDA764 /* AMLineTextParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMLineTextParser.h; sourceTree = "<group>"; };
-		F40398DD0CB44BF100CDA764 /* AMLineTextParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMLineTextParser.m; sourceTree = "<group>"; };
+		E1021F1A0D736CCB0064C1A3 /* AMDisplaySongInformationCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMDisplaySongInformationCommand.h; sourceTree = "<group>"; };
+		E1021F1B0D736CCB0064C1A3 /* AMDisplaySongInformationCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMDisplaySongInformationCommand.m; sourceTree = "<group>"; };
+		E1021FC40D7375EE0064C1A3 /* AMStopCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMStopCommand.h; sourceTree = "<group>"; };
+		E1021FC50D7375EE0064C1A3 /* AMStopCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMStopCommand.m; sourceTree = "<group>"; };
+		E10220030D73777B0064C1A3 /* AMBanSongCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMBanSongCommand.h; sourceTree = "<group>"; };
+		E10220040D73777B0064C1A3 /* AMBanSongCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMBanSongCommand.m; sourceTree = "<group>"; };
+		E10220050D73777B0064C1A3 /* AMDisplayAlbumDetailsCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMDisplayAlbumDetailsCommand.h; sourceTree = "<group>"; };
+		E10220060D73777B0064C1A3 /* AMSkipSongCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMSkipSongCommand.m; sourceTree = "<group>"; };
+		E10220070D73777B0064C1A3 /* AMDisplayAlbumDetailsCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMDisplayAlbumDetailsCommand.m; sourceTree = "<group>"; };
+		E10220080D73777B0064C1A3 /* AMLoveSongCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMLoveSongCommand.m; sourceTree = "<group>"; };
+		E10220090D73777B0064C1A3 /* AMLoveSongCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMLoveSongCommand.h; sourceTree = "<group>"; };
+		E102200A0D73777B0064C1A3 /* AMSkipSongCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMSkipSongCommand.h; sourceTree = "<group>"; };
+		E10220460D73810A0064C1A3 /* AMIsPlayingCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMIsPlayingCommand.m; sourceTree = "<group>"; };
+		E10220470D73810A0064C1A3 /* AMIsPlayingCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMIsPlayingCommand.h; sourceTree = "<group>"; };
+		E19868670D736B45003CCA1C /* Amua.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.sdef; name = Amua.sdef; path = Resources/Amua.sdef; sourceTree = "<group>"; };
+		F40397A40CB43E4800CDA764 /* AMUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMUtil.h; path = Source/AMUtil.h; sourceTree = "<group>"; };
+		F403989E0CB4477E00CDA764 /* AMUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMUtil.m; path = Source/AMUtil.m; sourceTree = "<group>"; };
+		F40398DC0CB44BF100CDA764 /* AMLineTextParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMLineTextParser.h; path = Source/AMLineTextParser.h; sourceTree = "<group>"; };
+		F40398DD0CB44BF100CDA764 /* AMLineTextParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMLineTextParser.m; path = Source/AMLineTextParser.m; sourceTree = "<group>"; };
 		F40699560A1618A50006D2B3 /* Amua.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Amua.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F40699580A1618A50006D2B3 /* Amua-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Amua-Info.plist"; path = "Plists/Amua-Info.plist"; sourceTree = "<group>"; };
 		F426F3CF0B83253600179A42 /* AMUserController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMUserController.h; path = Source/AMUserController.h; sourceTree = "<group>"; };
 		F426F3D00B83253600179A42 /* AMUserController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMUserController.m; path = Source/AMUserController.m; sourceTree = "<group>"; };
 		F429155609C1C8260088835A /* nocover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = nocover.png; path = Resources/nocover.png; sourceTree = "<group>"; };
 		F42D042B0B30B23200D14A2C /* Stations.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Stations.nib; path = Resources/English.lproj/Stations.nib; sourceTree = "<group>"; };
-		F4531BA90CBEA86B002D67F4 /* AMScrobbler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMScrobbler.h; sourceTree = "<group>"; };
-		F4531BAA0CBEA86B002D67F4 /* AMScrobbler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMScrobbler.m; sourceTree = "<group>"; };
+		F4364F650D796542009A7F8D /* AMScrobbler.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AMScrobbler.h; path = Source/AMScrobbler.h; sourceTree = "<group>"; };
+		F4364F660D796542009A7F8D /* AMScrobbler.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AMScrobbler.m; path = Source/AMScrobbler.m; sourceTree = "<group>"; };
 		F457A2650CEB83110073A615 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Frameworks/Growl.framework; sourceTree = "<group>"; };
 		F45B8A7F07DB7231007383B1 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		F46D60FC099646B00023FC2F /* Notification.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Notification.nib; path = Resources/English.lproj/Notification.nib; sourceTree = "<group>"; };
@@ -220,6 +238,7 @@
 				F4CFBF190B373A93003C8C8D /* View */,
 				F4CFBF170B373A58003C8C8D /* Player */,
 				F4CFBF180B373A79003C8C8D /* Webservice */,
+				E1021F180D736CB10064C1A3 /* Scripting */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				F4CFBEBD0B3737BF003C8C8D /* NIB */,
@@ -247,6 +266,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E19868670D736B45003CCA1C /* Amua.sdef */,
 				F40699580A1618A50006D2B3 /* Amua-Info.plist */,
 				0CB7AD0F07C92F1A00E4342A /* Credits.html */,
 				0C88FCA507C53D6500221576 /* Defaults.plist */,
@@ -267,6 +287,28 @@
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E1021F180D736CB10064C1A3 /* Scripting */ = {
+			isa = PBXGroup;
+			children = (
+				E10220050D73777B0064C1A3 /* AMDisplayAlbumDetailsCommand.h */,
+				E10220070D73777B0064C1A3 /* AMDisplayAlbumDetailsCommand.m */,
+				E1021F1B0D736CCB0064C1A3 /* AMDisplaySongInformationCommand.m */,
+				E1021F1A0D736CCB0064C1A3 /* AMDisplaySongInformationCommand.h */,
+				E10220090D73777B0064C1A3 /* AMLoveSongCommand.h */,
+				E10220080D73777B0064C1A3 /* AMLoveSongCommand.m */,
+				E102200A0D73777B0064C1A3 /* AMSkipSongCommand.h */,
+				E10220060D73777B0064C1A3 /* AMSkipSongCommand.m */,
+				E10220030D73777B0064C1A3 /* AMBanSongCommand.h */,
+				E10220040D73777B0064C1A3 /* AMBanSongCommand.m */,
+				E1021FC40D7375EE0064C1A3 /* AMStopCommand.h */,
+				E1021FC50D7375EE0064C1A3 /* AMStopCommand.m */,
+				E10220470D73810A0064C1A3 /* AMIsPlayingCommand.h */,
+				E10220460D73810A0064C1A3 /* AMIsPlayingCommand.m */,
+			);
+			name = Scripting;
+			path = Source;
 			sourceTree = "<group>";
 		};
 		F405A0C60B84553A0083BA4E /* Station Controller */ = {
@@ -332,8 +374,8 @@
 			children = (
 				F4CFBE770B373606003C8C8D /* AMWebserviceClient.h */,
 				F4CFBE780B373606003C8C8D /* AMWebserviceClient.m */,
-				F4531BA90CBEA86B002D67F4 /* AMScrobbler.h */,
-				F4531BAA0CBEA86B002D67F4 /* AMScrobbler.m */,
+				F4364F650D796542009A7F8D /* AMScrobbler.h */,
+				F4364F660D796542009A7F8D /* AMScrobbler.m */,
 				F4CFBE790B373606003C8C8D /* AMWebserviceRequest.h */,
 				F4CFBE7A0B373606003C8C8D /* AMWebserviceRequest.m */,
 				F4CFBF800B374BAB003C8C8D /* AMPlainTextParser.h */,
@@ -379,54 +421,11 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INFOPLIST_FILE = "Amua-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = Amua;
-				WRAPPER_EXTENSION = app;
-				ZERO_LINK = YES;
-			};
 			dependencies = (
 			);
 			name = Amua;
 			productName = Amua;
 			productReference = F40699560A1618A50006D2B3 /* Amua.app */;
-			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
-<plist version=\"1.0\">
-<dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
-	<key>CFBundleExecutable</key>
-	<string>${EXECUTABLE_NAME}</string>
-	<key>CFBundleIdentifier</key>
-	<string>com.yourcompany.Amua</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>1.0</string>
-	<key>NSMainNibFile</key>
-	<string>MainMenu</string>
-	<key>NSPrincipalClass</key>
-	<string>NSApplication</string>
-</dict>
-</plist>
-";
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -438,8 +437,8 @@
 			buildSettings = {
 			};
 			buildStyles = (
-				4A9504CCFFE6A4B311CA0CBA /* Development */,
-				4A9504CDFFE6A4B311CA0CBA /* Deployment */,
+				F4F558430D7964AB00C5B1AE /* Development */,
+				F4F558440D7964AB00C5B1AE /* Deployment */,
 			);
 			hasScannedForEncodings = 1;
 			mainGroup = 29B97314FDCFA39411CA2CEA /* Amua */;
@@ -466,6 +465,7 @@
 				F4069A0A0A1619880006D2B3 /* Credits.html in Resources */,
 				F4069A0B0A1619880006D2B3 /* Amua.icns in Resources */,
 				F4069A0F0A1619880006D2B3 /* nocover.png in Resources */,
+				E19868680D736B45003CCA1C /* Amua.sdef in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -503,7 +503,14 @@
 				F426F3D20B83253600179A42 /* AMUserController.m in Sources */,
 				F403989F0CB4477E00CDA764 /* AMUtil.m in Sources */,
 				F40398DF0CB44BF100CDA764 /* AMLineTextParser.m in Sources */,
-				F4531BAC0CBEA86B002D67F4 /* AMScrobbler.m in Sources */,
+				E1021F1C0D736CCB0064C1A3 /* AMDisplaySongInformationCommand.m in Sources */,
+				E1021FC60D7375EE0064C1A3 /* AMStopCommand.m in Sources */,
+				E102200B0D73777B0064C1A3 /* AMBanSongCommand.m in Sources */,
+				E102200C0D73777B0064C1A3 /* AMSkipSongCommand.m in Sources */,
+				E102200D0D73777B0064C1A3 /* AMDisplayAlbumDetailsCommand.m in Sources */,
+				E102200E0D73777B0064C1A3 /* AMLoveSongCommand.m in Sources */,
+				E10220480D73810A0064C1A3 /* AMIsPlayingCommand.m in Sources */,
+				F4364F680D796542009A7F8D /* AMScrobbler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

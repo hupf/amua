@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
+<dictionary title="Dictionary">
+	<suite name="Amua Suite" code="Amua" description="Terms for interacting with Amua">
+		<command name="display song information" code="AmuaDisp" description="Display a Growl notification about the currently playing song">
+			<cocoa class="AMDisplaySongInformationCommand"/>
+		</command>
+		<command name="display album details" code="AmuaAlbm" description="Open a Last.fm Web page on the currently playing album">
+			<cocoa class="AMDisplayAlbumDetailsCommand"/>
+		</command>
+		<command name="stop" code="AmuaStop" description="Stop playback">
+			<cocoa class="AMStopCommand"/>
+		</command>
+		<command name="skip song" code="AmuaSkip" description="Skip the currently playing song">
+			<cocoa class="AMSkipSongCommand"/>
+		</command>
+		<command name="love song" code="AmuaLove" description="Love the currently playing song">
+			<cocoa class="AMLoveSongCommand"/>
+		</command>
+		<command name="ban song" code="AmuaBan " description="Ban the currently playing song">
+			<cocoa class="AMBanSongCommand"/>
+		</command>
+		<command name="is playing" code="AmuaIsPl" description="Determine if a station is playing">
+			<cocoa class="AMIsPlayingCommand"/>
+			<result description="Is a station playing?" type="boolean"/>
+		</command>
+	</suite>
+</dictionary>
